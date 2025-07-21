@@ -1,0 +1,31 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/gcs/**",
+        "destination": "/Web_Data/crawled_pages/:**"
+      },
+      {
+        "source": "/api/**",
+        "run": {
+          "serviceId": "ver-0-0-1",
+          "region": "asia-northeast3"
+        }
+      },
+      {
+        "source": "!/Web_Data/**",
+        "destination": "/index.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

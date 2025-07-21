@@ -1,0 +1,10 @@
+fastapi
+google-auth
+requests
+uvicorn
+markdown
+gunicorn
+python-multipart
+aiohttp
+google-cloud-discoveryengine
+google-cloud-storage

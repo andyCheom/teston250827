@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "default": "cheom-rag-test1",
+    "firedeploy": "cheomrag",
+    "testFire": "cheomai",
+    "firetest": "cheom-rag-test1"
+  },
+  "targets": {},
+  "etags": {}
+}
