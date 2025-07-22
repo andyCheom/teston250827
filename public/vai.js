@@ -248,8 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const messageElement = document.createElement("div");
     messageElement.className = "message model-message";
 
-    // marked.parse()는 이미 HTML을 반환하므로, innerHTML을 사용합니다.
-    messageElement.innerHTML = markdownText;
+    // marked.parse()를 사용하여 마크다운을 HTML로 변환합니다.
+    messageElement.innerHTML = marked.parse(markdownText);
 
     chatContainer.appendChild(messageElement);
   }
