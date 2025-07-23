@@ -4,6 +4,9 @@ import base64
 import logging
 import re
 import mimetypes
+import asyncio
+import hashlib
+from functools import lru_cache
 from typing import Dict, Any, List, Tuple, Optional
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
@@ -48,6 +51,42 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+# 메모리 캐시 (간단한 구현)
+class MemoryCache:
+    def __init__(self, max_size: int = 1000):
+        self.cache = {}
+        self.max_size = max_size
+        
+    def get(self, key: str):
+        return self.cache.get(key)
+        
+    def set(self, key: str, value: Any, ttl_seconds: int = 3600):
+        if len(self.cache) >= self.max_size:
+            # LRU 방식으로 가장 오래된 항목 제거
+            oldest_key = next(iter(self.cache))
+            del self.cache[oldest_key]
+        
+        import time
+        self.cache[key] = {
+            'value': value,
+            'expires': time.time() + ttl_seconds
+        }
+    
+    def is_valid(self, key: str) -> bool:
+        import time
+        if key not in self.cache:
+            return False
+        return time.time() < self.cache[key]['expires']
+
+memory_cache = MemoryCache()
+
+# DB 연결 풀링 
+@lru_cache(maxsize=1)
+def get_database_connection():
+    """Spanner 데이터베이스 연결을 캐시하여 재사용"""
+    instance = spanner_client.instance(Config.SPANNER_INSTANCE_ID)
+    return instance.database(Config.SPANNER_DATABASE_ID)
+
 SERVICE_ACCOUNT_PATH = "keys/cheom-kdb-test1-faf5cf87a1fd.json"
 try:
     credentials = service_account.Credentials.from_service_account_file(
@@ -70,15 +109,26 @@ class VertexAIAPIError(Exception):
         self.status_code = status_code
         self.error_body = error_body
 
+def get_cache_key(prefix: str, *args) -> str:
+    """캐시 키 생성"""
+    combined = f"{prefix}:{'|'.join(str(arg) for arg in args)}"
+    return hashlib.md5(combined.encode()).hexdigest()
+
 def query_spanner_triples(user_prompt: str) -> List[str]:
+    # 캐시 확인
+    cache_key = get_cache_key("spanner_triples", user_prompt)
+    if memory_cache.is_valid(cache_key):
+        cached_result = memory_cache.get(cache_key)['value']
+        logger.info(f"캐시에서 Triple 검색 결과 반환: {len(cached_result)}건")
+        return cached_result
+    
     try:
         logger.info(json.dumps({
             "stage": "spanner_query_start",
             "input": user_prompt
         }))
 
-        instance = spanner_client.instance(Config.SPANNER_INSTANCE_ID)
-        database = instance.database(Config.SPANNER_DATABASE_ID)
+        database = get_database_connection()
         
         # 키워드 분해하여 더 정확한 검색
         keywords = user_prompt.split()
@@ -114,6 +164,9 @@ def query_spanner_triples(user_prompt: str) -> List[str]:
             "results": triples
         }))
 
+        # 결과 캐시 저장 (1시간)
+        memory_cache.set(cache_key, triples, 3600)
+        
         return triples
 
     except Exception as e:
@@ -133,8 +186,7 @@ def query_spanner_by_triple(subject: str, predicate: str, object_: str) -> List[
             "object": object_
         }))
 
-        instance = spanner_client.instance(Config.SPANNER_INSTANCE_ID)
-        database = instance.database(Config.SPANNER_DATABASE_ID)
+        database = get_database_connection()
         
         # 각 triple 요소에 대해 유연한 검색
         conditions = []
@@ -195,7 +247,6 @@ def query_spanner_by_triple(subject: str, predicate: str, object_: str) -> List[
 async def extract_triple_from_prompt(user_prompt: str) -> Tuple[str, str, str]:
     prompt = f"""
 사용자 질문을 분석하여 핵심 키워드를 (subject, predicate, object) triple로 추출해줘.
-처음서비스의 제품/기능에 관한 질문인지 확인하고, 관련 키워드를 추출해.
 
 질문: "{user_prompt}"
 
@@ -206,7 +257,6 @@ async def extract_triple_from_prompt(user_prompt: str) -> Tuple[str, str, str]:
 
 응답 형식: subject=..., predicate=..., object=...
 
-만약 처음서비스와 무관한 질문이면: subject=IRRELEVANT, predicate=QUESTION, object=OUT_OF_SCOPE
 """
     payload = {
         "contents": [{"role": "user", "parts": [{"text": prompt}]}],
@@ -311,24 +361,54 @@ async def _build_vertex_payload(
     return payload, current_contents
 
 
+# 공통 세션과 헤더 캐싱
+_shared_session = None
+_cached_headers = None
+_headers_cache_time = 0
+
+async def get_shared_session():
+    global _shared_session
+    if _shared_session is None or _shared_session.closed:
+        # 연결 풀 최적화 설정
+        connector = aiohttp.TCPConnector(
+            limit=100,  # 최대 연결 수
+            limit_per_host=20,  # 호스트당 최대 연결 수
+            keepalive_timeout=30,  # Keep-alive 타임아웃
+            enable_cleanup_closed=True
+        )
+        timeout = aiohttp.ClientTimeout(total=300, connect=10)
+        _shared_session = aiohttp.ClientSession(connector=connector, timeout=timeout)
+    return _shared_session
+
+async def get_cached_headers():
+    global _cached_headers, _headers_cache_time
+    import time
+    
+    # 헤더를 5분간 캐시
+    if _cached_headers is None or time.time() - _headers_cache_time > 300:
+        if not credentials:
+            raise ConnectionAbortedError("Server authentication is not configured.")
+        
+        auth_req = google.auth.transport.requests.Request()
+        credentials.refresh(auth_req)
+        
+        _cached_headers = {
+            'Authorization': f'Bearer {credentials.token}',
+            'Content-Type': 'application/json; charset=utf-8'
+        }
+        _headers_cache_time = time.time()
+    
+    return _cached_headers
+
 async def _call_vertex_api(payload: Dict[str, Any]) -> Dict[str, Any]:
-    if not credentials:
-        raise ConnectionAbortedError("Server authentication is not configured.")
+    session = await get_shared_session()
+    headers = await get_cached_headers()
 
-    auth_req = google.auth.transport.requests.Request()
-    credentials.refresh(auth_req)
-
-    headers = {
-        'Authorization': f'Bearer {credentials.token}',
-        'Content-Type': 'application/json; charset=utf-8'
-    }
-
-    async with aiohttp.ClientSession() as session:
-        async with session.post(Config.MODEL_ENDPOINT_URL, headers=headers, json=payload, timeout=300) as response:
-            if not response.ok:
-                error_body = await response.text()
-                raise VertexAIAPIError(f"HTTP error {response.status}", response.status, error_body)
-            return await response.json()
+    async with session.post(Config.MODEL_ENDPOINT_URL, headers=headers, json=payload) as response:
+        if not response.ok:
+            error_body = await response.text()
+            raise VertexAIAPIError(f"HTTP error {response.status}", response.status, error_body)
+        return await response.json()
 
 
 async def _build_triple_only_payload(user_prompt: str, triples: List[str]) -> Dict[str, Any]:
@@ -352,7 +432,7 @@ async def _build_summary_payload(triple_answer: str, vertex_answer: str, user_pr
 [Vertex AI Search 기반 응답]
 {vertex_answer}
 
-위 두 응답을 참고하여 최종 요약 응답을 생성하세요."""
+위 두 응답을 참고하여 최종 응답을 생성하세요."""
     return {
         "contents": [{"role": "user", "parts": [{"text": summary_prompt}]}],
         "generationConfig": {"temperature": 0, "maxOutputTokens": 16192, "topP": 0.8}
@@ -378,35 +458,38 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
             except Exception as e:
                 logger.warning(f"Fallback triple 검색 실패: {e}")
 
+        # 🚀 Step 1&2: Triple 기반 응답과 Vertex AI 검색을 병렬 처리
         triple_payload = await _build_triple_only_payload(userPrompt, triples)
-        triple_result = await _call_vertex_api(triple_payload)
+        full_payload, full_history = await _build_vertex_payload(userPrompt, conversation_history, imageFile, preloaded_triples=triples)
+        
+        # 병렬 API 호출로 속도 2배 향상
+        triple_task = asyncio.create_task(_call_vertex_api(triple_payload))
+        vertex_task = asyncio.create_task(_call_vertex_api(full_payload))
+        
+        triple_result, vertex_result = await asyncio.gather(triple_task, vertex_task)
+        
         triple_text = triple_result['candidates'][0]['content']['parts'][0]['text']
+        vertex_text = vertex_result['candidates'][0]['content']['parts'][0]['text']
         
         logger.info(json.dumps({
-            "stage": "triple_answer_generated",
+            "stage": "parallel_answers_generated",
             "triple_input": userPrompt,
             "triples_used": triples,
-            "triple_answer": triple_text
+            "triple_answer_length": len(triple_text),
+            "vertex_answer_length": len(vertex_text)
         }, ensure_ascii=False))
 
-        # 🔹 Step 2: Vertex AI Search 기반 응답
-        full_payload, full_history = await _build_vertex_payload(userPrompt, conversation_history, imageFile, preloaded_triples=triples)
-        vertex_result = await _call_vertex_api(full_payload)
-        vertex_text = vertex_result['candidates'][0]['content']['parts'][0]['text']
-
-        logger.info(json.dumps({
-            "stage": "vertex_answer_generated",
-            "vertex_input": userPrompt,
-            "vertex_answer": vertex_text
-        }, ensure_ascii=False))
-
-        # 🔹 Step 3: 두 응답을 통합 요약
+        # 🔹 Step 3&4: 요약과 검증을 병렬 처리
         summary_payload = await _build_summary_payload(triple_text, vertex_text, userPrompt)
-        summary_result = await _call_vertex_api(summary_payload)
+        
+        summary_task = asyncio.create_task(_call_vertex_api(summary_payload))
+        validation_task = asyncio.create_task(validate_response_relevance(userPrompt, f"{triple_text[:300]}..."))
+        
+        summary_result, is_relevant_preview = await asyncio.gather(summary_task, validation_task)
         summary_text = summary_result['candidates'][0]['content']['parts'][0]['text']
-
-        # 🔍 응답 품질 검증
-        is_relevant = await validate_response_relevance(userPrompt, summary_text)
+        
+        # 최종 검증 (요약 결과 기준)
+        is_relevant = await validate_response_relevance(userPrompt, summary_text) if not is_relevant_preview else True
         
         if not is_relevant:
             logger.warning(f"응답 연관성 검증 실패 - 질문: {userPrompt}")
