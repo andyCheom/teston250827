@@ -1,44 +1,77 @@
-# Project Pipeline
+# GraphRAG Chatbot API
 
 ![Diagram!](img/diagram.png)
 ---
 
 ## 개요 (Overview)
 
-이 프로젝트는 Google Cloud Vertex AI의 Gemini 모델과 Vertex AI Search를 활용하여 RAG(검색 증강 생성, Retrieval-Augmented Generation)를 수행하는 Flask 기반 챗봇입니다.
+GraphRAG 기반의 지능형 챗봇 API 시스템입니다. Google Cloud Spanner의 Triple 데이터를 활용한 지식 그래프와 Vertex AI Gemini 모델을 결합하여 정확하고 맥락적인 답변을 생성합니다.
 
-- 백엔드 Flask에서 FastAPI로 수정되었습니다. (25.07.08)
-
-고객 서비스(CS) 시나리오에 맞춰진 시스템 프롬프트를 기반으로 동작하며, 사용자의 텍스트 질문 뿐만 아니라 이미지 입력을 포함한 멀티모달 요청을 처리할 수 있습니다.
+- **모듈화된 아키텍처**: 유지보수성과 확장성을 위한 체계적인 코드 구조
+- **한국어 최적화**: 띄어쓰기 교정, 오타 수정, 불용어 처리 등 한국어 특화 텍스트 처리
+- **고성능 검색**: 병렬 처리 및 다중 캐싱 전략으로 최적화된 응답 속도
 
 ---
 
 ## ✨ 주요 기능 (Features)
 
-- **Vertex AI Gemini 연동**: 최신 Gemini (2.5-flash) 모델을 통해 자연스러운 대화 생성
-- **멀티모달 지원**: 텍스트와 이미지 입력을 동시에 처리
-- **RAG (검색 증강 생성)**: Vertex AI Search 데이터 스토어와 연동하여 사내 매뉴얼 기반의 정확한 답변 제공
-- **대화 기록 관리**: 이전 대화 내용을 기억하여 문맥에 맞는 답변 생성
-- **견고한 API 오류 처리**: Vertex AI API 통신 시 발생할 수 있는 다양한 예외 상황 처리
-- **환경 변수 기반 설정**: Google Cloud 프로젝트 ID, 모델 ID 등 주요 설정을 코드를 수정하지 않고 변경 가능
-- **정적 파일 서빙**: React, Vue 등 SPA(Single Page Application) 프론트엔드 빌드 파일을 서빙하는 기능 포함
-- **Cloud Run 최적화**: Gunicorn을 사용하여 프로덕션 환경의 Google Cloud Run에 손쉽게 배포 가능
+### 🧠 지능형 텍스트 처리
+- **한국어 띄어쓰기 교정**: PyKoSpacing을 활용한 정확한 띄어쓰기 보정
+- **오타 자동 수정**: 흔한 한국어/영어 오타 패턴 인식 및 교정
+- **불용어 필터링**: 681개의 한국어/영어 불용어를 활용한 검색 키워드 최적화
+- **스마트 키워드 추출**: 검색 효율성을 위한 지능형 키워드 분석
+
+### 🚀 GraphRAG 검색 엔진
+- **Triple 기반 검색**: Spanner 데이터베이스의 지식 그래프에서 정확한 정보 검색
+- **다단계 폴백 검색**: 검색 결과가 없을 경우 자동으로 더 유연한 검색 수행
+- **병렬 처리**: 여러 검색 작업을 동시에 수행하여 응답 속도 40-60% 향상
+- **멀티레벨 캐싱**: 메모리, 데이터베이스 연결, API 헤더 단계별 캐싱
+
+### 🔧 모듈화된 아키텍처
+- **인증 관리**: 중앙화된 Google Cloud 인증 시스템
+- **설정 관리**: 환경 변수 기반 동적 설정
+- **라우터 분리**: FastAPI 라우터를 통한 API 엔드포인트 체계화
+- **서비스 레이어**: Vertex AI API 통신 최적화
 
 ## ⚙️ 기술 스택 (Tech Stack)
 
-- **Backend**: Python, Flask, gunicorn
-- **Cloud**: Google Cloud Platform (Vertex AI, Vertex AI Search, Cloud Run, Artifact Registry)
-- **Firebase** :  Google Cloud Hosting
+- **Backend**: Python 3.11+, FastAPI, Uvicorn
+- **Database**: Google Cloud Spanner (Triple Store)
+- **AI/ML**: Google Vertex AI Gemini, PyKoSpacing
+- **Cloud**: Google Cloud Platform (Vertex AI, Spanner, Cloud Storage, Cloud Run)
+- **Authentication**: Google Cloud IAM, Service Accounts
+
+## 📁 프로젝트 구조 (Project Structure)
+
+```
+graphrag/
+├── main.py                    # FastAPI 앱 엔트리포인트
+├── requirements.txt           # Python 의존성
+├── stopwords.txt             # 불용어 사전 (681개)
+├── src/                      # 모듈화된 소스 코드
+│   ├── auth.py              # Google Cloud 인증 관리
+│   ├── config.py            # 환경 설정 관리
+│   ├── cache.py             # 메모리 캐싱 시스템
+│   ├── database.py          # Spanner 데이터베이스 연동
+│   ├── text_processor.py    # 텍스트 전처리 엔진
+│   ├── routers/
+│   │   └── api.py          # API 라우터
+│   └── services/
+│       └── vertex_api.py   # Vertex AI API 클라이언트
+└── public/                  # 정적 파일 (선택사항)
+```
 
 ## 🔧 사전 준비 (Prerequisites)
 
-- Python 3.11-slim 이상
-- `pip` (Python 패키지 관리자)
+- **Python 3.11+** 및 pip 패키지 관리자
 - **Google Cloud SDK (gcloud CLI)**
-- 서비스 배포를 위한 Google Cloud 프로젝트
-- 질문-답변의 기반이 될 문서들이 등록된 Vertex AI Search 데이터스토어(RAG)
-- **Vertex AI 사용자(roles/aiplatform.user)** 역할을 가진 서비스 계정 ~~(로컬 테스트 시에는 키 파일, Cloud Run 배포 시에는 서비스 자체의 서비스 계정)~~
-    - Google Cloud Shell 편집기!
+- **Google Cloud 프로젝트** (Vertex AI, Spanner 서비스 활성화)
+- **Spanner 인스턴스 및 데이터베이스** (Triple 데이터 저장용)
+- **서비스 계정** (다음 권한 필요):
+  - `roles/aiplatform.user` (Vertex AI 사용)
+  - `roles/spanner.databaseUser` (Spanner 읽기)
+  - `roles/storage.objectViewer` (Cloud Storage 접근)
+- **환경 변수 설정** (필수)
 
 ---
 
