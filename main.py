@@ -6,6 +6,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 # 로컬 모듈 import
 from src.auth import initialize_auth
@@ -20,6 +21,15 @@ app = FastAPI(
     title="GraphRAG Chatbot API", 
     version="2.0.0",
     description="모듈화된 GraphRAG 기반 챗봇 API"
+)
+
+# CORS 설정 추가
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 개발 환경에서는 모든 origin 허용
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # 인증 초기화

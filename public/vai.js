@@ -126,12 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
         let errorData;
+        let responseText;
         try {
-          errorData = await response.json();
+          // 응답을 먼저 텍스트로 읽어옵니다
+          responseText = await response.text();
+          // 텍스트를 JSON으로 파싱 시도
+          errorData = JSON.parse(responseText);
         } catch (jsonError) {
           console.error("서버 오류 응답이 유효한 JSON이 아닙니다:", jsonError);
-          const errorText = await response.text();
-          throw new Error(`서버 오류 (${response.status}): ${errorText.substring(0, 200)}`);
+          throw new Error(`서버 오류 (${response.status}): ${responseText ? responseText.substring(0, 200) : 'Unknown error'}`);
         }
         throw new Error(
           errorData.error?.message || errorData.detail || `API 요청 실패: ${response.status}`
