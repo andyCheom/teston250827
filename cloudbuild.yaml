@@ -9,14 +9,14 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:$SHORT_SHA'
       - '.'
     id: BuildBackend
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:$SHORT_SHA'
     id: PushBackend
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -26,7 +26,7 @@ steps:
       - 'deploy'
       - '${_SERVICE_NAME}'
       - '--image'
-      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:$SHORT_SHA'
       - '--region'
       - '${_REGION}'
       - '--platform'
@@ -35,7 +35,7 @@ steps:
       - '--set-env-vars'
       - 'PROJECT_ID=cheom-kdb-test1,LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=true'
       - '--set-secrets'
-      - 'SERVICE_ACCOUNT_JSON=service-account-key:latest'
+      - 'SERVICE_ACCOUNT_JSON=service-account-json:latest'
     id: DeployBackend
 
 options:
