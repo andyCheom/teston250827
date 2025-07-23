@@ -18,5 +18,5 @@ aiohttp
 # 유틸리티
 markdown
 python-dotenv
-PyKoSpacing
+
 
