@@ -1,20 +1,20 @@
 # FastAPI 및 ASGI 서버
-fastapi==0.103.2
-uvicorn[standard]==0.23.2
+fastapi
+gunicorn
 
 # Google Cloud SDK
-google-cloud-storage==2.14.0
-google-cloud-spanner==3.31.0
-google-auth==2.27.0
-google-api-python-client==2.123.0
-google-auth-oauthlib==1.2.0
+google-cloud-storage
+google-cloud-spanner
+google-auth
+google-api-python-client
+google-auth-oauthlib
 
 # 인증 및 HTTP 요청
-requests==2.31.0
-oauthlib==3.2.2
-requests-oauthlib==2.0.0
-aiohttp==3.9.3
+requests
+oauthlib
+requests-oauthlib
+aiohttp
 
 # 유틸리티
-markdown==3.4.4
-python-dotenv==1.0.1
+markdown
+python-dotenv
