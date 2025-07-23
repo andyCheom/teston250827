@@ -50,7 +50,3 @@ async def serve_spa(full_path: str):
     if full_path.startswith("api") or os.path.exists(os.path.join("public", full_path)):
         raise HTTPException(status_code=404, detail="Not Found")
     return FileResponse("public/index.html")
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8080)
