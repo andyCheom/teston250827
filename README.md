@@ -28,6 +28,7 @@
 
 - **Backend**: Python, Flask, gunicorn
 - **Cloud**: Google Cloud Platform (Vertex AI, Vertex AI Search, Cloud Run, Artifact Registry)
+- **Firebase** :  Google Cloud Hosting
 
 ## 🔧 사전 준비 (Prerequisites)
 
