@@ -2,7 +2,7 @@ substitutions:
   _PROJECT_ID: cheom-kdb-test1
   _REGION: asia-northeast3
   _REPO_NAME: kdb-test-repo
-  _SERVICE_NAME: kdbtest
+  _SERVICE_NAME: kdb-cicd-test
   _SERVICE_ACCOUNT: 580360941782-compute@developer.gserviceaccount.com
 steps:
   - name: 'gcr.io/cloud-builders/docker'
