@@ -125,14 +125,28 @@ document.addEventListener("DOMContentLoaded", () => {
       loadingElement.remove();
 
       if (!response.ok) {
-        const errorData = await response.json();
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (jsonError) {
+          console.error("서버 오류 응답이 유효한 JSON이 아닙니다:", jsonError);
+          const errorText = await response.text();
+          throw new Error(`서버 오류 (${response.status}): ${errorText.substring(0, 200)}`);
+        }
         throw new Error(
-          errorData.error?.message || `API 요청 실패: ${response.status}`
+          errorData.error?.message || errorData.detail || `API 요청 실패: ${response.status}`
         );
       }
 
       // 7. Process and display model's response
-      const result = await response.json();
+      let result;
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        console.error("성공 응답이 유효한 JSON이 아닙니다:", jsonError);
+        const responseText = await response.text();
+        throw new Error(`서버가 잘못된 형식의 응답을 반환했습니다: ${responseText.substring(0, 200)}`);
+      }
 
       // Defensively update conversation history only if it's a valid array
       if (Array.isArray(result.updatedHistory)) {

@@ -507,7 +507,16 @@ async def _call_vertex_api(payload: Dict[str, Any]) -> Dict[str, Any]:
                     
                     raise VertexAIAPIError(error_msg, response.status, error_body)
                 
-                return await response.json()
+                try:
+                    return await response.json()
+                except aiohttp.ContentTypeError as e:
+                    response_text = await response.text()
+                    logger.error(f"Vertex AI API returned non-JSON response: {response_text[:500]}")
+                    raise VertexAIAPIError(f"서버가 비정상적인 응답을 반환했습니다", response.status, response_text)
+                except Exception as e:
+                    response_text = await response.text()
+                    logger.error(f"JSON parsing failed: {str(e)}, Response: {response_text[:500]}")
+                    raise VertexAIAPIError(f"응답 파싱 실패: {str(e)}", response.status, response_text)
                 
     except aiohttp.ClientError as e:
         logger.error(f"Vertex AI API 네트워크 오류: {str(e)}")
