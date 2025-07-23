@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 import google.auth
 import google.auth.transport.requests
-from google.cloud import storage, spanner
+from google.cloud import storage, spanner, secretmanager
 import requests, markdown
 from requests import exceptions as requests_exceptions
 from dotenv import load_dotenv
@@ -39,6 +39,7 @@ async def shutdown_event():
 load_dotenv()
 
 class Config:
+    @staticmethod
     def get_env(name: str) -> str:
         if name not in os.environ:
             raise EnvironmentError(f"❌ 환경변수 '{name}'가 설정되어 있지 않습니다.")
@@ -58,14 +59,66 @@ class Config:
     MODEL_ENDPOINT_URL = f"{API_ENDPOINT}/v1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/publishers/google/models/{MODEL_ID}:generateContent"
     DATASTORE_PATH = f"projects/{PROJECT_ID}/locations/{DATASTORE_LOCATION}/collections/default_collection/dataStores/{DATASTORE_ID}"
 
-    with open(SYSTEM_PROMPT_PATH, "r", encoding="utf-8") as f:
-        SYSTEM_INSTRUCTION = f.read()
+    @staticmethod
+    def get_system_instruction():
+        try:
+            with open(Config.SYSTEM_PROMPT_PATH, "r", encoding="utf-8") as f:
+                return f.read()
+        except FileNotFoundError:
+            logger.warning(f"System prompt file not found: {Config.SYSTEM_PROMPT_PATH}")
+            return "You are a helpful AI assistant."
+        except Exception as e:
+            logger.error(f"Error reading system prompt file: {e}")
+            return "You are a helpful AI assistant."
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 SERVICE_ACCOUNT_PATH = "keys/cheom-kdb-test1-faf5cf87a1fd.json"
+
+def get_service_account_credentials():
+    """Secret Manager 또는 로컬 파일에서 서비스 계정 인증 정보 가져오기"""
+    use_secret_manager = os.environ.get("USE_SECRET_MANAGER", "false").lower() == "true"
+    
+    if use_secret_manager:
+        try:
+            # Secret Manager에서 서비스 계정 JSON 가져오기
+            service_account_json = os.environ.get("SERVICE_ACCOUNT_JSON")
+            if service_account_json:
+                # 환경변수에서 직접 JSON 문자열 사용 (Cloud Run secrets)
+                credentials_info = json.loads(service_account_json)
+                return service_account.Credentials.from_service_account_info(
+                    credentials_info,
+                    scopes=["https://www.googleapis.com/auth/cloud-platform"]
+                )
+            else:
+                # Secret Manager API를 사용하여 직접 가져오기
+                project_id = os.environ.get("PROJECT_ID", "cheom-kdb-test1")
+                secret_name = f"projects/{project_id}/secrets/service-account-key/versions/latest"
+                
+                # 기본 인증으로 Secret Manager 클라이언트 생성
+                client = secretmanager.SecretManagerServiceClient()
+                response = client.access_secret_version(request={"name": secret_name})
+                secret_value = response.payload.data.decode("UTF-8")
+                
+                credentials_info = json.loads(secret_value)
+                return service_account.Credentials.from_service_account_info(
+                    credentials_info,
+                    scopes=["https://www.googleapis.com/auth/cloud-platform"]
+                )
+        except Exception as e:
+            logger.warning(f"Secret Manager에서 인증 정보 가져오기 실패: {e}, 기본 인증 사용")
+            return None
+    else:
+        # 로컬 파일 사용
+        if os.path.exists(SERVICE_ACCOUNT_PATH):
+            return service_account.Credentials.from_service_account_file(
+                SERVICE_ACCOUNT_PATH,
+                scopes=["https://www.googleapis.com/auth/cloud-platform"]
+            )
+    
+    return None
 
 # 전역 클라이언트 및 데이터베이스 객체
 credentials = None
@@ -78,11 +131,18 @@ def initialize_clients():
     global credentials, storage_client, spanner_client, spanner_database
     
     try:
-        credentials = service_account.Credentials.from_service_account_file(
-            SERVICE_ACCOUNT_PATH,
-            scopes=["https://www.googleapis.com/auth/cloud-platform"]
-        )
-        project_id = credentials.project_id
+        # Secret Manager 또는 로컬 파일에서 인증 정보 가져오기
+        credentials = get_service_account_credentials()
+        
+        if credentials:
+            project_id = credentials.project_id
+            logger.info(f"✅ 서비스 계정 인증 성공 - project_id: {project_id}")
+        else:
+            # 기본 인증 사용 (Cloud Run 환경에서)
+            credentials, project_id = google.auth.default(
+                scopes=["https://www.googleapis.com/auth/cloud-platform"]
+            )
+            logger.info(f"✅ 기본 인증 사용 - project_id: {project_id}")
         
         # Storage 클라이언트
         storage_client = storage.Client(credentials=credentials, project=project_id)
@@ -398,7 +458,7 @@ async def _build_vertex_payload(
         })
 
     payload = {
-        "systemInstruction": {"parts": [{"text": Config.SYSTEM_INSTRUCTION}]},
+        "systemInstruction": {"parts": [{"text": Config.get_system_instruction()}]},
         "contents": current_contents,
         "tools": [{"retrieval": {"vertexAiSearch": {"datastore": Config.DATASTORE_PATH}}}],
         "generationConfig": {

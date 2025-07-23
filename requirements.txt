@@ -9,4 +9,5 @@ aiohttp
 google-cloud-discoveryengine
 google-cloud-storage
 google-cloud-spanner
+google-cloud-secret-manager
 python-dotenv
