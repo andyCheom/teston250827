@@ -31,5 +31,5 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-key.json" >> $GITHUB_ENV
 
       - name: Deploy to Firebase Hosting
-        run: firebase deploy --project cheom-rag-test1
+        run: firebase deploy --project cheom-kdb-test1
 

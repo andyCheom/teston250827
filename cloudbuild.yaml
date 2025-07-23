@@ -1,10 +1,9 @@
 substitutions:
-  _PROJECT_ID: cheom-rag-test1
+  _PROJECT_ID: cheom-kdb-test1
   _REGION: asia-northeast3
-  _REPO_NAME: backendtest
+  _REPO_NAME: kdb-test-repo
   _SERVICE_NAME: ver-0-0-1
-  _SERVICE_ACCOUNT: 1059089648690@your-project.iam.gserviceaccount.com
-
+  _SERVICE_ACCOUNT: 580360941782-compute@developer.gserviceaccount.com
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
