@@ -8,3 +8,5 @@ python-multipart
 aiohttp
 google-cloud-discoveryengine
 google-cloud-storage
+google-cloud-spanner
+python-dotenv
