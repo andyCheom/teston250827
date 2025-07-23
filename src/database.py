@@ -8,6 +8,7 @@ from google.cloud import spanner
 from .config import Config
 from .cache import memory_cache, get_cache_key
 from .auth import get_spanner_client
+from .text_processor import get_search_terms
 
 logger = logging.getLogger(__name__)
 
@@ -38,8 +39,15 @@ def query_spanner_triples(user_prompt: str) -> List[str]:
 
         database = get_database_connection()
         
-        # 키워드 분해하여 더 정확한 검색
-        keywords = user_prompt.split()
+        # 불용어 제거 및 오타 수정된 키워드 추출
+        keywords = get_search_terms(user_prompt)
+        logger.info(json.dumps({
+            "stage": "keyword_extraction",
+            "original_prompt": user_prompt,
+            "extracted_keywords": keywords,
+            "keyword_count": len(keywords)
+        }, ensure_ascii=False))
+        
         conditions = []
         params = {}
         param_types = {}
@@ -54,7 +62,12 @@ def query_spanner_triples(user_prompt: str) -> List[str]:
             params[param_name] = f"%{keyword.lower()}%"
             param_types[param_name] = spanner.param_types.STRING
         
-        where_clause = " OR ".join(conditions) if conditions else "1=1"
+        # 키워드가 없으면 빈 결과 반환
+        if not conditions:
+            logger.warning("검색할 키워드가 없습니다.")
+            return []
+            
+        where_clause = " OR ".join(conditions)
         table_name = Config._get_required_env('SPANNER_TABLE_NAME')
         query = f"""
         SELECT subject, predicate, object FROM `{table_name}`
@@ -65,6 +78,39 @@ def query_spanner_triples(user_prompt: str) -> List[str]:
         with database.snapshot() as snapshot:
             results = snapshot.execute_sql(query, params=params, param_types=param_types)
             triples = [f"{row[0]} {row[1]} {row[2]}" for row in results]
+            
+        # 결과가 없으면 더 관대한 검색 시도 (키워드 중 일부만 사용)
+        if not triples and len(keywords) > 2:
+            logger.info("결과가 없어서 주요 키워드로 재검색 시도")
+            # 가장 긴 키워드 2개만 사용하여 재검색
+            main_keywords = sorted(keywords, key=len, reverse=True)[:2]
+            
+            conditions = []
+            params = {}
+            param_types = {}
+            
+            for i, keyword in enumerate(main_keywords):
+                param_name = f"main_keyword_{i}"
+                conditions.extend([
+                    f"LOWER(subject) LIKE @{param_name}",
+                    f"LOWER(predicate) LIKE @{param_name}",
+                    f"LOWER(object) LIKE @{param_name}"
+                ])
+                params[param_name] = f"%{keyword.lower()}%"
+                param_types[param_name] = spanner.param_types.STRING
+            
+            where_clause = " OR ".join(conditions)
+            fallback_query = f"""
+            SELECT subject, predicate, object FROM `{table_name}`
+            WHERE {where_clause}
+            LIMIT 30
+            """
+            
+            with database.snapshot() as snapshot:
+                results = snapshot.execute_sql(fallback_query, params=params, param_types=param_types)
+                triples = [f"{row[0]} {row[1]} {row[2]}" for row in results]
+                if triples:
+                    logger.info(f"재검색으로 {len(triples)}건 발견")
 
         logger.info(json.dumps({
             "stage": "spanner_query_success",
