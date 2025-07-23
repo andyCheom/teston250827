@@ -194,15 +194,23 @@ def query_spanner_by_triple(subject: str, predicate: str, object_: str) -> List[
 
 async def extract_triple_from_prompt(user_prompt: str) -> Tuple[str, str, str]:
     prompt = f"""
-다음 문장을 (	
-subject,predicate,object) triple로 분해해줘.
-형식: subject=..., predicate=..., object=...
+사용자 질문을 분석하여 핵심 키워드를 (subject, predicate, object) triple로 추출해줘.
+처음서비스의 제품/기능에 관한 질문인지 확인하고, 관련 키워드를 추출해.
 
-문장: "{user_prompt}"
+질문: "{user_prompt}"
+
+추출 규칙:
+- subject: 질문의 주요 대상 (제품명, 기능명 등)
+- predicate: 관계나 동작 (사용법, 설정, 문제해결 등)  
+- object: 구체적 속성이나 결과
+
+응답 형식: subject=..., predicate=..., object=...
+
+만약 처음서비스와 무관한 질문이면: subject=IRRELEVANT, predicate=QUESTION, object=OUT_OF_SCOPE
 """
     payload = {
         "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.0}
+        "generationConfig": {"temperature": 0.1, "maxOutputTokens": 200}
     }
 
     response = await _call_vertex_api(payload)
@@ -211,9 +219,45 @@ subject,predicate,object) triple로 분해해줘.
     # 정규표현식으로 추출
     match = re.search(r"subject\s*=\s*(.+?),\s*predicate\s*=\s*(.+?),\s*object\s*=\s*(.*)", text)
     if match:
-        return match.group(1).strip(), match.group(2).strip(), match.group(3).strip()
+        subject = match.group(1).strip()
+        predicate = match.group(2).strip() 
+        object_ = match.group(3).strip()
+        
+        # 무관한 질문 체크
+        if subject == "IRRELEVANT":
+            raise ValueError("질문이 처음서비스와 무관함")
+            
+        return subject, predicate, object_
     else:
         raise ValueError("Triple 추출 실패: " + text)
+
+async def validate_response_relevance(user_prompt: str, response: str) -> bool:
+    """응답이 질문과 연관성이 있는지 검증"""
+    validation_prompt = f"""
+사용자 질문: "{user_prompt}"
+AI 응답: "{response[:500]}..."
+
+위 응답이 질문에 적절히 답하고 있는지 판단해줘.
+
+판단 기준:
+1. 질문의 핵심 의도에 부합하는가?
+2. 구체적이고 유용한 정보를 제공하는가?
+3. "죄송합니다", "답변드릴 수 없습니다" 같은 회피 답변이 아닌가?
+
+응답: YES 또는 NO
+"""
+    
+    payload = {
+        "contents": [{"role": "user", "parts": [{"text": validation_prompt}]}],
+        "generationConfig": {"temperature": 0.0, "maxOutputTokens": 10}
+    }
+    
+    try:
+        response = await _call_vertex_api(payload)
+        result = response["candidates"][0]["content"]["parts"][0]["text"].strip()
+        return result.upper() == "YES"
+    except:
+        return True  # 검증 실패 시 기본적으로 통과
 
 
 
@@ -361,17 +405,40 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
         summary_result = await _call_vertex_api(summary_payload)
         summary_text = summary_result['candidates'][0]['content']['parts'][0]['text']
 
+        # 🔍 응답 품질 검증
+        is_relevant = await validate_response_relevance(userPrompt, summary_text)
+        
+        if not is_relevant:
+            logger.warning(f"응답 연관성 검증 실패 - 질문: {userPrompt}")
+            # 처음서비스와 무관한 질문에 대한 표준 응답
+            summary_text = f"""죄송하지만, **"{userPrompt}"**에 대한 정보는 현재 제공해드리기 어렵습니다.
+
+**처음서비스**의 제품 및 서비스에 관한 구체적인 질문을 해주시면, 더 정확하고 유용한 답변을 드릴 수 있습니다.
+
+예를 들어:
+- 특정 기능의 사용 방법
+- 설정 및 구성 관련 문의  
+- 문제 해결 방법
+- 서비스 이용 가이드
+
+추가 도움이 필요하시면 언제든 문의해 주세요! 😊"""
+
         logger.info(json.dumps({
             "stage": "summary_answer_generated",
             "user_prompt": userPrompt,
-            "summary_answer": summary_text
+            "is_relevant": is_relevant,
+            "summary_answer": summary_text[:200] + "..." if len(summary_text) > 200 else summary_text
         }, ensure_ascii=False))
 
         return JSONResponse({
             "triple_answer": triple_text,
             "vertex_answer": vertex_text,
             "summary_answer": summary_text,
-            "updatedHistory": full_history
+            "updatedHistory": full_history,
+            "quality_check": {
+                "relevance_passed": is_relevant,
+                "triples_found": len(triples) > 0
+            }
         })
 
     except Exception as e:
