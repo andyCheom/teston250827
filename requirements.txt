@@ -1,6 +1,7 @@
 # FastAPI 및 ASGI 서버
 fastapi
 gunicorn
+uvicorn
 
 # Google Cloud SDK
 google-cloud-storage

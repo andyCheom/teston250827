@@ -18,6 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 4. 애플리케이션 소스 코드 복사
 COPY . . 
 
-# 5. 애플리케이션 실행 명령어 (Gunicorn 사용)
-# Cloud Run은 컨테이너가 8080 포트에서 수신 대기할 것으로 예상합니다.
-CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8080", "main:app"]
+# 5. 포트 환경변수 설정 및 애플리케이션 실행 명령어
+# Cloud Run은 컨테이너가 PORT 환경변수로 지정된 포트에서 수신 대기할 것으로 예상합니다.
+ENV PORT=8080
+EXPOSE $PORT
+CMD exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT main:app
