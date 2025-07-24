@@ -14,7 +14,7 @@
       {
         "source": "/api/**",
         "run": {
-          "serviceId": "kdb-cicd-test",
+          "serviceId": "testing0724",
           "region": "asia-northeast3"
         }
       },

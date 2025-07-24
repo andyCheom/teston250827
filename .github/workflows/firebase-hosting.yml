@@ -169,15 +169,12 @@ jobs:
           name: firebase-build-${{ github.sha }}
           path: public/
       
-      # 스테이징 환경 설정 업데이트
-      - name: Update Firebase config for staging
+      # 스테이징 환경 설정 확인
+      - name: Verify Firebase config for staging
         run: |
-          echo "🔧 스테이징 환경 설정 적용 중..."
-          
-          # firebase.json에서 서비스 ID를 스테이징용으로 변경
-          sed -i 's/"serviceId": "kdb-cicd-test"/"serviceId": "testing0724"/' firebase.json
-          
-          echo "✅ 스테이징 설정 완료"
+          echo "🔧 스테이징 환경 설정 확인 중..."
+          echo "현재 serviceId: $(grep -o '"serviceId": "[^"]*"' firebase.json)"
+          echo "✅ 스테이징 설정 확인 완료"
       
       - name: Deploy to Firebase Hosting Staging
         uses: FirebaseExtended/action-hosting-deploy@v0
