@@ -79,27 +79,61 @@ steps:
     id: 'security-scan'
     waitFor: ['push-image']
 
-  # 5. Cloud Run 배포 (Blue-Green 방식)
+  # 5. Cloud Run 배포 (서비스 존재 여부 확인 후 배포)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
+    entrypoint: 'bash'
     args:
-      - 'run'
-      - 'deploy'
-      - '${_SERVICE_NAME}'
-      - '--image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
-      - '--region=${_REGION}'
-      - '--platform=managed'
-      - '--allow-unauthenticated'
-      - '--service-account=${_SERVICE_ACCOUNT}'
-      - '--min-instances=${_MIN_INSTANCES}'
-      - '--max-instances=${_MAX_INSTANCES}'
-      - '--cpu=${_CPU}'
-      - '--memory=${_MEMORY}'
-      - '--timeout=${_TIMEOUT}'
-      - '--concurrency=80'
-      - '--no-traffic'  # 트래픽을 바로 전환하지 않음
-      - '--tag=candidate'  # 후보 버전으로 태그
-      - '--set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True'
+      - '-c'
+      - |
+        echo "🚀 Cloud Run 서비스 배포 시작..."
+        
+        # 서비스 존재 여부 확인
+        if gcloud run services describe ${_SERVICE_NAME} --region=${_REGION} --quiet 2>/dev/null; then
+          echo "✅ 기존 서비스 발견 - Blue-Green 배포 진행"
+          
+          # 기존 서비스가 있는 경우: --no-traffic과 --tag 사용
+          gcloud run deploy ${_SERVICE_NAME} \
+            --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
+            --region=${_REGION} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --service-account=${_SERVICE_ACCOUNT} \
+            --min-instances=${_MIN_INSTANCES} \
+            --max-instances=${_MAX_INSTANCES} \
+            --cpu=${_CPU} \
+            --memory=${_MEMORY} \
+            --timeout=${_TIMEOUT} \
+            --concurrency=80 \
+            --no-traffic \
+            --tag=candidate \
+            --set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True
+        else
+          echo "🆕 새로운 서비스 생성 - 직접 배포"
+          
+          # 새로운 서비스인 경우: 기본 배포 후 태그 추가
+          gcloud run deploy ${_SERVICE_NAME} \
+            --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
+            --region=${_REGION} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --service-account=${_SERVICE_ACCOUNT} \
+            --min-instances=${_MIN_INSTANCES} \
+            --max-instances=${_MAX_INSTANCES} \
+            --cpu=${_CPU} \
+            --memory=${_MEMORY} \
+            --timeout=${_TIMEOUT} \
+            --concurrency=80 \
+            --set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True
+          
+          echo "🏷️ candidate 태그 추가 중..."
+          # 배포 후 현재 리비전에 candidate 태그 추가
+          LATEST_REVISION=$(gcloud run services describe ${_SERVICE_NAME} --region=${_REGION} --format="value(status.latestReadyRevisionName)")
+          gcloud run services update-traffic ${_SERVICE_NAME} \
+            --region=${_REGION} \
+            --set-tags candidate=$$LATEST_REVISION
+        fi
+        
+        echo "✅ 배포 완료!"
     id: 'deploy-candidate'
     waitFor: ['security-scan']
 
@@ -111,51 +145,43 @@ steps:
       - |
         echo "🏥 헬스 체크 시작..."
         
-        # 후보 버전 URL 가져오기 (태그 방식)
-        HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
+        # 후보 버전 URL 가져오기
+        CANDIDATE_URL=$(gcloud run services describe ${_SERVICE_NAME} \
           --region=${_REGION} \
           --format="value(status.traffic[?tag='candidate'].url)")
         
-        # 태그 URL이 없으면 기본 서비스 URL 사용
-        if [ -z "$$HEALTH_URL" ]; then
-          echo "⚠️ candidate 태그 URL을 찾을 수 없습니다. 기본 서비스 URL을 사용합니다."
-          HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
-            --region=${_REGION} \
-            --format="value(status.url)")
-        fi
-        
-        if [ -z "$$HEALTH_URL" ]; then
-          echo "❌ 서비스 URL을 찾을 수 없습니다."
+        if [ -z "$CANDIDATE_URL" ]; then
+          echo "❌ 후보 버전 URL을 찾을 수 없습니다."
           exit 1
         fi
         
-        echo "헬스 체크 URL: $$HEALTH_URL"
+        echo "후보 버전 URL: $CANDIDATE_URL"
         
         # 헬스 체크 (최대 5회 재시도)
         for i in {1..5}; do
-          echo "헬스 체크 시도 $$i/5..."
+          echo "헬스 체크 시도 $i/5..."
           
-          if curl -f -s --max-time 30 "$$HEALTH_URL/api/health" > /dev/null; then
+          if curl -f -s --max-time 30 "$CANDIDATE_URL/api/health" > /dev/null; then
             echo "✅ 헬스 체크 성공!"
             
             # 간단한 API 테스트
             echo "🧪 API 기능 테스트..."
-            RESPONSE=$$(curl -s --max-time 60 -X POST "$$HEALTH_URL/api/generate" \
+            RESPONSE=$(curl -s --max-time 60 -X POST "$CANDIDATE_URL/api/generate" \
               -F "userPrompt=테스트" \
               -F "conversationHistory=[]")
             
-            if echo "$$RESPONSE" | grep -q "vertex_answer"; then
+            if echo "$RESPONSE" | grep -q "vertex_answer"; then
               echo "✅ API 기능 테스트 성공!"
-              echo "URL=$$HEALTH_URL" > /workspace/candidate_url.txt
+              echo "CANDIDATE_URL=$CANDIDATE_URL" > /workspace/candidate_url.txt
               exit 0
             else
-              echo "⚠️ API 응답이 예상과 다릅니다: $$RESPONSE"
+              echo "⚠️ API 응답이 예상과 다릅니다: $RESPONSE"
             fi
           else
-            echo "❌ 헬스 체크 실패 (시도 $$i/5)"
+            echo "❌ 헬스 체크 실패 (시도 $i/5)"
           fi
           
-          if [ $$i -lt 5 ]; then
+          if [ $i -lt 5 ]; then
             echo "30초 후 재시도..."
             sleep 30
           fi

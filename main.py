@@ -32,6 +32,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # 인증 초기화
 auth_success = initialize_auth()
 if not auth_success:
