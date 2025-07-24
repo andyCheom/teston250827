@@ -114,6 +114,7 @@ pip install -r requirements.txt
 
 `app.py`의 `Config` 클래스에서 사용하는 환경 변수를 설정해야 합니다. 로컬 개발 시에는 터미널에서 직접 export 하거나 `.env` 파일을 사용할 수 있습니다.
 
+
 ```bash
 # 필수 환경 변수
 PROJECT_ID="your-gcp-project-id"
