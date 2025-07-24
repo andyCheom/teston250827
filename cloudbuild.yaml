@@ -104,50 +104,58 @@ steps:
     waitFor: ['security-scan']
 
   # 6. 헬스 체크 및 검증
-  - name: 'gcr.io/cloud-builders/curl'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
         echo "🏥 헬스 체크 시작..."
         
-        # 후보 버전 URL 가져오기
-        CANDIDATE_URL=$(gcloud run services describe ${_SERVICE_NAME} \
+        # 후보 버전 URL 가져오기 (태그 방식)
+        HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
           --region=${_REGION} \
           --format="value(status.traffic[?tag='candidate'].url)")
         
-        if [ -z "$CANDIDATE_URL" ]; then
-          echo "❌ 후보 버전 URL을 찾을 수 없습니다."
+        # 태그 URL이 없으면 기본 서비스 URL 사용
+        if [ -z "$$HEALTH_URL" ]; then
+          echo "⚠️ candidate 태그 URL을 찾을 수 없습니다. 기본 서비스 URL을 사용합니다."
+          HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
+            --region=${_REGION} \
+            --format="value(status.url)")
+        fi
+        
+        if [ -z "$$HEALTH_URL" ]; then
+          echo "❌ 서비스 URL을 찾을 수 없습니다."
           exit 1
         fi
         
-        echo "후보 버전 URL: $CANDIDATE_URL"
+        echo "헬스 체크 URL: $$HEALTH_URL"
         
         # 헬스 체크 (최대 5회 재시도)
         for i in {1..5}; do
-          echo "헬스 체크 시도 $i/5..."
+          echo "헬스 체크 시도 $$i/5..."
           
-          if curl -f -s --max-time 30 "$CANDIDATE_URL/api/health" > /dev/null; then
+          if curl -f -s --max-time 30 "$$HEALTH_URL/api/health" > /dev/null; then
             echo "✅ 헬스 체크 성공!"
             
             # 간단한 API 테스트
             echo "🧪 API 기능 테스트..."
-            RESPONSE=$(curl -s --max-time 60 -X POST "$CANDIDATE_URL/api/generate" \
+            RESPONSE=$$(curl -s --max-time 60 -X POST "$$HEALTH_URL/api/generate" \
               -F "userPrompt=테스트" \
               -F "conversationHistory=[]")
             
-            if echo "$RESPONSE" | grep -q "vertex_answer"; then
+            if echo "$$RESPONSE" | grep -q "vertex_answer"; then
               echo "✅ API 기능 테스트 성공!"
-              echo "CANDIDATE_URL=$CANDIDATE_URL" > /workspace/candidate_url.txt
+              echo "URL=$$HEALTH_URL" > /workspace/candidate_url.txt
               exit 0
             else
-              echo "⚠️ API 응답이 예상과 다릅니다: $RESPONSE"
+              echo "⚠️ API 응답이 예상과 다릅니다: $$RESPONSE"
             fi
           else
-            echo "❌ 헬스 체크 실패 (시도 $i/5)"
+            echo "❌ 헬스 체크 실패 (시도 $$i/5)"
           fi
           
-          if [ $i -lt 5 ]; then
+          if [ $$i -lt 5 ]; then
             echo "30초 후 재시도..."
             sleep 30
           fi
