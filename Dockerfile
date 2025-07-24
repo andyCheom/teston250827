@@ -2,11 +2,16 @@
 # 가볍고 안정적인 파이썬 환경을 제공합니다.
 FROM python:3.11-slim
 
-# 2. 작업 디렉토리 설정
+# 2. 시스템 패키지 설치 (기본 의존성만)
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 3. 작업 디렉토리 설정
 # 컨테이너 내에서 명령이 실행될 기본 경로입니다.
 WORKDIR /usr/src/app
 
-# 3. 의존성 설치
+# 4. 의존성 설치
 # requirements.txt를 먼저 복사하여
 # 소스 코드가 변경되어도 불필요한 pip install을 방지합니다. (Docker 캐시 활용)
 COPY requirements.txt .
