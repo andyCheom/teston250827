@@ -6,15 +6,17 @@
 
 ## 🚀 배포 방식
 
-### 1. Cloud Build (권장)
+### 1. Cloud Run API 배포 (GitHub Actions + Cloud Build)
 - **Blue-Green 배포**: 무중단 배포
 - **자동 헬스 체크**: 배포 후 자동 검증
 - **롤백 지원**: 문제 발생 시 즉시 이전 버전으로 복구
+- **브랜치 기반**: main(production), develop(staging)
 
-### 2. GitHub Actions
-- **브랜치 기반 배포**: main(production), develop(staging)
-- **보안 스캔**: Trivy를 통한 취약점 검사
-- **Slack 알림**: 배포 결과 실시간 알림
+### 2. Firebase Hosting 배포 (GitHub Actions)
+- **프리뷰 배포**: Pull Request 시 임시 URL 생성
+- **환경별 배포**: main(production), develop(staging)
+- **성능 감사**: Lighthouse CI 자동 실행
+- **자동 설정**: 환경별 API 서비스 ID 자동 변경
 
 ## ⚙️ 설정 방법
 
@@ -47,14 +49,21 @@ substitutions:
 
 GitHub 리포지토리 > Settings > Secrets and variables > Actions에서 다음 설정:
 
+#### 필수 설정
 ```
-GCP_SA_KEY: [서비스 계정 JSON 키]
-SLACK_WEBHOOK_URL: [선택사항 - Slack 알림용]
+GCP_SA_KEY: [Google Cloud 서비스 계정 JSON 키]
+FIREBASE_SERVICE_ACCOUNT: [Firebase 서비스 계정 JSON 키]
+```
+
+#### 선택사항
+```
+SLACK_WEBHOOK_URL: [Slack 알림용 Webhook URL]
+LHCI_GITHUB_APP_TOKEN: [Lighthouse CI GitHub App 토큰]
 ```
 
 ## 📊 배포 단계
 
-### Cloud Build 파이프라인
+### Cloud Run API 배포 파이프라인
 
 1. **사전 검증** (1분)
    - Dockerfile, requirements.txt 존재 확인
@@ -89,9 +98,36 @@ SLACK_WEBHOOK_URL: [선택사항 - Slack 알림용]
    - 이전 버전 태그 제거
    - 오래된 리비전 삭제 (최근 5개만 유지)
 
+### Firebase Hosting 배포 파이프라인
+
+1. **빌드 및 검증** (1-2분)
+   - Firebase 설정 파일 검증
+   - 정적 파일 빌드 (Node.js 프로젝트인 경우)
+   - 아티팩트 업로드
+
+2. **환경별 배포**
+   - **PR**: 프리뷰 배포 (7일간 유지)
+   - **develop**: 스테이징 배포 (`staging--` 채널)
+   - **main**: 프로덕션 배포
+
+3. **환경 설정 자동 변경**
+   - 스테이징: `testing0724` 서비스 연결
+   - 프로덕션: `graphrag-api` 서비스 연결
+
+4. **헬스 체크** (1-3분)
+   - 배포된 URL 접근 테스트
+   - 스테이징: 5회 재시도
+   - 프로덕션: 10회 재시도
+
+5. **성능 감사** (프로덕션만, 2-3분)
+   - Lighthouse CI 실행
+   - 성능, 접근성, SEO 점수 측정
+
 ## 🔧 환경 설정
 
-### 개발 환경 (develop 브랜치)
+### Cloud Run API 환경별 설정
+
+#### 개발환경 (develop 브랜치)
 ```yaml
 SERVICE_NAME: testing0724
 MIN_INSTANCES: 0
@@ -100,7 +136,7 @@ MEMORY: 2Gi
 CPU: 1
 ```
 
-### 프로덕션 환경 (main 브랜치)
+#### 프로덕션 환경 (main 브랜치)
 ```yaml
 SERVICE_NAME: graphrag-api
 MIN_INSTANCES: 1
@@ -109,21 +145,48 @@ MEMORY: 4Gi
 CPU: 2
 ```
 
+### Firebase Hosting 환경별 설정
+
+#### 스테이징 (develop 브랜치)
+- **URL**: `https://staging--cheom-kdb-test1.web.app`
+- **API 연결**: `testing0724` 서비스
+- **채널**: `staging`
+
+#### 프로덕션 (main 브랜치)  
+- **URL**: `https://cheom-kdb-test1.web.app`
+- **API 연결**: `graphrag-api` 서비스
+- **채널**: `live` (기본)
+
+#### 프리뷰 (Pull Request)
+- **URL**: 임시 URL 자동 생성
+- **유효기간**: 7일
+- **API 연결**: 현재 브랜치 기준
+
 ## 🛠️ 수동 배포
 
-### Cloud Build 직접 실행
+### Cloud Run API 수동 배포
 ```bash
+# Cloud Build 직접 실행
 gcloud builds submit \
   --config=cloudbuild.yaml \
   --substitutions=SHORT_SHA=$(git rev-parse --short HEAD)
-```
 
-### 긴급 롤백
-```bash
-# 이전 버전으로 트래픽 전환
+# 긴급 롤백
 gcloud run services update-traffic testing0724 \
   --to-revisions=[PREVIOUS_REVISION]=100 \
   --region=asia-northeast3
+```
+
+### Firebase Hosting 수동 배포
+```bash
+# 프로덕션 배포
+firebase deploy --project cheom-kdb-test1
+
+# 스테이징 채널 배포
+firebase hosting:channel:deploy staging --project cheom-kdb-test1
+
+# 특정 사이트만 배포
+firebase deploy --only hosting --project cheom-kdb-test1
 ```
 
 ## 📱 모니터링
@@ -162,12 +225,21 @@ gcloud alpha monitoring policies create \
 
 ### 자주 발생하는 문제
 
+#### Cloud Run API 관련
 | 문제 | 원인 | 해결방법 |
 |------|------|----------|
 | 빌드 실패 | requirements.txt 누락 패키지 | 의존성 추가 |
 | 헬스 체크 실패 | Cold start 지연 | timeout 증가 |
 | 권한 오류 | 서비스 계정 권한 부족 | IAM 역할 확인 |
 | 메모리 부족 | 메모리 할당 부족 | 메모리 설정 증가 |
+
+#### Firebase Hosting 관련
+| 문제 | 원인 | 해결방법 |
+|------|------|----------|
+| 배포 실패 | Firebase 서비스 계정 권한 부족 | Hosting Admin 역할 확인 |
+| 404 오류 | firebase.json 설정 오류 | rewrite 규칙 검증 |
+| API 연결 실패 | 서비스 ID 불일치 | firebase.json의 serviceId 확인 |
+| Lighthouse 실패 | 성능 기준 미달 | 이미지 최적화, 캐싱 설정 |
 
 ## 📈 성능 최적화
 
@@ -195,9 +267,42 @@ gcloud alpha monitoring policies create \
    - 환경 변수 암호화
    - Secret Manager 활용
 
+## 🚀 자동 배포 트리거
+
+### 현재 설정된 자동 배포
+
+#### Cloud Run API
+- **main 브랜치 push** → 프로덕션 배포 (`graphrag-api`)
+- **develop 브랜치 push** → 스테이징 배포 (`testing0724`)
+
+#### Firebase Hosting  
+- **main 브랜치 push** → 프로덕션 배포 (`cheom-kdb-test1.web.app`)
+- **develop 브랜치 push** → 스테이징 배포 (`staging--cheom-kdb-test1.web.app`)
+- **Pull Request** → 프리뷰 배포 (임시 URL, 7일간 유지)
+
+### 배포 알림 (선택사항)
+
+Slack 채널로 배포 결과 자동 알림:
+- 배포 성공/실패 상태
+- 환경, 브랜치, 커밋 정보
+- 배포된 서비스 URL
+- GitHub Actions 워크플로우 링크
+
 ## 📞 지원
 
 배포 관련 문제가 발생하면:
-1. 이 문서의 문제 해결 섹션 참조
-2. Cloud Build 로그 및 Cloud Run 로그 확인
-3. 필요시 롤백 후 원인 분석
+1. **GitHub Actions** 탭에서 워크플로우 로그 확인
+2. **Google Cloud Console**에서 Cloud Build 로그 확인
+3. 이 문서의 문제 해결 섹션 참조
+4. 필요시 롤백 후 원인 분석
+
+### 주요 파일 구조
+```
+.github/workflows/
+├── deploy.yml              # Cloud Run API 배포
+└── firebase-hosting.yml     # Firebase Hosting 배포
+
+cloudbuild.yaml              # Cloud Build 설정
+firebase.json               # Firebase 설정
+.lighthouserc.json          # Lighthouse CI 설정
+```
