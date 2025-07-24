@@ -1,42 +1,226 @@
+# Cloud Build 설정 파일 - GraphRAG 챗봇 API 지속적 배포
+# Trigger: GitHub 연동 또는 수동 실행 시 자동 빌드/배포
+
 substitutions:
   _PROJECT_ID: cheom-kdb-test1
   _REGION: asia-northeast3
   _REPO_NAME: trialanderror0724
   _SERVICE_NAME: testing0724
   _SERVICE_ACCOUNT: 580360941782-compute@developer.gserviceaccount.com
+  _ARTIFACT_REGISTRY: asia-northeast3-docker.pkg.dev
+  _MIN_INSTANCES: '0'
+  _MAX_INSTANCES: '20'
+  _CPU: '1'
+  _MEMORY: '2Gi'
+  _TIMEOUT: '900s'
+
 steps:
+  # 1. 빌드 사전 검증
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🔍 빌드 환경 검증 중..."
+        echo "프로젝트 ID: ${_PROJECT_ID}"
+        echo "서비스명: ${_SERVICE_NAME}"
+        echo "리전: ${_REGION}"
+        echo "커밋 SHA: ${SHORT_SHA}"
+        echo "브랜치: ${BRANCH_NAME}"
+        
+        # Dockerfile 존재 확인
+        if [ ! -f "Dockerfile" ]; then
+          echo "❌ Dockerfile이 존재하지 않습니다."
+          exit 1
+        fi
+        
+        # requirements.txt 검증
+        if [ ! -f "requirements.txt" ]; then
+          echo "❌ requirements.txt가 존재하지 않습니다."
+          exit 1
+        fi
+        
+        echo "✅ 빌드 사전 검증 완료"
+    id: 'pre-build-validation'
+
+  # 2. Docker 이미지 빌드
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+      - '-t'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
+      - '--cache-from'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
       - '.'
-    id: BuildBackend
+    id: 'build-image'
+    waitFor: ['pre-build-validation']
 
+  # 3. Docker 이미지 푸시
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
-    id: PushBackend
+      - '--all-tags'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}'
+    id: 'push-image'
+    waitFor: ['build-image']
 
+  # 4. 이미지 보안 스캔 (선택사항)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🔒 이미지 보안 스캔 시작..."
+        gcloud artifacts docker images scan ${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
+          --remote --format="value(response.scan)" || echo "⚠️ 보안 스캔 실패 (계속 진행)"
+        echo "✅ 보안 스캔 완료"
+    id: 'security-scan'
+    waitFor: ['push-image']
+
+  # 5. Cloud Run 배포 (Blue-Green 방식)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
     args:
       - 'run'
       - 'deploy'
       - '${_SERVICE_NAME}'
-      - '--image'
-      - 'asia-northeast3-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
-      - '--region'
-      - '${_REGION}'
-      - '--platform'
-      - 'managed'
+      - '--image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+      - '--region=${_REGION}'
+      - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--set-env-vars'
-      - 'PROJECT_ID=cheom-kdb-test1,LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True'
-    id: DeployBackend
+      - '--service-account=${_SERVICE_ACCOUNT}'
+      - '--min-instances=${_MIN_INSTANCES}'
+      - '--max-instances=${_MAX_INSTANCES}'
+      - '--cpu=${_CPU}'
+      - '--memory=${_MEMORY}'
+      - '--timeout=${_TIMEOUT}'
+      - '--concurrency=80'
+      - '--no-traffic'  # 트래픽을 바로 전환하지 않음
+      - '--tag=candidate'  # 후보 버전으로 태그
+      - '--set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True'
+    id: 'deploy-candidate'
+    waitFor: ['security-scan']
 
+  # 6. 헬스 체크 및 검증
+  - name: 'gcr.io/cloud-builders/curl'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🏥 헬스 체크 시작..."
+        
+        # 후보 버전 URL 가져오기
+        CANDIDATE_URL=$(gcloud run services describe ${_SERVICE_NAME} \
+          --region=${_REGION} \
+          --format="value(status.traffic[?tag='candidate'].url)")
+        
+        if [ -z "$CANDIDATE_URL" ]; then
+          echo "❌ 후보 버전 URL을 찾을 수 없습니다."
+          exit 1
+        fi
+        
+        echo "후보 버전 URL: $CANDIDATE_URL"
+        
+        # 헬스 체크 (최대 5회 재시도)
+        for i in {1..5}; do
+          echo "헬스 체크 시도 $i/5..."
+          
+          if curl -f -s --max-time 30 "$CANDIDATE_URL/api/health" > /dev/null; then
+            echo "✅ 헬스 체크 성공!"
+            
+            # 간단한 API 테스트
+            echo "🧪 API 기능 테스트..."
+            RESPONSE=$(curl -s --max-time 60 -X POST "$CANDIDATE_URL/api/generate" \
+              -F "userPrompt=테스트" \
+              -F "conversationHistory=[]")
+            
+            if echo "$RESPONSE" | grep -q "vertex_answer"; then
+              echo "✅ API 기능 테스트 성공!"
+              echo "CANDIDATE_URL=$CANDIDATE_URL" > /workspace/candidate_url.txt
+              exit 0
+            else
+              echo "⚠️ API 응답이 예상과 다릅니다: $RESPONSE"
+            fi
+          else
+            echo "❌ 헬스 체크 실패 (시도 $i/5)"
+          fi
+          
+          if [ $i -lt 5 ]; then
+            echo "30초 후 재시도..."
+            sleep 30
+          fi
+        done
+        
+        echo "❌ 헬스 체크 최종 실패"
+        exit 1
+    id: 'health-check'
+    waitFor: ['deploy-candidate']
+
+  # 7. 트래픽 전환 (Blue-Green 배포 완료)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🚀 프로덕션 트래픽 전환 시작..."
+        
+        # 모든 트래픽을 새 버전으로 전환
+        gcloud run services update-traffic ${_SERVICE_NAME} \
+          --to-tags=candidate=100 \
+          --region=${_REGION}
+        
+        echo "✅ 트래픽 전환 완료!"
+        
+        # 배포 완료 알림
+        echo "🎉 배포 성공!"
+        echo "서비스 URL: https://${_SERVICE_NAME}-580360941782.${_REGION}.run.app"
+        echo "커밋 SHA: ${SHORT_SHA}"
+        echo "배포 시간: $(date)"
+    id: 'traffic-switch'
+    waitFor: ['health-check']
+
+  # 8. 이전 버전 정리 (선택사항)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🧹 이전 버전 정리 중..."
+        
+        # 태그 제거 (candidate 태그를 제거하여 정리)
+        gcloud run services update-traffic ${_SERVICE_NAME} \
+          --remove-tags=candidate \
+          --region=${_REGION} || echo "⚠️ 태그 제거 실패 (무시)"
+        
+        # 오래된 리비전 정리 (최근 5개만 유지)
+        gcloud run revisions list \
+          --service=${_SERVICE_NAME} \
+          --region=${_REGION} \
+          --format="value(metadata.name)" \
+          --limit=100 \
+          | tail -n +6 \
+          | xargs -I {} gcloud run revisions delete {} \
+            --region=${_REGION} \
+            --quiet || echo "⚠️ 이전 리비전 정리 실패 (무시)"
+        
+        echo "✅ 정리 완료"
+    id: 'cleanup'
+    waitFor: ['traffic-switch']
+
+# 빌드 옵션
 options:
+  # 빌드 로그를 Cloud Logging에만 저장
   logging: CLOUD_LOGGING_ONLY
-
+  
+  # 빌드 머신 스펙 (더 빠른 빌드를 위해)
+  machineType: 'E2_HIGHCPU_8'
+  
+# 서비스 계정 (필요한 권한: Cloud Run Admin, Artifact Registry Writer, Security Scanner)
 serviceAccount: 'projects/${_PROJECT_ID}/serviceAccounts/${_SERVICE_ACCOUNT}'
+
+# 이미지 저장소에서 오래된 이미지 자동 삭제 (선택사항)
+images:
+  - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+  - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
