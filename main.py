@@ -9,8 +9,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 # 로컬 모듈 import
-from src.auth import initialize_auth
-from src.routers.api import router
+from modules.auth import initialize_auth
+from modules.routers.api import router
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
