@@ -124,30 +124,34 @@ document.addEventListener("DOMContentLoaded", () => {
       // 6. Remove loading indicator
       loadingElement.remove();
 
+      // 7. 응답을 한 번만 읽어서 처리
+      let responseText;
+      try {
+        responseText = await response.text();
+      } catch (error) {
+        console.error("응답 읽기 실패:", error);
+        throw new Error("서버 응답을 읽을 수 없습니다");
+      }
+
       if (!response.ok) {
         let errorData;
-        let responseText;
         try {
-          // 응답을 먼저 텍스트로 읽어옵니다
-          responseText = await response.text();
-          // 텍스트를 JSON으로 파싱 시도
           errorData = JSON.parse(responseText);
         } catch (jsonError) {
           console.error("서버 오류 응답이 유효한 JSON이 아닙니다:", jsonError);
-          throw new Error(`서버 오류 (${response.status}): ${responseText ? responseText.substring(0, 200) : 'Unknown error'}`);
+          throw new Error(`서버 오류 (${response.status}): ${responseText.substring(0, 200)}`);
         }
         throw new Error(
           errorData.error?.message || errorData.detail || `API 요청 실패: ${response.status}`
         );
       }
 
-      // 7. Process and display model's response
+      // 8. 성공 응답 처리
       let result;
       try {
-        result = await response.json();
+        result = JSON.parse(responseText);
       } catch (jsonError) {
         console.error("성공 응답이 유효한 JSON이 아닙니다:", jsonError);
-        const responseText = await response.text();
         throw new Error(`서버가 잘못된 형식의 응답을 반환했습니다: ${responseText.substring(0, 200)}`);
       }
 
