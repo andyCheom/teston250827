@@ -66,8 +66,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: 'public/package-lock.json'
       
       # 3. 의존성 설치 (public 디렉토리에서)
       - name: Install dependencies
