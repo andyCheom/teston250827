@@ -355,5 +355,5 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: env.DEPLOYMENT_STATUS != '' && secrets.SLACK_WEBHOOK_URL != ''
+        if: env.DEPLOYMENT_STATUS != '' && env.SLACK_WEBHOOK_URL != ''
 
