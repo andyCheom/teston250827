@@ -217,6 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  
   function handleImageSelection() {
     const file = imageInput.files[0];
     if (file) {
