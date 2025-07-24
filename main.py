@@ -33,7 +33,7 @@ app.add_middleware(
 )
 
 # 인증 초기화
-auth_success = True
+auth_success = initialize_auth()
 if not auth_success:
     logger.error("❌ 인증 초기화 실패 - 서비스가 제대로 작동하지 않을 수 있습니다.")
 else:
