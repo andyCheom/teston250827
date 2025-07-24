@@ -5,6 +5,7 @@ import asyncio
 import logging
 import os
 import mimetypes
+from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, File, UploadFile, HTTPException, Form
 from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
@@ -18,6 +19,16 @@ from ..services.validation_service import validate_response_relevance
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+@router.get('/api/health')
+async def health_check():
+    """헬스 체크 엔드포인트"""
+    from ..auth import is_authenticated
+    return {
+        "status": "healthy",
+        "authenticated": is_authenticated(),
+        "timestamp": datetime.now().isoformat()
+    }
 
 async def _build_vertex_payload(
     user_prompt: str,

@@ -40,19 +40,39 @@ def initialize_auth() -> bool:
     global _credentials, _spanner_client, _storage_client, _is_initialized
     
     try:
-        logger.info(f"서비스 계정 키 파일 확인: {Config.SERVICE_ACCOUNT_PATH}")
-        
-        # 파일 존재 확인
         import os
-        if not os.path.exists(Config.SERVICE_ACCOUNT_PATH):
-            raise FileNotFoundError(f"서비스 계정 키 파일을 찾을 수 없습니다: {Config.SERVICE_ACCOUNT_PATH}")
+        import json
+        from google.auth import default
         
-        _credentials = service_account.Credentials.from_service_account_file(
-            Config.SERVICE_ACCOUNT_PATH,
-            scopes=["https://www.googleapis.com/auth/cloud-platform"]
-        )
+        # Cloud Run 환경에서는 기본 인증을 시도
+        use_secret_manager = os.getenv('USE_SECRET_MANAGER', 'false').lower() == 'true'
         
-        project_id = _credentials.project_id
+        if use_secret_manager and 'SERVICE_ACCOUNT_JSON' in os.environ:
+            # Cloud Run에서 시크릿으로 설정된 서비스 계정 JSON 사용
+            logger.info("서비스 계정 JSON 시크릿 사용")
+            service_account_json = os.environ['SERVICE_ACCOUNT_JSON']
+            service_account_info = json.loads(service_account_json)
+            
+            _credentials = service_account.Credentials.from_service_account_info(
+                service_account_info,
+                scopes=["https://www.googleapis.com/auth/cloud-platform"]
+            )
+            project_id = _credentials.project_id
+            
+        elif os.path.exists(Config.SERVICE_ACCOUNT_PATH):
+            # 로컬 개발환경에서 키 파일 사용
+            logger.info(f"서비스 계정 키 파일 사용: {Config.SERVICE_ACCOUNT_PATH}")
+            _credentials = service_account.Credentials.from_service_account_file(
+                Config.SERVICE_ACCOUNT_PATH,
+                scopes=["https://www.googleapis.com/auth/cloud-platform"]
+            )
+            project_id = _credentials.project_id
+            
+        else:
+            # Cloud Run에서 기본 서비스 계정 사용 (메타데이터 서버)
+            logger.info("Cloud Run 기본 서비스 계정 사용")
+            _credentials, project_id = default()
+        
         _storage_client = storage.Client(credentials=_credentials, project=project_id)
         _spanner_client = spanner.Client(credentials=_credentials, project=project_id)
         _is_initialized = True
