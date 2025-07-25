@@ -282,6 +282,7 @@ jobs:
           configPath: './.lighthouserc.json'
           uploadArtifacts: true
           temporaryPublicStorage: true
+          artifactName: lighthouse-reports-${{ github.sha }}
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
