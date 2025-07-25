@@ -1,6 +1,6 @@
 """인증 관리 모듈"""
 import logging
-from google.cloud import spanner, storage
+from google.cloud import spanner, storage, discoveryengine_v1 as discoveryengine
 from google.oauth2 import service_account
 
 from .config import Config
@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 _credentials = None
 _spanner_client = None
 _storage_client = None
+_discovery_client = None
 _is_initialized = False
 
 def get_credentials():
@@ -31,13 +32,19 @@ def get_storage_client():
         raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
     return _storage_client
 
+def get_discovery_client():
+    """Discovery Engine 클라이언트 반환"""
+    if not _is_initialized:
+        raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
+    return _discovery_client
+
 def is_authenticated() -> bool:
     """인증 상태 확인"""
     return _is_initialized and _credentials is not None
 
 def initialize_auth() -> bool:
     """Google Cloud 인증 초기화"""
-    global _credentials, _spanner_client, _storage_client, _is_initialized
+    global _credentials, _spanner_client, _storage_client, _discovery_client, _is_initialized
     
     try:
         import os
@@ -75,6 +82,14 @@ def initialize_auth() -> bool:
         
         _storage_client = storage.Client(credentials=_credentials, project=project_id)
         _spanner_client = spanner.Client(credentials=_credentials, project=project_id)
+        
+        # Discovery Engine은 workspace 데이터스토어에서 기본 인증만 지원
+        # 환경변수 제거하고 기본 인증 사용
+        if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
+            del os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+        
+        _discovery_client = discoveryengine.ConversationalSearchServiceClient()
+        
         _is_initialized = True
         
         logger.info(f"✅ 인증 성공 - project_id: {project_id}")
@@ -85,5 +100,6 @@ def initialize_auth() -> bool:
         _credentials = None
         _spanner_client = None
         _storage_client = None
+        _discovery_client = None
         _is_initialized = False
         return False
