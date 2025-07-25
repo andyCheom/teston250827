@@ -147,12 +147,31 @@ steps:
         echo "🏥 헬스 체크 시작..."
         
         # 후보 버전 URL 가져오기 (태그 방식)
+        echo "서비스명: ${_SERVICE_NAME}"
+        echo "리전: ${_REGION}"
+        
+        # 트래픽 상태 전체 확인
+        echo "🔍 현재 트래픽 상태:"
+        gcloud run services describe ${_SERVICE_NAME} \
+          --region=${_REGION} \
+          --format="table(status.traffic[].tag,status.traffic[].url,status.traffic[].percent)"
+        
+        # candidate 태그 URL 추출 (더 정확한 방법)
         HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
           --region=${_REGION} \
-          --format="value(status.traffic[?tag='candidate'].url)")
+          --format="value(status.traffic[].url)" \
+          --filter="status.traffic[].tag=candidate")
         
-        # 태그 URL이 없으면 기본 서비스 URL 사용
+        # 다른 방법으로도 시도
         if [ -z "$$HEALTH_URL" ]; then
+          echo "🔄 alternative method로 candidate URL 검색..."
+          HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
+            --region=${_REGION} \
+            --format="json" | jq -r '.status.traffic[] | select(.tag=="candidate") | .url')
+        fi
+        
+        # 그래도 없으면 기본 서비스 URL 사용
+        if [ -z "$$HEALTH_URL" ] || [ "$$HEALTH_URL" = "null" ]; then
           echo "⚠️ candidate 태그 URL을 찾을 수 없습니다. 기본 서비스 URL을 사용합니다."
           HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
             --region=${_REGION} \
