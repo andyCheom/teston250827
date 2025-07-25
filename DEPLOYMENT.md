@@ -15,7 +15,6 @@
 ### 2. Firebase Hosting 배포 (GitHub Actions)
 - **프리뷰 배포**: Pull Request 시 임시 URL 생성
 - **환경별 배포**: main(production), develop(staging)
-- **성능 감사**: Lighthouse CI 자동 실행
 - **자동 설정**: 환경별 API 서비스 ID 자동 변경
 
 ## ⚙️ 설정 방법
@@ -58,7 +57,6 @@ FIREBASE_SERVICE_ACCOUNT: [Firebase 서비스 계정 JSON 키]
 #### 선택사항
 ```
 SLACK_WEBHOOK_URL: [Slack 알림용 Webhook URL]
-LHCI_GITHUB_APP_TOKEN: [Lighthouse CI GitHub App 토큰]
 ```
 
 ## 📊 배포 단계
@@ -119,9 +117,6 @@ LHCI_GITHUB_APP_TOKEN: [Lighthouse CI GitHub App 토큰]
    - 스테이징: 5회 재시도
    - 프로덕션: 10회 재시도
 
-5. **성능 감사** (프로덕션만, 2-3분)
-   - Lighthouse CI 실행
-   - 성능, 접근성, SEO 점수 측정
 
 ## 🔧 환경 설정
 
@@ -239,7 +234,6 @@ gcloud alpha monitoring policies create \
 | 배포 실패 | Firebase 서비스 계정 권한 부족 | Hosting Admin 역할 확인 |
 | 404 오류 | firebase.json 설정 오류 | rewrite 규칙 검증 |
 | API 연결 실패 | 서비스 ID 불일치 | firebase.json의 serviceId 확인 |
-| Lighthouse 실패 | 성능 기준 미달 | 이미지 최적화, 캐싱 설정 |
 
 ## 📈 성능 최적화
 
@@ -304,5 +298,4 @@ Slack 채널로 배포 결과 자동 알림:
 
 cloudbuild.yaml              # Cloud Build 설정
 firebase.json               # Firebase 설정
-.lighthouserc.json          # Lighthouse CI 설정
 ```
