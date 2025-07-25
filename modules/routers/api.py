@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 from ..config import Config
 from ..auth import is_authenticated, get_storage_client
 from ..database import query_spanner_triples, query_spanner_by_triple
-from ..services.vertex_api import call_discovery_engine, generate_triple_based_answer, generate_summary_answer, call_discovery_engine_async, generate_triple_based_answer_async, call_discovery_engine_with_search_context_async
+from ..services.vertex_api import call_vertex_api, build_triple_only_payload, build_summary_payload
 from ..services.triple_service import extract_triple_from_prompt
 from ..services.validation_service import validate_response_relevance
 
@@ -26,11 +26,58 @@ async def health_check():
     from ..auth import is_authenticated
     return {
         "status": "healthy",
-        
         "authenticated": is_authenticated(),
         "timestamp": datetime.now().isoformat()
     }
 
+async def _build_vertex_payload(
+    user_prompt: str,
+    conversation_history: list,
+    image_file: Optional[UploadFile],
+    preloaded_triples: Optional[list] = None
+) -> tuple:
+    """Vertex AI 검색을 위한 페이로드 구성"""
+    user_content_parts = []
+    if image_file:
+        image_base64 = base64.b64encode(await image_file.read()).decode('utf-8')
+        user_content_parts.append({"inlineData": {"mimeType": image_file.content_type, "data": image_base64}})
+
+    if user_prompt:
+        user_content_parts.append({"text": user_prompt})
+
+    current_contents = conversation_history + [{"role": "user", "parts": user_content_parts}]
+
+    # Triple grounding: 미리 받아온 게 있으면 쓰고, 없으면 추출
+    if preloaded_triples is not None:
+        triples = preloaded_triples
+    else:
+        try:
+            subject, predicate, object_ = await extract_triple_from_prompt(user_prompt)
+            triples = query_spanner_by_triple(subject, predicate, object_)
+        except Exception as e:
+            logger.warning(f"Triple 추출 또는 검색 실패: {e}")
+            triples = []
+
+    # grounding 내용 system prompt 앞에 삽입
+    if triples:
+        triple_text = "\n".join(triples)
+        current_contents.insert(0, {
+            "role": "user",
+            "parts": [{"text": f"[Spanner Triple Grounding]\n{triple_text}"}]
+        })
+
+    payload = {
+        "systemInstruction": {"parts": [{"text": Config.load_system_instruction()}]},
+        "contents": current_contents,
+        "tools": [{"retrieval": {"vertexAiSearch": {"datastore": Config.get_datastore_path()}}}],
+        "generationConfig": {
+            "temperature": 0,
+            "maxOutputTokens": 8192,
+            "topP": 0.3
+        }
+    }
+
+    return payload, current_contents
 
 @router.post('/api/generate')
 async def generate_content(userPrompt: str = Form(""), conversationHistory: str = Form("[]"), imageFile: Optional[UploadFile] = File(None)):
@@ -47,44 +94,44 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
         # Triple이 없으면 추출하여 다시 검색 시도
         if not triples:
             try:
-                subject, predicate, object_ = extract_triple_from_prompt(userPrompt)
+                subject, predicate, object_ = await extract_triple_from_prompt(userPrompt)
                 triples = query_spanner_by_triple(subject, predicate, object_)
                 logger.info(f"Fallback triple 검색 결과: {len(triples)}건")
             except Exception as e:
                 logger.warning(f"Fallback triple 검색 실패: {e}")
 
-        # 🚀 Step 1&2: Triple 기반 응답과 Discovery Engine 하이브리드 검색을 병렬 처리
-        triple_task = asyncio.create_task(generate_triple_based_answer_async(userPrompt, triples))
-        discovery_task = asyncio.create_task(call_discovery_engine_with_search_context_async(userPrompt))
+        # 🚀 Step 1&2: Triple 기반 응답과 Vertex AI 검색을 병렬 처리
+        triple_payload = await build_triple_only_payload(userPrompt, triples)
+        full_payload, full_history = await _build_vertex_payload(userPrompt, conversation_history, imageFile, preloaded_triples=triples)
         
-        # 병렬 실행으로 응답 시간 50% 단축 + 하이브리드 접근으로 더 많은 문서 활용
-        triple_result, discovery_result = await asyncio.gather(triple_task, discovery_task)
+        # 병렬 API 호출로 속도 2배 향상
+        triple_task = asyncio.create_task(call_vertex_api(triple_payload))
+        vertex_task = asyncio.create_task(call_vertex_api(full_payload))
         
-        triple_text = triple_result.get('answer_text', '')
-        discovery_text = discovery_result.get('answer_text', '')
+        triple_result, vertex_result = await asyncio.gather(triple_task, vertex_task)
+        
+        triple_text = triple_result['candidates'][0]['content']['parts'][0]['text']
+        vertex_text = vertex_result['candidates'][0]['content']['parts'][0]['text']
         
         logger.info(json.dumps({
             "stage": "parallel_answers_generated",
             "triple_input": userPrompt,
             "triples_used": triples,
             "triple_answer_length": len(triple_text),
-            "discovery_answer_length": len(discovery_text)
+            "vertex_answer_length": len(vertex_text)
         }, ensure_ascii=False))
 
-        # 🔹 Step 3: 요약 생성 최적화 (중복 API 호출 방지)
-        # Discovery Engine에서 이미 충분한 답변을 받았다면 추가 API 호출 생략
-        if len(discovery_text) > 200 and "참고 문서" in discovery_text:
-            summary_text = discovery_text  # Discovery Engine 결과를 직접 사용
-            logger.info("Discovery Engine 응답이 충분하여 추가 요약 생략")
-        else:
-            summary_result = generate_summary_answer(triple_text, discovery_text, userPrompt)
-            summary_text = summary_result.get('answer_text', '')
+        # 🔹 Step 3&4: 요약과 검증을 병렬 처리
+        summary_payload = await build_summary_payload(triple_text, vertex_text, userPrompt)
         
-        # 검증 실행
-        is_relevant_preview = validate_response_relevance(userPrompt, f"{triple_text[:300]}...")
+        summary_task = asyncio.create_task(call_vertex_api(summary_payload))
+        validation_task = asyncio.create_task(validate_response_relevance(userPrompt, f"{triple_text[:300]}..."))
+        
+        summary_result, is_relevant_preview = await asyncio.gather(summary_task, validation_task)
+        summary_text = summary_result['candidates'][0]['content']['parts'][0]['text']
         
         # 최종 검증 (요약 결과 기준)
-        is_relevant = validate_response_relevance(userPrompt, summary_text) if not is_relevant_preview else True
+        is_relevant = await validate_response_relevance(userPrompt, summary_text) if not is_relevant_preview else True
         
         if not is_relevant:
             logger.warning(f"응답 연관성 검증 실패 - 질문: {userPrompt}")
@@ -108,22 +155,15 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
             "summary_answer": summary_text[:200] + "..." if len(summary_text) > 200 else summary_text
         }, ensure_ascii=False))
 
-        # 하이브리드 메타데이터 수집
-        hybrid_metadata = {
-            "triple_hybrid": triple_result.get("hybrid_metadata", {}),
-            "discovery_search": discovery_result.get("search_metadata", {})
-        }
-        
         return JSONResponse({
             "triple_answer": triple_text,
-            "discovery_answer": discovery_text,
+            "vertex_answer": vertex_text,
             "summary_answer": summary_text,
-            "updatedHistory": conversation_history,
+            "updatedHistory": full_history,
             "quality_check": {
                 "relevance_passed": is_relevant,
                 "triples_found": len(triples) > 0
-            },
-            "hybrid_metadata": hybrid_metadata
+            }
         })
 
     except Exception as e:

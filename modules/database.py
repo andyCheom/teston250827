@@ -52,34 +52,15 @@ def query_spanner_triples(user_prompt: str) -> List[str]:
         params = {}
         param_types = {}
         
-        # 성능 최적화: 정확한 매칭 우선, 부분 매칭 후순위
-        exact_conditions = []
-        like_conditions = []
-        
         for i, keyword in enumerate(keywords):
-            exact_param = f"exact_keyword_{i}"
-            like_param = f"like_keyword_{i}"
-            
-            # 정확한 매칭 조건 (더 빠름)
-            exact_conditions.extend([
-                f"LOWER(subject) = @{exact_param}",
-                f"LOWER(predicate) = @{exact_param}",
-                f"LOWER(object) = @{exact_param}"
+            param_name = f"keyword_{i}"
+            conditions.extend([
+                f"LOWER(subject) LIKE @{param_name}",
+                f"LOWER(predicate) LIKE @{param_name}",
+                f"LOWER(object) LIKE @{param_name}"
             ])
-            params[exact_param] = keyword.lower()
-            param_types[exact_param] = spanner.param_types.STRING
-            
-            # 부분 매칭 조건 (느림)
-            like_conditions.extend([
-                f"LOWER(subject) LIKE @{like_param}",
-                f"LOWER(predicate) LIKE @{like_param}",
-                f"LOWER(object) LIKE @{like_param}"
-            ])
-            params[like_param] = f"%{keyword.lower()}%"
-            param_types[like_param] = spanner.param_types.STRING
-        
-        # 정확한 매칭 우선 실행
-        conditions = exact_conditions + like_conditions
+            params[param_name] = f"%{keyword.lower()}%"
+            param_types[param_name] = spanner.param_types.STRING
         
         # 키워드가 없으면 빈 결과 반환
         if not conditions:
@@ -88,20 +69,10 @@ def query_spanner_triples(user_prompt: str) -> List[str]:
             
         where_clause = " OR ".join(conditions)
         table_name = Config._get_required_env('SPANNER_TABLE_NAME')
-        
-        # 성능 최적화: 정확한 매칭 먼저 시도 (UNION으로 우선순위 처리)
         query = f"""
-        (
-            SELECT subject, predicate, object FROM `{table_name}`
-            WHERE {' OR '.join(exact_conditions) if exact_conditions else '1=0'}
-            LIMIT 20
-        )
-        UNION ALL
-        (
-            SELECT subject, predicate, object FROM `{table_name}`
-            WHERE {' OR '.join(like_conditions) if like_conditions else '1=0'}
-            LIMIT 30
-        )
+        SELECT subject, predicate, object FROM `{table_name}`
+        WHERE {where_clause}
+        LIMIT 50
         """
 
         with database.snapshot() as snapshot:
