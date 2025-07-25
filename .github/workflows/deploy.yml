@@ -108,18 +108,27 @@ jobs:
           
           echo "서비스 URL: $SERVICE_URL"
           
-          # 헬스 체크
-          for i in {1..5}; do
-            echo "헬스 체크 시도 $i/5..."
-            if curl -f -s --max-time 30 "$SERVICE_URL/api/health" > /dev/null; then
-              echo "✅ 배포 성공!"
+          # 헬스 체크 (빠른 기본 헬스 체크 먼저)
+          for i in {1..10}; do
+            echo "헬스 체크 시도 $i/10..."
+            if timeout 15 curl -f -s --connect-timeout 5 --max-time 10 "$SERVICE_URL/api/health" > /dev/null; then
+              echo "✅ 기본 헬스 체크 성공!"
+              
+              # 상세 헬스 체크도 수행
+              echo "🔍 상세 헬스 체크 진행..."
+              if timeout 20 curl -f -s --connect-timeout 5 --max-time 15 "$SERVICE_URL/api/health/detailed" > /dev/null; then
+                echo "✅ 상세 헬스 체크도 성공!"
+              else
+                echo "⚠️ 상세 헬스 체크 실패 (기본 헬스는 정상)"
+              fi
+              
               echo "SERVICE_URL=$SERVICE_URL" >> $GITHUB_OUTPUT
               exit 0
             fi
             
-            if [ $i -lt 5 ]; then
-              echo "30초 후 재시도..."
-              sleep 30
+            if [ $i -lt 10 ]; then
+              echo "15초 후 재시도..."
+              sleep 15
             fi
           done
           

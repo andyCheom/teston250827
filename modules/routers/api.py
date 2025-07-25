@@ -22,13 +22,56 @@ router = APIRouter()
 
 @router.get('/api/health')
 async def health_check():
-    """헬스 체크 엔드포인트"""
-    from ..auth import is_authenticated
+    """기본 헬스 체크 엔드포인트 - 빠른 응답"""
     return {
         "status": "healthy",
-        "authenticated": is_authenticated(),
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
+        "service": "graphrag-api",
+        "version": "2.0.0"
     }
+
+@router.get('/api/health/detailed')
+async def detailed_health_check():
+    """상세 헬스 체크 엔드포인트 - 인증 포함"""
+    from main import get_auth_status
+    try:
+        # 백그라운드 인증 상태 확인 (빠른 응답)
+        auth_status = get_auth_status()
+        
+        # 실제 인증 함수도 확인 (선택적)
+        try:
+            from ..auth import is_authenticated
+            detailed_auth_status = is_authenticated()
+        except:
+            detailed_auth_status = auth_status
+        
+        return {
+            "status": "healthy" if auth_status else "degraded",
+            "authenticated": auth_status,
+            "detailed_auth": detailed_auth_status,
+            "timestamp": datetime.now().isoformat(),
+            "service": "graphrag-api",
+            "version": "2.0.0",
+            "components": {
+                "auth": "ok" if auth_status else "warning",
+                "api": "ok",
+                "detailed_auth": "ok" if detailed_auth_status else "warning"
+            }
+        }
+    except Exception as e:
+        logger.warning(f"인증 상태 확인 실패: {e}")
+        return {
+            "status": "degraded",
+            "authenticated": False,
+            "timestamp": datetime.now().isoformat(),
+            "service": "graphrag-api",
+            "version": "2.0.0",
+            "components": {
+                "auth": "error",
+                "api": "ok"
+            },
+            "error": str(e)
+        }
 
 async def _build_vertex_payload(
     user_prompt: str,

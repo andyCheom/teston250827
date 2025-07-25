@@ -33,12 +33,33 @@ app.add_middleware(
 )
 
 
-# 인증 초기화
-auth_success = initialize_auth()
-if not auth_success:
-    logger.error("❌ 인증 초기화 실패 - 서비스가 제대로 작동하지 않을 수 있습니다.")
-else:
-    logger.info("✅ 인증 초기화 성공")
+# 인증 초기화 (백그라운드에서 진행 - 헬스 체크 블로킹 방지)
+import asyncio
+import threading
+
+auth_success = False
+
+def init_auth_background():
+    """백그라운드에서 인증 초기화"""
+    global auth_success
+    try:
+        auth_success = initialize_auth()
+        if auth_success:
+            logger.info("✅ 인증 초기화 성공")
+        else:
+            logger.error("❌ 인증 초기화 실패 - 서비스가 제대로 작동하지 않을 수 있습니다.")
+    except Exception as e:
+        logger.error(f"❌ 인증 초기화 중 예외 발생: {e}")
+        auth_success = False
+
+# 백그라운드 스레드에서 인증 초기화
+auth_thread = threading.Thread(target=init_auth_background, daemon=True)
+auth_thread.start()
+
+# 헬스 체크용 인증 상태 확인 함수
+def get_auth_status():
+    """현재 인증 상태 반환"""
+    return auth_success
 
 # 라우터 등록
 app.include_router(router)
