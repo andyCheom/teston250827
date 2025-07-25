@@ -47,19 +47,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/vai.js"></script>
+    <!-- Widget JavaScript bundle -->
+    <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=ko"></script>
 
+<!-- Search widget element is not visible by default -->
+    <gen-search-widget
+        configId="20174b43-c739-4cf9-94ff-42cb1a8bdcf2"
+        triggerId="searchWidgetTrigger">
+    </gen-search-widget>
+
+<!-- Element that opens the widget on click. It does not have to be an input -->
+    <input placeholder="검색어 입력" id="searchWidgetTrigger" />
+
+
+
+
+    
 
 </body>
 </html>
 
-<!-- Widget JavaScript bundle -->
-<script src="https://cloud.google.com/ai/gen-app-builder/client?hl=ko"></script>
-
-<!-- Search widget element is not visible by default -->
-<gen-search-widget
-  configId="20174b43-c739-4cf9-94ff-42cb1a8bdcf2"
-  triggerId="searchWidgetTrigger">
-</gen-search-widget>
-
-<!-- Element that opens the widget on click. It does not have to be an input -->
-<input placeholder="검색어 입력" id="searchWidgetTrigger" />
