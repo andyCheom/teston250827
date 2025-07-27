@@ -79,68 +79,40 @@ steps:
     id: 'security-scan'
     waitFor: ['push-image']
 
-  # 5. Cloud Run 배포 (서비스 존재 여부 확인 후 배포)
+  # 5. Cloud Run 배포 (Blue-Green 배포)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        echo "🚀 Cloud Run 서비스 배포 시작..."
+        echo "🚀 Cloud Run 서비스 배포 시작 (Blue-Green 방식)..."
         
-        # 서비스 존재 여부 확인
-        if gcloud run services describe ${_SERVICE_NAME} --region=${_REGION} --quiet 2>/dev/null; then
-          echo "✅ 기존 서비스 발견 - Blue-Green 배포 진행"
-          
-          # 기존 서비스가 있는 경우: --no-traffic과 --tag 사용
-          gcloud run deploy ${_SERVICE_NAME} \
-            --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
-            --region=${_REGION} \
-            --platform=managed \
-            --allow-unauthenticated \
-            --service-account=${_SERVICE_ACCOUNT} \
-            --min-instances=${_MIN_INSTANCES} \
-            --max-instances=${_MAX_INSTANCES} \
-            --cpu=${_CPU} \
-            --memory=${_MEMORY} \
-            --timeout=${_TIMEOUT} \
-            --concurrency=80 \
-            --no-traffic \
-            --tag=candidate \
-            --set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True
-        else
-          echo "🆕 새로운 서비스 생성 - 직접 배포"
-          
-          # 새로운 서비스인 경우: 기본 배포 후 태그 추가
-          gcloud run deploy ${_SERVICE_NAME} \
-            --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
-            --region=${_REGION} \
-            --platform=managed \
-            --allow-unauthenticated \
-            --service-account=${_SERVICE_ACCOUNT} \
-            --min-instances=${_MIN_INSTANCES} \
-            --max-instances=${_MAX_INSTANCES} \
-            --cpu=${_CPU} \
-            --memory=${_MEMORY} \
-            --timeout=${_TIMEOUT} \
-            --concurrency=80 \
-            --set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True
-          
-          echo "🏷️ candidate 태그 추가 중..."
-          # 배포 후 현재 리비전에 candidate 태그 추가
-          LATEST_REVISION=$(gcloud run services describe ${_SERVICE_NAME} --region=${_REGION} --format="value(status.latestReadyRevisionName)")
-          gcloud run services update-traffic ${_SERVICE_NAME} \
-            --region=${_REGION} \
-            --set-tags candidate=$$LATEST_REVISION
-        fi
+        # --no-traffic 플래그를 사용하여 새 리비전을 배포하고 'candidate' 태그를 지정합니다.
+        # 이 리비전은 처음에는 프로덕션 트래픽을 받지 않습니다.
+        # 서비스가 존재하지 않으면 이 명령이 서비스를 생성합니다.
+        gcloud run deploy ${_SERVICE_NAME} \
+          --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --service-account=${_SERVICE_ACCOUNT} \
+          --min-instances=${_MIN_INSTANCES} \
+          --max-instances=${_MAX_INSTANCES} \
+          --cpu=${_CPU} \
+          --memory=${_MEMORY} \
+          --timeout=${_TIMEOUT} \
+          --concurrency=80 \
+          --no-traffic \
+          --tag=candidate \
+          --set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True
         
-        echo "✅ 배포 완료!"
+        echo "✅ 새 리비전이 'candidate' 태그로 배포되었습니다."
     id: 'deploy-candidate'
     waitFor: ['security-scan']
 
   # 6. 헬스 체크 및 검증
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
-    
     args:
       - '-c'
       - |
@@ -166,14 +138,7 @@ steps:
           echo "🔄 Python을 사용한 candidate URL 검색..."
           HEALTH_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
             --region=${_REGION} \
-            --format="json" | python3 -c "
-import sys, json
-data = json.load(sys.stdin)
-for traffic in data.get('status', {}).get('traffic', []):
-    if traffic.get('tag') == 'candidate':
-        print(traffic.get('url', ''))
-        break
-")
+            --format="json" | python3 -c "import sys, json; data = json.load(sys.stdin); [print(traffic.get('url', '')) for traffic in data.get('status', {}).get('traffic', []) if traffic.get('tag') == 'candidate'][:1]")
         fi
         
         # 그래도 없으면 기본 서비스 URL 사용
