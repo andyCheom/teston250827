@@ -43,6 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handle image removal
   removeImageBtn.addEventListener("click", clearImageAttachment);
 
+  // Handle test buttons
+  document.getElementById("test-discovery-btn").addEventListener("click", () => testAPI("discovery"));
+  document.getElementById("test-compare-btn").addEventListener("click", () => testAPI("compare"));
+  document.getElementById("test-original-btn").addEventListener("click", () => testAPI("original"));
+
   // Auto-resize textarea
   promptInput.addEventListener("input", () => {
     promptInput.style.height = "auto";
@@ -305,5 +310,172 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+  // Test API functions
+  async function testAPI(type) {
+    const testQuery = document.getElementById("test-query").value.trim();
+    if (!testQuery) {
+      alert("테스트할 질문을 입력해주세요!");
+      return;
+    }
+
+    // Disable all test buttons during request
+    const testButtons = document.querySelectorAll(".test-button");
+    testButtons.forEach(btn => btn.disabled = true);
+
+    // Show loading indicator
+    const loadingElement = showLoadingIndicator();
+    scrollToBottom();
+
+    try {
+      let endpoint, title;
+      switch(type) {
+        case "discovery":
+          endpoint = "/api/discovery-answer";
+          title = "🔵 Discovery Engine 답변";
+          break;
+        case "compare":
+          endpoint = "/api/compare-answers";
+          title = "🟢 비교 테스트 결과";
+          break;
+        case "original":
+          endpoint = "/api/generate";
+          title = "🔴 기존 방식 답변";
+          break;
+      }
+
+      // Display test query as user message
+      displayUserMessage(`[${title}] ${testQuery}`);
+
+      const formData = new FormData();
+      formData.append("userPrompt", testQuery);
+      formData.append("conversationHistory", "[]");
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData
+      });
+
+      loadingElement.remove();
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || `API 요청 실패: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      // Format and display results based on API type
+      if (type === "discovery") {
+        displayDiscoveryResult(result);
+      } else if (type === "compare") {
+        displayCompareResult(result);
+      } else {
+        // Original API result
+        const modelResponseText = result.summary_answer || result.vertex_answer || "답변을 생성하지 못했습니다.";
+        displayModelMessage(`**${title}**\n\n${modelResponseText}`);
+      }
+
+    } catch (error) {
+      if (loadingElement) loadingElement.remove();
+      console.error(`${type} API 테스트 오류:`, error);
+      displayModelMessage(`❌ **${type} 테스트 오류**: ${error.message}`);
+    } finally {
+      // Re-enable test buttons
+      testButtons.forEach(btn => btn.disabled = false);
+      scrollToBottom();
+    }
+  }
+
+  function displayDiscoveryResult(result) {
+    let message = "**🔵 Discovery Engine 답변**\n\n";
+    
+    if (result.answer) {
+      message += `${result.answer}\n\n`;
+    }
+    
+    // 검색 결과에서 링크 정보 추출 및 표시
+    if (result.search_results && result.search_results.length > 0) {
+      message += "**📚 참고 문서:**\n";
+      result.search_results.slice(0, 3).forEach((searchResult, i) => {
+        const doc = searchResult.document || {};
+        const derivedData = doc.derivedStructData || {};
+        const title = derivedData.title || `문서 ${i + 1}`;
+        const link = derivedData.link || doc.uri || "";
+        
+        if (link) {
+          // GCS 링크를 프록시 URL로 변환
+          if (link.startsWith('gs://')) {
+            const gcsPath = link.replace('gs://', '');
+            const parts = gcsPath.split('/');
+            const bucketName = parts[0];
+            const filePath = parts.slice(1).join('/');
+            const proxyUrl = `/gcs/${bucketName}/${filePath}`;
+            message += `${i + 1}. [${title}](${proxyUrl})\n`;
+          } else if (link.startsWith('http')) {
+            message += `${i + 1}. [${title}](${link})\n`;
+          } else {
+            message += `${i + 1}. ${title}\n`;
+          }
+        } else {
+          message += `${i + 1}. ${title}\n`;
+        }
+      });
+      message += "\n";
+    }
+    
+    // Citation 정보가 있으면 추가 표시
+    if (result.citations && result.citations.length > 0) {
+      message += "**📖 인용 정보:**\n";
+      result.citations.slice(0, 3).forEach((citation, i) => {
+        const title = citation.title || citation.displayName || `인용 ${i + 1}`;
+        const uri = citation.uri || "";
+        
+        if (uri) {
+          message += `${i + 1}. [${title}](${uri})\n`;
+        } else {
+          message += `${i + 1}. ${title}\n`;
+        }
+      });
+      message += "\n";
+    }
+    
+    if (result.related_questions && result.related_questions.length > 0) {
+      message += "**🤔 관련 질문:**\n";
+      result.related_questions.slice(0, 3).forEach((q) => {
+        message += `• ${q}\n`;
+      });
+    }
+    
+    message += `\n*검색 결과: ${result.search_results?.length || 0}건*`;
+    
+    displayModelMessage(message);
+  }
+
+  function displayCompareResult(result) {
+    let message = "**🟢 비교 테스트 결과**\n\n";
+    message += `**질문:** ${result.user_prompt}\n`;
+    message += `**테스트 시간:** ${new Date(result.timestamp).toLocaleString()}\n\n`;
+    
+    // Original method result
+    message += "### 🔴 기존 방식\n";
+    if (result.original_method.status === "success") {
+      message += `**요약 답변:** ${result.original_method.summary_answer?.substring(0, 200)}${result.original_method.summary_answer?.length > 200 ? '...' : ''}\n`;
+      message += `**품질 검증:** ${result.original_method.quality_check?.relevance_passed ? '✅ 통과' : '❌ 실패'}\n`;
+    } else {
+      message += `❌ **오류:** ${result.original_method.error}\n`;
+    }
+    
+    message += "\n### 🔵 Discovery Engine\n";
+    if (result.discovery_method.status === "success") {
+      message += `**답변:** ${result.discovery_method.answer?.substring(0, 200)}${result.discovery_method.answer?.length > 200 ? '...' : ''}\n`;
+      message += `**인용 수:** ${result.discovery_method.citations_count}개\n`;
+      message += `**검색 결과:** ${result.discovery_method.search_results_count}건\n`;
+    } else {
+      message += `❌ **오류:** ${result.discovery_method.error}\n`;
+    }
+    
+    displayModelMessage(message);
   }
 });
