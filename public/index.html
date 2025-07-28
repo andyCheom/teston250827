@@ -32,6 +32,16 @@
         <button type="button" id="remove-image-btn">&times;</button>
     </div>
 
+    <div id="test-controls" style="margin: 1rem 0; padding: 1rem; background: #f5f5f5; border-radius: 8px;">
+        <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">🧪 API 테스트 도구</h3>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button id="test-discovery-btn" class="test-button" style="background: #4285f4; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Discovery Engine 테스트</button>
+            <button id="test-compare-btn" class="test-button" style="background: #34a853; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">비교 테스트</button>
+            <button id="test-original-btn" class="test-button" style="background: #ea4335; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">기존 방식</button>
+        </div>
+        <input type="text" id="test-query" placeholder="테스트할 질문을 입력하세요 (예: 마이메일러 사용법)" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+    </div>
+
     <form id="prompt-form" autocomplete="off">
         <div class="input-wrapper">
             <label for="image-input" class="icon-button" aria-label="이미지 첨부">

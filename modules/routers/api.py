@@ -6,7 +6,7 @@ import logging
 import os
 import mimetypes
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict, Any
 from fastapi import APIRouter, File, UploadFile, HTTPException, Form
 from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 
@@ -16,6 +16,7 @@ from ..database import query_spanner_triples, query_spanner_by_triple
 from ..services.vertex_api import call_vertex_api, build_triple_only_payload, build_summary_payload
 from ..services.triple_service import extract_triple_from_prompt
 from ..services.validation_service import validate_response_relevance
+from ..services.discovery_engine_api import get_complete_discovery_answer
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -238,3 +239,138 @@ async def proxy_gcs_file(bucket_name: str, file_path: str):
     except Exception as e:
         logger.error("GCS 프록시 오류", exc_info=True)
         raise HTTPException(status_code=500, detail="파일 읽기 실패")
+
+@router.post('/api/discovery-answer')
+async def discovery_answer(userPrompt: str = Form("")):
+    """Discovery Engine Answer API 테스트 엔드포인트"""
+    if not is_authenticated():
+        raise HTTPException(status_code=503, detail="서버 인증 실패 - Google Cloud 인증을 확인하세요")
+
+    try:
+        # Discovery Engine을 통한 답변 생성
+        discovery_result = await get_complete_discovery_answer(userPrompt)
+        
+        logger.info(json.dumps({
+            "stage": "discovery_answer_generated",
+            "user_prompt": userPrompt,
+            "answer_length": len(discovery_result.get("answer_text", "")),
+            "citations_count": len(discovery_result.get("citations", [])),
+            "search_results_count": len(discovery_result.get("search_results", []))
+        }, ensure_ascii=False))
+
+        return JSONResponse({
+            "answer": discovery_result.get("answer_text", ""),
+            "citations": discovery_result.get("citations", []),
+            "search_results": discovery_result.get("search_results", []),
+            "related_questions": discovery_result.get("related_questions", []),
+            "metadata": {
+                "query_id": discovery_result.get("query_id"),
+                "session_id": discovery_result.get("session_id"),
+                "engine_type": "discovery_engine_answer"
+            }
+        })
+
+    except Exception as e:
+        logger.exception("Discovery Engine Answer API 오류")
+        raise HTTPException(status_code=500, detail=f"Discovery Engine 답변 생성 실패: {str(e)}")
+
+@router.post('/api/compare-answers')
+async def compare_answers(userPrompt: str = Form("")):
+    """기존 방식과 Discovery Engine Answer API 비교 테스트"""
+    if not is_authenticated():
+        raise HTTPException(status_code=503, detail="서버 인증 실패 - Google Cloud 인증을 확인하세요")
+
+    try:
+        # 병렬로 두 방식 모두 실행
+        original_task = asyncio.create_task(_get_original_answer(userPrompt))
+        discovery_task = asyncio.create_task(get_complete_discovery_answer(userPrompt))
+        
+        original_result, discovery_result = await asyncio.gather(
+            original_task, discovery_task, return_exceptions=True
+        )
+        
+        # 결과 정리
+        response = {
+            "user_prompt": userPrompt,
+            "timestamp": datetime.now().isoformat(),
+            "original_method": {},
+            "discovery_method": {}
+        }
+        
+        # 기존 방식 결과 처리
+        if isinstance(original_result, Exception):
+            response["original_method"] = {
+                "status": "error",
+                "error": str(original_result)
+            }
+        else:
+            response["original_method"] = {
+                "status": "success",
+                "triple_answer": original_result.get("triple_answer", ""),
+                "vertex_answer": original_result.get("vertex_answer", ""),
+                "summary_answer": original_result.get("summary_answer", ""),
+                "quality_check": original_result.get("quality_check", {})
+            }
+        
+        # Discovery Engine 결과 처리
+        if isinstance(discovery_result, Exception):
+            response["discovery_method"] = {
+                "status": "error", 
+                "error": str(discovery_result)
+            }
+        else:
+            response["discovery_method"] = {
+                "status": "success",
+                "answer": discovery_result.get("answer_text", ""),
+                "citations_count": len(discovery_result.get("citations", [])),
+                "search_results_count": len(discovery_result.get("search_results", [])),
+                "related_questions": discovery_result.get("related_questions", [])
+            }
+        
+        return JSONResponse(response)
+
+    except Exception as e:
+        logger.exception("답변 비교 테스트 오류")
+        raise HTTPException(status_code=500, detail=f"답변 비교 실패: {str(e)}")
+
+async def _get_original_answer(user_prompt: str) -> Dict[str, Any]:
+    """기존 방식의 답변 생성 (내부 헬퍼 함수)"""
+    # 기존 /api/generate 로직을 재사용
+    triples = query_spanner_triples(user_prompt)
+    
+    if not triples:
+        try:
+            subject, predicate, object_ = await extract_triple_from_prompt(user_prompt)
+            triples = query_spanner_by_triple(subject, predicate, object_)
+        except Exception as e:
+            logger.warning(f"Fallback triple 검색 실패: {e}")
+
+    # 병렬 처리
+    triple_payload = await build_triple_only_payload(user_prompt, triples)
+    full_payload, _ = await _build_vertex_payload(user_prompt, [], None, preloaded_triples=triples)
+    
+    triple_task = asyncio.create_task(call_vertex_api(triple_payload))
+    vertex_task = asyncio.create_task(call_vertex_api(full_payload))
+    
+    triple_result, vertex_result = await asyncio.gather(triple_task, vertex_task)
+    
+    triple_text = triple_result['candidates'][0]['content']['parts'][0]['text']
+    vertex_text = vertex_result['candidates'][0]['content']['parts'][0]['text']
+    
+    # 요약 생성
+    summary_payload = await build_summary_payload(triple_text, vertex_text, user_prompt)
+    summary_result = await call_vertex_api(summary_payload)
+    summary_text = summary_result['candidates'][0]['content']['parts'][0]['text']
+    
+    # 검증
+    is_relevant = await validate_response_relevance(user_prompt, summary_text)
+    
+    return {
+        "triple_answer": triple_text,
+        "vertex_answer": vertex_text, 
+        "summary_answer": summary_text,
+        "quality_check": {
+            "relevance_passed": is_relevant,
+            "triples_found": len(triples) > 0
+        }
+    }
