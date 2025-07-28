@@ -77,10 +77,10 @@ async def search_documents(query: str) -> Dict[str, Any]:
     
     # Config에서 동적으로 가져오기
     project_id = Config.PROJECT_ID
-    location = "global"
-    collection = "default_collection"
-    engine_id = "test_1753406039510"
-    serving_config = "default_search"
+    location = Config.DISCOVERY_LOCATION
+    collection = Config.DISCOVERY_COLLECTION
+    engine_id = Config.DISCOVERY_ENGINE_ID
+    serving_config = Config.DISCOVERY_SERVING_CONFIG
     
     url = f"{DISCOVERY_BASE_URL}/projects/{project_id}/locations/{location}/collections/{collection}/engines/{engine_id}/servingConfigs/{serving_config}:search"
     
@@ -114,10 +114,10 @@ async def generate_answer(query: str, query_id: str, session_id: str) -> Dict[st
     
     # Config에서 동적으로 가져오기
     project_id = Config.PROJECT_ID
-    location = "global"
-    collection = "default_collection"
-    engine_id = "test_1753406039510"
-    serving_config = "default_search"
+    location = Config.DISCOVERY_LOCATION
+    collection = Config.DISCOVERY_COLLECTION
+    engine_id = Config.DISCOVERY_ENGINE_ID
+    serving_config = Config.DISCOVERY_SERVING_CONFIG
     
     url = f"{DISCOVERY_BASE_URL}/projects/{project_id}/locations/{location}/collections/{collection}/engines/{engine_id}/servingConfigs/{serving_config}:answer"
     

@@ -24,6 +24,12 @@ class Config:
     DATASTORE_ID = os.getenv('DATASTORE_ID', '')
     DATASTORE_LOCATION = os.getenv('DATASTORE_LOCATION', '')
     
+    # Discovery Engine 설정
+    DISCOVERY_LOCATION = os.getenv('DISCOVERY_LOCATION', 'global')
+    DISCOVERY_COLLECTION = os.getenv('DISCOVERY_COLLECTION', 'default_collection')
+    DISCOVERY_ENGINE_ID = os.getenv('DISCOVERY_ENGINE_ID', '')
+    DISCOVERY_SERVING_CONFIG = os.getenv('DISCOVERY_SERVING_CONFIG', 'default_search')
+    
     # Spanner 설정
     SPANNER_INSTANCE_ID = os.getenv('SPANNER_INSTANCE_ID', '')
     SPANNER_DATABASE_ID = os.getenv('SPANNER_DATABASE_ID', '')
@@ -59,7 +65,8 @@ class Config:
         project = cls._get_required_env('PROJECT_ID')
         location = cls._get_required_env('DATASTORE_LOCATION')
         datastore = cls._get_required_env('DATASTORE_ID')
-        return f"projects/{project}/locations/{location}/collections/default_collection/dataStores/{datastore}"
+        collection = cls.DISCOVERY_COLLECTION
+        return f"projects/{project}/locations/{location}/collections/{collection}/dataStores/{datastore}"
     
     # 서비스 어카운트 키 경로
     SERVICE_ACCOUNT_PATH = "keys/cheom-kdb-test1-faf5cf87a1fd.json"
