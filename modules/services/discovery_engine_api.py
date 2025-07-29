@@ -180,12 +180,15 @@ async def get_complete_discovery_answer(user_query: str, image_file=None) -> Dic
                 
                 if answer_result.get("answer", {}).get("citations"):
                     citations = answer_result["answer"]["citations"]
+                    logger.info(f"Citations 발견: {len(citations)}개")
+                    logger.debug(f"Citations 내용: {citations}")
                 
                 if answer_result.get("relatedQuestions"):
                     related_questions = answer_result["relatedQuestions"]
                 
                 logger.info(f"Discovery Engine 답변 생성 완료 - 길이: {len(answer_text)}")
                 logger.debug(f"Discovery Engine 답변 내용: {answer_text[:200]}...")
+                logger.debug(f"전체 Answer API 응답: {answer_result}")
                 
             except Exception as e:
                 logger.warning(f"Answer API 실패, 검색 결과만 사용: {e}")

@@ -169,11 +169,17 @@ function initializeChat() {
       // ✅ 1순위: summary_answer → 2순위: vertex_answer → fallback
       const modelResponseText =
         result.summary_answer ||
+        result.answer ||
         result.vertex_answer ||
         result.vertexAiResponse?.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (modelResponseText) {
-        displayModelMessage(modelResponseText);
+        // 디버깅을 위해 응답 데이터 로깅
+        console.log("API 응답 전체:", result);
+        console.log("Citations:", result.citations);
+        console.log("Search Results:", result.search_results);
+        
+        displayModelMessageWithSources(modelResponseText, result);
       } else {
         displayModelMessage("죄송합니다, 답변을 생성하지 못했습니다.");
       }
@@ -238,6 +244,182 @@ function initializeChat() {
 
     // marked.parse()를 사용하여 마크다운을 HTML로 변환합니다.
     messageElement.innerHTML = marked.parse(markdownText);
+
+    chatContainer.appendChild(messageElement);
+  }
+
+  function displayModelMessageWithSources(markdownText, result) {
+    console.log("displayModelMessageWithSources 호출됨");
+    console.log("Citations 존재 여부:", result.citations && result.citations.length > 0);
+    console.log("Citations 내용:", result.citations);
+    
+    const messageElement = document.createElement("div");
+    messageElement.className = "message model-message";
+
+    // 메인 답변을 마크다운으로 파싱하여 HTML로 변환
+    messageElement.innerHTML = marked.parse(markdownText);
+
+    // Citations 추가
+    if (result.citations && result.citations.length > 0) {
+      console.log("Citations 섹션 생성 중...");
+      const citationsDiv = document.createElement("div");
+      citationsDiv.style.marginTop = "1rem";
+      citationsDiv.style.paddingTop = "1rem";
+      citationsDiv.style.borderTop = "1px solid #e0e0e0";
+      
+      const citationsTitle = document.createElement("strong");
+      citationsTitle.textContent = "📖 참조 문서:";
+      citationsDiv.appendChild(citationsTitle);
+      
+      const citationsList = document.createElement("ol");
+      citationsList.style.marginTop = "0.5rem";
+      citationsList.style.paddingLeft = "1.5rem";
+      
+      result.citations.forEach((citation, i) => {
+        const title = citation.title || citation.displayName || `참조 ${i + 1}`;
+        const uri = citation.uri || "";
+        
+        const listItem = document.createElement("li");
+        listItem.style.marginBottom = "0.25rem";
+        
+        if (uri) {
+          const link = document.createElement("a");
+          link.textContent = title;
+          link.style.color = "#1976d2";
+          link.style.textDecoration = "underline";
+          link.style.cursor = "pointer";
+          
+          // GCS 링크를 프록시 URL로 변환
+          if (uri.startsWith('gs://')) {
+            const gcsPath = uri.replace('gs://', '');
+            const parts = gcsPath.split('/');
+            const bucketName = parts[0];
+            const filePath = parts.slice(1).join('/');
+            link.href = `/gcs/${bucketName}/${filePath}`;
+            console.log(`GCS 링크 생성: ${uri} -> ${link.href}`);
+          } else {
+            link.href = uri;
+            console.log(`일반 링크 생성: ${uri}`);
+          }
+          
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          
+          // 링크 클릭 이벤트 추가 (디버깅용)
+          link.onclick = function(e) {
+            console.log("링크 클릭됨:", link.href);
+            // GCS 프록시 테스트
+            if (link.href.includes('/gcs/')) {
+              console.log("GCS 프록시 링크 테스트 중...");
+            }
+          };
+          
+          console.log("링크 요소 생성됨:", link);
+          listItem.appendChild(link);
+        } else {
+          console.log("URI가 없어서 텍스트로만 표시:", title);
+          listItem.textContent = title;
+        }
+        
+        citationsList.appendChild(listItem);
+      });
+      
+      citationsDiv.appendChild(citationsList);
+      messageElement.appendChild(citationsDiv);
+    }
+
+    // Search Results에서 추가 링크 정보 추가 (항상 표시)
+    if (result.search_results && result.search_results.length > 0) {
+      console.log("Search Results 섹션 생성 중...");
+      const searchDiv = document.createElement("div");
+      searchDiv.style.marginTop = "1rem";
+      searchDiv.style.paddingTop = "1rem";
+      searchDiv.style.borderTop = "1px solid #e0e0e0";
+      
+      const searchTitle = document.createElement("strong");
+      searchTitle.textContent = "📚 관련 문서:";
+      searchDiv.appendChild(searchTitle);
+      
+      const searchList = document.createElement("ol");
+      searchList.style.marginTop = "0.5rem";
+      searchList.style.paddingLeft = "1.5rem";
+      
+      result.search_results.slice(0, 3).forEach((searchResult, i) => {
+        const doc = searchResult.document || {};
+        const derivedData = doc.derivedStructData || {};
+        const title = derivedData.title || `문서 ${i + 1}`;
+        const link = derivedData.link || doc.uri || "";
+        
+        const listItem = document.createElement("li");
+        listItem.style.marginBottom = "0.25rem";
+        
+        if (link) {
+          const linkElement = document.createElement("a");
+          linkElement.textContent = title;
+          linkElement.style.color = "#1976d2";
+          linkElement.style.textDecoration = "underline";
+          linkElement.style.cursor = "pointer";
+          
+          // GCS 링크를 프록시 URL로 변환
+          if (link.startsWith('gs://')) {
+            const gcsPath = link.replace('gs://', '');
+            const parts = gcsPath.split('/');
+            const bucketName = parts[0];
+            const filePath = parts.slice(1).join('/');
+            linkElement.href = `/gcs/${bucketName}/${filePath}`;
+            console.log(`Search Result GCS 링크 생성: ${link} -> ${linkElement.href}`);
+          } else if (link.startsWith('http')) {
+            linkElement.href = link;
+            console.log(`Search Result HTTP 링크 생성: ${link}`);
+          }
+          
+          linkElement.target = "_blank";
+          linkElement.rel = "noopener noreferrer";
+          
+          // 링크 클릭 이벤트 추가 (디버깅용)
+          linkElement.onclick = function(e) {
+            console.log("Search Result 링크 클릭됨:", linkElement.href);
+          };
+          
+          console.log("Search Result 링크 요소 생성됨:", linkElement);
+          listItem.appendChild(linkElement);
+        } else {
+          console.log("Search Result에 링크가 없어서 텍스트로만 표시:", title);
+          listItem.textContent = title;
+        }
+        
+        searchList.appendChild(listItem);
+      });
+      
+      searchDiv.appendChild(searchList);
+      messageElement.appendChild(searchDiv);
+    }
+
+    // Related Questions 추가
+    if (result.related_questions && result.related_questions.length > 0) {
+      const questionsDiv = document.createElement("div");
+      questionsDiv.style.marginTop = "1rem";
+      questionsDiv.style.paddingTop = "1rem";
+      questionsDiv.style.borderTop = "1px solid #e0e0e0";
+      
+      const questionsTitle = document.createElement("strong");
+      questionsTitle.textContent = "🤔 관련 질문:";
+      questionsDiv.appendChild(questionsTitle);
+      
+      const questionsList = document.createElement("ul");
+      questionsList.style.marginTop = "0.5rem";
+      questionsList.style.paddingLeft = "1.5rem";
+      
+      result.related_questions.slice(0, 3).forEach((question) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = question;
+        listItem.style.marginBottom = "0.25rem";
+        questionsList.appendChild(listItem);
+      });
+      
+      questionsDiv.appendChild(questionsList);
+      messageElement.appendChild(questionsDiv);
+    }
 
     chatContainer.appendChild(messageElement);
   }
