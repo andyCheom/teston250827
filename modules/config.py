@@ -30,10 +30,7 @@ class Config:
     DISCOVERY_ENGINE_ID = os.getenv('DISCOVERY_ENGINE_ID', '')
     DISCOVERY_SERVING_CONFIG = os.getenv('DISCOVERY_SERVING_CONFIG', 'default_search')
     
-    # Spanner 설정
-    SPANNER_INSTANCE_ID = os.getenv('SPANNER_INSTANCE_ID', '')
-    SPANNER_DATABASE_ID = os.getenv('SPANNER_DATABASE_ID', '')
-    SPANNER_TABLE_NAME = os.getenv('SPANNER_TABLE_NAME', '')
+    # Spanner 설정은 더 이상 사용하지 않음 - Discovery Engine 사용
     
     # 프롬프트 설정
     SYSTEM_PROMPT_PATH = os.getenv('SYSTEM_PROMPT_PATH', 'prompt/prompt.txt')

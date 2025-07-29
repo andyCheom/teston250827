@@ -11,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # 로컬 모듈 import
 from modules.auth import initialize_auth
 from modules.routers.api import router
+from modules.routers.discovery_only_api import router as discovery_router
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -63,6 +64,7 @@ def get_auth_status():
 
 # 라우터 등록
 app.include_router(router)
+app.include_router(discovery_router)
 
 # 정적 파일 서빙
 @app.get("/")

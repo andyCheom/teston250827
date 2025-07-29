@@ -1,6 +1,6 @@
 """인증 관리 모듈"""
 import logging
-from google.cloud import spanner, storage
+from google.cloud import storage
 from google.oauth2 import service_account
 
 from .config import Config
@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 # 전역 인증 상태
 _credentials = None
-_spanner_client = None
 _storage_client = None
 _is_initialized = False
 
@@ -19,11 +18,7 @@ def get_credentials():
         raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
     return _credentials
 
-def get_spanner_client():
-    """Spanner 클라이언트 반환"""
-    if not _is_initialized:
-        raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
-    return _spanner_client
+# Spanner 클라이언트는 더 이상 사용하지 않음 - Discovery Engine 사용
 
 def get_storage_client():
     """Storage 클라이언트 반환"""
@@ -37,7 +32,7 @@ def is_authenticated() -> bool:
 
 def initialize_auth() -> bool:
     """Google Cloud 인증 초기화"""
-    global _credentials, _spanner_client, _storage_client, _is_initialized
+    global _credentials, _storage_client, _is_initialized
     
     try:
         import os
@@ -74,7 +69,6 @@ def initialize_auth() -> bool:
             _credentials, project_id = default()
         
         _storage_client = storage.Client(credentials=_credentials, project=project_id)
-        _spanner_client = spanner.Client(credentials=_credentials, project=project_id)
         _is_initialized = True
         
         logger.info(f"✅ 인증 성공 - project_id: {project_id}")
@@ -83,7 +77,6 @@ def initialize_auth() -> bool:
     except Exception as e:
         logger.critical(f"❌ 인증 오류: {str(e)}", exc_info=True)
         _credentials = None
-        _spanner_client = None
         _storage_client = None
         _is_initialized = False
         return False

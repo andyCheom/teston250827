@@ -1,7 +1,6 @@
 """Discovery Engine Answer API 서비스"""
 import time
 import logging
-import subprocess
 from typing import Dict, Any, Optional
 import aiohttp
 import json
@@ -148,13 +147,17 @@ async def generate_answer(query: str, query_id: str, session_id: str) -> Dict[st
             raise DiscoveryEngineAPIError(f"Answer API error {response.status}", response.status, error_body)
         return await response.json()
 
-async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
+
+async def get_complete_discovery_answer(user_query: str, image_file=None) -> Dict[str, Any]:
     """Discovery Engine을 통한 완전한 답변 생성 플로우"""
     try:
-        logger.info(f"Discovery Engine 검색 시작: {user_query}")
+        # 이미지 업로드가 있어도 무시하고 텍스트 쿼리만 사용
+        final_query = user_query
+        
+        logger.info(f"Discovery Engine 검색 시작: {final_query[:100]}...")
         
         # 1. Search API 호출
-        search_result = await search_documents(user_query)
+        search_result = await search_documents(final_query)
         
         # Query ID와 Session ID 추출
         query_id = search_result.get("sessionInfo", {}).get("queryId")
@@ -169,7 +172,7 @@ async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
         
         if query_id and session_id:
             try:
-                answer_result = await generate_answer(user_query, query_id, session_id)
+                answer_result = await generate_answer(final_query, query_id, session_id)
                 
                 # 응답 파싱
                 if answer_result.get("answer", {}).get("answerText"):
@@ -182,6 +185,7 @@ async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
                     related_questions = answer_result["relatedQuestions"]
                 
                 logger.info(f"Discovery Engine 답변 생성 완료 - 길이: {len(answer_text)}")
+                logger.debug(f"Discovery Engine 답변 내용: {answer_text[:200]}...")
                 
             except Exception as e:
                 logger.warning(f"Answer API 실패, 검색 결과만 사용: {e}")
@@ -205,14 +209,25 @@ async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
             else:
                 answer_text = "검색 결과를 찾을 수 없습니다."
         
-        return {
+        # 최종 결과 로깅
+        logger.info(f"최종 답변 상태 - answer_text 길이: {len(answer_text)}")
+        
+        result = {
             "answer_text": answer_text,
             "citations": citations,
             "search_results": search_result.get("results", []),
             "related_questions": related_questions,
             "query_id": query_id or "",
-            "session_id": session_id or ""
+            "session_id": session_id or "",
+            "final_query_used": final_query
         }
+        
+        # 빈 답변 경고
+        if not answer_text or answer_text.strip() == "":
+            logger.warning("빈 답변이 반환됨 - 검색 결과를 확인하세요")
+            logger.debug(f"검색 결과: {search_result}")
+        
+        return result
         
     except Exception as e:
         logger.error(f"Discovery Engine 답변 생성 실패: {e}")
