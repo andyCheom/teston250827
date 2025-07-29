@@ -13,6 +13,8 @@ substitutions:
   _CPU: '2'
   _MEMORY: '4Gi'
   _TIMEOUT: '900s'
+  # Discovery Engine 설정
+  _DISCOVERY_ENGINE_ID: test_1753406039510
 
 steps:
   # 1. 빌드 사전 검증
@@ -104,7 +106,7 @@ steps:
           --concurrency=80 \
           --no-traffic \
           --tag=candidate \
-          --set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=us-central1,MODEL_ID=gemini-2.5-flash,DATASTORE_ID=kbdcomparison_1753071399773,DATASTORE_LOCATION=global,SYSTEM_PROMPT_PATH=prompt/prompt.txt,SPANNER_INSTANCE_ID=cheomkdbspanner,SPANNER_DATABASE_ID=kdbspanner,SPANNER_TABLE_NAME=Triple,USE_SECRET_MANAGER=True
+          --set-env-vars=PROJECT_ID=${_PROJECT_ID},DISCOVERY_LOCATION=global,DISCOVERY_COLLECTION=default_collection,DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID},DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt
         
         echo "✅ 새 리비전이 'candidate' 태그로 배포되었습니다."
     id: 'deploy-candidate'
@@ -166,10 +168,10 @@ steps:
             # 간단한 API 테스트
             echo "🧪 API 기능 테스트..."
             RESPONSE=$$(curl -s --max-time 60 -X POST "$$HEALTH_URL/api/generate" \
-              -F "userPrompt=테스트" \
-              -F "conversationHistory=[]")
+              -d "userPrompt=테스트" \
+              -d "conversationHistory=[]")
             
-            if echo "$$RESPONSE" | grep -q "vertex_answer"; then
+            if echo "$$RESPONSE" | grep -q "answer\|summary_answer"; then
               echo "✅ API 기능 테스트 성공!"
               echo "URL=$$HEALTH_URL" > /workspace/candidate_url.txt
               exit 0

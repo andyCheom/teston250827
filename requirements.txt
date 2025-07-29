@@ -3,23 +3,16 @@ fastapi
 gunicorn
 uvicorn
 
-# Google Cloud SDK
+# Google Cloud SDK (Discovery Engine용)
 google-cloud-storage
-google-cloud-spanner
 google-auth
 google-api-python-client
-google-auth-oauthlib
 
-# 인증 및 HTTP 요청
-requests
-oauthlib
-requests-oauthlib
+# HTTP 요청
 aiohttp
 
 # 유틸리티
-markdown
 python-dotenv
 python-multipart
-soynlp
 
 
