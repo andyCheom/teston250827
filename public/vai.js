@@ -267,9 +267,7 @@ function initializeChat() {
       citationsDiv.style.paddingTop = "1rem";
       citationsDiv.style.borderTop = "1px solid #e0e0e0";
       
-      const citationsTitle = document.createElement("strong");
-      citationsTitle.textContent = "📖 참조 문서:";
-      citationsDiv.appendChild(citationsTitle);
+      // 참조 문서 제목 제거 - 문서 리스트만 표시
       
       const citationsList = document.createElement("ol");
       citationsList.style.marginTop = "0.5rem";
@@ -326,6 +324,73 @@ function initializeChat() {
       
       citationsDiv.appendChild(citationsList);
       messageElement.appendChild(citationsDiv);
+    }
+
+    // Related Questions 추가
+    if (result.related_questions && result.related_questions.length > 0) {
+      console.log("Related Questions 섹션 생성 중...");
+      const relatedDiv = document.createElement("div");
+      relatedDiv.style.marginTop = "1rem";
+      relatedDiv.style.paddingTop = "1rem";
+      relatedDiv.style.borderTop = "1px solid #e0e0e0";
+      
+      const relatedTitle = document.createElement("strong");
+      relatedTitle.textContent = "💡 연관 질문:";
+      relatedTitle.style.display = "block";
+      relatedTitle.style.marginBottom = "0.5rem";
+      relatedDiv.appendChild(relatedTitle);
+      
+      const questionsList = document.createElement("div");
+      questionsList.style.display = "flex";
+      questionsList.style.flexDirection = "column";
+      questionsList.style.gap = "0.5rem";
+      
+      result.related_questions.slice(0, 3).forEach((question, i) => {
+        const questionButton = document.createElement("button");
+        questionButton.textContent = `❓ ${question}`;
+        questionButton.style.cssText = `
+          background: #f5f5f5;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 8px 12px;
+          text-align: left;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 14px;
+          color: #333;
+        `;
+        
+        // 호버 효과
+        questionButton.onmouseenter = () => {
+          questionButton.style.background = "#e3f2fd";
+          questionButton.style.borderColor = "#1976d2";
+          questionButton.style.color = "#1976d2";
+        };
+        
+        questionButton.onmouseleave = () => {
+          questionButton.style.background = "#f5f5f5";
+          questionButton.style.borderColor = "#ddd";
+          questionButton.style.color = "#333";
+        };
+        
+        // 클릭 이벤트 - 해당 질문으로 새로운 요청 전송
+        questionButton.onclick = () => {
+          console.log("연관 질문 클릭:", question);
+          const promptInput = document.getElementById('prompt-input');
+          promptInput.value = question;
+          
+          // 자동으로 질문 전송
+          const form = document.getElementById('prompt-form');
+          if (form) {
+            form.dispatchEvent(new Event('submit'));
+          }
+        };
+        
+        questionsList.appendChild(questionButton);
+      });
+      
+      relatedDiv.appendChild(questionsList);
+      messageElement.appendChild(relatedDiv);
     }
 
     // Search Results에서 추가 링크 정보 추가 (항상 표시)
