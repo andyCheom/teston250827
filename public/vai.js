@@ -265,15 +265,7 @@ function initializeChat() {
     console.log("응답 데이터 확인:", result);
     console.log("related_questions 확인:", result.related_questions);
     
-    // 테스트용: related_questions가 없으면 더미 데이터 추가
-    if (!result.related_questions || result.related_questions.length === 0) {
-      console.log("related_questions가 없어서 테스트용 더미 데이터 추가");
-      result.related_questions = [
-        "처음서비스의 주요 기능은 무엇인가요?",
-        "가격 정책은 어떻게 되나요?",
-        "기술 지원은 어떻게 받을 수 있나요?"
-      ];
-    }
+    // 더미 데이터 제거 - 실제 related_questions만 표시
     
     if (result.related_questions && result.related_questions.length > 0) {
       console.log("Related Questions 섹션 생성 중...");
@@ -406,32 +398,6 @@ function initializeChat() {
       
       searchDiv.appendChild(searchList);
       messageElement.appendChild(searchDiv);
-    }
-
-    // Related Questions 추가
-    if (result.related_questions && result.related_questions.length > 0) {
-      const questionsDiv = document.createElement("div");
-      questionsDiv.style.marginTop = "1rem";
-      questionsDiv.style.paddingTop = "1rem";
-      questionsDiv.style.borderTop = "1px solid #e0e0e0";
-      
-      const questionsTitle = document.createElement("strong");
-      questionsTitle.textContent = "🤔 관련 질문:";
-      questionsDiv.appendChild(questionsTitle);
-      
-      const questionsList = document.createElement("ul");
-      questionsList.style.marginTop = "0.5rem";
-      questionsList.style.paddingLeft = "1.5rem";
-      
-      result.related_questions.slice(0, 3).forEach((question) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = question;
-        listItem.style.marginBottom = "0.25rem";
-        questionsList.appendChild(listItem);
-      });
-      
-      questionsDiv.appendChild(questionsList);
-      messageElement.appendChild(questionsDiv);
     }
 
     chatContainer.appendChild(messageElement);

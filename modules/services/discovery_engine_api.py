@@ -197,8 +197,10 @@ async def get_complete_discovery_answer(user_query: str, image_file=None) -> Dic
                     logger.warning("Answer API 응답에 citations가 없음")
                 
                 if answer_result.get("relatedQuestions"):
+                    # Discovery Engine의 relatedQuestions를 문자열 배열로 변환
                     related_questions = answer_result["relatedQuestions"]
                     logger.info(f"Related questions 발견: {len(related_questions)}개")
+                    logger.info(f"Related questions 내용: {related_questions}")
                 else:
                     logger.info("Related questions 없음")
                 
