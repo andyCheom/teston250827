@@ -108,7 +108,7 @@ steps:
         
         echo "✅ 새 리비전이 'candidate' 태그로 배포되었습니다."
     id: 'deploy-candidate'
-    waitFor: ['security-scan']
+    waitFor: ['push-image']
 
   # 6. 헬스 체크 및 검증
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
