@@ -67,21 +67,37 @@ def get_auth_status():
 app.include_router(router)
 app.include_router(discovery_router)
 
-# 정적 파일 서빙
-@app.get("/")
-async def serve_root():
-    """루트 페이지 서빙"""
-    return FileResponse("public/index.html")
+# 환경변수로 정적 파일 서빙 제어
+import os
+SERVE_STATIC = os.getenv("SERVE_STATIC", "true").lower() == "true"
 
-# 정적 파일 마운트
-app.mount("/", StaticFiles(directory="public"), name="static")
+if SERVE_STATIC:
+    # 로컬 개발환경: 정적 파일 서빙
+    @app.get("/")
+    async def serve_root():
+        """루트 페이지 서빙 (로컬 개발용)"""
+        return FileResponse("public/index.html")
 
-@app.get("/{full_path:path}")
-async def serve_spa(full_path: str):
-    """SPA 라우팅 처리"""
-    import os
-    from fastapi import HTTPException
-    
-    if full_path.startswith("api") or os.path.exists(os.path.join("public", full_path)):
-        raise HTTPException(status_code=404, detail="Not Found")
-    return FileResponse("public/index.html")
+    # 정적 파일 마운트
+    app.mount("/", StaticFiles(directory="public"), name="static")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        """SPA 라우팅 처리 (로컬 개발용)"""
+        import os
+        from fastapi import HTTPException
+        
+        if full_path.startswith("api") or os.path.exists(os.path.join("public", full_path)):
+            raise HTTPException(status_code=404, detail="Not Found")
+        return FileResponse("public/index.html")
+else:
+    # Cloud Run 배포환경: API만 제공
+    @app.get("/")
+    async def api_info():
+        """API 정보 반환 (배포환경용)"""
+        return {
+            "service": "GraphRAG Chatbot API",
+            "version": "2.0.0",
+            "status": "running",
+            "frontend_url": "https://cheom-kdb-test1.web.app"
+        }
