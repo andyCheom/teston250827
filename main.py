@@ -63,6 +63,7 @@ def get_auth_status():
     """현재 인증 상태 반환"""
     return auth_success
 
+
 # 라우터 등록
 app.include_router(router)
 app.include_router(discovery_router)
