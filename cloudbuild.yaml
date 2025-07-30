@@ -6,7 +6,7 @@ substitutions:
   _REGION: asia-northeast3
   _REPO_NAME: trialanderror0724
   _SERVICE_NAME: testing0724
-  _SERVICE_ACCOUNT: cheom-kdb-test1@appspot.gserviceaccount.com
+  _SERVICE_ACCOUNT: 580360941782-compute@developer.gserviceaccount.com
   _ARTIFACT_REGISTRY: asia-northeast3-docker.pkg.dev
   _MIN_INSTANCES: '1'
   _MAX_INSTANCES: '20'
