@@ -172,9 +172,31 @@ jobs:
     needs: deploy
     if: always() && (needs.deploy.result == 'success')
     
+    # 권한 설정
+    permissions:
+      contents: read
+      id-token: write
+      security-events: write
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      # Google Cloud 인증
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+      # Cloud SDK 설정
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+      
+      # Artifact Registry 인증
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker asia-northeast3-docker.pkg.dev
       
       # 환경 변수 설정 (deploy job과 동일)
       - name: Set environment variables
