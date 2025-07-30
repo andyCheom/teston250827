@@ -1,6 +1,7 @@
 """
 GraphRAG 챗봇 API 메인 엔트리포인트
 모듈화된 구조로 리팩토링됨
+테스트: 백엔드 배포 확인 v1.0
 """
 import logging
 from fastapi import FastAPI

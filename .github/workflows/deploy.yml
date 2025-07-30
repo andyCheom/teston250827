@@ -1,5 +1,5 @@
-# GitHub Actions - GraphRAG 챗봇 API 지속적 배포
-name: Deploy to Cloud Run
+# GitHub Actions - GraphRAG 백엔드 API Cloud Run 배포
+name: Deploy Backend to Cloud Run
 
 # 트리거 조건
 on:
@@ -8,10 +8,13 @@ on:
     branches:
       - main
       - develop
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - '.gitignore'
+    paths:
+      - 'main.py'
+      - 'modules/**'
+      - 'prompt/**'
+      - 'requirements.txt'
+      - 'Dockerfile'
+      - 'cloudbuild.yaml'
   
   # 수동 실행
   workflow_dispatch:

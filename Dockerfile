@@ -20,8 +20,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 개발 의존성 제거 (선택 사항 - 배포 환경에서는 불필요)
 # RUN pip uninstall --yes --quiet setuptools wheel  # setuptools, wheel만 제거 (pip는 유지)
 
-# 4. 애플리케이션 소스 코드 복사
-COPY . . 
+# 4. 백엔드 애플리케이션 소스 코드만 복사
+# 프론트엔드 파일(public/)은 Firebase Hosting으로 별도 배포
+COPY main.py .
+COPY modules/ ./modules/
+COPY prompt/ ./prompt/ 
 
 # 5. 포트 환경변수 설정 및 애플리케이션 실행 명령어
 # Cloud Run은 컨테이너가 PORT 환경변수로 지정된 포트에서 수신 대기할 것으로 예상합니다.
