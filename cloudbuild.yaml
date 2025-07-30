@@ -13,7 +13,6 @@ substitutions:
   _CPU: '2'
   _MEMORY: '4Gi'
   _TIMEOUT: '900s'
-  # Discovery Engine 설정
   _DISCOVERY_ENGINE_ID: test_1753406039510
 
 steps:
@@ -68,18 +67,7 @@ steps:
     id: 'push-image'
     waitFor: ['build-image']
 
-  # 4. 이미지 보안 스캔 (선택사항)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        echo "🔒 이미지 보안 스캔 시작..."
-        gcloud artifacts docker images scan ${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
-          --remote --format="value(response.scan)" || echo "⚠️ 보안 스캔 실패 (계속 진행)"
-        echo "✅ 보안 스캔 완료"
-    id: 'security-scan'
-    waitFor: ['push-image']
+  # 4. 보안 스캔 건너뜀 (GitHub Actions의 Trivy 스캔 사용)
 
   # 5. Cloud Run 배포 (Blue-Green 배포)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -110,7 +98,7 @@ steps:
         
         echo "✅ 새 리비전이 'candidate' 태그로 배포되었습니다."
     id: 'deploy-candidate'
-    waitFor: ['security-scan']
+    waitFor: ['push-image']
 
   # 6. 헬스 체크 및 검증
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
