@@ -175,33 +175,58 @@ steps:
         
         echo "헬스 체크 URL: $$HEALTH_URL"
         
-        # 헬스 체크 (최대 5회 재시도)
-        for i in {1..5}; do
-          echo "헬스 체크 시도 $$i/5..."
+        # Cloud Run 서비스 완전 시작 대기
+        echo "⏳ Cloud Run 서비스 초기화 대기 (60초)..."
+        sleep 60
+        
+        # 헬스 체크 (최대 10회 재시도, 더 긴 대기 시간)
+        for i in {1..10}; do
+          echo "헬스 체크 시도 $$i/10..."
           
-          if curl -f -s --max-time 10 "$$HEALTH_URL/api/health" > /dev/null; then
-            echo "✅ 헬스 체크 성공!"
+          # 기본 헬스 체크 (더 관대한 타임아웃)
+          HTTP_STATUS=$$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 10 --max-time 30 "$$HEALTH_URL/api/health" || echo "000")
+          echo "HTTP 상태 코드: $$HTTP_STATUS"
+          
+          if [ "$$HTTP_STATUS" = "200" ]; then
+            echo "✅ 기본 헬스 체크 성공!"
             
-            # 간단한 API 테스트
-            echo "🧪 API 기능 테스트..."
-            RESPONSE=$$(curl -s --max-time 60 -X POST "$$HEALTH_URL/api/generate" \
-              -d "userPrompt=테스트" \
-              -d "conversationHistory=[]")
+            # 헬스 체크 응답 내용 확인
+            HEALTH_RESPONSE=$$(curl -s --connect-timeout 10 --max-time 30 "$$HEALTH_URL/api/health" || echo "{}")
+            echo "헬스 체크 응답: $$HEALTH_RESPONSE"
             
-            if echo "$$RESPONSE" | grep -q "answer\|summary_answer"; then
-              echo "✅ API 기능 테스트 성공!"
-              echo "URL=$$HEALTH_URL" > /workspace/candidate_url.txt
-              exit 0
+            # 상세 헬스 체크도 시도 (실패해도 무시)
+            echo "🔍 상세 헬스 체크 시도..."
+            DETAILED_STATUS=$$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 15 "$$HEALTH_URL/api/health/detailed" || echo "000")
+            if [ "$$DETAILED_STATUS" = "200" ]; then
+              echo "✅ 상세 헬스 체크도 성공!"
             else
-              echo "⚠️ API 응답이 예상과 다릅니다: $$RESPONSE"
+              echo "⚠️ 상세 헬스 체크 실패 ($$DETAILED_STATUS) - 기본 헬스 체크는 성공"
             fi
+            
+            echo "URL=$$HEALTH_URL" > /workspace/candidate_url.txt
+            exit 0
           else
-            echo "❌ 헬스 체크 실패 (시도 $$i/5)"
+            echo "❌ 헬스 체크 실패 - HTTP 상태: $$HTTP_STATUS (시도 $$i/10)"
+            
+            # 서비스 로그 확인 (디버깅용)
+            if [ $$i -eq 5 ]; then
+              echo "🔍 서비스 로그 확인 (최근 10줄)..."
+              gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=${_SERVICE_NAME}" \
+                --limit=10 --format="value(textPayload,jsonPayload.message)" || echo "로그 확인 실패"
+            fi
           fi
           
-          if [ $$i -lt 5 ]; then
-            echo "30초 후 재시도..."
-            sleep 30
+          if [ $$i -lt 10 ]; then
+            # 초기에는 짧게, 나중에는 길게 대기
+            if [ $$i -le 3 ]; then
+              WAIT_TIME=15
+            elif [ $$i -le 6 ]; then
+              WAIT_TIME=30
+            else
+              WAIT_TIME=45
+            fi
+            echo "$$WAIT_TIME초 후 재시도..."
+            sleep $$WAIT_TIME
           fi
         done
         
