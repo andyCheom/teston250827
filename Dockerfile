@@ -15,7 +15,8 @@ WORKDIR /usr/src/app
 # requirements.txt를 먼저 복사하여
 # 소스 코드가 변경되어도 불필요한 pip install을 방지합니다. (Docker 캐시 활용)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # 개발 의존성 제거 (선택 사항 - 배포 환경에서는 불필요)
 # RUN pip uninstall --yes --quiet setuptools wheel  # setuptools, wheel만 제거 (pip는 유지)
