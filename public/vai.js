@@ -259,74 +259,22 @@ function initializeChat() {
     // 메인 답변을 마크다운으로 파싱하여 HTML로 변환
     messageElement.innerHTML = marked.parse(markdownText);
 
-    // Citations 추가
-    if (result.citations && result.citations.length > 0) {
-      console.log("Citations 섹션 생성 중...");
-      const citationsDiv = document.createElement("div");
-      citationsDiv.style.marginTop = "1rem";
-      citationsDiv.style.paddingTop = "1rem";
-      citationsDiv.style.borderTop = "1px solid #e0e0e0";
-      
-      // 참조 문서 제목 제거 - 문서 리스트만 표시
-      
-      const citationsList = document.createElement("ol");
-      citationsList.style.marginTop = "0.5rem";
-      citationsList.style.paddingLeft = "1.5rem";
-      
-      result.citations.forEach((citation, i) => {
-        const title = citation.title || citation.displayName || `참조 ${i + 1}`;
-        const uri = citation.uri || "";
-        
-        const listItem = document.createElement("li");
-        listItem.style.marginBottom = "0.25rem";
-        
-        if (uri) {
-          const link = document.createElement("a");
-          link.textContent = title;
-          link.style.color = "#1976d2";
-          link.style.textDecoration = "underline";
-          link.style.cursor = "pointer";
-          
-          // GCS 링크를 프록시 URL로 변환
-          if (uri.startsWith('gs://')) {
-            const gcsPath = uri.replace('gs://', '');
-            const parts = gcsPath.split('/');
-            const bucketName = parts[0];
-            const filePath = parts.slice(1).join('/');
-            link.href = `/gcs/${bucketName}/${filePath}`;
-            console.log(`GCS 링크 생성: ${uri} -> ${link.href}`);
-          } else {
-            link.href = uri;
-            console.log(`일반 링크 생성: ${uri}`);
-          }
-          
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          
-          // 링크 클릭 이벤트 추가 (디버깅용)
-          link.onclick = function(e) {
-            console.log("링크 클릭됨:", link.href);
-            // GCS 프록시 테스트
-            if (link.href.includes('/gcs/')) {
-              console.log("GCS 프록시 링크 테스트 중...");
-            }
-          };
-          
-          console.log("링크 요소 생성됨:", link);
-          listItem.appendChild(link);
-        } else {
-          console.log("URI가 없어서 텍스트로만 표시:", title);
-          listItem.textContent = title;
-        }
-        
-        citationsList.appendChild(listItem);
-      });
-      
-      citationsDiv.appendChild(citationsList);
-      messageElement.appendChild(citationsDiv);
-    }
+    // Citations 섹션 제거 - 참조 문서 목록 출력하지 않음
 
     // Related Questions 추가
+    console.log("응답 데이터 확인:", result);
+    console.log("related_questions 확인:", result.related_questions);
+    
+    // 테스트용: related_questions가 없으면 더미 데이터 추가
+    if (!result.related_questions || result.related_questions.length === 0) {
+      console.log("related_questions가 없어서 테스트용 더미 데이터 추가");
+      result.related_questions = [
+        "처음서비스의 주요 기능은 무엇인가요?",
+        "가격 정책은 어떻게 되나요?",
+        "기술 지원은 어떻게 받을 수 있나요?"
+      ];
+    }
+    
     if (result.related_questions && result.related_questions.length > 0) {
       console.log("Related Questions 섹션 생성 중...");
       const relatedDiv = document.createElement("div");
