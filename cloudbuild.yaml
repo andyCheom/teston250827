@@ -77,24 +77,53 @@ steps:
       - |
         echo "🚀 Cloud Run 서비스 배포 시작 (Blue-Green 방식)..."
         
+        # 권한 및 설정 확인
+        echo "🔍 권한 및 설정 확인..."
+        echo "프로젝트 ID: ${_PROJECT_ID}"
+        echo "서비스 계정: ${_SERVICE_ACCOUNT}"
+        echo "이미지: ${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}"
+        
+        # Cloud Run API 활성화 확인
+        gcloud services enable run.googleapis.com --project=${_PROJECT_ID} || echo "⚠️ Cloud Run API 이미 활성화됨"
+        
         # --no-traffic 플래그를 사용하여 새 리비전을 배포하고 'candidate' 태그를 지정합니다.
         # 이 리비전은 처음에는 프로덕션 트래픽을 받지 않습니다.
         # 서비스가 존재하지 않으면 이 명령이 서비스를 생성합니다.
-        gcloud run deploy ${_SERVICE_NAME} \
-          --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
-          --region=${_REGION} \
-          --platform=managed \
-          --allow-unauthenticated \
-          --service-account=${_SERVICE_ACCOUNT} \
-          --min-instances=${_MIN_INSTANCES} \
-          --max-instances=${_MAX_INSTANCES} \
-          --cpu=${_CPU} \
-          --memory=${_MEMORY} \
-          --timeout=${_TIMEOUT} \
-          --concurrency=80 \
-          --no-traffic \
-          --tag=candidate \
-          --set-env-vars=PROJECT_ID=${_PROJECT_ID},DISCOVERY_LOCATION=global,DISCOVERY_COLLECTION=default_collection,DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID},DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt
+        
+        # 서비스 존재 여부 확인
+        if gcloud run services describe ${_SERVICE_NAME} --region=${_REGION} --quiet > /dev/null 2>&1; then
+          echo "✅ 기존 서비스 발견, 업데이트 진행"
+          gcloud run deploy ${_SERVICE_NAME} \
+            --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
+            --region=${_REGION} \
+            --platform=managed \
+            --service-account=${_SERVICE_ACCOUNT} \
+            --min-instances=${_MIN_INSTANCES} \
+            --max-instances=${_MAX_INSTANCES} \
+            --cpu=${_CPU} \
+            --memory=${_MEMORY} \
+            --timeout=${_TIMEOUT} \
+            --concurrency=80 \
+            --no-traffic \
+            --tag=candidate \
+            --set-env-vars=PROJECT_ID=${_PROJECT_ID},DISCOVERY_LOCATION=global,DISCOVERY_COLLECTION=default_collection,DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID},DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt
+        else
+          echo "🆕 새 서비스 생성"
+          gcloud run deploy ${_SERVICE_NAME} \
+            --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
+            --region=${_REGION} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --service-account=${_SERVICE_ACCOUNT} \
+            --min-instances=${_MIN_INSTANCES} \
+            --max-instances=${_MAX_INSTANCES} \
+            --cpu=${_CPU} \
+            --memory=${_MEMORY} \
+            --timeout=${_TIMEOUT} \
+            --concurrency=80 \
+            --tag=candidate \
+            --set-env-vars=PROJECT_ID=${_PROJECT_ID},DISCOVERY_LOCATION=global,DISCOVERY_COLLECTION=default_collection,DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID},DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt
+        fi
         
         echo "✅ 새 리비전이 'candidate' 태그로 배포되었습니다."
     id: 'deploy-candidate'
