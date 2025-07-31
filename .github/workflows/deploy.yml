@@ -108,6 +108,7 @@ jobs:
           
           echo "✅ 환경 설정 완료: ${{ github.ref_name }} → ${ENVIRONMENT:-staging}"
       
+          
       # 7. 종속성 캐시
       - name: Cache Docker layers
         uses: actions/cache@v3
