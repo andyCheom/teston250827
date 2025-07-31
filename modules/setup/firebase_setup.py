@@ -8,11 +8,10 @@ from typing import Dict, Optional, Any
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-
-
-
 from ..config import Config
 from ..auth import get_credentials
+
+
 
 logger = logging.getLogger(__name__)
 
