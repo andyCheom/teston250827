@@ -7,7 +7,7 @@ steps:
     - '-c'
     - |
       echo "🚀 1. Docker 이미지 빌드를 시작합니다..."
-      docker build -t "${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}" -t "${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:latest" .
+      docker build -t "${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}" -t "${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:latest" .
       echo "✅ 1. Docker 이미지 빌드 완료"
 
 # 2. Docker 이미지 푸시
@@ -18,7 +18,7 @@ steps:
     - '-c'
     - |
       echo "🚀 2. 이미지를 Artifact Registry에 푸시합니다..."
-      docker push "${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}" --all-tags
+      docker push "${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}" --all-tags
       echo "✅ 2. 이미지 푸시 완료"
   waitFor:
     - build-image
@@ -31,28 +31,28 @@ steps:
     - '-c'
     - |
       echo "🚀 3. 블루그린 배포 - Green 버전 배포를 시작합니다..."
-      GREEN_SERVICE_NAME="${documentation-467305-graphrag-api}-green-${SHORT_SHA}"
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
       echo "Green 서비스명: $$GREEN_SERVICE_NAME"
-      echo "이미지: ${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}"
+      echo "이미지: ${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}"
       
       # Green 서비스 배포
       gcloud run deploy "$$GREEN_SERVICE_NAME" \
-        --image="${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}" \
-        --region="${asia-northeast3}" \
+        --image="${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}" \
+        --region="${_REGION_}" \
         --platform=managed \
         --allow-unauthenticated \
-        --service-account="${graphrag-service@documentation-467305.iam.gserviceaccount.com}" \
+        --service-account="${_SERVICE_ACCOUNT_}" \
         --min-instances="${_MIN_INSTANCES}" \
         --max-instances="${_MAX_INSTANCES}" \
         --cpu="${_CPU}" \
         --memory="${_MEMORY}" \
         --timeout="${_TIMEOUT}" \
-        --set-env-vars="PROJECT_ID=${documentation-467305},LOCATION_ID=${asia-northeast3},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${documentation-467305-graphrag-datastore},DATASTORE_LOCATION=${global},DISCOVERY_ENGINE_ID=${documentation-467305-graphrag-engine},DISCOVERY_LOCATION=${global},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
+        --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
       
       # 배포 성공 확인
-      if gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${asia-northeast3} >/dev/null 2>&1; then
+      if gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} >/dev/null 2>&1; then
         echo "✅ 3. Green 버전 배포 완료: $$GREEN_SERVICE_NAME"
-        GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${asia-northeast3} --format="value(status.url)")
+        GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.url)")
         echo "Green 서비스 URL: $$GREEN_URL"
       else
         echo "❌ Green 서비스 배포 실패"
@@ -69,13 +69,13 @@ steps:
     - '-c'
     - |
       echo "🚀 4. Green 버전 헬스 체크를 시작합니다..."
-      GREEN_SERVICE_NAME="${documentation-467305-graphrag-api}-green-${SHORT_SHA}"
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
       echo "Green 서비스명: $$GREEN_SERVICE_NAME"
       
       # Green 서비스 배포 완료 대기
       echo "Green 서비스 준비 상태 확인 중..."
       for wait_i in $$(seq 1 10); do
-        if gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${asia-northeast3} >/dev/null 2>&1; then
+        if gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} >/dev/null 2>&1; then
           echo "✅ Green 서비스 발견됨"
           break
         else
@@ -85,7 +85,7 @@ steps:
         if [ $$wait_i -eq 10 ]; then
           echo "❌ Green 서비스를 찾을 수 없습니다."
           echo "서비스 목록 확인:"
-          gcloud run services list --region=${asia-northeast3} --filter="metadata.name:$$GREEN_SERVICE_NAME"
+          gcloud run services list --region=${_REGION_} --filter="metadata.name:$$GREEN_SERVICE_NAME"
           exit 1
         fi
       done
@@ -94,18 +94,18 @@ steps:
       echo "Green 서비스 URL 가져오기 시도..."
       
       # 방법 1: 기본 서비스 URL
-      GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${asia-northeast3} --format="value(status.url)" 2>/dev/null)
+      GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.url)" 2>/dev/null)
       
       if [ -z "$$GREEN_URL" ]; then
         echo "방법 1 실패, 방법 2 시도 중..."
         # 방법 2: traffic 정보에서 URL 추출
-        GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${asia-northeast3} --format="value(status.traffic[0].url)" 2>/dev/null)
+        GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.traffic[0].url)" 2>/dev/null)
       fi
       
       if [ -z "$$GREEN_URL" ]; then
         echo "❌ Green 서비스 URL을 가져올 수 없습니다."
         echo "서비스 상세 정보:"
-        gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${asia-northeast3}
+        gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_}
         exit 1
       fi
       
@@ -140,11 +140,11 @@ steps:
     - '-c'
     - |
       echo "🚀 5. 트래픽 전환을 시작합니다..."
-      GREEN_SERVICE_NAME="${documentation-467305-graphrag-api}-green-${SHORT_SHA}"
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
       
       # 기존 메인 서비스가 있는지 확인
-      if gcloud run services describe "${documentation-467305-graphrag-api}" --region=${asia-northeast3} >/dev/null 2>&1; then
-        echo "기존 Blue 서비스 발견: ${documentation-467305-graphrag-api}"
+      if gcloud run services describe "${_SERVICE_NAME_}" --region=${_REGION_} >/dev/null 2>&1; then
+        echo "기존 Blue 서비스 발견: ${_SERVICE_NAME_}"
         BLUE_EXISTS="true"
       else
         echo "기존 서비스 없음 - 첫 배포입니다."
@@ -156,38 +156,38 @@ steps:
       if [ "$$BLUE_EXISTS" = "true" ]; then
         # 기존 메인 서비스를 Green 이미지로 업데이트
         echo "기존 메인 서비스를 Green 이미지로 업데이트 중..."
-        gcloud run deploy "${documentation-467305-graphrag-api}" \
-          --image="${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}" \
-          --region="${asia-northeast3}" \
+        gcloud run deploy "${_SERVICE_NAME_}" \
+          --image="${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}" \
+          --region="${_REGION_}" \
           --platform=managed \
           --allow-unauthenticated \
-          --service-account="${graphrag-service@documentation-467305.iam.gserviceaccount.com}" \
+          --service-account="${_SERVICE_ACCOUNT_}" \
           --min-instances="${_MIN_INSTANCES}" \
           --max-instances="${_MAX_INSTANCES}" \
           --cpu="${_CPU}" \
           --memory="${_MEMORY}" \
           --timeout="${_TIMEOUT}" \
-          --set-env-vars="PROJECT_ID=${documentation-467305},LOCATION_ID=${asia-northeast3},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${documentation-467305-graphrag-datastore},DATASTORE_LOCATION=${global},DISCOVERY_ENGINE_ID=${documentation-467305-graphrag-engine},DISCOVERY_LOCATION=${global},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
+          --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
       else
         # 메인 서비스가 없으면 새로 생성
         echo "메인 서비스 생성 중..."
-        gcloud run deploy "${documentation-467305-graphrag-api}" \
-          --image="${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}" \
-          --region="${asia-northeast3}" \
+        gcloud run deploy "${_SERVICE_NAME_}" \
+          --image="${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}" \
+          --region="${_REGION_}" \
           --platform=managed \
           --allow-unauthenticated \
-          --service-account="${graphrag-service@documentation-467305.iam.gserviceaccount.com}" \
+          --service-account="${_SERVICE_ACCOUNT_}" \
           --min-instances="${_MIN_INSTANCES}" \
           --max-instances="${_MAX_INSTANCES}" \
           --cpu="${_CPU}" \
           --memory="${_MEMORY}" \
           --timeout="${_TIMEOUT}" \
-          --set-env-vars="PROJECT_ID=${documentation-467305},LOCATION_ID=${asia-northeast3},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${documentation-467305-graphrag-datastore},DATASTORE_LOCATION=${global},DISCOVERY_ENGINE_ID=${documentation-467305-graphrag-engine},DISCOVERY_LOCATION=${global},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
+          --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
       fi
       
       # 최종 헬스 체크 (메인 서비스)
       echo "메인 서비스 최종 헬스 체크..."
-      MAIN_URL=$$(gcloud run services describe "${documentation-467305-graphrag-api}" --region=${asia-northeast3} --format="value(status.url)")
+      MAIN_URL=$$(gcloud run services describe "${_SERVICE_NAME_}" --region=${_REGION_} --format="value(status.url)")
       STATUS_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --connect-timeout 5 --max-time 10 "$$MAIN_URL/api/health")
       
       if [ "$$STATUS_CODE" = "200" ]; then
@@ -207,11 +207,11 @@ steps:
     - '-c'
     - |
       echo "🚀 6. Green 서비스 정리 작업을 시작합니다..."
-      GREEN_SERVICE_NAME="${documentation-467305-graphrag-api}-green-${SHORT_SHA}"
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
       
       # Green 서비스 삭제 (메인 서비스로 승격했으므로 불필요)
       echo "임시 Green 서비스 삭제 중: $$GREEN_SERVICE_NAME"
-      gcloud run services delete "$$GREEN_SERVICE_NAME" --region=${asia-northeast3} --quiet || echo "Green 서비스 삭제 실패 (무시)"
+      gcloud run services delete "$$GREEN_SERVICE_NAME" --region=${_REGION_} --quiet || echo "Green 서비스 삭제 실패 (무시)"
       
       echo "✅ 정리 작업 완료"
   waitFor:
@@ -219,15 +219,15 @@ steps:
 
 # 빌드된 이미지 정보
 images:
-  - '${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}'
-  - '${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:latest'
+  - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}'
+  - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:latest'
 
 # 빌드 옵션
 options:
   logging: CLOUD_LOGGING_ONLY
 
 # 서비스 계정
-serviceAccount: 'projects/${documentation-467305}/serviceAccounts/${graphrag-service@documentation-467305.iam.gserviceaccount.com}'
+serviceAccount: 'projects/${_PROJECT_ID_}/serviceAccounts/${_SERVICE_ACCOUNT_}'
 
 # 치환 변수 기본값
 substitutions:

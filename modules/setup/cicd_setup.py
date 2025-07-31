@@ -193,8 +193,9 @@ class CICDSetupManager:
             datastore_location = Config.DISCOVERY_LOCATION or 'global'
             discovery_location = Config.DISCOVERY_LOCATION or 'global'
 
-            replacements = {
-                # Only replace placeholders in substitutions section, not actual substitution variables
+            # First, replace template placeholders with actual values in the substitutions section only
+            substitutions_section = content[content.find('substitutions:'):]
+            substitutions_replacements = {
                 '_PROJECT_ID_': project_id,
                 '_REGION_': region,
                 '_LOCATION_ID_': location_id,
@@ -208,9 +209,16 @@ class CICDSetupManager:
                 # Special case for _REGION_-docker.pkg.dev
                 '_REGION_-docker.pkg.dev': f'{region}-docker.pkg.dev',
             }
+            
+            # Replace placeholders only in substitutions section
+            for placeholder, value in substitutions_replacements.items():
+                substitutions_section = substitutions_section.replace(placeholder, value)
+            
+            # Reconstruct content with updated substitutions
+            main_content = content[:content.find('substitutions:')]
+            content = main_content + substitutions_section
 
-            for placeholder, value in replacements.items():
-                content = content.replace(placeholder, value)
+            # No need for additional replacements since template now uses proper substitution variables
 
             with open(target_path, 'w', encoding='utf-8') as f:
                 f.write(content)
