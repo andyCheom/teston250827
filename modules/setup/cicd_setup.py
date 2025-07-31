@@ -141,8 +141,8 @@ class CICDSetupManager:
                 'substitutions': {
                     '_PROJECT_ID': self.project_id,
                     '_REGION': Config.LOCATION_ID or 'asia-northeast3',
-                    '_SERVICE_NAME': 'graphrag-api',
-                    '_REPO_NAME': 'graphrag-repo'
+                    '_SERVICE_NAME': f'{self.project_id}-graphrag-api',
+                    '_REPO_NAME': f'{self.project_id}-graphrag-repo'
                 }
             }
             
@@ -206,12 +206,16 @@ class CICDSetupManager:
     
     def _generate_default_cloudbuild_config(self) -> Dict[str, Any]:
         """기본 Cloud Build 설정 생성"""
+        # 프로젝트별 고유한 이름 생성
+        repo_name = f"{self.project_id}-graphrag-repo"
+        service_name = f"{self.project_id}-graphrag-api"
+        
         return {
             'substitutions': {
                 '_PROJECT_ID': self.project_id,
                 '_REGION': Config.LOCATION_ID or 'asia-northeast3',
-                '_REPO_NAME': 'graphrag-repo',
-                '_SERVICE_NAME': 'graphrag-api',
+                '_REPO_NAME': repo_name,
+                '_SERVICE_NAME': service_name,
                 '_SERVICE_ACCOUNT': Config.SERVICE_ACCOUNT_EMAIL or f"graphrag-service@{self.project_id}.iam.gserviceaccount.com",
                 '_ARTIFACT_REGISTRY': f"{Config.LOCATION_ID or 'asia-northeast3'}-docker.pkg.dev",
                 '_MIN_INSTANCES': '0',
@@ -288,7 +292,7 @@ class CICDSetupManager:
                 from google.cloud import artifactregistry_v1
                 client = artifactregistry_v1.ArtifactRegistryClient(credentials=self.credentials)
                 
-                repo_name = f"projects/{self.project_id}/locations/{Config.LOCATION_ID or 'asia-northeast3'}/repositories/graphrag-repo"
+                repo_name = f"projects/{self.project_id}/locations/{Config.LOCATION_ID or 'asia-northeast3'}/repositories/{self.project_id}-graphrag-repo"
                 client.get_repository(name=repo_name)
                 results['artifact_registry'] = True
             except Exception:
@@ -330,7 +334,7 @@ class CICDSetupManager:
         logger.info("=" * 60)
         
         logger.info("📋 생성된 CICD 리소스:")
-        logger.info(f"  • Artifact Registry: graphrag-repo")
+        logger.info(f"  • Artifact Registry: {self.project_id}-graphrag-repo")
         logger.info(f"  • Service Account: graphrag-service@{self.project_id}.iam.gserviceaccount.com")
         logger.info(f"  • Cloud Build 설정: cloudbuild.yaml")
         
