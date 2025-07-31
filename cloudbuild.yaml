@@ -61,10 +61,10 @@ steps:
         exit 1
       fi
       echo "서비스 URL: $$SERVICE_URL"
-      for i in {1..12}; do
+      for i in $$(seq 1 12); do
         echo "... 헬스 체크 시도 $$i/12 ..."
-        STATUS_CODE=$$(curl -o /dev/null -s -w "%{\http_code}" --connect-timeout 5 --max-time 10 "$$SERVICE_URL/api/health")
-        if [ "$$STATUS_CODE" -eq 200 ]; then
+        STATUS_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --connect-timeout 5 --max-time 10 "$$SERVICE_URL/api/health")
+        if [ "$$STATUS_CODE" = "200" ]; then
           echo "✅ 헬스 체크 성공! (상태 코드: $$STATUS_CODE)"
           exit 0
         else
