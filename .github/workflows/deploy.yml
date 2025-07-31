@@ -120,7 +120,7 @@ jobs:
       # 8. Cloud Build 실행
       - name: Run Cloud Build
         run: |
-          gcloud builds submit             --config=cloudbuild.yaml             --substitutions=_SERVICE_NAME=${{ env.SERVICE_NAME }},_SHORT_SHA=${{ env.SHORT_SHA }}             --timeout=1200s
+          gcloud builds submit             --config=cloudbuild.yaml             --substitutions=_SERVICE_NAME=${{ env.SERVICE_NAME }},SHORT_SHA=${{ env.SHORT_SHA }}             --timeout=1200s
       
       # 9. 배포 결과 확인
       - name: Verify deployment
