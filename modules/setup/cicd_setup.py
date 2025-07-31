@@ -194,18 +194,7 @@ class CICDSetupManager:
             discovery_location = Config.DISCOVERY_LOCATION or 'global'
 
             replacements = {
-                # Template placeholders with ${} syntax
-                '${_PROJECT_ID_}': project_id,
-                '${_REGION_}': region,
-                '${_LOCATION_ID_}': location_id,
-                '${_SERVICE_NAME_}': service_name,
-                '${_REPO_NAME_}': repo_name,
-                '${_SERVICE_ACCOUNT_}': service_account,
-                '${_DATASTORE_ID_}': datastore_id,
-                '${_DISCOVERY_ENGINE_ID_}': discovery_engine_id,
-                '${_DATASTORE_LOCATION_}': datastore_location,
-                '${_DISCOVERY_LOCATION_}': discovery_location,
-                # Substitutions section placeholders without ${} syntax
+                # Only replace placeholders in substitutions section, not actual substitution variables
                 '_PROJECT_ID_': project_id,
                 '_REGION_': region,
                 '_LOCATION_ID_': location_id,
@@ -260,7 +249,7 @@ class CICDSetupManager:
     - '-c'
     - |
       echo "🚀 1. Docker 이미지 빌드를 시작합니다..."
-      docker build -t "${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID_}}/${{_REPO_NAME_}}/${{_SERVICE_NAME_}}:${{SHORT_SHA}}" -t "${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID_}}/${{_REPO_NAME_}}/${{_SERVICE_NAME_}}:latest" .
+      docker build -t "${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID}}/${{_REPO_NAME}}/${{_SERVICE_NAME}}:${{SHORT_SHA}}" -t "${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID}}/${{_REPO_NAME}}/${{_SERVICE_NAME}}:latest" .
       echo "✅ 1. Docker 이미지 빌드 완료"
 
 # 2. Docker 이미지 푸시
@@ -271,7 +260,7 @@ class CICDSetupManager:
     - '-c'
     - |
       echo "🚀 2. 이미지를 Artifact Registry에 푸시합니다..."
-      docker push "${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID_}}/${{_REPO_NAME_}}/${{_SERVICE_NAME_}}" --all-tags
+      docker push "${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID}}/${{_REPO_NAME}}/${{_SERVICE_NAME}}" --all-tags
       echo "✅ 2. 이미지 푸시 완료"
   waitFor:
     - build-image
@@ -284,18 +273,18 @@ class CICDSetupManager:
     - '-c'
     - |
       echo "🚀 3. Cloud Run 서비스 배포를 시작합니다..."
-      gcloud run deploy "${{_SERVICE_NAME_}}" \\
-        --image="${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID_}}/${{_REPO_NAME_}}/${{_SERVICE_NAME_}}:${{SHORT_SHA}}" \\
-        --region="${{_REGION_}}" \\
+      gcloud run deploy "${{_SERVICE_NAME}}" \\
+        --image="${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID}}/${{_REPO_NAME}}/${{_SERVICE_NAME}}:${{SHORT_SHA}}" \\
+        --region="${{_REGION}}" \\
         --platform=managed \\
         --allow-unauthenticated \\
-        --service-account="${{_SERVICE_ACCOUNT_}}" \\
+        --service-account="${{_SERVICE_ACCOUNT}}" \\
         --min-instances="${{_MIN_INSTANCES}}" \\
         --max-instances="${{_MAX_INSTANCES}}" \\
         --cpu="${{_CPU}}" \\
         --memory="${{_MEMORY}}" \\
         --timeout="${{_TIMEOUT}}" \\
-        --set-env-vars="PROJECT_ID=${{_PROJECT_ID_}},LOCATION_ID=${{_LOCATION_ID_}},MODEL_ID=${{_MODEL_ID}},DATASTORE_ID=${{_DATASTORE_ID_}},DATASTORE_LOCATION=${{_DATASTORE_LOCATION_}},DISCOVERY_ENGINE_ID=${{_DISCOVERY_ENGINE_ID_}},DISCOVERY_LOCATION=${{_DISCOVERY_LOCATION_}},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
+        --set-env-vars="PROJECT_ID=${{_PROJECT_ID}},LOCATION_ID=${{_LOCATION_ID}},MODEL_ID=${{_MODEL_ID}},DATASTORE_ID=${{_DATASTORE_ID}},DATASTORE_LOCATION=${{_DATASTORE_LOCATION}},DISCOVERY_ENGINE_ID=${{_DISCOVERY_ENGINE_ID}},DISCOVERY_LOCATION=${{_DISCOVERY_LOCATION}},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
       echo "✅ 3. Cloud Run 서비스 배포 완료"
   waitFor:
     - push-image
@@ -308,7 +297,7 @@ class CICDSetupManager:
     - '-c'
     - |
       echo "🚀 4. 배포된 서비스의 헬스 체크를 시작합니다..."
-      SERVICE_URL=$$(gcloud run services describe ${{_SERVICE_NAME_}} --region=${{_REGION_}} --format="value(status.url)")
+      SERVICE_URL=$$(gcloud run services describe ${{_SERVICE_NAME}} --region=${{_REGION}} --format="value(status.url)")
       if [ -z "$$SERVICE_URL" ]; then
         echo "❌ 서비스 URL을 찾을 수 없습니다."
         exit 1
@@ -335,15 +324,15 @@ class CICDSetupManager:
 
 # 빌드된 이미지 정보
 images:
-  - '${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID_}}/${{_REPO_NAME_}}/${{_SERVICE_NAME_}}:${{SHORT_SHA}}'
-  - '${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID_}}/${{_REPO_NAME_}}/${{_SERVICE_NAME_}}:latest'
+  - '${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID}}/${{_REPO_NAME}}/${{_SERVICE_NAME}}:${{SHORT_SHA}}'
+  - '${{_ARTIFACT_REGISTRY}}/${{_PROJECT_ID}}/${{_REPO_NAME}}/${{_SERVICE_NAME}}:latest'
 
 # 빌드 옵션
 options:
   logging: CLOUD_LOGGING_ONLY
 
 # 서비스 계정
-serviceAccount: 'projects/${{_PROJECT_ID_}}/serviceAccounts/${{_SERVICE_ACCOUNT_}}'
+serviceAccount: 'projects/${{_PROJECT_ID}}/serviceAccounts/${{_SERVICE_ACCOUNT}}'
 
 # 치환 변수 기본값
 substitutions:
