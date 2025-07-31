@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-GraphRAG 프로젝트 초기 설정 스크립트
+GraphRAG 프로젝트 초기 설정 스크립트 (로컬 환경 최적화)
 .env 파일의 설정을 바탕으로 GCP 리소스를 자동 생성합니다.
 """
 
@@ -28,8 +28,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-class GraphRAGSetup:
-    """GraphRAG 프로젝트 설정 관리자"""
+class GraphRAGLocalSetup:
+    """GraphRAG 프로젝트 로컬 설정 관리자"""
     
     def __init__(self):
         self.gcp_setup = GCPSetupManager()
@@ -41,7 +41,14 @@ class GraphRAGSetup:
         """환경변수에서 설정 로드"""
         try:
             from dotenv import load_dotenv
-            load_dotenv()
+            
+            # .env 파일 로드
+            env_path = Path('.env')
+            if env_path.exists():
+                load_dotenv(env_path)
+                logger.info(f"✅ .env 파일 로드: {env_path.absolute()}")
+            else:
+                logger.warning("⚠️ .env 파일이 없습니다. 환경변수만 사용합니다.")
             
             config = {
                 'PROJECT_ID': os.getenv('PROJECT_ID', ''),
@@ -65,6 +72,7 @@ class GraphRAGSetup:
             # 기본값 생성
             if not config['PROJECT_ID']:
                 logger.error("❌ PROJECT_ID 환경변수가 설정되지 않았습니다")
+                logger.info("💡 .env 파일에 PROJECT_ID=your-project-id 를 추가하세요")
                 return {}
             
             project_id = config['PROJECT_ID']
@@ -88,18 +96,22 @@ class GraphRAGSetup:
             logger.info(f"✅ 환경변수 설정 로드 완료 - Project: {project_id}")
             return config
             
+        except ImportError:
+            logger.error("❌ python-dotenv 패키지가 필요합니다")
+            logger.info("💡 설치 방법: pip install python-dotenv")
+            return {}
         except Exception as e:
             logger.error(f"❌ 환경변수 설정 로드 실패: {e}")
             return {}
     
     def validate_prerequisites(self) -> bool:
-        """사전 요구사항 확인"""
-        logger.info("🔍 사전 요구사항 확인 중...")
+        """사전 요구사항 확인 (로컬 환경 최적화)"""
+        logger.info("🔍 로컬 환경 사전 요구사항 확인 중...")
         
         # .env 파일 확인
         if not os.path.exists('.env'):
             logger.error("❌ .env 파일이 없습니다")
-            logger.info("💡 .env.example을 .env로 복사하고 실제 값으로 변경하세요")
+            logger.info("💡 .env.example을 .env로 복사하고 PROJECT_ID를 설정하세요")
             return False
         
         # 환경변수 로드
@@ -107,66 +119,59 @@ class GraphRAGSetup:
         if not config or not config.get('PROJECT_ID'):
             return False
         
-        # gcloud CLI 확인
+        # Python 패키지 확인
+        required_packages = {
+            'google-cloud-storage': 'google.cloud.storage',
+            'google-cloud-discoveryengine': 'google.cloud.discoveryengine', 
+            'google-api-python-client': 'googleapiclient',
+            'python-dotenv': 'dotenv'
+        }
+        
+        missing_packages = []
+        for package_name, import_name in required_packages.items():
+            try:
+                __import__(import_name)
+            except ImportError:
+                missing_packages.append(package_name)
+        
+        if missing_packages:
+            logger.error(f"❌ 필요한 패키지가 설치되지 않았습니다: {', '.join(missing_packages)}")
+            logger.info("💡 설치 방법: pip install -r requirements.txt")
+            return False
+        
+        logger.info("✅ Python 패키지 확인 완료")
+        
+        # gcloud CLI 확인 (선택사항)
         try:
             import subprocess
             import shutil
             
-            # gcloud 경로 확인
             gcloud_path = shutil.which('gcloud')
-            if not gcloud_path:
-                # 일반적인 경로들 확인
-                possible_paths = ['/usr/bin/gcloud', '/usr/local/bin/gcloud', '/opt/google-cloud-sdk/bin/gcloud']
-                for path in possible_paths:
-                    if os.path.exists(path):
-                        gcloud_path = path
-                        break
+            if gcloud_path:
+                result = subprocess.run([gcloud_path, '--version'], 
+                                      capture_output=True, text=True, timeout=10)
+                if result.returncode == 0:
+                    logger.info(f"✅ gcloud CLI 확인됨: {gcloud_path}")
+                    
+                    # 인증 확인
+                    auth_result = subprocess.run([gcloud_path, 'auth', 'list', '--filter=status:ACTIVE'], 
+                                                capture_output=True, text=True, timeout=30)
+                    if auth_result.returncode == 0 and 'ACTIVE' in auth_result.stdout:
+                        logger.info("✅ gcloud 인증 확인됨")
+                    else:
+                        logger.warning("⚠️ gcloud 인증이 필요할 수 있습니다")
+                        logger.info("💡 인증 방법: gcloud auth application-default login")
+                else:
+                    logger.warning("⚠️ gcloud CLI가 제대로 동작하지 않습니다")
+            else:
+                logger.warning("⚠️ gcloud CLI를 찾을 수 없습니다")
+                logger.info("💡 서비스 계정 키 파일을 사용하거나 gcloud CLI를 설치하세요")
                 
-                if not gcloud_path:
-                    logger.error("❌ gcloud CLI를 찾을 수 없습니다")
-                    logger.info("💡 설치 방법: https://cloud.google.com/sdk/docs/install")
-                    return False
-            
-            result = subprocess.run([gcloud_path, '--version'], 
-                                  capture_output=True, text=True, timeout=10)
-            if result.returncode != 0:
-                logger.error("❌ gcloud CLI가 제대로 동작하지 않습니다")
-                logger.info("💡 설치 방법: https://cloud.google.com/sdk/docs/install")
-                return False
-            logger.info(f"✅ gcloud CLI 확인됨: {gcloud_path}")
-        except subprocess.TimeoutExpired:
-            logger.error("❌ gcloud CLI 명령 시간 초과")
-            return False
         except Exception as e:
-            logger.error(f"❌ gcloud CLI 확인 실패: {e}")
-            return False
+            logger.warning(f"⚠️ gcloud CLI 확인 실패: {e}")
+            logger.info("💡 서비스 계정 키 파일을 사용하거나 gcloud CLI를 설치하세요")
         
-        # 인증 확인
-        try:
-            result = subprocess.run([gcloud_path, 'auth', 'list', '--filter=status:ACTIVE'], 
-                                  capture_output=True, text=True, timeout=30)
-            if result.returncode != 0 or 'ACTIVE' not in result.stdout:
-                logger.error("❌ gcloud 인증이 필요합니다")
-                logger.info("💡 인증 방법: gcloud auth login")
-                return False
-            logger.info("✅ gcloud 인증 확인됨")
-        except subprocess.TimeoutExpired:
-            logger.error("❌ gcloud 인증 확인 시간 초과")
-            return False
-        
-        # 프로젝트 설정 확인
-        try:
-            result = subprocess.run([gcloud_path, 'config', 'get-value', 'project'], 
-                                  capture_output=True, text=True, timeout=30)
-            current_project = result.stdout.strip()
-            if current_project != config['PROJECT_ID']:
-                logger.warning(f"⚠️ 현재 gcloud 프로젝트: {current_project}")
-                logger.warning(f"⚠️ 설정된 프로젝트: {config['PROJECT_ID']}")
-                logger.info(f"💡 프로젝트 변경: gcloud config set project {config['PROJECT_ID']}")
-        except subprocess.TimeoutExpired:
-            logger.warning("⚠️ gcloud 프로젝트 확인 시간 초과")
-        
-        logger.info("✅ 사전 요구사항 확인 완료")
+        logger.info("✅ 로컬 환경 사전 요구사항 확인 완료")
         return True
     
     async def setup_gcp_resources(self) -> bool:
@@ -175,6 +180,10 @@ class GraphRAGSetup:
         
         # GCP 설정 관리자 초기화
         if not self.gcp_setup.initialize():
+            logger.error("❌ GCP 인증 실패. 다음 중 하나를 시도하세요:")
+            logger.info("💡 1. gcloud auth application-default login")
+            logger.info("💡 2. 서비스 계정 키 파일을 keys/ 디렉토리에 배치")
+            logger.info("💡 3. GOOGLE_APPLICATION_CREDENTIALS 환경변수 설정")
             return False
         
         config = self.config_from_env
@@ -249,6 +258,23 @@ class GraphRAGSetup:
         else:
             logger.error(f"❌ 서비스 계정 생성 실패")
         
+        # Cloud Run 서비스 생성
+        total_count += 1
+        service_name = f"{config['PROJECT_ID']}-graphrag-api"
+        # 초기 이미지는 gcr.io/cloudrun/hello를 사용합니다.
+        # CI/CD 파이프라인이 실제 애플리케이션 이미지로 업데이트합니다.
+        image_name = "gcr.io/cloudrun/hello"
+        logger.info(f"🔄 Cloud Run 서비스 '{service_name}' 생성 중 (초기 이미지: {image_name})...")
+        if self.gcp_setup.create_cloud_run_service(
+            service_name=service_name,
+            location=config['LOCATION_ID'],
+            image_name=image_name
+        ):
+            success_count += 1
+            logger.info(f"✅ Cloud Run 서비스 생성 완료: {service_name}")
+        else:
+            logger.error(f"❌ Cloud Run 서비스 생성 실패: {service_name}")
+
         logger.info(f"🎯 GCP 리소스 설정 완료: {success_count}/{total_count} 성공")
         return success_count > 0
     
@@ -286,26 +312,12 @@ class GraphRAGSetup:
         else:
             logger.error("❌ Firebase Hosting 설정 실패")
         
-        # Firebase 웹 앱 생성
-        total_count += 1
-        app_name = f"{config['PROJECT_ID']}-web-app"
-        logger.info(f"🔄 Firebase 웹 앱 '{app_name}' 생성 중...")
-        app_id = self.firebase_setup.create_firebase_app(
-            app_id=app_name,
-            display_name=f"{config['PROJECT_ID']} Web App"
-        )
-        if app_id:
-            success_count += 1
-            logger.info(f"✅ Firebase 웹 앱 생성 완료: {app_id}")
-        else:
-            logger.error("❌ Firebase 웹 앱 생성 실패")
-        
         logger.info(f"🎯 Firebase 리소스 설정 완료: {success_count}/{total_count} 성공")
         return success_count > 0
     
-    def setup_cicd_resources(self) -> bool:
+    def setup_cicd_resources(self, force_run: bool = False) -> bool:
         """CICD 리소스 설정"""
-        if not self.config_from_env.get('SETUP_CICD', False):
+        if not self.config_from_env.get('SETUP_CICD', False) and not force_run:
             logger.info("⏭️ CICD 설정이 비활성화됨")
             return True
         
@@ -422,7 +434,7 @@ SERVE_STATIC=true
     def print_setup_summary(self):
         """설정 완료 요약 출력"""
         logger.info("=" * 60)
-        logger.info("🎉 GraphRAG 프로젝트 설정 완료!")
+        logger.info("🎉 GraphRAG 프로젝트 로컬 설정 완료!")
         logger.info("=" * 60)
         
         config = self.config_from_env
@@ -437,9 +449,12 @@ SERVE_STATIC=true
         if config.get('SETUP_FIREBASE'):
             logger.info(f"  • Firebase 프로젝트: {config['FIREBASE_PROJECT_ID']}")
         
+        if config.get('SETUP_CICD'):
+            logger.info(f"  • Artifact Registry: {config['PROJECT_ID']}-graphrag-repo")
+        
         logger.info("")
         logger.info("🚀 다음 단계:")
-        logger.info("  1. 개발 서버 실행:")
+        logger.info("  1. 로컬 개발 서버 실행:")
         logger.info("     uvicorn main:app --reload --port 8000")
         logger.info("")
         logger.info("  2. 웹 인터페이스 접속:")
@@ -449,18 +464,17 @@ SERVE_STATIC=true
         logger.info("     curl -X POST http://localhost:8000/api/generate \\")
         logger.info("       -F \"userPrompt=안녕하세요\" \\")
         logger.info("       -F \"conversationHistory=[]\"")
-        
-        if config.get('SETUP_FIREBASE'):
-            logger.info("")
-            logger.info("  4. Firebase 배포 (선택사항):")
-            logger.info("     firebase deploy --only hosting")
-        
+        logger.info("")
+        logger.info("💡 로컬 개발 팁:")
+        logger.info("  • 서비스 계정 키 파일이 keys/ 디렉토리에 생성되었습니다")
+        logger.info("  • .env 파일이 업데이트되었습니다")
+        logger.info("  • gcloud auth application-default login 으로 인증하면 더 편리합니다")
         logger.info("")
         logger.info("=" * 60)
 
 async def main():
     """메인 실행 함수"""
-    parser = argparse.ArgumentParser(description='GraphRAG 프로젝트 초기 설정')
+    parser = argparse.ArgumentParser(description='GraphRAG 프로젝트 로컬 초기 설정')
     parser.add_argument('--skip-validation', action='store_true', 
                        help='사전 요구사항 검증 건너뛰기')
     parser.add_argument('--gcp-only', action='store_true', 
@@ -474,15 +488,16 @@ async def main():
     
     args = parser.parse_args()
     
-    logger.info("🚀 GraphRAG 프로젝트 설정 시작")
+    logger.info("🚀 GraphRAG 프로젝트 로컬 설정 시작")
     logger.info("=" * 60)
     
-    setup = GraphRAGSetup()
+    setup = GraphRAGLocalSetup()
     
     # 사전 요구사항 확인
     if not args.skip_validation:
         if not setup.validate_prerequisites():
             logger.error("❌ 사전 요구사항 확인 실패")
+            logger.info("💡 --skip-validation 옵션을 사용하거나 문제를 해결하세요")
             sys.exit(1)
     
     # Dry run 모드
@@ -498,20 +513,20 @@ async def main():
     success = True
     
     # GCP 리소스 설정
-    if not args.firebase_only and not args.cicd_only:
+    if args.gcp_only or (not args.firebase_only and not args.cicd_only):
         if not await setup.setup_gcp_resources():
             logger.error("❌ GCP 리소스 설정 실패")
             success = False
     
     # Firebase 리소스 설정
-    if not args.gcp_only and not args.cicd_only:
+    if args.firebase_only or (not args.gcp_only and not args.cicd_only):
         if not setup.setup_firebase_resources():
             logger.error("❌ Firebase 리소스 설정 실패")
             success = False
     
     # CICD 리소스 설정
-    if not args.gcp_only and not args.firebase_only:
-        if not setup.setup_cicd_resources():
+    if args.cicd_only or (not args.gcp_only and not args.firebase_only):
+        if not setup.setup_cicd_resources(force_run=args.cicd_only):
             logger.error("❌ CICD 리소스 설정 실패")
             success = False
     
@@ -521,6 +536,7 @@ async def main():
         setup.print_setup_summary()
     else:
         logger.error("❌ 설정 과정에서 오류가 발생했습니다")
+        logger.info("💡 개별 옵션으로 다시 시도하거나 수동 설정을 고려하세요")
         sys.exit(1)
 
 if __name__ == "__main__":
@@ -530,5 +546,5 @@ if __name__ == "__main__":
         logger.info("\n🛑 사용자에 의해 중단됨")
         sys.exit(1)
     except Exception as e:
-        logger.error(f"❌ 예상치 못한 오류: {e}")
+        logger.error(f"❌ 예상치 못한 오류: {e}", exc_info=True)
         sys.exit(1)

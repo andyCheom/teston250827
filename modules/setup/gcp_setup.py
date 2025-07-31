@@ -351,7 +351,7 @@ class GCPSetupManager:
                 
                 # Cloud Build 권한 (CICD용)
                 'roles/cloudbuild.builds.builder',
-                'roles/cloudbuild.editor', # Cloud Build 실행 권한
+                'roles/cloudbuild.builds.editor', # Cloud Build 실행 권한
                 'roles/source.reader',
                 
                 # Artifact Registry 권한 (Docker 이미지용)
