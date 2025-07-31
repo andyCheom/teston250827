@@ -45,10 +45,9 @@ on:
           - staging
           - production
 
-# 환경 변수
+# 환경 변수 (동적으로 로드됨)
 env:
   NODE_VERSION: '18'
-  FIREBASE_PROJECT_ID: cheom-kdb-test1
 
 jobs:
   # 빌드 및 검증
@@ -63,13 +62,34 @@ jobs:
         with:
           fetch-depth: 0
       
-      # 2. Node.js 설정
+      # 2. 환경변수 로드
+      - name: Load environment variables from .env
+        run: |
+          if [ -f .env ]; then
+            echo "📄 .env 파일에서 환경변수 로드 중..."
+            
+            # .env 파일에서 환경변수 로드 (주석과 빈 줄 제외)
+            export $(grep -v '^#' .env | grep -v '^$' | xargs)
+            
+            # GitHub Actions 환경변수로 설정
+            echo "PROJECT_ID=${PROJECT_ID}" >> $GITHUB_ENV
+            echo "FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}" >> $GITHUB_ENV
+            echo "SERVICE_ACCOUNT_EMAIL=${SERVICE_ACCOUNT_EMAIL}" >> $GITHUB_ENV
+            
+            echo "✅ Firebase 환경변수 로드 완료:"
+            echo "  FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}"
+          else
+            echo "❌ .env 파일을 찾을 수 없습니다"
+            exit 1
+          fi
+      
+      # 3. Node.js 설정
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       
-      # 3. 의존성 설치 (public 디렉토리에서)
+      # 4. 의존성 설치 (public 디렉토리에서)
       - name: Install dependencies
         run: |
           if [ -f "public/package.json" ]; then
@@ -79,7 +99,7 @@ jobs:
             echo "⚠️ public/package.json not found, skipping npm install"
           fi
       
-      # 4. 프로젝트 빌드
+      # 5. 프로젝트 빌드
       - name: Build project
         run: |
           if [ -f "public/package.json" ]; then
@@ -89,7 +109,7 @@ jobs:
             echo "✅ Static files ready for deployment"
           fi
       
-      # 5. Firebase 설정 검증
+      # 6. Firebase 설정 검증
       - name: Validate Firebase configuration
         run: |
           echo "🔍 Firebase 설정 검증 중..."
@@ -114,7 +134,7 @@ jobs:
           
           echo "✅ Firebase 설정 검증 완료"
       
-      # 6. 빌드 아티팩트 업로드
+      # 7. 빌드 아티팩트 업로드
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -132,6 +152,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Load environment variables from .env
+        run: |
+          if [ -f .env ]; then
+            export $(grep -v '^#' .env | grep -v '^$' | xargs)
+            echo "FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}" >> $GITHUB_ENV
+          fi
       
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -164,6 +191,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Load environment variables from .env
+        run: |
+          if [ -f .env ]; then
+            export $(grep -v '^#' .env | grep -v '^$' | xargs)
+            echo "FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}" >> $GITHUB_ENV
+          fi
       
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -225,6 +259,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
+      - name: Load environment variables from .env
+        run: |
+          if [ -f .env ]; then
+            export $(grep -v '^#' .env | grep -v '^$' | xargs)
+            echo "FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}" >> $GITHUB_ENV
+            echo "PROJECT_ID=${PROJECT_ID}" >> $GITHUB_ENV
+          fi
+      
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
@@ -236,10 +278,11 @@ jobs:
         run: |
           echo "🔧 프로덕션 환경 설정 적용 중..."
           
-          # firebase.json에서 서비스 ID를 프로덕션용으로 변경
-          sed -i 's/"serviceId": "testing0724"/"serviceId": "graphrag-api"/' firebase.json
+          # firebase.json에서 서비스 ID를 현재 프로젝트의 서비스로 변경
+          PRODUCTION_SERVICE_ID="${PROJECT_ID}-graphrag-api"
+          sed -i "s/\"serviceId\": \"[^\"]*\"/\"serviceId\": \"${PRODUCTION_SERVICE_ID}\"/" firebase.json
           
-          echo "✅ 프로덕션 설정 완료"
+          echo "✅ 프로덕션 설정 완료: ${PRODUCTION_SERVICE_ID}"
       
       - name: Deploy to Firebase Hosting Production
         uses: FirebaseExtended/action-hosting-deploy@v0

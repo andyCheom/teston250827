@@ -28,11 +28,9 @@ on:
           - staging
           - production
 
-# 환경 변수
+# 환경 변수 (동적으로 로드됨)
 env:
-  PROJECT_ID: cheom-kdb-test1
-  REGION: asia-northeast3
-  SERVICE_NAME: testing0724
+  NODE_VERSION: '18'
 
 jobs:
   # 빌드 및 배포
@@ -52,37 +50,64 @@ jobs:
         with:
           fetch-depth: 0  # 전체 히스토리 가져오기 (태그 정보 포함)
       
-      # 2. Google Cloud 인증
+      # 2. 환경변수 로드
+      - name: Load environment variables from .env
+        run: |
+          if [ -f .env ]; then
+            echo "📄 .env 파일에서 환경변수 로드 중..."
+            
+            # .env 파일에서 환경변수 로드 (주석과 빈 줄 제외)
+            export $(grep -v '^#' .env | grep -v '^$' | xargs)
+            
+            # GitHub Actions 환경변수로 설정
+            echo "PROJECT_ID=${PROJECT_ID}" >> $GITHUB_ENV
+            echo "REGION=${LOCATION_ID}" >> $GITHUB_ENV
+            echo "SERVICE_NAME=${PROJECT_ID}-graphrag-api" >> $GITHUB_ENV
+            echo "FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}" >> $GITHUB_ENV
+            echo "SERVICE_ACCOUNT_EMAIL=${SERVICE_ACCOUNT_EMAIL}" >> $GITHUB_ENV
+            echo "DISCOVERY_ENGINE_ID=${DISCOVERY_ENGINE_ID}" >> $GITHUB_ENV
+            echo "DATASTORE_ID=${DATASTORE_ID}" >> $GITHUB_ENV
+            
+            echo "✅ 환경변수 로드 완료:"
+            echo "  PROJECT_ID: ${PROJECT_ID}"
+            echo "  REGION: ${LOCATION_ID}"
+            echo "  SERVICE_NAME: ${PROJECT_ID}-graphrag-api"
+          else
+            echo "❌ .env 파일을 찾을 수 없습니다"
+            exit 1
+          fi
+      
+      # 3. Google Cloud 인증
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
       
-      # 3. Cloud SDK 설정
+      # 4. Cloud SDK 설정
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ env.PROJECT_ID }}
       
-      # 4. Artifact Registry 인증
+      # 5. Artifact Registry 인증
       - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker asia-northeast3-docker.pkg.dev
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
       
-      # 5. 환경별 변수 설정
+      # 6. 환경별 변수 설정
       - name: Set environment variables
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.event.inputs.environment }}" == "production" ]]; then
             echo "ENVIRONMENT=production" >> $GITHUB_ENV
-            echo "SERVICE_NAME=graphrag-api" >> $GITHUB_ENV
           else
             echo "ENVIRONMENT=staging" >> $GITHUB_ENV
-            echo "SERVICE_NAME=testing0724" >> $GITHUB_ENV
           fi
           
           # 짧은 커밋 SHA 생성
           echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+          
+          echo "✅ 환경 설정 완료: ${{ github.ref_name }} → ${ENVIRONMENT:-staging}"
       
-      # 6. 종속성 캐시
+      # 7. 종속성 캐시
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
@@ -91,7 +116,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
       
-      # 7. Cloud Build 실행
+      # 8. Cloud Build 실행
       - name: Run Cloud Build
         run: |
           gcloud builds submit \
@@ -99,7 +124,7 @@ jobs:
             --substitutions=_SERVICE_NAME=${{ env.SERVICE_NAME }},SHORT_SHA=${{ env.SHORT_SHA }},BRANCH_NAME=${{ github.ref_name }} \
             --timeout=1200s
       
-      # 8. 배포 결과 확인
+      # 9. 배포 결과 확인
       - name: Verify deployment
         run: |
           echo "🔍 배포 상태 확인 중..."
@@ -138,7 +163,7 @@ jobs:
           echo "❌ 배포 검증 실패"
           exit 1
       
-      # 9. Slack 알림 (성공)
+      # 10. Slack 알림 (성공)
       - name: Notify success to Slack
         if: success()
         uses: 8398a7/action-slack@v3
@@ -153,7 +178,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       
-      # 10. Slack 알림 (실패)
+      # 11. Slack 알림 (실패)
       - name: Notify failure to Slack
         if: failure()
         uses: 8398a7/action-slack@v3

@@ -3,7 +3,6 @@ images:
 - ${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest
 options:
   logging: CLOUD_LOGGING_ONLY
-  machineType: E2_HIGHCPU_4
 serviceAccount: projects/${_PROJECT_ID}/serviceAccounts/${_SERVICE_ACCOUNT}
 steps:
 - args:
