@@ -48,6 +48,7 @@ class GCPSetupManager:
             self.storage_client = storage.Client(credentials=self.credentials, project=self.project_id)
             self.service_management = build('servicemanagement', 'v1', credentials=self.credentials)
             self.discovery_client = discoveryengine_v1beta.DataStoreServiceClient(credentials=self.credentials)
+            self.run_client = build('run', 'v1', credentials=self.credentials)
             
             logger.info(f"✅ GCP 클라이언트 초기화 완료 - Project: {self.project_id}")
             return True
@@ -427,6 +428,58 @@ class GCPSetupManager:
         except Exception as e:
             logger.error(f"❌ 서비스 계정 생성 실패: {e}")
             return None
+
+    def create_cloud_run_service(self, 
+                               service_name: str, 
+                               location: str, 
+                               image_name: str) -> bool:
+        """Cloud Run 서비스 생성"""
+        try:
+            parent = f"projects/{self.project_id}/locations/{location}"
+            service_path = f"{parent}/services/{service_name}"
+
+            # 서비스 존재 확인
+            try:
+                self.run_client.projects().locations().services().get(name=service_path).execute()
+                logger.info(f"✅ Cloud Run 서비스 '{service_name}' 이미 존재함")
+                return True
+            except Exception:
+                pass # 서비스가 없으면 생성
+
+            logger.info(f"🔄 Cloud Run 서비스 '{service_name}' 생성 중...")
+
+            service_body = {
+                "apiVersion": "serving.knative.dev/v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": service_name,
+                    "namespace": self.project_id
+                },
+                "spec": {
+                    "template": {
+                        "spec": {
+                            "containers": [
+                                {
+                                    "image": image_name,
+                                    "ports": [{"containerPort": 8000}]
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+
+            self.run_client.projects().locations().services().create(
+                parent=parent,
+                body=service_body
+            ).execute()
+
+            logger.info(f"✅ Cloud Run 서비스 '{service_name}' 생성 완료")
+            return True
+
+        except Exception as e:
+            logger.error(f"❌ Cloud Run 서비스 생성 실패: {e}")
+            return False
     
     def validate_setup(self) -> Dict[str, bool]:
         """설정 완료 상태 검증"""

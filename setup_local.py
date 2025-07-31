@@ -258,6 +258,23 @@ class GraphRAGLocalSetup:
         else:
             logger.error(f"❌ 서비스 계정 생성 실패")
         
+        # Cloud Run 서비스 생성
+        total_count += 1
+        service_name = f"{config['PROJECT_ID']}-graphrag-api"
+        # 초기 이미지는 gcr.io/cloudrun/hello를 사용합니다.
+        # CI/CD 파이프라인이 실제 애플리케이션 이미지로 업데이트합니다.
+        image_name = "gcr.io/cloudrun/hello"
+        logger.info(f"🔄 Cloud Run 서비스 '{service_name}' 생성 중 (초기 이미지: {image_name})...")
+        if self.gcp_setup.create_cloud_run_service(
+            service_name=service_name,
+            location=config['LOCATION_ID'],
+            image_name=image_name
+        ):
+            success_count += 1
+            logger.info(f"✅ Cloud Run 서비스 생성 완료: {service_name}")
+        else:
+            logger.error(f"❌ Cloud Run 서비스 생성 실패: {service_name}")
+
         logger.info(f"🎯 GCP 리소스 설정 완료: {success_count}/{total_count} 성공")
         return success_count > 0
     

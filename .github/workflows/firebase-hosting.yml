@@ -8,30 +8,20 @@ on:
     branches:
       - main
       - develop
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - '.gitignore'
-      - 'main.py'
-      - 'modules/**'
-      - 'requirements.txt'
-      - 'Dockerfile'
-      - 'cloudbuild.yaml'
+    paths:
+      - 'public/**'
+      - 'firebase.json'
+      - '.github/workflows/firebase-hosting.yml'
   
   # 브랜치 푸시 시 배포
   push:
     branches:
       - main      # 프로덕션 배포
       - develop   # 스테이징 배포
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - '.gitignore'
-      - 'main.py'
-      - 'modules/**'
-      - 'requirements.txt'
-      - 'Dockerfile'
-      - 'cloudbuild.yaml'
+    paths:
+      - 'public/**'
+      - 'firebase.json'
+      - '.github/workflows/firebase-hosting.yml'
   
   # 수동 실행
   workflow_dispatch:
@@ -205,12 +195,16 @@ jobs:
           name: firebase-build-${{ github.sha }}
           path: public/
       
-      # 스테이징 환경 설정 확인
-      - name: Verify Firebase config for staging
+      # 스테이징 환경 설정 업데이트
+      - name: Update Firebase config for staging
         run: |
-          echo "🔧 스테이징 환경 설정 확인 중..."
-          echo "현재 serviceId: $(grep -o '"serviceId": "[^"]*"' firebase.json)"
-          echo "✅ 스테이징 설정 확인 완료"
+          echo "🔧 스테이징 환경 설정 적용 중..."
+          
+          # firebase.json에서 서비스 ID를 현재 프로젝트의 서비스로 변경
+          STAGING_SERVICE_ID="${PROJECT_ID}-graphrag-api"
+          sed -i "s/__BACKEND_SERVICE_ID__/${STAGING_SERVICE_ID}/" firebase.json
+          
+          echo "✅ 스테이징 설정 완료: ${STAGING_SERVICE_ID}"
       
       - name: Deploy to Firebase Hosting Staging
         uses: FirebaseExtended/action-hosting-deploy@v0
