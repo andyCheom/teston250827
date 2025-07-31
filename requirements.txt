@@ -10,6 +10,10 @@ google-cloud-discoveryengine==0.11.*
 google-auth==2.23.*
 google-api-python-client==2.108.*
 
+# 리소스 관리용 추가 Google Cloud SDK
+google-cloud-resource-manager==1.10.*
+google-cloud-iam==2.12.*
+
 # HTTP 요청
 aiohttp==3.9.*
 
