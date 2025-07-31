@@ -302,9 +302,10 @@ class GraphRAGSetup:
         
         # Artifact Registry 저장소 생성
         total_count += 1
-        logger.info("🔄 Artifact Registry 저장소 생성 중...")
+        repo_name = f"{config['PROJECT_ID']}-graphrag-repo"
+        logger.info(f"🔄 Artifact Registry 저장소 '{repo_name}' 생성 중...")
         if self.cicd_setup.create_artifact_repository(
-            repo_name="graphrag-repo",
+            repo_name=repo_name,
             location=config['LOCATION_ID']
         ):
             success_count += 1
