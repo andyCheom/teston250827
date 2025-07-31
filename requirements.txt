@@ -1,25 +1,25 @@
 ﻿# FastAPI 및 ASGI 서버
-fastapi==0.104.*
-gunicorn[gthread]==21.*
-uvicorn[standard]==0.24.*
-pydantic==2.*
+fastapi
+gunicorn
+uvicorn
+pydantic
 
 # Google Cloud SDK (Discovery Engine용)
-google-cloud-storage==2.10.*
-google-cloud-discoveryengine==0.11.*
-google-auth==2.23.*
-google-api-python-client==2.108.*
+google-cloud-storage
+google-cloud-discoveryengine
+google-auth
+google-api-python-client
 
 # 리소스 관리용 추가 Google Cloud SDK
-google-cloud-resource-manager==1.10.*
-google-cloud-iam==2.12.*
-google-cloud-artifact-registry==1.11.*
+google-cloud-resource-manager
+google-cloud-iam
+google-cloud-artifact-registry
 
 # HTTP 요청
-aiohttp==3.9.*
+aiohttp
 
 # 유틸리티
-python-dotenv==1.0.*
-python-multipart==0.0.*
+python-dotenv
+python-multipart
 
 

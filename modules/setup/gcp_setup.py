@@ -28,6 +28,12 @@ class GCPSetupManager:
     def initialize(self) -> bool:
         """GCP 클라이언트 초기화"""
         try:
+            # 먼저 인증 초기화
+            from ..auth import initialize_auth
+            if not initialize_auth():
+                logger.error("❌ GCP 인증 초기화에 실패했습니다")
+                return False
+                
             self.credentials = get_credentials()
             if not self.credentials:
                 logger.error("❌ GCP 인증 정보를 가져올 수 없습니다")
@@ -190,7 +196,9 @@ class GCPSetupManager:
                 data_store_id=datastore_id
             )
             
-            logger.info(f"🔄 데이터스토어 생성 중... (Operation: {operation.name})")
+            # Operation 이름 안전하게 가져오기
+            operation_name = getattr(operation, 'name', str(operation))
+            logger.info(f"🔄 데이터스토어 생성 중... (Operation: {operation_name})")
             
             # 생성 완료 대기 (최대 10분)
             for i in range(60):
@@ -258,7 +266,9 @@ class GCPSetupManager:
                 engine_id=engine_id
             )
             
-            logger.info(f"🔄 엔진 생성 중... (Operation: {operation.name})")
+            # Operation 이름 안전하게 가져오기
+            operation_name = getattr(operation, 'name', str(operation))
+            logger.info(f"🔄 엔진 생성 중... (Operation: {operation_name})")
             
             # 생성 완료 대기 (최대 10분)
             for i in range(60):

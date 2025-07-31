@@ -24,6 +24,12 @@ class FirebaseSetupManager:
     def initialize(self) -> bool:
         """Firebase 클라이언트 초기화"""
         try:
+            # 먼저 인증 초기화
+            from ..auth import initialize_auth
+            if not initialize_auth():
+                logger.error("❌ GCP 인증 초기화에 실패했습니다")
+                return False
+                
             self.credentials = get_credentials()
             if not self.credentials:
                 logger.error("❌ GCP 인증 정보를 가져올 수 없습니다")

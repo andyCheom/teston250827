@@ -110,21 +110,40 @@ class GraphRAGSetup:
         # gcloud CLI 확인
         try:
             import subprocess
-            result = subprocess.run(['gcloud', '--version'], 
+            import shutil
+            
+            # gcloud 경로 확인
+            gcloud_path = shutil.which('gcloud')
+            if not gcloud_path:
+                # 일반적인 경로들 확인
+                possible_paths = ['/usr/bin/gcloud', '/usr/local/bin/gcloud', '/opt/google-cloud-sdk/bin/gcloud']
+                for path in possible_paths:
+                    if os.path.exists(path):
+                        gcloud_path = path
+                        break
+                
+                if not gcloud_path:
+                    logger.error("❌ gcloud CLI를 찾을 수 없습니다")
+                    logger.info("💡 설치 방법: https://cloud.google.com/sdk/docs/install")
+                    return False
+            
+            result = subprocess.run([gcloud_path, '--version'], 
                                   capture_output=True, text=True, timeout=10)
             if result.returncode != 0:
-                logger.error("❌ gcloud CLI가 설치되지 않았습니다")
+                logger.error("❌ gcloud CLI가 제대로 동작하지 않습니다")
                 logger.info("💡 설치 방법: https://cloud.google.com/sdk/docs/install")
                 return False
-            logger.info("✅ gcloud CLI 확인됨")
-        except (subprocess.TimeoutExpired, FileNotFoundError):
-            logger.error("❌ gcloud CLI를 찾을 수 없습니다")
-            logger.info("💡 설치 방법: https://cloud.google.com/sdk/docs/install")
+            logger.info(f"✅ gcloud CLI 확인됨: {gcloud_path}")
+        except subprocess.TimeoutExpired:
+            logger.error("❌ gcloud CLI 명령 시간 초과")
+            return False
+        except Exception as e:
+            logger.error(f"❌ gcloud CLI 확인 실패: {e}")
             return False
         
         # 인증 확인
         try:
-            result = subprocess.run(['gcloud', 'auth', 'list', '--filter=status:ACTIVE'], 
+            result = subprocess.run([gcloud_path, 'auth', 'list', '--filter=status:ACTIVE'], 
                                   capture_output=True, text=True, timeout=30)
             if result.returncode != 0 or 'ACTIVE' not in result.stdout:
                 logger.error("❌ gcloud 인증이 필요합니다")
@@ -137,7 +156,7 @@ class GraphRAGSetup:
         
         # 프로젝트 설정 확인
         try:
-            result = subprocess.run(['gcloud', 'config', 'get-value', 'project'], 
+            result = subprocess.run([gcloud_path, 'config', 'get-value', 'project'], 
                                   capture_output=True, text=True, timeout=30)
             current_project = result.stdout.strip()
             if current_project != config['PROJECT_ID']:

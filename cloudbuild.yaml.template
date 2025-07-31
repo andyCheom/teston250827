@@ -1,0 +1,175 @@
+# Cloud Build 설정 파일 템플릿 - GraphRAG 챗봇 API 지속적 배포
+# 이 파일을 cloudbuild.yaml로 복사하고 실제 값으로 변경하세요
+
+substitutions:
+  # 기본 GCP 설정 - 실제 값으로 변경 필요
+  _PROJECT_ID: ${PROJECT_ID}
+  _REGION: ${LOCATION_ID}
+  _REPO_NAME: ${PROJECT_ID}-graphrag-repo
+  _SERVICE_NAME: ${PROJECT_ID}-graphrag-api
+  _SERVICE_ACCOUNT: ${SERVICE_ACCOUNT_EMAIL}
+  _ARTIFACT_REGISTRY: ${LOCATION_ID}-docker.pkg.dev
+  
+  # Cloud Run 설정
+  _MIN_INSTANCES: '0'
+  _MAX_INSTANCES: '10'
+  _CPU: '2'
+  _MEMORY: '4Gi'
+  _TIMEOUT: '300s'
+  
+  # Discovery Engine 설정
+  _DATASTORE_ID: ${DATASTORE_ID}
+  _DISCOVERY_ENGINE_ID: ${DISCOVERY_ENGINE_ID}
+  _MODEL_ID: gemini-2.5-flash
+  _LOCATION_ID: ${LOCATION_ID}
+  _DATASTORE_LOCATION: ${DISCOVERY_LOCATION}
+
+steps:
+  # 1. 빌드 사전 검증
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🔍 빌드 환경 검증 중..."
+        echo "프로젝트 ID: ${_PROJECT_ID}"
+        echo "서비스명: ${_SERVICE_NAME}"
+        echo "리전: ${_REGION}"
+        echo "커밋 SHA: ${SHORT_SHA}"
+        echo "브랜치: ${BRANCH_NAME}"
+        
+        # Dockerfile 존재 확인
+        if [ ! -f "Dockerfile" ]; then
+          echo "❌ Dockerfile이 존재하지 않습니다."
+          exit 1
+        fi
+        
+        # requirements.txt 검증
+        if [ ! -f "requirements.txt" ]; then
+          echo "❌ requirements.txt가 존재하지 않습니다."
+          exit 1
+        fi
+        
+        echo "✅ 빌드 사전 검증 완료"
+    id: 'pre-build-validation'
+
+  # 2. Docker 이미지 빌드
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+      - '-t'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
+      - '--cache-from'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
+      - '.'
+    id: 'build-image'
+    waitFor: ['pre-build-validation']
+
+  # 3. Docker 이미지 푸시
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}'
+    id: 'push-image'
+    waitFor: ['build-image']
+
+  # 4. Cloud Run 배포
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🚀 Cloud Run 서비스 배포 시작..."
+        
+        gcloud run deploy ${_SERVICE_NAME} \
+          --image=${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --service-account=${_SERVICE_ACCOUNT} \
+          --min-instances=${_MIN_INSTANCES} \
+          --max-instances=${_MAX_INSTANCES} \
+          --cpu=${_CPU} \
+          --memory=${_MEMORY} \
+          --timeout=${_TIMEOUT} \
+          --concurrency=80 \
+          --set-env-vars=PROJECT_ID=${_PROJECT_ID},LOCATION_ID=${_LOCATION_ID},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID},DATASTORE_LOCATION=${_DATASTORE_LOCATION},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID},DISCOVERY_LOCATION=${_DATASTORE_LOCATION},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false
+        
+        echo "✅ 배포 완료"
+    id: 'deploy-service'
+    waitFor: ['push-image']
+
+  # 5. 헬스 체크
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🏥 헬스 체크 시작..."
+        
+        # 서비스 URL 가져오기
+        SERVICE_URL=$$(gcloud run services describe ${_SERVICE_NAME} \
+          --region=${_REGION} \
+          --format="value(status.url)")
+        
+        if [ -z "$$SERVICE_URL" ]; then
+          echo "❌ 서비스 URL을 찾을 수 없습니다."
+          exit 1
+        fi
+        
+        echo "헬스 체크 URL: $$SERVICE_URL"
+        
+        # 헬스 체크 (최대 5회 재시도)
+        for i in {1..5}; do
+          echo "헬스 체크 시도 $$i/5..."
+          
+          if curl -f -s --max-time 10 "$$SERVICE_URL/api/health" > /dev/null; then
+            echo "✅ 헬스 체크 성공!"
+            
+            # 간단한 API 테스트
+            echo "🧪 API 기능 테스트..."
+            RESPONSE=$$(curl -s --max-time 60 -X POST "$$SERVICE_URL/api/generate" \
+              -F "userPrompt=테스트" \
+              -F "conversationHistory=[]")
+            
+            # API가 응답하고 JSON 형태이면 성공으로 간주
+            if echo "$$RESPONSE" | grep -q '"answer"'; then
+              echo "✅ API 응답 확인됨"
+              echo "🎉 배포 성공!"
+              echo "서비스 URL: $$SERVICE_URL"
+              echo "커밋 SHA: ${SHORT_SHA}"
+              echo "배포 시간: $(date)"
+              exit 0
+            else
+              echo "⚠️ API 응답이 예상과 다릅니다: $$RESPONSE"
+            fi
+          else
+            echo "❌ 헬스 체크 실패 (시도 $$i/5)"
+          fi
+          
+          if [ $$i -lt 5 ]; then
+            echo "30초 후 재시도..."
+            sleep 30
+          fi
+        done
+        
+        echo "❌ 헬스 체크 최종 실패"
+        exit 1
+    id: 'health-check'
+    waitFor: ['deploy-service']
+
+# 빌드 옵션
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_4'
+
+# 서비스 계정
+serviceAccount: 'projects/${_PROJECT_ID}/serviceAccounts/${_SERVICE_ACCOUNT}'
+
+# 생성되는 이미지
+images:
+  - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+  - '${_ARTIFACT_REGISTRY}/${_PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'

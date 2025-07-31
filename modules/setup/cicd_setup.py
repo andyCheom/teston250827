@@ -25,6 +25,12 @@ class CICDSetupManager:
     def initialize(self) -> bool:
         """CICD 클라이언트 초기화"""
         try:
+            # 먼저 인증 초기화
+            from ..auth import initialize_auth
+            if not initialize_auth():
+                logger.error("❌ GCP 인증 초기화에 실패했습니다")
+                return False
+                
             self.credentials = get_credentials()
             if not self.credentials:
                 logger.error("❌ GCP 인증 정보를 가져올 수 없습니다")
@@ -80,7 +86,9 @@ class CICDSetupManager:
                 repository_id=repo_name
             )
             
-            logger.info(f"🔄 저장소 생성 중... (Operation: {operation.name})")
+            # Operation 이름 안전하게 가져오기
+            operation_name = getattr(operation, 'name', str(operation))
+            logger.info(f"🔄 저장소 생성 중... (Operation: {operation_name})")
             
             # 생성 완료 대기
             import time
@@ -171,7 +179,6 @@ class CICDSetupManager:
                     content = f.read()
                 
                 # 환경변수 치환
-                import os
                 replacements = {
                     '${PROJECT_ID}': self.project_id,
                     '${LOCATION_ID}': Config.LOCATION_ID or 'asia-northeast3',

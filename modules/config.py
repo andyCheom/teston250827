@@ -30,6 +30,9 @@ class Config:
     DISCOVERY_ENGINE_ID = os.getenv('DISCOVERY_ENGINE_ID', '')
     DISCOVERY_SERVING_CONFIG = os.getenv('DISCOVERY_SERVING_CONFIG', 'default_search')
     
+    # Service Account 설정
+    SERVICE_ACCOUNT_EMAIL = os.getenv('SERVICE_ACCOUNT_EMAIL', '')
+    
     # Spanner 설정은 더 이상 사용하지 않음 - Discovery Engine 사용
     
     # 프롬프트 설정
