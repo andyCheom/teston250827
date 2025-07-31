@@ -1,29 +1,42 @@
-document.addEventListener("DOMContentLoaded", () => {
+// 더 안전한 DOM 로딩 확인
+function initializeChat() {
+  console.log("채팅 초기화 시작...");
+  
   // DOM Elements
   const chatContainer = document.getElementById("chat-container");
   const promptForm = document.getElementById("prompt-form");
   const promptInput = document.getElementById("prompt-input");
-  const imageInput = document.getElementById("image-input");
-  const imagePreview = document.getElementById("image-preview");
-  const removeImageBtn = document.getElementById("remove-image-btn");
-  const submitButton = promptForm.querySelector(
+  
+  console.log("DOM 요소 확인:", {
+    chatContainer: !!chatContainer,
+    promptForm: !!promptForm,
+    promptInput: !!promptInput
+  });
+
+  const submitButton = promptForm ? promptForm.querySelector(
     'button[type="submit"], input[type="submit"]'
-  );
+  ) : null;
 
   // State
   let conversationHistory = [];
-  let attachedImageFile = null;
 
   // --- Initial validation ---
   // Ensure essential elements exist before proceeding
-  if (!chatContainer || !promptForm || !promptInput || !imageInput) {
+  if (!chatContainer || !promptForm || !promptInput) {
     console.error(
-      "Essential chat components not found in the DOM. Aborting script."
+      "Essential chat components not found in the DOM. Elements found:",
+      {
+        chatContainer: !!chatContainer,
+        promptForm: !!promptForm, 
+        promptInput: !!promptInput
+      }
     );
     document.body.innerHTML =
-      '<p style="color: red; text-align: center; margin-top: 2rem;">채팅 인터페이스를 불러오는 데 실패했습니다. 페이지의 HTML 요소를 확인해주세요.</p>';
+      '<p style="color: red; text-align: center; margin-top: 2rem;">채팅 인터페이스를 불러오는 데 실패했습니다. 페이지의 HTML 요소를 확인해주세요.<br><small>개발자 도구 콘솔에서 자세한 정보를 확인하세요.</small></p>';
     return;
   }
+  
+  console.log("모든 DOM 요소가 정상적으로 로드되었습니다.");
 
   // --- UI Setup ---
   // Set input font to match chat window font for consistency
@@ -36,17 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Handle form submission (sending a message)
   promptForm.addEventListener("submit", handleFormSubmit);
-
-  // Handle image selection for preview
-  imageInput.addEventListener("change", handleImageSelection);
-
-  // Handle image removal
-  removeImageBtn.addEventListener("click", clearImageAttachment);
-
-  // Handle test buttons
-  document.getElementById("test-discovery-btn").addEventListener("click", () => testAPI("discovery"));
-  document.getElementById("test-compare-btn").addEventListener("click", () => testAPI("compare"));
-  document.getElementById("test-original-btn").addEventListener("click", () => testAPI("original"));
 
   // Auto-resize textarea
   promptInput.addEventListener("input", () => {
@@ -68,12 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const userPrompt = promptInput.value.trim();
 
-    if (!userPrompt && !attachedImageFile) {
-      return; // Do nothing if both are empty
+    if (!userPrompt) {
+      return; // Do nothing if empty
     }
 
     // 1. Display user's message in the chat
-    displayUserMessage(userPrompt, attachedImageFile);
+    displayUserMessage(userPrompt);
 
     // 2. Prepare for API call
     const formData = new FormData();
@@ -100,14 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     formData.append("conversationHistory", historyString);
 
-    if (attachedImageFile) {
-      formData.append("imageFile", attachedImageFile);
-    }
-
     // 3. Reset input fields
     promptInput.value = "";
     promptInput.style.height = "auto";
-    clearImageAttachment();
 
     // 4. Show loading indicator inside the chat
     const loadingElement = showLoadingIndicator();
@@ -172,11 +169,17 @@ document.addEventListener("DOMContentLoaded", () => {
       // ✅ 1순위: summary_answer → 2순위: vertex_answer → fallback
       const modelResponseText =
         result.summary_answer ||
+        result.answer ||
         result.vertex_answer ||
         result.vertexAiResponse?.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (modelResponseText) {
-        displayModelMessage(modelResponseText);
+        // 디버깅을 위해 응답 데이터 로깅
+        console.log("API 응답 전체:", result);
+        console.log("Citations:", result.citations);
+        console.log("Search Results:", result.search_results);
+        
+        displayModelMessageWithSources(modelResponseText, result);
       } else {
         displayModelMessage("죄송합니다, 답변을 생성하지 못했습니다.");
       }
@@ -222,52 +225,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  
-  function handleImageSelection() {
-    const file = imageInput.files[0];
-    if (file) {
-      attachedImageFile = file;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imagePreview.src = e.target.result;
-        imagePreview.style.display = "block";
-        removeImageBtn.style.display = "block";
-      };
-      reader.onerror = () => {
-        console.error("FileReader failed to read the file.");
-        displayModelMessage("오류: 선택한 이미지 파일을 읽는 데 실패했습니다.");
-        clearImageAttachment();
-      };
-      reader.readAsDataURL(file);
-    }
-  }
 
-  function clearImageAttachment() {
-    imageInput.value = ""; // Reset file input
-    imagePreview.src = "";
-    imagePreview.style.display = "none";
-    removeImageBtn.style.display = "none";
-    attachedImageFile = null;
-  }
-
-  function displayUserMessage(text, imageFile) {
+  function displayUserMessage(text) {
     const messageElement = document.createElement("div");
     messageElement.className = "message user-message";
 
-    if (imageFile) {
-      const img = document.createElement("img");
-      img.src = URL.createObjectURL(imageFile);
-      img.style.maxWidth = "100%";
-      img.style.borderRadius = "0.75rem";
-      img.style.marginBottom = text ? "0.5rem" : "0";
-      messageElement.appendChild(img);
-    }
-    if (text) {
-      const textNode = document.createElement("p");
-      textNode.style.margin = "0";
-      textNode.textContent = text;
-      messageElement.appendChild(textNode);
-    }
+    const textNode = document.createElement("p");
+    textNode.style.margin = "0";
+    textNode.textContent = text;
+    messageElement.appendChild(textNode);
+    
     chatContainer.appendChild(messageElement);
   }
 
@@ -277,6 +244,161 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // marked.parse()를 사용하여 마크다운을 HTML로 변환합니다.
     messageElement.innerHTML = marked.parse(markdownText);
+
+    chatContainer.appendChild(messageElement);
+  }
+
+  function displayModelMessageWithSources(markdownText, result) {
+    console.log("displayModelMessageWithSources 호출됨");
+    console.log("Citations 존재 여부:", result.citations && result.citations.length > 0);
+    console.log("Citations 내용:", result.citations);
+    
+    const messageElement = document.createElement("div");
+    messageElement.className = "message model-message";
+
+    // 메인 답변을 마크다운으로 파싱하여 HTML로 변환
+    messageElement.innerHTML = marked.parse(markdownText);
+
+    // Citations 섹션 제거 - 참조 문서 목록 출력하지 않음
+
+    // Related Questions 추가
+    console.log("응답 데이터 확인:", result);
+    console.log("related_questions 확인:", result.related_questions);
+    
+    // 더미 데이터 제거 - 실제 related_questions만 표시
+    
+    if (result.related_questions && result.related_questions.length > 0) {
+      console.log("Related Questions 섹션 생성 중...");
+      const relatedDiv = document.createElement("div");
+      relatedDiv.style.marginTop = "1rem";
+      relatedDiv.style.paddingTop = "1rem";
+      relatedDiv.style.borderTop = "1px solid #e0e0e0";
+      
+      const relatedTitle = document.createElement("strong");
+      relatedTitle.textContent = "💡 연관 질문:";
+      relatedTitle.style.display = "block";
+      relatedTitle.style.marginBottom = "0.5rem";
+      relatedDiv.appendChild(relatedTitle);
+      
+      const questionsList = document.createElement("div");
+      questionsList.style.display = "flex";
+      questionsList.style.flexDirection = "column";
+      questionsList.style.gap = "0.5rem";
+      
+      result.related_questions.slice(0, 3).forEach((question, i) => {
+        const questionButton = document.createElement("button");
+        questionButton.textContent = `❓ ${question}`;
+        questionButton.style.cssText = `
+          background: #f5f5f5;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 8px 12px;
+          text-align: left;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 14px;
+          color: #333;
+        `;
+        
+        // 호버 효과
+        questionButton.onmouseenter = () => {
+          questionButton.style.background = "#e3f2fd";
+          questionButton.style.borderColor = "#1976d2";
+          questionButton.style.color = "#1976d2";
+        };
+        
+        questionButton.onmouseleave = () => {
+          questionButton.style.background = "#f5f5f5";
+          questionButton.style.borderColor = "#ddd";
+          questionButton.style.color = "#333";
+        };
+        
+        // 클릭 이벤트 - 해당 질문으로 새로운 요청 전송
+        questionButton.onclick = () => {
+          console.log("연관 질문 클릭:", question);
+          const promptInput = document.getElementById('prompt-input');
+          promptInput.value = question;
+          
+          // 자동으로 질문 전송
+          const form = document.getElementById('prompt-form');
+          if (form) {
+            form.dispatchEvent(new Event('submit'));
+          }
+        };
+        
+        questionsList.appendChild(questionButton);
+      });
+      
+      relatedDiv.appendChild(questionsList);
+      messageElement.appendChild(relatedDiv);
+    }
+
+    // Search Results에서 추가 링크 정보 추가 (항상 표시)
+    if (result.search_results && result.search_results.length > 0) {
+      console.log("Search Results 섹션 생성 중...");
+      const searchDiv = document.createElement("div");
+      searchDiv.style.marginTop = "1rem";
+      searchDiv.style.paddingTop = "1rem";
+      searchDiv.style.borderTop = "1px solid #e0e0e0";
+      
+      const searchTitle = document.createElement("strong");
+      searchTitle.textContent = "📚 관련 문서:";
+      searchDiv.appendChild(searchTitle);
+      
+      const searchList = document.createElement("ol");
+      searchList.style.marginTop = "0.5rem";
+      searchList.style.paddingLeft = "1.5rem";
+      
+      result.search_results.slice(0, 3).forEach((searchResult, i) => {
+        const doc = searchResult.document || {};
+        const derivedData = doc.derivedStructData || {};
+        const title = derivedData.title || `문서 ${i + 1}`;
+        const link = derivedData.link || doc.uri || "";
+        
+        const listItem = document.createElement("li");
+        listItem.style.marginBottom = "0.25rem";
+        
+        if (link) {
+          const linkElement = document.createElement("a");
+          linkElement.textContent = title;
+          linkElement.style.color = "#1976d2";
+          linkElement.style.textDecoration = "underline";
+          linkElement.style.cursor = "pointer";
+          
+          // GCS 링크를 프록시 URL로 변환
+          if (link.startsWith('gs://')) {
+            const gcsPath = link.replace('gs://', '');
+            const parts = gcsPath.split('/');
+            const bucketName = parts[0];
+            const filePath = parts.slice(1).join('/');
+            linkElement.href = `/gcs/${bucketName}/${filePath}`;
+            console.log(`Search Result GCS 링크 생성: ${link} -> ${linkElement.href}`);
+          } else if (link.startsWith('http')) {
+            linkElement.href = link;
+            console.log(`Search Result HTTP 링크 생성: ${link}`);
+          }
+          
+          linkElement.target = "_blank";
+          linkElement.rel = "noopener noreferrer";
+          
+          // 링크 클릭 이벤트 추가 (디버깅용)
+          linkElement.onclick = function(e) {
+            console.log("Search Result 링크 클릭됨:", linkElement.href);
+          };
+          
+          console.log("Search Result 링크 요소 생성됨:", linkElement);
+          listItem.appendChild(linkElement);
+        } else {
+          console.log("Search Result에 링크가 없어서 텍스트로만 표시:", title);
+          listItem.textContent = title;
+        }
+        
+        searchList.appendChild(listItem);
+      });
+      
+      searchDiv.appendChild(searchList);
+      messageElement.appendChild(searchDiv);
+    }
 
     chatContainer.appendChild(messageElement);
   }
@@ -311,171 +433,15 @@ document.addEventListener("DOMContentLoaded", () => {
   function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
   }
+}
 
-  // Test API functions
-  async function testAPI(type) {
-    const testQuery = document.getElementById("test-query").value.trim();
-    if (!testQuery) {
-      alert("테스트할 질문을 입력해주세요!");
-      return;
-    }
+// DOM이 로드되면 채팅 초기화 함수 실행
+document.addEventListener("DOMContentLoaded", initializeChat);
 
-    // Disable all test buttons during request
-    const testButtons = document.querySelectorAll(".test-button");
-    testButtons.forEach(btn => btn.disabled = true);
-
-    // Show loading indicator
-    const loadingElement = showLoadingIndicator();
-    scrollToBottom();
-
-    try {
-      let endpoint, title;
-      switch(type) {
-        case "discovery":
-          endpoint = "/api/discovery-answer";
-          title = "🔵 Discovery Engine 답변";
-          break;
-        case "compare":
-          endpoint = "/api/compare-answers";
-          title = "🟢 비교 테스트 결과";
-          break;
-        case "original":
-          endpoint = "/api/generate";
-          title = "🔴 기존 방식 답변";
-          break;
-      }
-
-      // Display test query as user message
-      displayUserMessage(`[${title}] ${testQuery}`);
-
-      const formData = new FormData();
-      formData.append("userPrompt", testQuery);
-      formData.append("conversationHistory", "[]");
-
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: formData
-      });
-
-      loadingElement.remove();
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || `API 요청 실패: ${response.status}`);
-      }
-
-      const result = await response.json();
-      
-      // Format and display results based on API type
-      if (type === "discovery") {
-        displayDiscoveryResult(result);
-      } else if (type === "compare") {
-        displayCompareResult(result);
-      } else {
-        // Original API result
-        const modelResponseText = result.summary_answer || result.vertex_answer || "답변을 생성하지 못했습니다.";
-        displayModelMessage(`**${title}**\n\n${modelResponseText}`);
-      }
-
-    } catch (error) {
-      if (loadingElement) loadingElement.remove();
-      console.error(`${type} API 테스트 오류:`, error);
-      displayModelMessage(`❌ **${type} 테스트 오류**: ${error.message}`);
-    } finally {
-      // Re-enable test buttons
-      testButtons.forEach(btn => btn.disabled = false);
-      scrollToBottom();
-    }
-  }
-
-  function displayDiscoveryResult(result) {
-    let message = "**🔵 Discovery Engine 답변**\n\n";
-    
-    if (result.answer) {
-      message += `${result.answer}\n\n`;
-    }
-    
-    // 검색 결과에서 링크 정보 추출 및 표시
-    if (result.search_results && result.search_results.length > 0) {
-      message += "**📚 참고 문서:**\n";
-      result.search_results.slice(0, 3).forEach((searchResult, i) => {
-        const doc = searchResult.document || {};
-        const derivedData = doc.derivedStructData || {};
-        const title = derivedData.title || `문서 ${i + 1}`;
-        const link = derivedData.link || doc.uri || "";
-        
-        if (link) {
-          // GCS 링크를 프록시 URL로 변환
-          if (link.startsWith('gs://')) {
-            const gcsPath = link.replace('gs://', '');
-            const parts = gcsPath.split('/');
-            const bucketName = parts[0];
-            const filePath = parts.slice(1).join('/');
-            const proxyUrl = `/gcs/${bucketName}/${filePath}`;
-            message += `${i + 1}. [${title}](${proxyUrl})\n`;
-          } else if (link.startsWith('http')) {
-            message += `${i + 1}. [${title}](${link})\n`;
-          } else {
-            message += `${i + 1}. ${title}\n`;
-          }
-        } else {
-          message += `${i + 1}. ${title}\n`;
-        }
-      });
-      message += "\n";
-    }
-    
-    // Citation 정보가 있으면 추가 표시
-    if (result.citations && result.citations.length > 0) {
-      message += "**📖 인용 정보:**\n";
-      result.citations.slice(0, 3).forEach((citation, i) => {
-        const title = citation.title || citation.displayName || `인용 ${i + 1}`;
-        const uri = citation.uri || "";
-        
-        if (uri) {
-          message += `${i + 1}. [${title}](${uri})\n`;
-        } else {
-          message += `${i + 1}. ${title}\n`;
-        }
-      });
-      message += "\n";
-    }
-    
-    if (result.related_questions && result.related_questions.length > 0) {
-      message += "**🤔 관련 질문:**\n";
-      result.related_questions.slice(0, 3).forEach((q) => {
-        message += `• ${q}\n`;
-      });
-    }
-    
-    message += `\n*검색 결과: ${result.search_results?.length || 0}건*`;
-    
-    displayModelMessage(message);
-  }
-
-  function displayCompareResult(result) {
-    let message = "**🟢 비교 테스트 결과**\n\n";
-    message += `**질문:** ${result.user_prompt}\n`;
-    message += `**테스트 시간:** ${new Date(result.timestamp).toLocaleString()}\n\n`;
-    
-    // Original method result
-    message += "### 🔴 기존 방식\n";
-    if (result.original_method.status === "success") {
-      message += `**요약 답변:** ${result.original_method.summary_answer?.substring(0, 200)}${result.original_method.summary_answer?.length > 200 ? '...' : ''}\n`;
-      message += `**품질 검증:** ${result.original_method.quality_check?.relevance_passed ? '✅ 통과' : '❌ 실패'}\n`;
-    } else {
-      message += `❌ **오류:** ${result.original_method.error}\n`;
-    }
-    
-    message += "\n### 🔵 Discovery Engine\n";
-    if (result.discovery_method.status === "success") {
-      message += `**답변:** ${result.discovery_method.answer?.substring(0, 200)}${result.discovery_method.answer?.length > 200 ? '...' : ''}\n`;
-      message += `**인용 수:** ${result.discovery_method.citations_count}개\n`;
-      message += `**검색 결과:** ${result.discovery_method.search_results_count}건\n`;
-    } else {
-      message += `❌ **오류:** ${result.discovery_method.error}\n`;
-    }
-    
-    displayModelMessage(message);
-  }
-});
+// 추가 안전장치: window.onload로도 시도
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeChat);
+} else {
+  // DOM이 이미 로드된 경우 즉시 실행
+  initializeChat();
+}

@@ -12,6 +12,7 @@ on:
       - 'README.md'
       - 'docs/**'
       - '.gitignore'
+      - 'main.py'
       - 'modules/**'
       - 'requirements.txt'
       - 'Dockerfile'
@@ -26,6 +27,7 @@ on:
       - 'README.md'
       - 'docs/**'
       - '.gitignore'
+      - 'main.py'
       - 'modules/**'
       - 'requirements.txt'
       - 'Dockerfile'
@@ -342,4 +344,3 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: env.DEPLOYMENT_STATUS != '' && env.SLACK_WEBHOOK_URL != ''
-

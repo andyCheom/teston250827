@@ -119,4 +119,4 @@ Thumbs.db
 *.mov
 *.wmv
 keys/
-/venv
+.venv

@@ -164,41 +164,6 @@ h1 {
     fill: var(--button-color);
 }
 
-#image-input {
-    display: none;
-}
-
-#image-preview-container {
-    padding: 0 2rem 0.5rem;
-    position: relative;
-    width: fit-content; /* 컨테이너 크기를 이미지에 맞춤 */
-}
-#image-preview {
-    max-height: 100px;
-    border-radius: 0.5rem;
-    display: none; /* JS로 제어 */
-    padding: 0.5rem;
-    background-color: var(--background-color);
-    box-shadow: 5px 5px 10px var(--dark-shadow), -5px -5px 10px var(--light-shadow);
-}
-#remove-image-btn {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: var(--background-color);
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    font-weight: bold;
-    line-height: 24px;
-    text-align: center;
-    padding: 0;
-    font-size: 16px;
-    display: none; /* JS로 제어 */
-    box-shadow: 3px 3px 6px var(--dark-shadow), -3px -3px 6px var(--light-shadow);
-}
        /* Markdown 렌더링을 위한 추가 스타일 */
        .model-message h1, .model-message h2, .model-message h3 {
     margin-top: 0.5em;

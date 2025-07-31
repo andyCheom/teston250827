@@ -1,7 +1,6 @@
 """Discovery Engine Answer API 서비스"""
 import time
 import logging
-import subprocess
 from typing import Dict, Any, Optional
 import aiohttp
 import json
@@ -134,7 +133,7 @@ async def generate_answer(query: str, query_id: str, session_id: str) -> Dict[st
         "answerGenerationSpec": {
             "ignoreAdversarialQuery": False,
             "ignoreNonAnswerSeekingQuery": False,
-            "ignoreLowRelevantContent": True,
+            "ignoreLowRelevantContent": False,  # 더 많은 콘텐츠 포함
             "multimodalSpec": {"imageSource": "CORPUS_IMAGE_ONLY"},
             "includeCitations": True,
             "promptSpec": {"preamble": system_prompt},
@@ -148,19 +147,25 @@ async def generate_answer(query: str, query_id: str, session_id: str) -> Dict[st
             raise DiscoveryEngineAPIError(f"Answer API error {response.status}", response.status, error_body)
         return await response.json()
 
-async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
+
+async def get_complete_discovery_answer(user_query: str, image_file=None) -> Dict[str, Any]:
     """Discovery Engine을 통한 완전한 답변 생성 플로우"""
     try:
-        logger.info(f"Discovery Engine 검색 시작: {user_query}")
+        # 이미지 업로드가 있어도 무시하고 텍스트 쿼리만 사용
+        final_query = user_query
+        
+        logger.info(f"Discovery Engine 검색 시작: {final_query[:100]}...")
         
         # 1. Search API 호출
-        search_result = await search_documents(user_query)
+        search_result = await search_documents(final_query)
         
         # Query ID와 Session ID 추출
         query_id = search_result.get("sessionInfo", {}).get("queryId")
         session_id = search_result.get("sessionInfo", {}).get("name")
         
         logger.info(f"Discovery Engine 검색 완료 - Query ID: {query_id}")
+        logger.info(f"검색 결과 개수: {len(search_result.get('results', []))}")
+        logger.debug(f"전체 검색 결과: {search_result}")
         
         # 2. Answer API 호출 (선택적)
         answer_text = ""
@@ -169,22 +174,40 @@ async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
         
         if query_id and session_id:
             try:
-                answer_result = await generate_answer(user_query, query_id, session_id)
+                logger.info(f"Answer API 호출 시작 - Query ID: {query_id}, Session ID: {session_id}")
+                answer_result = await generate_answer(final_query, query_id, session_id)
+                logger.info(f"Answer API 응답 받음")
+                
+                # 응답 구조 전체 로깅
+                logger.debug(f"전체 Answer API 응답: {answer_result}")
                 
                 # 응답 파싱
                 if answer_result.get("answer", {}).get("answerText"):
                     answer_text = answer_result["answer"]["answerText"]
+                    logger.info(f"Answer text 추출 성공: {len(answer_text)}자")
+                else:
+                    logger.warning("Answer API 응답에 answerText가 없음")
                 
                 if answer_result.get("answer", {}).get("citations"):
                     citations = answer_result["answer"]["citations"]
+                    logger.info(f"Citations 발견: {len(citations)}개")
+                    for i, citation in enumerate(citations):
+                        logger.info(f"Citation {i+1}: title={citation.get('title', 'N/A')}, uri={citation.get('uri', 'N/A')}")
+                else:
+                    logger.warning("Answer API 응답에 citations가 없음")
                 
                 if answer_result.get("relatedQuestions"):
+                    # Discovery Engine의 relatedQuestions를 문자열 배열로 변환
                     related_questions = answer_result["relatedQuestions"]
+                    logger.info(f"Related questions 발견: {len(related_questions)}개")
+                    logger.info(f"Related questions 내용: {related_questions}")
+                else:
+                    logger.info("Related questions 없음")
                 
                 logger.info(f"Discovery Engine 답변 생성 완료 - 길이: {len(answer_text)}")
                 
             except Exception as e:
-                logger.warning(f"Answer API 실패, 검색 결과만 사용: {e}")
+                logger.error(f"Answer API 실패, 검색 결과만 사용: {e}", exc_info=True)
                 # Answer API 실패 시 검색 결과로 대체
                 search_results = search_result.get("results", [])
                 if search_results:
@@ -194,6 +217,7 @@ async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
                         if snippet:
                             answer_text += f"{i}. {snippet[0].get('snippet', '내용 없음')}\n\n"
         else:
+            logger.warning("Query ID 또는 Session ID 추출 실패 - 검색 결과만 사용")
             # Query ID 추출 실패 시 검색 결과로 대체
             search_results = search_result.get("results", [])
             if search_results:
@@ -205,14 +229,47 @@ async def get_complete_discovery_answer(user_query: str) -> Dict[str, Any]:
             else:
                 answer_text = "검색 결과를 찾을 수 없습니다."
         
-        return {
+        # Citations가 비어있고 search_results가 있는 경우, search_results에서 citations 생성
+        if not citations and search_result.get("results", []):
+            logger.info("Answer API citations가 없어서 Search Results에서 citations 생성")
+            citations = []
+            for i, result in enumerate(search_result.get("results", [])[:5]):  # 최대 5개
+                doc = result.get("document", {})
+                derived_data = doc.get("derivedStructData", {})
+                
+                title = derived_data.get("title", f"문서 {i+1}")
+                uri = derived_data.get("link") or doc.get("uri", "")
+                
+                if uri:  # URI가 있는 경우만 citation으로 추가
+                    citations.append({
+                        "title": title,
+                        "uri": uri,
+                        "displayName": title
+                    })
+                    logger.info(f"Search Result에서 Citation 생성: {title} -> {uri}")
+            
+            logger.info(f"Search Results에서 생성된 Citations: {len(citations)}개")
+        
+        # 최종 결과 로깅
+        logger.info(f"최종 답변 상태 - answer_text 길이: {len(answer_text)}, citations: {len(citations)}개")
+        logger.info(f"Citations 요약: {[{'title': c.get('title', ''), 'has_uri': bool(c.get('uri'))} for c in citations]}")
+        
+        result = {
             "answer_text": answer_text,
             "citations": citations,
             "search_results": search_result.get("results", []),
             "related_questions": related_questions,
             "query_id": query_id or "",
-            "session_id": session_id or ""
+            "session_id": session_id or "",
+            "final_query_used": final_query
         }
+        
+        # 빈 답변 경고
+        if not answer_text or answer_text.strip() == "":
+            logger.warning("빈 답변이 반환됨 - 검색 결과를 확인하세요")
+            logger.debug(f"검색 결과: {search_result}")
+        
+        return result
         
     except Exception as e:
         logger.error(f"Discovery Engine 답변 생성 실패: {e}")
