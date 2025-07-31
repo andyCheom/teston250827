@@ -323,9 +323,39 @@ class GCPSetupManager:
             
             # 필요한 역할 부여
             required_roles = [
+                # Discovery Engine 권한
                 'roles/discoveryengine.editor',
+                
+                # Storage 권한
                 'roles/storage.objectViewer',
-                'roles/storage.objectCreator'
+                'roles/storage.objectCreator',
+                'roles/storage.admin',  # 버킷 관리용
+                
+                # Cloud Run 배포 권한
+                'roles/run.admin',
+                'roles/run.invoker',
+                
+                # Cloud Build 권한 (CICD용)
+                'roles/cloudbuild.builds.builder',
+                'roles/source.reader',
+                
+                # Artifact Registry 권한 (Docker 이미지용)
+                'roles/artifactregistry.writer',
+                'roles/artifactregistry.reader',
+                
+                # Container Registry 권한 (호환성)
+                'roles/storage.admin',  # GCR 이미지 저장용
+                
+                # IAM 권한 (서비스 계정 관리용)
+                'roles/iam.serviceAccountUser',
+                'roles/iam.serviceAccountTokenCreator',
+                
+                # 로깅 및 모니터링
+                'roles/logging.logWriter',
+                'roles/monitoring.metricWriter',
+                
+                # 네트워킹 (VPC 관련)
+                'roles/compute.networkUser'
             ]
             
             resource_manager = build('cloudresourcemanager', 'v1', credentials=self.credentials)
