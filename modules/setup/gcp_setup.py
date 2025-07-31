@@ -345,9 +345,13 @@ class GCPSetupManager:
                 # Cloud Run 배포 권한
                 'roles/run.admin',
                 'roles/run.invoker',
+
+                # Firebase 배포 권한
+                'roles/firebasehosting.admin',
                 
                 # Cloud Build 권한 (CICD용)
                 'roles/cloudbuild.builds.builder',
+                'roles/cloudbuild.editor', # Cloud Build 실행 권한
                 'roles/source.reader',
                 
                 # Artifact Registry 권한 (Docker 이미지용)
