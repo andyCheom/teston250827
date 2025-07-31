@@ -48,7 +48,6 @@ class GCPSetupManager:
             self.storage_client = storage.Client(credentials=self.credentials, project=self.project_id)
             self.service_management = build('servicemanagement', 'v1', credentials=self.credentials)
             self.discovery_client = discoveryengine_v1beta.DataStoreServiceClient(credentials=self.credentials)
-            self.run_client = build('run', 'v1', credentials=self.credentials)
             
             logger.info(f"✅ GCP 클라이언트 초기화 완료 - Project: {self.project_id}")
             return True
@@ -67,6 +66,7 @@ class GCPSetupManager:
             'run.googleapis.com',
             'firebase.googleapis.com',
             'firebasehosting.googleapis.com'
+            'cloudfunctions.googleapis.com'
         ]
         
         logger.info("📡 필요한 API 활성화 시작...")
@@ -345,13 +345,9 @@ class GCPSetupManager:
                 # Cloud Run 배포 권한
                 'roles/run.admin',
                 'roles/run.invoker',
-
-                # Firebase 배포 권한
-                'roles/firebasehosting.admin',
                 
                 # Cloud Build 권한 (CICD용)
                 'roles/cloudbuild.builds.builder',
-                'roles/cloudbuild.builds.editor', # Cloud Build 실행 권한
                 'roles/source.reader',
                 
                 # Artifact Registry 권한 (Docker 이미지용)
@@ -408,12 +404,7 @@ class GCPSetupManager:
                 except Exception as e:
                     logger.warning(f"⚠️ 역할 '{role}' 부여 실패: {e}")
             
-            # 키 파일 생성 (존재하지 않을 경우에만)
-            key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
-            if os.path.exists(key_file_path):
-                logger.info(f"✅ 서비스 계정 키 파일 '{key_file_path}' 이미 존재함. 생성을 건너뜁니다.")
-                return key_file_path
-
+            # 키 파일 생성
             logger.info("🔄 서비스 계정 키 파일 생성 중...")
             
             key = iam_service.projects().serviceAccounts().keys().create(
@@ -425,6 +416,7 @@ class GCPSetupManager:
             os.makedirs("keys", exist_ok=True)
             
             # 키 파일 저장
+            key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
             with open(key_file_path, 'w') as f:
                 import base64
                 key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
@@ -436,58 +428,6 @@ class GCPSetupManager:
         except Exception as e:
             logger.error(f"❌ 서비스 계정 생성 실패: {e}")
             return None
-
-    def create_cloud_run_service(self, 
-                               service_name: str, 
-                               location: str, 
-                               image_name: str) -> bool:
-        """Cloud Run 서비스 생성"""
-        try:
-            parent = f"projects/{self.project_id}/locations/{location}"
-            service_path = f"{parent}/services/{service_name}"
-
-            # 서비스 존재 확인
-            try:
-                self.run_client.projects().locations().services().get(name=service_path).execute()
-                logger.info(f"✅ Cloud Run 서비스 '{service_name}' 이미 존재함")
-                return True
-            except Exception:
-                pass # 서비스가 없으면 생성
-
-            logger.info(f"🔄 Cloud Run 서비스 '{service_name}' 생성 중...")
-
-            service_body = {
-                "apiVersion": "serving.knative.dev/v1",
-                "kind": "Service",
-                "metadata": {
-                    "name": service_name,
-                    "namespace": self.project_id
-                },
-                "spec": {
-                    "template": {
-                        "spec": {
-                            "containers": [
-                                {
-                                    "image": image_name,
-                                    "ports": [{"containerPort": 8000}]
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-
-            self.run_client.projects().locations().services().create(
-                parent=parent,
-                body=service_body
-            ).execute()
-
-            logger.info(f"✅ Cloud Run 서비스 '{service_name}' 생성 완료")
-            return True
-
-        except Exception as e:
-            logger.error(f"❌ Cloud Run 서비스 생성 실패: {e}")
-            return False
     
     def validate_setup(self) -> Dict[str, bool]:
         """설정 완료 상태 검증"""

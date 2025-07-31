@@ -14,6 +14,8 @@ from modules.auth import initialize_auth
 from modules.routers.api import router
 from modules.routers.discovery_only_api import router as discovery_router
 
+
+
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
