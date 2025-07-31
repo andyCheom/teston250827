@@ -194,6 +194,18 @@ class CICDSetupManager:
             discovery_location = Config.DISCOVERY_LOCATION or 'global'
 
             replacements = {
+                # Template placeholders with ${} syntax
+                '${_PROJECT_ID_}': project_id,
+                '${_REGION_}': region,
+                '${_LOCATION_ID_}': location_id,
+                '${_SERVICE_NAME_}': service_name,
+                '${_REPO_NAME_}': repo_name,
+                '${_SERVICE_ACCOUNT_}': service_account,
+                '${_DATASTORE_ID_}': datastore_id,
+                '${_DISCOVERY_ENGINE_ID_}': discovery_engine_id,
+                '${_DATASTORE_LOCATION_}': datastore_location,
+                '${_DISCOVERY_LOCATION_}': discovery_location,
+                # Substitutions section placeholders without ${} syntax
                 '_PROJECT_ID_': project_id,
                 '_REGION_': region,
                 '_LOCATION_ID_': location_id,
@@ -204,6 +216,8 @@ class CICDSetupManager:
                 '_DISCOVERY_ENGINE_ID_': discovery_engine_id,
                 '_DATASTORE_LOCATION_': datastore_location,
                 '_DISCOVERY_LOCATION_': discovery_location,
+                # Special case for _REGION_-docker.pkg.dev
+                '_REGION_-docker.pkg.dev': f'{region}-docker.pkg.dev',
             }
 
             for placeholder, value in replacements.items():
@@ -294,22 +308,22 @@ class CICDSetupManager:
     - '-c'
     - |
       echo "🚀 4. 배포된 서비스의 헬스 체크를 시작합니다..."
-      SERVICE_URL=$(gcloud run services describe ${{_SERVICE_NAME_}} --region=${{_REGION_}} --format="value(status.url)")
-      if [ -z "$SERVICE_URL" ]; then
+      SERVICE_URL=$$(gcloud run services describe ${{_SERVICE_NAME_}} --region=${{_REGION_}} --format="value(status.url)")
+      if [ -z "$$SERVICE_URL" ]; then
         echo "❌ 서비스 URL을 찾을 수 없습니다."
         exit 1
       fi
-      echo "서비스 URL: $SERVICE_URL"
+      echo "서비스 URL: $$SERVICE_URL"
       for i in {{1..12}}; do
-        echo "... 헬스 체크 시도 $i/12 ..."
-        STATUS_CODE=$(curl -o /dev/null -s -w "%{{http_code}}" --connect-timeout 5 --max-time 10 "$SERVICE_URL/api/health")
-        if [ "$STATUS_CODE" -eq 200 ]; then
-          echo "✅ 헬스 체크 성공! (상태 코드: $STATUS_CODE)"
+        echo "... 헬스 체크 시도 $$i/12 ..."
+        STATUS_CODE=$$(curl -o /dev/null -s -w "%{{http_code}}" --connect-timeout 5 --max-time 10 "$$SERVICE_URL/api/health")
+        if [ "$$STATUS_CODE" -eq 200 ]; then
+          echo "✅ 헬스 체크 성공! (상태 코드: $$STATUS_CODE)"
           exit 0
         else
-          echo "... 실패 (상태 코드: $STATUS_CODE)"
+          echo "... 실패 (상태 코드: $$STATUS_CODE)"
         fi
-        if [ $i -lt 12 ]; then
+        if [ $$i -lt 12 ]; then
           echo "... 10초 후 재시도 ..."
           sleep 10
         fi

@@ -416,6 +416,12 @@ MODEL_ID=gemini-pro
 SYSTEM_PROMPT_PATH=prompt/prompt.txt
 
 # ============================
+# 자동 설정 옵션
+# ============================
+SETUP_CICD={str(config.get('SETUP_CICD', 'false')).lower()}
+SETUP_FIREBASE={str(config.get('SETUP_FIREBASE', 'false')).lower()}
+
+# ============================
 # 정적 파일 서빙 (로컬 개발용)
 # ============================
 SERVE_STATIC=true
@@ -493,6 +499,12 @@ async def main():
     
     setup = GraphRAGLocalSetup()
     
+    # 환경변수 로드 (모든 모드에서 필요)
+    config = setup.load_env_config()
+    if not config:
+        logger.error("❌ 환경변수 로드 실패")
+        sys.exit(1)
+    
     # 사전 요구사항 확인
     if not args.skip_validation:
         if not setup.validate_prerequisites():
@@ -503,11 +515,9 @@ async def main():
     # Dry run 모드
     if args.dry_run:
         logger.info("🔍 Dry run 모드 - 설정만 확인합니다")
-        config = setup.load_env_config()
-        if config:
-            logger.info("✅ 설정 확인 완료")
-            for key, value in config.items():
-                logger.info(f"  {key}: {value}")
+        logger.info("✅ 설정 확인 완료")
+        for key, value in config.items():
+            logger.info(f"  {key}: {value}")
         return
     
     success = True

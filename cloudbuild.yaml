@@ -7,7 +7,7 @@ steps:
     - '-c'
     - |
       echo "🚀 1. Docker 이미지 빌드를 시작합니다..."
-      docker build -t "${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}" -t "${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:latest" .
+      docker build -t "${_ARTIFACT_REGISTRY}/documentation-467305/documentation-467305-graphrag-repo/documentation-467305-graphrag-api:${SHORT_SHA}" -t "${_ARTIFACT_REGISTRY}/documentation-467305/documentation-467305-graphrag-repo/documentation-467305-graphrag-api:latest" .
       echo "✅ 1. Docker 이미지 빌드 완료"
 
 # 2. Docker 이미지 푸시
@@ -18,7 +18,7 @@ steps:
     - '-c'
     - |
       echo "🚀 2. 이미지를 Artifact Registry에 푸시합니다..."
-      docker push "${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}" --all-tags
+      docker push "${_ARTIFACT_REGISTRY}/documentation-467305/documentation-467305-graphrag-repo/documentation-467305-graphrag-api" --all-tags
       echo "✅ 2. 이미지 푸시 완료"
   waitFor:
     - build-image
@@ -31,18 +31,18 @@ steps:
     - '-c'
     - |
       echo "🚀 3. Cloud Run 서비스 배포를 시작합니다..."
-      gcloud run deploy "${documentation-467305-graphrag-api}" \
-        --image="${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}" \
-        --region="${asia-northeast3}" \
+      gcloud run deploy "documentation-467305-graphrag-api" \
+        --image="${_ARTIFACT_REGISTRY}/documentation-467305/documentation-467305-graphrag-repo/documentation-467305-graphrag-api:${SHORT_SHA}" \
+        --region="asia-northeast3" \
         --platform=managed \
         --allow-unauthenticated \
-        --service-account="${graphrag-service@documentation-467305.iam.gserviceaccount.com}" \
+        --service-account="graphrag-service@documentation-467305.iam.gserviceaccount.com" \
         --min-instances="${_MIN_INSTANCES}" \
         --max-instances="${_MAX_INSTANCES}" \
         --cpu="${_CPU}" \
         --memory="${_MEMORY}" \
         --timeout="${_TIMEOUT}" \
-        --set-env-vars="PROJECT_ID=${documentation-467305},LOCATION_ID=${asia-northeast3},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${documentation-467305-graphrag-datastore},DATASTORE_LOCATION=${global},DISCOVERY_ENGINE_ID=${documentation-467305-graphrag-engine},DISCOVERY_LOCATION=${global},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
+        --set-env-vars="PROJECT_ID=documentation-467305,LOCATION_ID=asia-northeast3,MODEL_ID=${_MODEL_ID},DATASTORE_ID=documentation-467305-graphrag-datastore,DATASTORE_LOCATION=global,DISCOVERY_ENGINE_ID=documentation-467305-graphrag-engine,DISCOVERY_LOCATION=global,DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
       echo "✅ 3. Cloud Run 서비스 배포 완료"
   waitFor:
     - push-image
@@ -55,22 +55,22 @@ steps:
     - '-c'
     - |
       echo "🚀 4. 배포된 서비스의 헬스 체크를 시작합니다..."
-      SERVICE_URL=$(gcloud run services describe ${documentation-467305-graphrag-api} --region=${asia-northeast3} --format="value(status.url)")
-      if [ -z "$SERVICE_URL" ]; then
+      SERVICE_URL=$$(gcloud run services describe documentation-467305-graphrag-api --region=asia-northeast3 --format="value(status.url)")
+      if [ -z "$$SERVICE_URL" ]; then
         echo "❌ 서비스 URL을 찾을 수 없습니다."
         exit 1
       fi
-      echo "서비스 URL: $SERVICE_URL"
+      echo "서비스 URL: $$SERVICE_URL"
       for i in {1..12}; do
-        echo "... 헬스 체크 시도 $i/12 ..."
-        STATUS_CODE=$(curl -o /dev/null -s -w "%{\http_code}" --connect-timeout 5 --max-time 10 "$SERVICE_URL/api/health")
-        if [ "$STATUS_CODE" -eq 200 ]; then
-          echo "✅ 헬스 체크 성공! (상태 코드: $STATUS_CODE)"
+        echo "... 헬스 체크 시도 $$i/12 ..."
+        STATUS_CODE=$$(curl -o /dev/null -s -w "%{\http_code}" --connect-timeout 5 --max-time 10 "$$SERVICE_URL/api/health")
+        if [ "$$STATUS_CODE" -eq 200 ]; then
+          echo "✅ 헬스 체크 성공! (상태 코드: $$STATUS_CODE)"
           exit 0
         else
-          echo "... 실패 (상태 코드: $STATUS_CODE)"
+          echo "... 실패 (상태 코드: $$STATUS_CODE)"
         fi
-        if [ $i -lt 12 ]; then
+        if [ $$i -lt 12 ]; then
           echo "... 10초 후 재시도 ..."
           sleep 10
         fi
@@ -82,15 +82,15 @@ steps:
 
 # 빌드된 이미지 정보
 images:
-  - '${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:${SHORT_SHA}'
-  - '${_ARTIFACT_REGISTRY}/${documentation-467305}/${documentation-467305-graphrag-repo}/${documentation-467305-graphrag-api}:latest'
+  - '${_ARTIFACT_REGISTRY}/documentation-467305/documentation-467305-graphrag-repo/documentation-467305-graphrag-api:${SHORT_SHA}'
+  - '${_ARTIFACT_REGISTRY}/documentation-467305/documentation-467305-graphrag-repo/documentation-467305-graphrag-api:latest'
 
 # 빌드 옵션
 options:
   logging: CLOUD_LOGGING_ONLY
 
 # 서비스 계정
-serviceAccount: 'projects/${documentation-467305}/serviceAccounts/${graphrag-service@documentation-467305.iam.gserviceaccount.com}'
+serviceAccount: 'projects/documentation-467305/serviceAccounts/graphrag-service@documentation-467305.iam.gserviceaccount.com'
 
 # 치환 변수 기본값
 substitutions:
