@@ -14,7 +14,7 @@
       {
         "source": "/api/**",
         "run": {
-          "serviceId": "testing0724",
+          "serviceId": "documentation-467305-graphrag-api",
           "region": "asia-northeast3"
         }
       },
