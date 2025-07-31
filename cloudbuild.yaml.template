@@ -23,62 +23,146 @@ steps:
   waitFor:
     - build-image
 
-# 3. Cloud Run 서비스 배포
+# 3. 블루그린 배포: 새 버전을 별도 서비스로 배포 (트래픽 0%)
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: deploy-service
+  id: deploy-green-service
   entrypoint: 'bash'
   args:
     - '-c'
     - |
-      echo "🚀 3. Cloud Run 서비스 배포를 시작합니다..."
-      gcloud run deploy "${_SERVICE_NAME_}" \
+      echo "🚀 3. 블루그린 배포 - Green 버전 배포를 시작합니다..."
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
+      echo "Green 서비스명: $$GREEN_SERVICE_NAME"
+      
+      gcloud run deploy "$$GREEN_SERVICE_NAME" \
         --image="${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}" \
         --region="${_REGION_}" \
         --platform=managed \
-        --allow-unauthenticated \
+        --no-allow-unauthenticated \
         --service-account="${_SERVICE_ACCOUNT_}" \
         --min-instances="${_MIN_INSTANCES}" \
         --max-instances="${_MAX_INSTANCES}" \
         --cpu="${_CPU}" \
         --memory="${_MEMORY}" \
         --timeout="${_TIMEOUT}" \
-        --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
-      echo "✅ 3. Cloud Run 서비스 배포 완료"
+        --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false" \
+        --tag="green-$$SHORT_SHA"
+      
+      echo "✅ 3. Green 버전 배포 완료 (트래픽 0%)"
   waitFor:
     - push-image
 
-# 4. 헬스 체크
+# 4. Green 버전 헬스 체크
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: health-check
+  id: health-check-green
   entrypoint: 'bash'
   args:
     - '-c'
     - |
-      echo "🚀 4. 배포된 서비스의 헬스 체크를 시작합니다..."
-      SERVICE_URL=$$(gcloud run services describe ${_SERVICE_NAME_} --region=${_REGION_} --format="value(status.url)")
-      if [ -z "$$SERVICE_URL" ]; then
-        echo "❌ 서비스 URL을 찾을 수 없습니다."
+      echo "🚀 4. Green 버전 헬스 체크를 시작합니다..."
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
+      
+      # Green 버전의 직접 URL 가져오기 (태그 기반)
+      GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.traffic[0].url)")
+      if [ -z "$$GREEN_URL" ]; then
+        echo "❌ Green 서비스 URL을 찾을 수 없습니다."
         exit 1
       fi
-      echo "서비스 URL: $$SERVICE_URL"
+      
+      echo "Green 서비스 URL: $$GREEN_URL"
+      
+      # 헬스 체크 수행
       for i in $$(seq 1 12); do
-        echo "... 헬스 체크 시도 $$i/12 ..."
-        STATUS_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --connect-timeout 5 --max-time 10 "$$SERVICE_URL/api/health")
+        echo "... Green 버전 헬스 체크 시도 $$i/12 ..."
+        STATUS_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --connect-timeout 5 --max-time 10 "$$GREEN_URL/api/health")
         if [ "$$STATUS_CODE" = "200" ]; then
-          echo "✅ 헬스 체크 성공! (상태 코드: $$STATUS_CODE)"
-          exit 0
+          echo "✅ Green 버전 헬스 체크 성공! (상태 코드: $$STATUS_CODE)"
+          break
         else
           echo "... 실패 (상태 코드: $$STATUS_CODE)"
         fi
         if [ $$i -lt 12 ]; then
           echo "... 10초 후 재시도 ..."
           sleep 10
+        else
+          echo "❌ Green 버전 헬스 체크 최종 실패."
+          exit 1
         fi
       done
-      echo "❌ 최종 헬스 체크 실패."
-      exit 1
   waitFor:
-    - deploy-service
+    - deploy-green-service
+
+# 5. 트래픽 전환 (Blue → Green)
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: switch-traffic
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      echo "🚀 5. 트래픽 전환을 시작합니다..."
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
+      
+      # 기존 메인 서비스가 있는지 확인
+      if gcloud run services describe "${_SERVICE_NAME_}" --region=${_REGION_} >/dev/null 2>&1; then
+        echo "기존 Blue 서비스 발견: ${_SERVICE_NAME_}"
+        BLUE_EXISTS="true"
+      else
+        echo "기존 서비스 없음 - 첫 배포입니다."
+        BLUE_EXISTS="false"
+      fi
+      
+      # Green을 메인 서비스로 승격
+      echo "Green 서비스를 메인 서비스로 승격 중..."
+      gcloud run services replace-traffic "${_SERVICE_NAME_}" \
+        --to-revisions=LATEST=100 \
+        --region=${_REGION_} || {
+        # 메인 서비스가 없으면 새로 생성
+        echo "메인 서비스 생성 중..."
+        gcloud run deploy "${_SERVICE_NAME_}" \
+          --image="${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}" \
+          --region="${_REGION_}" \
+          --platform=managed \
+          --allow-unauthenticated \
+          --service-account="${_SERVICE_ACCOUNT_}" \
+          --min-instances="${_MIN_INSTANCES}" \
+          --max-instances="${_MAX_INSTANCES}" \
+          --cpu="${_CPU}" \
+          --memory="${_MEMORY}" \
+          --timeout="${_TIMEOUT}" \
+          --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
+      }
+      
+      # 최종 헬스 체크 (메인 서비스)
+      echo "메인 서비스 최종 헬스 체크..."
+      MAIN_URL=$$(gcloud run services describe "${_SERVICE_NAME_}" --region=${_REGION_} --format="value(status.url)")
+      STATUS_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --connect-timeout 5 --max-time 10 "$$MAIN_URL/api/health")
+      
+      if [ "$$STATUS_CODE" = "200" ]; then
+        echo "✅ 트래픽 전환 성공! 메인 서비스 URL: $$MAIN_URL"
+      else
+        echo "❌ 메인 서비스 헬스 체크 실패"
+        exit 1
+      fi
+  waitFor:
+    - health-check-green
+
+# 6. 정리 작업 (Green 서비스 삭제)
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: cleanup-green
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      echo "🚀 6. Green 서비스 정리 작업을 시작합니다..."
+      GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
+      
+      # Green 서비스 삭제 (메인 서비스로 승격했으므로 불필요)
+      echo "임시 Green 서비스 삭제 중: $$GREEN_SERVICE_NAME"
+      gcloud run services delete "$$GREEN_SERVICE_NAME" --region=${_REGION_} --quiet || echo "Green 서비스 삭제 실패 (무시)"
+      
+      echo "✅ 정리 작업 완료"
+  waitFor:
+    - switch-traffic
 
 # 빌드된 이미지 정보
 images:
