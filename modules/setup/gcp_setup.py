@@ -408,7 +408,12 @@ class GCPSetupManager:
                 except Exception as e:
                     logger.warning(f"⚠️ 역할 '{role}' 부여 실패: {e}")
             
-            # 키 파일 생성
+            # 키 파일 생성 (존재하지 않을 경우에만)
+            key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
+            if os.path.exists(key_file_path):
+                logger.info(f"✅ 서비스 계정 키 파일 '{key_file_path}' 이미 존재함. 생성을 건너뜁니다.")
+                return key_file_path
+
             logger.info("🔄 서비스 계정 키 파일 생성 중...")
             
             key = iam_service.projects().serviceAccounts().keys().create(
@@ -420,7 +425,6 @@ class GCPSetupManager:
             os.makedirs("keys", exist_ok=True)
             
             # 키 파일 저장
-            key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
             with open(key_file_path, 'w') as f:
                 import base64
                 key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
