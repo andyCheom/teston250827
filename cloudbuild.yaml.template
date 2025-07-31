@@ -33,22 +33,31 @@ steps:
       echo "🚀 3. 블루그린 배포 - Green 버전 배포를 시작합니다..."
       GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
       echo "Green 서비스명: $$GREEN_SERVICE_NAME"
+      echo "이미지: ${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}"
       
+      # Green 서비스 배포
       gcloud run deploy "$$GREEN_SERVICE_NAME" \
         --image="${_ARTIFACT_REGISTRY}/${_PROJECT_ID_}/${_REPO_NAME_}/${_SERVICE_NAME_}:${SHORT_SHA}" \
         --region="${_REGION_}" \
         --platform=managed \
-        --no-allow-unauthenticated \
+        --allow-unauthenticated \
         --service-account="${_SERVICE_ACCOUNT_}" \
         --min-instances="${_MIN_INSTANCES}" \
         --max-instances="${_MAX_INSTANCES}" \
         --cpu="${_CPU}" \
         --memory="${_MEMORY}" \
         --timeout="${_TIMEOUT}" \
-        --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false" \
-        --tag="green-$$SHORT_SHA"
+        --set-env-vars="PROJECT_ID=${_PROJECT_ID_},LOCATION_ID=${_LOCATION_ID_},MODEL_ID=${_MODEL_ID},DATASTORE_ID=${_DATASTORE_ID_},DATASTORE_LOCATION=${_DATASTORE_LOCATION_},DISCOVERY_ENGINE_ID=${_DISCOVERY_ENGINE_ID_},DISCOVERY_LOCATION=${_DISCOVERY_LOCATION_},DISCOVERY_COLLECTION=default_collection,DISCOVERY_SERVING_CONFIG=default_config,SYSTEM_PROMPT_PATH=prompt/prompt.txt,USE_SECRET_MANAGER=True,SERVE_STATIC=false"
       
-      echo "✅ 3. Green 버전 배포 완료 (트래픽 0%)"
+      # 배포 성공 확인
+      if gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} >/dev/null 2>&1; then
+        echo "✅ 3. Green 버전 배포 완료: $$GREEN_SERVICE_NAME"
+        GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.url)")
+        echo "Green 서비스 URL: $$GREEN_URL"
+      else
+        echo "❌ Green 서비스 배포 실패"
+        exit 1
+      fi
   waitFor:
     - push-image
 
@@ -61,11 +70,42 @@ steps:
     - |
       echo "🚀 4. Green 버전 헬스 체크를 시작합니다..."
       GREEN_SERVICE_NAME="${_SERVICE_NAME_}-green-${SHORT_SHA}"
+      echo "Green 서비스명: $$GREEN_SERVICE_NAME"
       
-      # Green 버전의 직접 URL 가져오기 (태그 기반)
-      GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.traffic[0].url)")
+      # Green 서비스 배포 완료 대기
+      echo "Green 서비스 준비 상태 확인 중..."
+      for wait_i in $$(seq 1 10); do
+        if gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} >/dev/null 2>&1; then
+          echo "✅ Green 서비스 발견됨"
+          break
+        else
+          echo "... Green 서비스 대기 중 ($$wait_i/10)"
+          sleep 5
+        fi
+        if [ $$wait_i -eq 10 ]; then
+          echo "❌ Green 서비스를 찾을 수 없습니다."
+          echo "서비스 목록 확인:"
+          gcloud run services list --region=${_REGION_} --filter="metadata.name:$$GREEN_SERVICE_NAME"
+          exit 1
+        fi
+      done
+      
+      # Green 서비스 URL 가져오기 (여러 방법 시도)
+      echo "Green 서비스 URL 가져오기 시도..."
+      
+      # 방법 1: 기본 서비스 URL
+      GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.url)" 2>/dev/null)
+      
       if [ -z "$$GREEN_URL" ]; then
-        echo "❌ Green 서비스 URL을 찾을 수 없습니다."
+        echo "방법 1 실패, 방법 2 시도 중..."
+        # 방법 2: traffic 정보에서 URL 추출
+        GREEN_URL=$$(gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_} --format="value(status.traffic[0].url)" 2>/dev/null)
+      fi
+      
+      if [ -z "$$GREEN_URL" ]; then
+        echo "❌ Green 서비스 URL을 가져올 수 없습니다."
+        echo "서비스 상세 정보:"
+        gcloud run services describe "$$GREEN_SERVICE_NAME" --region=${_REGION_}
         exit 1
       fi
       
