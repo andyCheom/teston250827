@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from modules.setup.gcp_setup import GCPSetupManager
 from modules.setup.firebase_setup import FirebaseSetupManager
+from modules.setup.cicd_setup import CICDSetupManager
 from modules.config import Config
 
 # 로깅 설정
@@ -33,6 +34,7 @@ class GraphRAGSetup:
     def __init__(self):
         self.gcp_setup = GCPSetupManager()
         self.firebase_setup = FirebaseSetupManager()
+        self.cicd_setup = CICDSetupManager()
         self.config_from_env = {}
         
     def load_env_config(self) -> Dict[str, str]:
@@ -56,6 +58,7 @@ class GraphRAGSetup:
                 'SETUP_DISCOVERY_ENGINE': os.getenv('SETUP_DISCOVERY_ENGINE', 'true').lower() == 'true',
                 'SETUP_STORAGE_BUCKET': os.getenv('SETUP_STORAGE_BUCKET', 'true').lower() == 'true',
                 'SETUP_FIREBASE': os.getenv('SETUP_FIREBASE', 'false').lower() == 'true',
+                'SETUP_CICD': os.getenv('SETUP_CICD', 'false').lower() == 'true',
                 'ENABLE_APIS': os.getenv('ENABLE_APIS', 'true').lower() == 'true',
             }
             
@@ -281,6 +284,51 @@ class GraphRAGSetup:
         logger.info(f"🎯 Firebase 리소스 설정 완료: {success_count}/{total_count} 성공")
         return success_count > 0
     
+    def setup_cicd_resources(self) -> bool:
+        """CICD 리소스 설정"""
+        if not self.config_from_env.get('SETUP_CICD', False):
+            logger.info("⏭️ CICD 설정이 비활성화됨")
+            return True
+        
+        logger.info("🚀 CICD 리소스 설정 시작...")
+        
+        # CICD 설정 관리자 초기화
+        if not self.cicd_setup.initialize():
+            return False
+        
+        config = self.config_from_env
+        success_count = 0
+        total_count = 0
+        
+        # Artifact Registry 저장소 생성
+        total_count += 1
+        logger.info("🔄 Artifact Registry 저장소 생성 중...")
+        if self.cicd_setup.create_artifact_repository(
+            repo_name="graphrag-repo",
+            location=config['LOCATION_ID']
+        ):
+            success_count += 1
+            logger.info("✅ Artifact Registry 저장소 생성 완료")
+        else:
+            logger.error("❌ Artifact Registry 저장소 생성 실패")
+        
+        # Cloud Build 설정 파일 생성
+        total_count += 1
+        logger.info("🔄 Cloud Build 설정 파일 생성 중...")
+        if self.cicd_setup.generate_cloudbuild_config():
+            success_count += 1
+            logger.info("✅ Cloud Build 설정 파일 생성 완료")
+        else:
+            logger.error("❌ Cloud Build 설정 파일 생성 실패")
+        
+        logger.info(f"🎯 CICD 리소스 설정 완료: {success_count}/{total_count} 성공")
+        
+        # CICD 설정 가이드 출력
+        if success_count > 0:
+            self.cicd_setup.print_cicd_setup_guide()
+        
+        return success_count > 0
+    
     def generate_updated_env(self) -> bool:
         """업데이트된 .env 파일 생성"""
         try:
@@ -399,6 +447,8 @@ async def main():
                        help='GCP 리소스만 설정')
     parser.add_argument('--firebase-only', action='store_true', 
                        help='Firebase 리소스만 설정')
+    parser.add_argument('--cicd-only', action='store_true', 
+                       help='CICD 리소스만 설정')
     parser.add_argument('--dry-run', action='store_true', 
                        help='실제 리소스를 생성하지 않고 설정만 확인')
     
@@ -428,15 +478,21 @@ async def main():
     success = True
     
     # GCP 리소스 설정
-    if not args.firebase_only:
+    if not args.firebase_only and not args.cicd_only:
         if not await setup.setup_gcp_resources():
             logger.error("❌ GCP 리소스 설정 실패")
             success = False
     
     # Firebase 리소스 설정
-    if not args.gcp_only:
+    if not args.gcp_only and not args.cicd_only:
         if not setup.setup_firebase_resources():
             logger.error("❌ Firebase 리소스 설정 실패")
+            success = False
+    
+    # CICD 리소스 설정
+    if not args.gcp_only and not args.firebase_only:
+        if not setup.setup_cicd_resources():
+            logger.error("❌ CICD 리소스 설정 실패")
             success = False
     
     # 설정 파일 업데이트
