@@ -9,7 +9,10 @@
     "rewrites": [
       {
         "source": "/gcs/**",
-        "destination": "/Web_Data/crawled_pages/:**"
+        "run": {
+          "serviceId": "__BACKEND_SERVICE_ID__",
+          "region": "asia-northeast3"
+        }
       },
       {
         "source": "/api/**",

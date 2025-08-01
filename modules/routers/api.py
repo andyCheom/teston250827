@@ -157,28 +157,48 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
 
 @router.get("/gcs/{bucket_name}/{file_path:path}")
 async def proxy_gcs_file(bucket_name: str, file_path: str):
-    """GCS 파일 프록시 엔드포인트"""
+    """GCS 파일 프록시 엔드포인트 - URL 디코딩 지원"""
     if not is_authenticated():
         raise HTTPException(status_code=503, detail="스토리지 인증 실패")
     
     storage_client = get_storage_client()
 
     try:
+        # URL 디코딩 처리 (한글 파일명 지원)
+        import urllib.parse
+        decoded_file_path = urllib.parse.unquote(file_path, encoding='utf-8')
+        
+        logger.info(f"GCS 파일 요청 - 원본: {file_path}, 디코딩: {decoded_file_path}")
+        
         bucket = storage_client.bucket(bucket_name)
-        blob = bucket.blob(file_path)
+        blob = bucket.blob(decoded_file_path)
+        
         if not blob.exists():
-            raise HTTPException(status_code=404, detail="파일 없음")
+            # 원본 경로로도 시도
+            blob = bucket.blob(file_path)
+            if not blob.exists():
+                logger.warning(f"파일 없음 - {bucket_name}/{decoded_file_path}")
+                raise HTTPException(status_code=404, detail="파일 없음")
 
         def iterfile():
             with blob.open("rb") as f:
                 yield from f
 
-        content_type, _ = mimetypes.guess_type(file_path)
+        content_type, _ = mimetypes.guess_type(decoded_file_path)
         content_type = content_type or "application/octet-stream"
-        headers = {'Content-Disposition': f'inline; filename="{os.path.basename(file_path)}"'}
+        
+        # 한글 파일명을 위한 Content-Disposition 헤더 설정
+        filename = os.path.basename(decoded_file_path)
+        encoded_filename = urllib.parse.quote(filename, encoding='utf-8')
+        headers = {
+            'Content-Disposition': f'inline; filename*=UTF-8\'\'{encoded_filename}'
+        }
+        
         return StreamingResponse(iterfile(), media_type=content_type, headers=headers)
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error("GCS 프록시 오류", exc_info=True)
+        logger.error(f"GCS 프록시 오류 - {bucket_name}/{file_path}", exc_info=True)
         raise HTTPException(status_code=500, detail="파일 읽기 실패")
 
 @router.post('/api/discovery-answer')
