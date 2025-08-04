@@ -18,6 +18,8 @@ def get_credentials():
         raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
     return _credentials
 
+
+
 # Spanner 클라이언트는 더 이상 사용하지 않음 - Discovery Engine 사용
 
 def get_storage_client():
