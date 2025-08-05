@@ -65,7 +65,7 @@ class GCPSetupManager:
             'cloudbuild.googleapis.com',
             'run.googleapis.com',
             'firebase.googleapis.com',
-            'firebasehosting.googleapis.com'
+            'firebasehosting.googleapis.com',
             'cloudfunctions.googleapis.com'
         ]
         
@@ -471,3 +471,124 @@ class GCPSetupManager:
         except Exception as e:
             logger.error(f"❌ 설정 검증 실패: {e}")
             return {}
+    
+    def create_cloud_run_service(self, 
+                               service_name: str,
+                               image_name: str,
+                               location: str = "asia-northeast3",
+                               cpu: str = "1",
+                               memory: str = "2Gi",
+                               max_instances: int = 100,
+                               env_vars: Optional[Dict[str, str]] = None) -> bool:
+        """Cloud Run 서비스 생성"""
+        try:
+            # Cloud Run Admin API 클라이언트
+            cloudrun_service = build('run', 'v1', credentials=self.credentials)
+            
+            # 서비스 존재 확인
+            try:
+                service_path = f"projects/{self.project_id}/locations/{location}/services/{service_name}"
+                existing_service = cloudrun_service.projects().locations().services().get(
+                    name=service_path
+                ).execute()
+                logger.info(f"✅ Cloud Run 서비스 '{service_name}' 이미 존재함")
+                return True
+            except Exception:
+                pass  # 서비스가 없으면 생성
+            
+            logger.info(f"🔄 Cloud Run 서비스 '{service_name}' 생성 중...")
+            
+            # 환경 변수 설정
+            environment_vars = []
+            if env_vars:
+                for key, value in env_vars.items():
+                    environment_vars.append({
+                        'name': key,
+                        'value': value
+                    })
+            
+            # 서비스 설정
+            service_spec = {
+                'apiVersion': 'serving.knative.dev/v1',
+                'kind': 'Service',
+                'metadata': {
+                    'name': service_name,
+                    'annotations': {
+                        'run.googleapis.com/ingress': 'all',
+                        'run.googleapis.com/ingress-status': 'all'
+                    }
+                },
+                'spec': {
+                    'template': {
+                        'metadata': {
+                            'annotations': {
+                                'autoscaling.knative.dev/maxScale': str(max_instances),
+                                'run.googleapis.com/cpu-throttling': 'false',
+                                'run.googleapis.com/execution-environment': 'gen2'
+                            }
+                        },
+                        'spec': {
+                            'containerConcurrency': 80,
+                            'timeoutSeconds': 300,
+                            'containers': [{
+                                'image': image_name,
+                                'ports': [{
+                                    'name': 'http1',
+                                    'containerPort': 8000
+                                }],
+                                'env': environment_vars,
+                                'resources': {
+                                    'limits': {
+                                        'cpu': cpu,
+                                        'memory': memory
+                                    }
+                                }
+                            }]
+                        }
+                    },
+                    'traffic': [{
+                        'percent': 100,
+                        'latestRevision': True
+                    }]
+                }
+            }
+            
+            # 서비스 생성
+            parent = f"projects/{self.project_id}/locations/{location}"
+            operation = cloudrun_service.projects().locations().services().create(
+                parent=parent,
+                body=service_spec
+            ).execute()
+            
+            logger.info(f"🔄 Cloud Run 서비스 배포 중... (Operation: {operation.get('name', 'N/A')})")
+            
+            # 배포 완료 대기 (최대 10분)
+            for i in range(60):
+                time.sleep(10)
+                try:
+                    service_path = f"projects/{self.project_id}/locations/{location}/services/{service_name}"
+                    service = cloudrun_service.projects().locations().services().get(
+                        name=service_path
+                    ).execute()
+                    
+                    # 서비스 상태 확인
+                    conditions = service.get('status', {}).get('conditions', [])
+                    ready_condition = next((c for c in conditions if c.get('type') == 'Ready'), None)
+                    
+                    if ready_condition and ready_condition.get('status') == 'True':
+                        service_url = service.get('status', {}).get('url', '')
+                        logger.info(f"✅ Cloud Run 서비스 '{service_name}' 배포 완료")
+                        logger.info(f"🔗 서비스 URL: {service_url}")
+                        return True
+                        
+                except Exception as deploy_error:
+                    if i % 6 == 0:  # 1분마다 로그
+                        logger.info(f"🔄 서비스 배포 대기 중... ({i//6 + 1}/10분)")
+                    continue
+            
+            logger.warning(f"⚠️ Cloud Run 서비스 배포 시간 초과")
+            return False
+            
+        except Exception as e:
+            logger.error(f"❌ Cloud Run 서비스 생성 실패: {e}")
+            return False
