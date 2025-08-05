@@ -312,6 +312,16 @@ class GraphRAGLocalSetup:
         else:
             logger.error("❌ Firebase Hosting 설정 실패")
         
+        # Firebase 서비스 계정 생성
+        total_count += 1
+        logger.info("🔄 Firebase 서비스 계정 생성 중...")
+        firebase_key_file = self.firebase_setup.create_firebase_service_account()
+        if firebase_key_file:
+            success_count += 1
+            logger.info(f"✅ Firebase 서비스 계정 키 파일 생성 완료: {firebase_key_file}")
+        else:
+            logger.error("❌ Firebase 서비스 계정 생성 실패")
+        
         logger.info(f"🎯 Firebase 리소스 설정 완료: {success_count}/{total_count} 성공")
         return success_count > 0
     

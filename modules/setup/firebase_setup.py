@@ -323,3 +323,131 @@ class FirebaseSetupManager:
         except Exception as e:
             logger.error(f"❌ Firebase 설정 검증 실패: {e}")
             return {}
+    
+    def create_firebase_service_account(self, 
+                                      service_account_id: str = None,
+                                      display_name: str = None,
+                                      description: str = None) -> Optional[str]:
+        """Firebase 배포용 서비스 계정 생성 및 키 파일 다운로드"""
+        try:
+            if not service_account_id:
+                # 서비스 계정 ID는 6-30자 제한
+                project_short = self.project_id.replace('-', '')[:15]  # 프로젝트 ID 단축
+                service_account_id = f"{project_short}-firebase"
+            
+            if not display_name:
+                display_name = f"Firebase Deploy Service Account"
+            
+            if not description:
+                description = f"Firebase 호스팅 배포용 서비스 계정"
+            
+            # IAM 클라이언트
+            iam_service = build('iam', 'v1', credentials=self.credentials)
+            
+            service_account_email = f"{service_account_id}@{self.project_id}.iam.gserviceaccount.com"
+            
+            # 서비스 계정 존재 확인
+            try:
+                existing_sa = iam_service.projects().serviceAccounts().get(
+                    name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}"
+                ).execute()
+                logger.info(f"✅ Firebase 서비스 계정 '{service_account_id}' 이미 존재함")
+            except Exception:
+                # 서비스 계정 생성
+                logger.info(f"🔄 Firebase 서비스 계정 '{service_account_id}' 생성 중...")
+                
+                service_account = {
+                    'accountId': service_account_id,
+                    'serviceAccount': {
+                        'displayName': display_name,
+                        'description': description
+                    }
+                }
+                
+                iam_service.projects().serviceAccounts().create(
+                    name=f"projects/{self.project_id}",
+                    body=service_account
+                ).execute()
+                
+                logger.info(f"✅ Firebase 서비스 계정 '{service_account_id}' 생성 완료")
+            
+            # Firebase 배포에 필요한 역할 부여
+            required_roles = [
+                # Firebase 관리 권한
+                'roles/firebase.admin',
+                'roles/firebasehosting.admin',
+                
+                # Cloud Storage 권한 (Firebase 호스팅 파일 저장용)
+                'roles/storage.admin',
+                
+                # Cloud Build 권한 (배포 파이프라인용)
+                'roles/cloudbuild.builds.builder',
+                'roles/source.reader',
+                
+                # 로깅 권한
+                'roles/logging.logWriter',
+                
+                # IAM 권한
+                'roles/iam.serviceAccountUser',
+                'roles/iam.serviceAccountTokenCreator'
+            ]
+            
+            resource_manager = build('cloudresourcemanager', 'v1', credentials=self.credentials)
+            
+            for role in required_roles:
+                try:
+                    # 현재 IAM 정책 가져오기
+                    policy = resource_manager.projects().getIamPolicy(
+                        resource=self.project_id
+                    ).execute()
+                    
+                    # 바인딩 추가
+                    binding_exists = False
+                    for binding in policy.get('bindings', []):
+                        if binding['role'] == role:
+                            if f"serviceAccount:{service_account_email}" not in binding['members']:
+                                binding['members'].append(f"serviceAccount:{service_account_email}")
+                            binding_exists = True
+                            break
+                    
+                    if not binding_exists:
+                        policy.setdefault('bindings', []).append({
+                            'role': role,
+                            'members': [f"serviceAccount:{service_account_email}"]
+                        })
+                    
+                    # 정책 업데이트
+                    resource_manager.projects().setIamPolicy(
+                        resource=self.project_id,
+                        body={'policy': policy}
+                    ).execute()
+                    
+                    logger.info(f"✅ Firebase 역할 '{role}' 부여 완료")
+                    
+                except Exception as e:
+                    logger.warning(f"⚠️ Firebase 역할 '{role}' 부여 실패: {e}")
+            
+            # 키 파일 생성
+            logger.info("🔄 Firebase 서비스 계정 키 파일 생성 중...")
+            
+            key = iam_service.projects().serviceAccounts().keys().create(
+                name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
+                body={'keyAlgorithm': 'KEY_ALG_RSA_2048'}
+            ).execute()
+            
+            # 키 디렉토리 생성
+            os.makedirs("keys", exist_ok=True)
+            
+            # 키 파일 저장
+            key_file_path = f"keys/{service_account_id}.json"
+            with open(key_file_path, 'w') as f:
+                import base64
+                key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
+                f.write(key_data)
+            
+            logger.info(f"✅ Firebase 서비스 계정 키 파일 저장: {key_file_path}")
+            return key_file_path
+            
+        except Exception as e:
+            logger.error(f"❌ Firebase 서비스 계정 생성 실패: {e}")
+            return None
