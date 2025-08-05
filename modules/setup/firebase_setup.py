@@ -23,6 +23,7 @@ class FirebaseSetupManager:
         self.project_id = None
         self.firebase_management = None
         
+    
     def initialize(self) -> bool:
         """Firebase 클라이언트 초기화"""
         try:
@@ -370,6 +371,11 @@ class FirebaseSetupManager:
                 ).execute()
                 
                 logger.info(f"✅ Firebase 서비스 계정 '{service_account_id}' 생성 완료")
+                
+                # 서비스 계정 생성 완료 대기 (권한 부여 전)
+                import time
+                logger.info("🔄 서비스 계정 생성 완료 대기 중... (30초)")
+                time.sleep(30)
             
             # Firebase 배포에 필요한 역할 부여
             required_roles = [
