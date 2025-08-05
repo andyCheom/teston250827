@@ -14,11 +14,6 @@ from modules.auth import initialize_auth
 from modules.routers.api import router
 from modules.routers.discovery_only_api import router as discovery_router
 
-
-
-
-
-
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -38,7 +33,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # 인증 초기화 (백그라운드에서 진행 - 헬스 체크 블로킹 방지)
 import asyncio
@@ -81,6 +75,7 @@ if SERVE_STATIC:
     # 로컬 개발환경: 정적 파일 서빙
     @app.get("/")
     async def serve_root():
+        
         """루트 페이지 서빙 (로컬 개발용)"""
         return FileResponse("public/index.html")
 
@@ -107,3 +102,5 @@ else:
             "status": "running",
             "frontend_url": "https://cheom-kdb-test1.web.app"
         }
+    
+    ## for test
