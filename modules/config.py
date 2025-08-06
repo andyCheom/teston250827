@@ -33,6 +33,10 @@ class Config:
     # Service Account 설정
     SERVICE_ACCOUNT_EMAIL = os.getenv('SERVICE_ACCOUNT_EMAIL', '')
     
+    # Storage 설정
+    STORAGE_BUCKET = os.getenv('STORAGE_BUCKET', '')
+    CONVERSATION_BUCKET = os.getenv('CONVERSATION_BUCKET', '')
+    
     # Spanner 설정은 더 이상 사용하지 않음 - Discovery Engine 사용
     
     # 프롬프트 설정

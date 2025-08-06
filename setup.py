@@ -59,11 +59,13 @@ class GraphRAGLocalSetup:
                 'DISCOVERY_SERVING_CONFIG': os.getenv('DISCOVERY_SERVING_CONFIG', 'default_config'),
                 'DATASTORE_ID': os.getenv('DATASTORE_ID', ''),
                 'STORAGE_BUCKET': os.getenv('STORAGE_BUCKET', ''),
+                'CONVERSATION_BUCKET': os.getenv('CONVERSATION_BUCKET', ''),
                 'FIREBASE_PROJECT_ID': os.getenv('FIREBASE_PROJECT_ID', ''),
                 'SERVICE_ACCOUNT_EMAIL': os.getenv('SERVICE_ACCOUNT_EMAIL', ''),
                 'AUTO_SETUP': os.getenv('AUTO_SETUP', 'true').lower() == 'true',
                 'SETUP_DISCOVERY_ENGINE': os.getenv('SETUP_DISCOVERY_ENGINE', 'true').lower() == 'true',
                 'SETUP_STORAGE_BUCKET': os.getenv('SETUP_STORAGE_BUCKET', 'true').lower() == 'true',
+                'SETUP_CONVERSATION_BUCKET': os.getenv('SETUP_CONVERSATION_BUCKET', 'true').lower() == 'true',
                 'SETUP_FIREBASE': os.getenv('SETUP_FIREBASE', 'false').lower() == 'true',
                 'SETUP_CICD': os.getenv('SETUP_CICD', 'false').lower() == 'true',
                 'ENABLE_APIS': os.getenv('ENABLE_APIS', 'true').lower() == 'true',
@@ -85,6 +87,9 @@ class GraphRAGLocalSetup:
             
             if not config['STORAGE_BUCKET']:
                 config['STORAGE_BUCKET'] = f"{project_id}-graphrag-storage"
+            
+            if not config['CONVERSATION_BUCKET']:
+                config['CONVERSATION_BUCKET'] = f"{project_id}-conversations"
             
             if not config['FIREBASE_PROJECT_ID']:
                 config['FIREBASE_PROJECT_ID'] = project_id
@@ -210,6 +215,19 @@ class GraphRAGLocalSetup:
                 logger.info(f"✅ Storage 버킷 생성 완료: {bucket_name}")
             else:
                 logger.error(f"❌ Storage 버킷 생성 실패: {bucket_name}")
+        
+        # 대화 저장용 버킷 생성 
+        if config.get('SETUP_CONVERSATION_BUCKET', True):
+            total_count += 1
+            conversation_bucket_name = config.get('CONVERSATION_BUCKET', f"{config['PROJECT_ID']}-conversations")
+            logger.info(f"🔄 대화 저장용 버킷 '{conversation_bucket_name}' 생성 중...")
+            if self.gcp_setup.create_storage_bucket(conversation_bucket_name, config['LOCATION_ID']):
+                success_count += 1
+                logger.info(f"✅ 대화 저장용 버킷 생성 완료: {conversation_bucket_name}")
+                # 환경변수에 추가
+                self.config_from_env['CONVERSATION_BUCKET'] = conversation_bucket_name
+            else:
+                logger.error(f"❌ 대화 저장용 버킷 생성 실패: {conversation_bucket_name}")
         
         # Discovery Engine 데이터스토어 생성
         if config.get('SETUP_DISCOVERY_ENGINE', True):

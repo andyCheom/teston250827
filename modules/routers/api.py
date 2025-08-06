@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from ..config import Config
 from ..auth import is_authenticated, get_storage_client
 from ..services.discovery_engine_api import get_complete_discovery_answer
+from ..services.conversation_logger import conversation_logger
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -115,6 +116,30 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
             "citations_count": len(discovery_result.get("citations", [])),
             "search_results_count": len(discovery_result.get("search_results", []))
         }, ensure_ascii=False))
+
+        # 대화 내용 JSON 파일에 로깅
+        session_id = discovery_result.get("session_id")
+        conversation_metadata = {
+            "citations": discovery_result.get("citations", []),
+            "search_results": discovery_result.get("search_results", []),
+            "related_questions": discovery_result.get("related_questions", []),
+            "engine_type": "discovery_engine_main",
+            "query_id": discovery_result.get("query_id"),
+            "answer_length": len(final_answer),
+            "citations_count": len(discovery_result.get("citations", [])),
+            "search_results_count": len(discovery_result.get("search_results", []))
+        }
+        
+        # 비동기 로깅 (실패해도 API 응답에 영향 없음)
+        try:
+            conversation_logger.log_conversation(
+                session_id=session_id,
+                user_question=userPrompt,
+                ai_answer=final_answer,
+                metadata=conversation_metadata
+            )
+        except Exception as e:
+            logger.warning(f"대화 로깅 실패 (API 응답에는 영향 없음): {e}")
 
         return JSONResponse({
             "answer": final_answer,
