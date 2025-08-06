@@ -426,6 +426,7 @@ DATASTORE_LOCATION={config['DISCOVERY_LOCATION']}
 # Cloud Storage 설정
 # ============================
 STORAGE_BUCKET={config['STORAGE_BUCKET']}
+CONVERSATION_BUCKET={config.get('CONVERSATION_BUCKET', config['PROJECT_ID'] + '-conversations')}
 
 # ============================
 # Firebase 설정
@@ -448,6 +449,7 @@ SYSTEM_PROMPT_PATH=prompt/prompt.txt
 # ============================
 SETUP_CICD={str(config.get('SETUP_CICD', 'false')).lower()}
 SETUP_FIREBASE={str(config.get('SETUP_FIREBASE', 'false')).lower()}
+SETUP_CONVERSATION_BUCKET={str(config.get('SETUP_CONVERSATION_BUCKET', 'true')).lower()}
 
 # ============================
 # 정적 파일 서빙 (로컬 개발용)
