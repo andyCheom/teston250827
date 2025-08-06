@@ -22,6 +22,7 @@ class CICDSetupManager:
         self.cloudbuild_service = None
         self.artifactregistry_service = None
         
+        
     def initialize(self) -> bool:
         """CICD 클라이언트 초기화"""
         try:
