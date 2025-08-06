@@ -231,16 +231,16 @@ serviceAccount: 'projects/${_PROJECT_ID}/serviceAccounts/${_SERVICE_ACCOUNT}'
 
 # 치환 변수 기본값
 substitutions:
-  _PROJECT_ID: testp-468107
+  _PROJECT_ID: final-468206
   _REGION: asia-northeast3
   _LOCATION_ID: asia-northeast3
-  _SERVICE_NAME: testp-468107-graphrag-api
-  _REPO_NAME: testp-468107-graphrag-repo
-  _SERVICE_ACCOUNT: graphrag-service@testp-468107.iam.gserviceaccount.com
+  _SERVICE_NAME: final-468206-graphrag-api
+  _REPO_NAME: final-468206-graphrag-repo
+  _SERVICE_ACCOUNT: graphrag-service@final-468206.iam.gserviceaccount.com
   _ARTIFACT_REGISTRY: asia-northeast3-docker.pkg.dev
-  _DATASTORE_ID: testp-468107-graphrag-datastore
+  _DATASTORE_ID: final-468206-graphrag-datastore
   _DATASTORE_LOCATION: global
-  _DISCOVERY_ENGINE_ID: testp-468107-graphrag-engine
+  _DISCOVERY_ENGINE_ID: final-468206-graphrag-engine
   _DISCOVERY_LOCATION: global
   _MIN_INSTANCES: '0'
   _MAX_INSTANCES: '10'

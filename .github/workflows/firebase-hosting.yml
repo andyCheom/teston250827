@@ -160,7 +160,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SA_KEY }}
           projectId: ${{ env.FIREBASE_PROJECT_ID }}
           channelId: preview-${{ github.event.number }}
           expires: 7d
@@ -210,7 +210,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SA_KEY }}
           projectId: ${{ env.FIREBASE_PROJECT_ID }}
           channelId: staging
         env:
@@ -282,7 +282,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SA_KEY }}
           projectId: ${{ env.FIREBASE_PROJECT_ID }}
           channelId: live
         env:
