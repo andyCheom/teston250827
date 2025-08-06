@@ -72,6 +72,8 @@ class Config:
         collection = cls.DISCOVERY_COLLECTION
         return f"projects/{project}/locations/{location}/collections/{collection}/dataStores/{datastore}"
     
+
+    
     # 서비스 어카운트 키 경로
     SERVICE_ACCOUNT_PATH = "keys/cheom-kdb-test1-faf5cf87a1fd.json"
     
