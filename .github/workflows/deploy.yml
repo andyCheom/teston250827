@@ -162,35 +162,35 @@ jobs:
           echo "❌ 배포 검증 실패"
           exit 1
       
-      # # 10. Slack 알림 (성공)
-      # - name: Notify success to Slack
-      #   if: success()
-      #   uses: 8398a7/action-slack@v3
-      #   with:
-      #     status: success
-      #     text: |
-      #       🎉 GraphRAG API 배포 성공!
-      #       • 환경: ${{ env.ENVIRONMENT }}
-      #       • 브랜치: ${{ github.ref_name }}
-      #       • 커밋: ${{ env.SHORT_SHA }}
-      #       • 서비스: ${{ steps.verify-deployment.outputs.SERVICE_URL }}
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # 10. Slack 알림 (성공)
+      - name: Notify success to Slack
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          text: |
+            🎉 GraphRAG API 배포 성공!
+            • 환경: ${{ env.ENVIRONMENT }}
+            • 브랜치: ${{ github.ref_name }}
+            • 커밋: ${{ env.SHORT_SHA }}
+            • 서비스: ${{ steps.verify-deployment.outputs.SERVICE_URL }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       
-      # # 11. Slack 알림 (실패)
-      # - name: Notify failure to Slack
-      #   if: failure()
-      #   uses: 8398a7/action-slack@v3
-      #   with:
-      #     status: failure
-      #     text: |
-      #       ❌ GraphRAG API 배포 실패
-      #       • 환경: ${{ env.ENVIRONMENT }}
-      #       • 브랜치: ${{ github.ref_name }}
-      #       • 커밋: ${{ env.SHORT_SHA }}
-      #       • 로그: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # 11. Slack 알림 (실패)
+      - name: Notify failure to Slack
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          text: |
+            ❌ GraphRAG API 배포 실패
+            • 환경: ${{ env.ENVIRONMENT }}
+            • 브랜치: ${{ github.ref_name }}
+            • 커밋: ${{ env.SHORT_SHA }}
+            • 로그: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   # # 보안 스캔 (별도 잡)
   # security-scan:
