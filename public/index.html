@@ -24,9 +24,75 @@
 궁금하신 내용을 언제든지 입력해 주세요.  
 챗봇을 통한 문의는 24시간 상담이 가능하며,  
 빠르고 정확한 답변을 도와드리겠습니다!</pre>
+            
+            <!-- 데모 신청 버튼 -->
+            <div class="demo-button-container">
+                <button id="demo-request-btn" class="demo-button">
+                    🎯 데모 신청하기
+                </button>
+            </div>
         </div>
     </main>
 
+
+    <!-- 데모 신청 폼 (숨김 상태로 시작) -->
+    <div id="demo-form-container" class="demo-form-container" style="display: none;">
+        <div class="demo-form-overlay">
+            <form id="demo-form" class="demo-form">
+                <div class="demo-form-header">
+                    <h3>데모 신청하기</h3>
+                    <button type="button" id="demo-form-close" class="demo-form-close">×</button>
+                </div>
+                
+                <div class="demo-form-body">
+                    <div class="form-group">
+                        <label for="company-name">회사명 *</label>
+                        <input type="text" id="company-name" name="companyName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-name">고객명 *</label>
+                        <input type="text" id="customer-name" name="customerName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">이메일 *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">전화번호 *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="send-type">발송타입</label>
+                        <select id="send-type" name="sendType">
+                            <option value="">선택해주세요</option>
+                            <option value="마이메일러">마이메일러 (메일 대량 발송)</option>
+                            <option value="프링고">프링고 (뉴스레터 제작)</option>
+                            <option value="기프티콘발송">기프티콘 발송 대행</option>
+                            <option value="온라인설문">온라인 설문</option>
+                            <option value="기타">기타 서비스</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usage-purpose">사용목적 및 이용방식</label>
+                        <textarea id="usage-purpose" name="usagePurpose" rows="3" 
+                                  placeholder="서비스 이용 목적이나 구체적인 요구사항을 입력해주세요."></textarea>
+                    </div>
+                    
+                    <div id="demo-form-errors" class="demo-form-errors" style="display: none;"></div>
+                </div>
+                
+                <div class="demo-form-footer">
+                    <button type="button" id="demo-form-cancel" class="btn-cancel">취소</button>
+                    <button type="submit" id="demo-form-submit" class="btn-submit">신청하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <form id="prompt-form" autocomplete="off">
         <div class="input-wrapper">

@@ -14,6 +14,7 @@ from ..services.discovery_engine_api import get_complete_discovery_answer
 from ..services.conversation_logger import conversation_logger
 from ..services.sensitive_query_detector import sensitive_detector
 from ..services.consultant_service import consultant_service
+from ..services.demo_request_service import demo_service
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -432,6 +433,57 @@ async def request_consultant(
         return JSONResponse({
             "success": False,
             "message": "상담 요청 처리 중 오류가 발생했습니다.",
+            "error": str(e)
+        }, status_code=500)
+
+@router.post('/api/request-demo')
+async def request_demo(
+    companyName: str = Form(""),
+    customerName: str = Form(""), 
+    email: str = Form(""),
+    phone: str = Form(""),
+    sendType: str = Form(""),
+    usagePurpose: str = Form("")
+):
+    """데모 신청 엔드포인트"""
+    try:
+        # 데모 신청 데이터 구성
+        demo_data = {
+            "company_name": companyName.strip(),
+            "customer_name": customerName.strip(),
+            "email": email.strip(),
+            "phone": phone.strip(),
+            "send_type": sendType.strip(),
+            "usage_purpose": usagePurpose.strip()
+        }
+        
+        # 데모 신청 처리
+        result = await demo_service.process_demo_request(demo_data)
+        
+        if result["success"]:
+            logger.info(f"데모 신청 성공: {result['request_id']}")
+            return JSONResponse({
+                "success": True,
+                "message": result["message"],
+                "request_id": result["request_id"],
+                "timestamp": result["timestamp"],
+                "warnings": result.get("warnings", [])
+            })
+        else:
+            logger.error(f"데모 신청 실패: {result}")
+            status_code = 400 if result.get("errors") else 500
+            return JSONResponse({
+                "success": False,
+                "message": result["message"],
+                "errors": result.get("errors", []),
+                "warnings": result.get("warnings", [])
+            }, status_code=status_code)
+            
+    except Exception as e:
+        logger.exception(f"데모 신청 처리 중 오류: {e}")
+        return JSONResponse({
+            "success": False,
+            "message": "데모 신청 처리 중 오류가 발생했습니다.",
             "error": str(e)
         }, status_code=500)
 

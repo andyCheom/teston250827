@@ -7,6 +7,13 @@ function initializeChat() {
   const promptForm = document.getElementById("prompt-form");
   const promptInput = document.getElementById("prompt-input");
   
+  // Demo form elements
+  const demoRequestBtn = document.getElementById("demo-request-btn");
+  const demoFormContainer = document.getElementById("demo-form-container");
+  const demoForm = document.getElementById("demo-form");
+  const demoFormClose = document.getElementById("demo-form-close");
+  const demoFormCancel = document.getElementById("demo-form-cancel");
+  
   console.log("DOM 요소 확인:", {
     chatContainer: !!chatContainer,
     promptForm: !!promptForm,
@@ -63,6 +70,32 @@ function initializeChat() {
       promptForm.requestSubmit();
     }
   });
+
+  // Demo form event listeners
+  if (demoRequestBtn) {
+    demoRequestBtn.addEventListener("click", showDemoForm);
+  }
+  
+  if (demoFormClose) {
+    demoFormClose.addEventListener("click", hideDemoForm);
+  }
+  
+  if (demoFormCancel) {
+    demoFormCancel.addEventListener("click", hideDemoForm);
+  }
+  
+  if (demoForm) {
+    demoForm.addEventListener("submit", handleDemoFormSubmit);
+  }
+  
+  // Close demo form when clicking outside
+  if (demoFormContainer) {
+    demoFormContainer.addEventListener("click", (e) => {
+      if (e.target === demoFormContainer) {
+        hideDemoForm();
+      }
+    });
+  }
 
   // --- Functions ---
 
@@ -477,6 +510,120 @@ function initializeChat() {
 
   function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+  
+  // Demo form functions
+  function showDemoForm() {
+    if (demoFormContainer) {
+      demoFormContainer.style.display = "flex";
+      // 폼 초기화
+      if (demoForm) {
+        demoForm.reset();
+      }
+      // 에러 메시지 숨김
+      const errorContainer = document.getElementById("demo-form-errors");
+      if (errorContainer) {
+        errorContainer.style.display = "none";
+      }
+    }
+  }
+  
+  function hideDemoForm() {
+    if (demoFormContainer) {
+      demoFormContainer.style.display = "none";
+    }
+  }
+  
+  async function handleDemoFormSubmit(e) {
+    e.preventDefault();
+    
+    // 폼 데이터 수집
+    const formData = new FormData(demoForm);
+    
+    // 제출 버튼 비활성화
+    const submitBtn = document.getElementById("demo-form-submit");
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "처리 중...";
+    }
+    
+    // 에러 컨테이너 숨김
+    const errorContainer = document.getElementById("demo-form-errors");
+    if (errorContainer) {
+      errorContainer.style.display = "none";
+    }
+    
+    try {
+      console.log("데모 신청 전송 중...");
+      
+      const response = await fetch("/api/request-demo", {
+        method: "POST",
+        body: formData,
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        console.log("데모 신청 성공:", result);
+        
+        // 성공 메시지를 채팅에 표시
+        displayModelMessage(`✅ **데모 신청이 완료되었습니다!**
+
+**신청 번호**: ${result.request_id}
+**신청 시간**: ${result.timestamp}
+
+${result.message}
+
+담당자가 빠른 시일 내에 연락드리겠습니다.`);
+        
+        // 경고사항이 있으면 추가로 표시
+        if (result.warnings && result.warnings.length > 0) {
+          const warningMessage = "📋 **참고사항**:\n" + result.warnings.map(w => `• ${w}`).join("\n");
+          displayModelMessage(warningMessage);
+        }
+        
+        // 폼 닫기
+        hideDemoForm();
+        
+        // 채팅 하단으로 스크롤
+        scrollToBottom();
+        
+      } else {
+        console.error("데모 신청 실패:", result);
+        
+        // 에러 메시지 표시
+        if (errorContainer) {
+          let errorHtml = "";
+          
+          if (result.errors && result.errors.length > 0) {
+            errorHtml += "<ul>";
+            result.errors.forEach(error => {
+              errorHtml += `<li>${error}</li>`;
+            });
+            errorHtml += "</ul>";
+          } else {
+            errorHtml = result.message || "데모 신청 중 오류가 발생했습니다.";
+          }
+          
+          errorContainer.innerHTML = errorHtml;
+          errorContainer.style.display = "block";
+        }
+      }
+      
+    } catch (error) {
+      console.error("데모 신청 중 네트워크 오류:", error);
+      
+      if (errorContainer) {
+        errorContainer.innerHTML = "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+        errorContainer.style.display = "block";
+      }
+    } finally {
+      // 제출 버튼 다시 활성화
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "신청하기";
+      }
+    }
   }
   
   async function requestConsultant(apiResult) {
