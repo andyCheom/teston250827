@@ -372,8 +372,7 @@ jobs:
                       "keyValue": {
                         "topLabel": "배포 상태", 
                         "content": "STATUS_PLACEHOLDER",
-                        "contentMultiline": false,
-                        "icon": "ICON_PLACEHOLDER"
+                        "contentMultiline": false
                       }
                     },
                     {
@@ -417,12 +416,7 @@ jobs:
             sed -i "s/COMMIT_PLACEHOLDER/${{ github.sha }}/g" /tmp/firebase_payload.json
             sed -i "s|URL_PLACEHOLDER|${{ env.DEPLOYMENT_URL }}|g" /tmp/firebase_payload.json
             
-            # 아이콘 설정
-            if [ "${{ env.DEPLOYMENT_STATUS }}" == "success" ]; then
-              sed -i "s/ICON_PLACEHOLDER/CHECK_CIRCLE/g" /tmp/firebase_payload.json
-            else
-              sed -i "s/ICON_PLACEHOLDER/ERROR/g" /tmp/firebase_payload.json
-            fi
+            # 아이콘은 제거됨 (Google Chat API 호환성 문제)
             
             # Google Chat으로 전송
             curl -X POST \

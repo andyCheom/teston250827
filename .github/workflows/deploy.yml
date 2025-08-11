@@ -191,8 +191,7 @@ jobs:
                       "keyValue": {
                         "topLabel": "배포 상태",
                         "content": "SUCCESS",
-                        "contentMultiline": false,
-                        "icon": "CHECK_CIRCLE"
+                        "contentMultiline": false
                       }
                     },
                     {
@@ -274,8 +273,7 @@ jobs:
                       "keyValue": {
                         "topLabel": "배포 상태",
                         "content": "FAILED",
-                        "contentMultiline": false,
-                        "icon": "ERROR"
+                        "contentMultiline": false
                       }
                     },
                     {
