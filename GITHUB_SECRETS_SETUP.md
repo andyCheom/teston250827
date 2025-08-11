@@ -112,20 +112,49 @@ curl -X POST \
 ## 🚨 문제 해결
 
 ### 1. 알림이 오지 않는 경우
+
+**Step 1: 로컬에서 웹훅 테스트**
 ```bash
-# GitHub Actions 로그 확인
-- "⚠️ GOOGLE_CHAT_WEBHOOK_URL이 설정되지 않았습니다" 메시지 확인
-- curl 명령의 응답 코드 확인 (200이어야 정상)
+# 디버깅 스크립트 실행
+python simple_webhook_test.py
 ```
+
+**Step 2: GitHub Actions 워크플로우 확인**
+```bash
+# GitHub Actions 로그에서 확인할 내용:
+- "⚠️ GOOGLE_CHAT_WEBHOOK_URL이 설정되지 않았습니다" 메시지
+- curl 명령의 응답 코드 (200이어야 정상)
+- JSON 파일 생성 오류
+```
+
+**Step 3: 트리거 조건 확인**
+- 변경된 파일이 워크플로우 트리거 조건에 맞는지 확인
+- `main` 또는 `develop` 브랜치에 push했는지 확인
+- 해당하는 경로의 파일이 변경되었는지 확인
 
 ### 2. 403/401 오류 발생 시
 - Google Chat 웹훅 URL이 올바른지 확인
 - Space에서 Incoming Webhook 앱이 활성화되어 있는지 확인
 - 웹훅이 삭제되지 않았는지 확인
+- GitHub Secrets에 올바른 URL이 저장되었는지 확인
 
 ### 3. JSON 파싱 오류 시
-- 페이로드의 JSON 형식이 올바른지 확인
-- 특수문자나 이스케이프 문자 확인
+- 업데이트된 워크플로우는 JSON 파일을 별도로 생성하여 안전하게 처리
+- 특수문자나 이스케이프 문자로 인한 오류 방지
+- 플레이스홀더 방식으로 동적 값 치환
+
+### 4. 워크플로우가 실행되지 않는 경우
+**트리거 조건 확인:**
+
+Firebase 워크플로우:
+- `public/**` 경로의 파일 변경
+- `firebase.json` 파일 변경
+- `.github/workflows/firebase-hosting.yml` 파일 변경
+
+Backend 워크플로우:
+- `main.py`, `modules/**`, `requirements.txt` 등 백엔드 파일 변경
+- `Dockerfile`, `cloudbuild.yaml` 변경
+- `.github/workflows/deploy.yml` 파일 변경
 
 ## 📞 지원
 

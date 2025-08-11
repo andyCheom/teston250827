@@ -176,10 +176,10 @@ jobs:
               --region=${{ env.REGION }} \
               --format="value(status.url)" 2>/dev/null || echo "URL 조회 실패")
             
-            # Google Chat 메시지 페이로드 생성
-            PAYLOAD=$(cat <<EOF
+            # Google Chat 메시지 JSON 파일 생성 (안전한 방법)
+            cat > /tmp/success_payload.json << 'EOL'
             {
-              "text": "🎉 *GraphRAG API 배포 성공!*",
+              "text": "GraphRAG API 배포 성공!",
               "cards": [{
                 "header": {
                   "title": "GraphRAG 백엔드 배포 알림",
@@ -190,7 +190,7 @@ jobs:
                     {
                       "keyValue": {
                         "topLabel": "배포 상태",
-                        "content": "✅ 성공",
+                        "content": "SUCCESS",
                         "contentMultiline": false,
                         "icon": "CHECK_CIRCLE"
                       }
@@ -198,67 +198,47 @@ jobs:
                     {
                       "keyValue": {
                         "topLabel": "환경",
-                        "content": "${{ env.ENVIRONMENT }}",
+                        "content": "ENVIRONMENT_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
-                        "topLabel": "브랜치",
-                        "content": "${{ github.ref_name }}",
+                        "topLabel": "브랜치", 
+                        "content": "BRANCH_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "커밋",
-                        "content": "${{ env.SHORT_SHA }}",
+                        "content": "COMMIT_PLACEHOLDER", 
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "서비스 URL",
-                        "content": "${SERVICE_URL}",
-                        "contentMultiline": false
-                      }
-                    },
-                    {
-                      "keyValue": {
-                        "topLabel": "서비스명",
-                        "content": "${{ env.SERVICE_NAME }}",
+                        "content": "URL_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     }
                   ]
-                }],
-                "cardActions": [
-                  {
-                    "actionLabel": "API 헬스 체크",
-                    "onClick": {
-                      "openLink": {
-                        "url": "${SERVICE_URL}/api/health"
-                      }
-                    }
-                  },
-                  {
-                    "actionLabel": "워크플로우 보기",
-                    "onClick": {
-                      "openLink": {
-                        "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                      }
-                    }
-                  }
-                ]
+                }]
               }]
             }
-          EOF
-            )
+          EOL
+            
+            # 플레이스홀더를 실제 값으로 치환
+            sed -i "s/ENVIRONMENT_PLACEHOLDER/${{ env.ENVIRONMENT }}/g" /tmp/success_payload.json
+            sed -i "s/BRANCH_PLACEHOLDER/${{ github.ref_name }}/g" /tmp/success_payload.json  
+            sed -i "s/COMMIT_PLACEHOLDER/${{ env.SHORT_SHA }}/g" /tmp/success_payload.json
+            sed -i "s|URL_PLACEHOLDER|${SERVICE_URL}|g" /tmp/success_payload.json
             
             # Google Chat으로 전송
             curl -X POST \
               -H "Content-Type: application/json" \
-              -d "$PAYLOAD" \
+              -d @/tmp/success_payload.json \
               "$WEBHOOK_URL"
             
             if [ $? -eq 0 ]; then
@@ -279,10 +259,10 @@ jobs:
           if [ -n "$WEBHOOK_URL" ]; then
             echo "📢 Google Chat으로 배포 실패 알림 전송 중..."
             
-            # Google Chat 메시지 페이로드 생성
-            PAYLOAD=$(cat <<EOF
+            # Google Chat 실패 메시지 JSON 파일 생성
+            cat > /tmp/failure_payload.json << 'EOL'
             {
-              "text": "❌ *GraphRAG API 배포 실패*",
+              "text": "GraphRAG API 배포 실패",
               "cards": [{
                 "header": {
                   "title": "GraphRAG 백엔드 배포 알림",
@@ -293,7 +273,7 @@ jobs:
                     {
                       "keyValue": {
                         "topLabel": "배포 상태",
-                        "content": "❌ 실패",
+                        "content": "FAILED",
                         "contentMultiline": false,
                         "icon": "ERROR"
                       }
@@ -301,50 +281,39 @@ jobs:
                     {
                       "keyValue": {
                         "topLabel": "환경",
-                        "content": "${{ env.ENVIRONMENT }}",
+                        "content": "ENVIRONMENT_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "브랜치",
-                        "content": "${{ github.ref_name }}",
+                        "content": "BRANCH_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "커밋",
-                        "content": "${{ env.SHORT_SHA }}",
-                        "contentMultiline": false
-                      }
-                    },
-                    {
-                      "keyValue": {
-                        "topLabel": "서비스명",
-                        "content": "${{ env.SERVICE_NAME }}",
+                        "content": "COMMIT_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     }
                   ]
-                }],
-                "cardActions": [{
-                  "actionLabel": "로그 보기",
-                  "onClick": {
-                    "openLink": {
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                    }
-                  }
                 }]
               }]
             }
-          EOF
-            )
+          EOL
+            
+            # 플레이스홀더를 실제 값으로 치환
+            sed -i "s/ENVIRONMENT_PLACEHOLDER/${{ env.ENVIRONMENT }}/g" /tmp/failure_payload.json
+            sed -i "s/BRANCH_PLACEHOLDER/${{ github.ref_name }}/g" /tmp/failure_payload.json  
+            sed -i "s/COMMIT_PLACEHOLDER/${{ env.SHORT_SHA }}/g" /tmp/failure_payload.json
             
             # Google Chat으로 전송
             curl -X POST \
               -H "Content-Type: application/json" \
-              -d "$PAYLOAD" \
+              -d @/tmp/failure_payload.json \
               "$WEBHOOK_URL"
             
             if [ $? -eq 0 ]; then

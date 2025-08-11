@@ -357,10 +357,10 @@ jobs:
               STATUS_TEXT="실패"
             fi
             
-            # Google Chat 메시지 페이로드 생성
-            PAYLOAD=$(cat <<EOF
+            # Google Chat 메시지 JSON 파일 생성
+            cat > /tmp/firebase_payload.json << 'EOL'
             {
-              "text": "${{ env.DEPLOYMENT_EMOJI }} *Firebase Hosting 배포 ${STATUS_TEXT}*",
+              "text": "Firebase Hosting 배포 STATUS_PLACEHOLDER",
               "cards": [{
                 "header": {
                   "title": "GraphRAG Firebase 배포 알림",
@@ -370,59 +370,64 @@ jobs:
                   "widgets": [
                     {
                       "keyValue": {
-                        "topLabel": "배포 상태",
-                        "content": "${STATUS_TEXT}",
+                        "topLabel": "배포 상태", 
+                        "content": "STATUS_PLACEHOLDER",
                         "contentMultiline": false,
-                        "icon": "${{ env.DEPLOYMENT_STATUS == 'success' && 'CHECK_CIRCLE' || 'ERROR' }}"
+                        "icon": "ICON_PLACEHOLDER"
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "환경",
-                        "content": "${{ env.DEPLOYMENT_ENV }}",
+                        "content": "ENV_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "브랜치",
-                        "content": "${{ github.ref_name }}",
+                        "content": "BRANCH_PLACEHOLDER", 
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "커밋",
-                        "content": "${{ github.sha }}".substring(0, 7),
+                        "content": "COMMIT_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     },
                     {
                       "keyValue": {
                         "topLabel": "배포 URL",
-                        "content": "${{ env.DEPLOYMENT_URL }}",
+                        "content": "URL_PLACEHOLDER",
                         "contentMultiline": false
                       }
                     }
                   ]
-                }],
-                "cardActions": [{
-                  "actionLabel": "워크플로우 보기",
-                  "onClick": {
-                    "openLink": {
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                    }
-                  }
                 }]
               }]
             }
-          EOF
-            )
+          EOL
+            
+            # 플레이스홀더를 실제 값으로 치환
+            sed -i "s/STATUS_PLACEHOLDER/${STATUS_TEXT}/g" /tmp/firebase_payload.json
+            sed -i "s/ENV_PLACEHOLDER/${{ env.DEPLOYMENT_ENV }}/g" /tmp/firebase_payload.json  
+            sed -i "s/BRANCH_PLACEHOLDER/${{ github.ref_name }}/g" /tmp/firebase_payload.json
+            sed -i "s/COMMIT_PLACEHOLDER/${{ github.sha }}/g" /tmp/firebase_payload.json
+            sed -i "s|URL_PLACEHOLDER|${{ env.DEPLOYMENT_URL }}|g" /tmp/firebase_payload.json
+            
+            # 아이콘 설정
+            if [ "${{ env.DEPLOYMENT_STATUS }}" == "success" ]; then
+              sed -i "s/ICON_PLACEHOLDER/CHECK_CIRCLE/g" /tmp/firebase_payload.json
+            else
+              sed -i "s/ICON_PLACEHOLDER/ERROR/g" /tmp/firebase_payload.json
+            fi
             
             # Google Chat으로 전송
             curl -X POST \
               -H "Content-Type: application/json" \
-              -d "$PAYLOAD" \
+              -d @/tmp/firebase_payload.json \
               "$WEBHOOK_URL"
             
             if [ $? -eq 0 ]; then
