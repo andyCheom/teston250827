@@ -85,3 +85,8 @@ class Config:
                 return f.read()
         except FileNotFoundError:
             raise FileNotFoundError(f"시스템 프롬프트 파일을 찾을 수 없습니다: {cls.SYSTEM_PROMPT_PATH}")
+    
+    @staticmethod
+    def get_env_var(name: str, default: str = None) -> str:
+        """환경변수 안전하게 가져오기"""
+        return os.getenv(name, default)

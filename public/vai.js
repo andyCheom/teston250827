@@ -178,6 +178,7 @@ function initializeChat() {
         console.log("API 응답 전체:", result);
         console.log("Citations:", result.citations);
         console.log("Search Results:", result.search_results);
+        console.log("Consultant needed:", result.consultant_needed);
         
         displayModelMessageWithSources(modelResponseText, result);
       } else {
@@ -400,6 +401,50 @@ function initializeChat() {
       messageElement.appendChild(searchDiv);
     }
 
+    // 상담사 연결 버튼 추가
+    if (result.consultant_needed) {
+      console.log("상담사 연결 버튼 섹션 생성 중...");
+      const consultantDiv = document.createElement("div");
+      consultantDiv.style.marginTop = "1rem";
+      consultantDiv.style.paddingTop = "1rem";
+      consultantDiv.style.borderTop = "1px solid #e0e0e0";
+      consultantDiv.style.textAlign = "center";
+      
+      const consultantButton = document.createElement("button");
+      consultantButton.textContent = "🎧 상담사와 연결하기";
+      consultantButton.style.cssText = `
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      `;
+      
+      // 호버 효과
+      consultantButton.onmouseenter = () => {
+        consultantButton.style.transform = "translateY(-2px)";
+        consultantButton.style.boxShadow = "0 6px 20px rgba(102, 126, 234, 0.6)";
+      };
+      
+      consultantButton.onmouseleave = () => {
+        consultantButton.style.transform = "translateY(0)";
+        consultantButton.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.4)";
+      };
+      
+      // 클릭 이벤트
+      consultantButton.onclick = async () => {
+        await requestConsultant(result);
+      };
+      
+      consultantDiv.appendChild(consultantButton);
+      messageElement.appendChild(consultantDiv);
+    }
+
     chatContainer.appendChild(messageElement);
   }
 
@@ -432,6 +477,49 @@ function initializeChat() {
 
   function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+  
+  async function requestConsultant(apiResult) {
+    console.log("상담사 연결 요청 시작...");
+    
+    try {
+      // 현재 대화의 마지막 사용자 질문 추출
+      const lastUserMessage = conversationHistory
+        .filter(msg => msg.role === "user")
+        .slice(-1)[0];
+      
+      const userPrompt = lastUserMessage?.parts?.[0]?.text || "";
+      
+      const formData = new FormData();
+      formData.append("userPrompt", userPrompt);
+      formData.append("conversationHistory", JSON.stringify(conversationHistory));
+      formData.append("sessionId", apiResult.metadata?.session_id || "");
+      formData.append("sensitiveCategories", JSON.stringify(apiResult.metadata?.sensitive_categories || []));
+      
+      // 로딩 메시지 표시
+      displayModelMessage("상담사 연결 요청을 처리하고 있습니다... 🔄");
+      
+      const response = await fetch("/api/request-consultant", {
+        method: "POST",
+        body: formData,
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        displayModelMessage(`✅ ${result.message}\n\n**문의 번호**: ${result.consultation_id}\n**요청 시간**: ${new Date(result.timestamp).toLocaleString('ko-KR')}`);
+        console.log("상담사 연결 요청 성공:", result);
+      } else {
+        displayModelMessage(`❌ ${result.message || "상담 요청 처리 중 오류가 발생했습니다."}`);
+        console.error("상담사 연결 요청 실패:", result);
+      }
+      
+    } catch (error) {
+      console.error("상담사 연결 요청 중 오류:", error);
+      displayModelMessage("❌ 상담사 연결 요청 중 네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    }
+    
+    scrollToBottom();
   }
 }
 

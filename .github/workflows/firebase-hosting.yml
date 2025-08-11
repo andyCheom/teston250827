@@ -340,44 +340,97 @@ jobs:
             echo "DEPLOYMENT_URL=https://staging--${{ env.FIREBASE_PROJECT_ID }}.web.app" >> $GITHUB_ENV
           fi
       
-      - name: Send Slack notification
-        uses: 8398a7/action-slack@v3
-        with:
-          status: custom
-          custom_payload: |
+      - name: Send Google Chat notification
+        run: |
+          # Google Chat 웹훅으로 알림 전송
+          WEBHOOK_URL="${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}"
+          
+          if [ -n "$WEBHOOK_URL" ]; then
+            echo "📢 Google Chat으로 배포 알림 전송 중..."
+            
+            # 상태에 따른 색상 설정
+            if [ "${{ env.DEPLOYMENT_STATUS }}" == "success" ]; then
+              CARD_COLOR="#00FF00"  # 초록색
+              STATUS_TEXT="성공"
+            else
+              CARD_COLOR="#FF0000"  # 빨간색
+              STATUS_TEXT="실패"
+            fi
+            
+            # Google Chat 메시지 페이로드 생성
+            PAYLOAD=$(cat <<EOF
             {
-              "text": "${{ env.DEPLOYMENT_EMOJI }} Firebase Hosting 배포 ${{ env.DEPLOYMENT_STATUS == 'success' && '성공' || '실패' }}!",
-              "attachments": [{
-                "color": "${{ env.DEPLOYMENT_STATUS == 'success' && 'good' || 'danger' }}",
-                "fields": [
-                  {
-                    "title": "환경",
-                    "value": "${{ env.DEPLOYMENT_ENV }}",
-                    "short": true
-                  },
-                  {
-                    "title": "브랜치",
-                    "value": "${{ github.ref_name }}",
-                    "short": true
-                  },
-                  {
-                    "title": "커밋",
-                    "value": "${{ github.sha }}".substring(0, 7),
-                    "short": true
-                  },
-                  {
-                    "title": "URL",
-                    "value": "${{ env.DEPLOYMENT_URL }}",
-                    "short": true
-                  },
-                  {
-                    "title": "워크플로우",
-                    "value": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>",
-                    "short": false
+              "text": "${{ env.DEPLOYMENT_EMOJI }} *Firebase Hosting 배포 ${STATUS_TEXT}*",
+              "cards": [{
+                "header": {
+                  "title": "GraphRAG Firebase 배포 알림",
+                  "subtitle": "프론트엔드 배포 상태"
+                },
+                "sections": [{
+                  "widgets": [
+                    {
+                      "keyValue": {
+                        "topLabel": "배포 상태",
+                        "content": "${STATUS_TEXT}",
+                        "contentMultiline": false,
+                        "icon": "${{ env.DEPLOYMENT_STATUS == 'success' && 'CHECK_CIRCLE' || 'ERROR' }}"
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "환경",
+                        "content": "${{ env.DEPLOYMENT_ENV }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "브랜치",
+                        "content": "${{ github.ref_name }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "커밋",
+                        "content": "${{ github.sha }}".substring(0, 7),
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "배포 URL",
+                        "content": "${{ env.DEPLOYMENT_URL }}",
+                        "contentMultiline": false
+                      }
+                    }
+                  ]
+                }],
+                "cardActions": [{
+                  "actionLabel": "워크플로우 보기",
+                  "onClick": {
+                    "openLink": {
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
                   }
-                ]
+                }]
               }]
             }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: env.DEPLOYMENT_STATUS != '' && env.SLACK_WEBHOOK_URL != ''
+          EOF
+            )
+            
+            # Google Chat으로 전송
+            curl -X POST \
+              -H "Content-Type: application/json" \
+              -d "$PAYLOAD" \
+              "$WEBHOOK_URL"
+            
+            if [ $? -eq 0 ]; then
+              echo "✅ Google Chat 알림 전송 성공"
+            else
+              echo "❌ Google Chat 알림 전송 실패"
+            fi
+          else
+            echo "⚠️ GOOGLE_CHAT_WEBHOOK_URL이 설정되지 않았습니다"
+          fi
+        if: env.DEPLOYMENT_STATUS != ''

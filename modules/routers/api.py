@@ -12,6 +12,8 @@ from ..config import Config
 from ..auth import is_authenticated, get_storage_client
 from ..services.discovery_engine_api import get_complete_discovery_answer
 from ..services.conversation_logger import conversation_logger
+from ..services.sensitive_query_detector import sensitive_detector
+from ..services.consultant_service import consultant_service
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -79,6 +81,134 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
 
     try:
         conversation_history = json.loads(conversationHistory)
+        
+        # 민감한 질문 감지 및 지능적 분류
+        sensitivity_check = sensitive_detector.is_sensitive_query(userPrompt)
+        
+        # RAG 우선 시도가 필요한 경우 (요금제/플랜 일반 정보)
+        if sensitivity_check["should_try_rag_first"]:
+            logger.info(f"요금제/플랜 일반 정보 질문으로 분류, RAG 우선 시도: {userPrompt[:50]}...")
+            
+            try:
+                # Discovery Engine을 통한 답변 시도
+                discovery_result = await get_complete_discovery_answer(userPrompt)
+                answer_text = discovery_result.get("answer_text", "")
+                
+                # RAG 답변이 충분한지 확인
+                if answer_text and len(answer_text.strip()) > 50:
+                    # RAG 답변 성공 - 일반적인 플로우로 처리
+                    logger.info(f"RAG 답변 성공: {len(answer_text)}자")
+                    # 아래 일반 처리 로직으로 넘어감
+                    
+                else:
+                    # RAG 답변이 부족한 경우 상담사 연결 제안
+                    logger.info("RAG 답변이 부족하여 상담사 연결로 전환")
+                    fallback_response = f"{sensitive_detector.get_sensitive_response(['general_plan_info'])}"
+                    
+                    updated_history = conversation_history + [{
+                        "role": "user", 
+                        "parts": [{"text": userPrompt}]
+                    }, {
+                        "role": "model",
+                        "parts": [{"text": fallback_response}]
+                    }]
+                    
+                    return JSONResponse({
+                        "answer": fallback_response,
+                        "summary_answer": fallback_response,
+                        "citations": discovery_result.get("citations", []),
+                        "search_results": discovery_result.get("search_results", []),
+                        "related_questions": discovery_result.get("related_questions", []),
+                        "updatedHistory": updated_history,
+                        "metadata": {
+                            "engine_type": "rag_fallback_to_consultant",
+                            "sensitive_detected": True,
+                            "sensitive_categories": ["rag_insufficient"],
+                            "confidence": sensitivity_check["confidence"],
+                            "query_type": sensitivity_check["query_type"]
+                        },
+                        "quality_check": {
+                            "has_answer": True,
+                            "discovery_success": False,
+                            "rag_attempted": True,
+                            "rag_insufficient": True
+                        },
+                        "consultant_needed": True
+                    })
+                    
+            except Exception as e:
+                logger.error(f"RAG 시도 중 오류 발생, 상담사 연결로 전환: {e}")
+                fallback_response = f"{sensitive_detector.get_sensitive_response(['general_plan_info'])}"
+                
+                updated_history = conversation_history + [{
+                    "role": "user", 
+                    "parts": [{"text": userPrompt}]
+                }, {
+                    "role": "model",
+                    "parts": [{"text": fallback_response}]
+                }]
+                
+                return JSONResponse({
+                    "answer": fallback_response,
+                    "summary_answer": fallback_response,
+                    "citations": [],
+                    "search_results": [],
+                    "related_questions": [],
+                    "updatedHistory": updated_history,
+                    "metadata": {
+                        "engine_type": "rag_error_to_consultant",
+                        "sensitive_detected": True,
+                        "sensitive_categories": ["rag_error"],
+                        "confidence": sensitivity_check["confidence"],
+                        "query_type": sensitivity_check["query_type"],
+                        "error": str(e)
+                    },
+                    "quality_check": {
+                        "has_answer": True,
+                        "discovery_success": False,
+                        "rag_attempted": True,
+                        "rag_error": True
+                    },
+                    "consultant_needed": True
+                })
+        
+        # 즉시 상담사 연결이 필요한 민감한 질문
+        elif sensitivity_check["is_sensitive"]:
+            # 민감한 질문에 대한 표준 응답
+            sensitive_response = sensitive_detector.get_sensitive_response(sensitivity_check["categories"])
+            
+            # 대화 히스토리 업데이트
+            updated_history = conversation_history + [{
+                "role": "user", 
+                "parts": [{"text": userPrompt}]
+            }, {
+                "role": "model",
+                "parts": [{"text": sensitive_response}]
+            }]
+            
+            logger.info(f"민감한 질문 감지됨: {userPrompt[:50]}... -> 카테고리: {sensitivity_check['categories']}")
+            
+            return JSONResponse({
+                "answer": sensitive_response,
+                "summary_answer": sensitive_response,
+                "citations": [],
+                "search_results": [],
+                "related_questions": [],
+                "updatedHistory": updated_history,
+                "metadata": {
+                    "engine_type": "sensitive_query_handler",
+                    "sensitive_detected": True,
+                    "sensitive_categories": sensitivity_check["categories"],
+                    "confidence": sensitivity_check["confidence"],
+                    "query_type": sensitivity_check["query_type"]
+                },
+                "quality_check": {
+                    "has_answer": True,
+                    "discovery_success": False,
+                    "sensitive_query": True
+                },
+                "consultant_needed": True  # 프론트엔드에서 상담사 연결 버튼 표시용
+            })
         
         # Discovery Engine을 통한 답변 생성
         discovery_result = await get_complete_discovery_answer(userPrompt)
@@ -260,4 +390,48 @@ async def discovery_answer(userPrompt: str = Form("")):
     except Exception as e:
         logger.exception("Discovery Engine Answer API 오류")
         raise HTTPException(status_code=500, detail=f"Discovery Engine 답변 생성 실패: {str(e)}")
+
+@router.post('/api/request-consultant')
+async def request_consultant(
+    userPrompt: str = Form(""), 
+    conversationHistory: str = Form("[]"),
+    sessionId: str = Form(""),
+    sensitiveCategories: str = Form("[]")
+):
+    """상담사 연결 요청 엔드포인트"""
+    try:
+        conversation_history = json.loads(conversationHistory)
+        sensitive_categories = json.loads(sensitiveCategories)
+        
+        # 상담 요청 생성 및 Google Chat 전송
+        consultation_result = await consultant_service.create_consultation_request(
+            user_query=userPrompt,
+            conversation_history=conversation_history,
+            session_id=sessionId or f"session_{datetime.now().timestamp()}",
+            sensitive_categories=sensitive_categories
+        )
+        
+        if consultation_result["success"]:
+            logger.info(f"상담사 연결 요청 성공: {consultation_result['consultation_id']}")
+            return JSONResponse({
+                "success": True,
+                "message": "상담사에게 문의가 전달되었습니다. 곧 연락드리겠습니다.",
+                "consultation_id": consultation_result["consultation_id"],
+                "timestamp": consultation_result["timestamp"]
+            })
+        else:
+            logger.error(f"상담사 연결 요청 실패: {consultation_result}")
+            return JSONResponse({
+                "success": False,
+                "message": "상담 요청 전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                "error": consultation_result.get("error", "Unknown error")
+            }, status_code=500)
+            
+    except Exception as e:
+        logger.exception(f"상담사 연결 요청 처리 중 오류: {e}")
+        return JSONResponse({
+            "success": False,
+            "message": "상담 요청 처리 중 오류가 발생했습니다.",
+            "error": str(e)
+        }, status_code=500)
 

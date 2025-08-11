@@ -87,6 +87,8 @@ The codebase follows a clean modular architecture:
   - `discovery_only_api.py`: Discovery Engine-specific test endpoints
 - **`modules/services/`**: Business logic layer
   - `discovery_engine_api.py`: Discovery Engine API client with session management and caching
+  - `sensitive_query_detector.py`: Sensitive query detection for consultant handoff
+  - `consultant_service.py`: Google Chat integration for human consultation requests
 
 ### Discovery Engine Integration
 The system uses a two-step approach:
@@ -122,6 +124,7 @@ Authentication methods (in priority order):
 - `GET /api/health` - Basic health check
 - `GET /api/health/detailed` - Health check with authentication status
 - `POST /api/discovery-answer` - Direct Discovery Engine Answer API test
+- `POST /api/request-consultant` - Request consultation from human agent (sensitive query handler)
 
 ### Response Format
 ```json
@@ -155,6 +158,87 @@ The system implements comprehensive error handling:
 - Background authentication initialization prevents blocking startup
 - Structured logging with Korean language support
 
+## Consultant Service Integration
+
+### Sensitive Query Detection
+The system automatically detects sensitive queries that require human intervention:
+
+**Detected Categories**:
+- **Price/Cost**: Questions about pricing, fees, billing, subscription plans
+- **Discounts**: Inquiries about promotions, sales, coupons, special offers
+- **Consultant**: Direct requests for human agent connection
+- **Contract**: Legal terms, agreements, policy questions
+- **Privacy**: Personal data, security, account management
+
+**Detection Features**:
+- Keyword-based classification with confidence scoring
+- Pattern matching for common sensitive question structures
+- Multi-category detection (e.g., price + discount queries)
+- Korean language optimized with English keyword support
+
+### Google Chat Integration
+When sensitive queries are detected:
+
+1. **Automated Response**: Standard message indicating AI limitations
+2. **Consultant Button**: UI displays connection button below the response
+3. **Chat Notification**: Conversation history sent to Google Chat workspace
+4. **Handoff Tracking**: Session ID and metadata preserved for continuity
+
+**Required Configuration**:
+```bash
+# Google Chat webhook URL for notifications
+GOOGLE_CHAT_WEBHOOK_URL=https://chat.googleapis.com/v1/spaces/YOUR_SPACE/messages?key=YOUR_KEY&token=YOUR_TOKEN
+```
+
+### API Response Extensions
+The `/api/generate` endpoint now includes:
+```json
+{
+  "consultant_needed": true,  // Triggers UI button display
+  "metadata": {
+    "sensitive_detected": true,
+    "sensitive_categories": ["price", "discount"],
+    "confidence": 0.85
+  }
+}
+```
+
+## CI/CD Pipeline
+
+### GitHub Actions Workflows
+The project uses two main workflows for automated deployment:
+
+1. **Firebase Hosting Deploy** (`.github/workflows/firebase-hosting.yml`)
+   - Triggers on push to `main`/`develop` branches for frontend changes
+   - Deploys static files to Firebase Hosting
+   - Supports staging (develop) and production (main) environments
+   - Includes health checks and Google Chat notifications
+
+2. **Backend Cloud Run Deploy** (`.github/workflows/deploy.yml`)  
+   - Triggers on push to `main`/`develop` branches for backend changes
+   - Builds Docker image and deploys to Google Cloud Run
+   - Automated health checks with API endpoints
+   - Google Chat notifications for deployment status
+
+### Notification System
+All deployments send status notifications to Google Chat:
+- **Success notifications**: Include deployment URL, environment, commit info
+- **Failure notifications**: Include error logs and troubleshooting links
+- **Rich cards**: Interactive buttons for health checks and workflow details
+
+**Required GitHub Secrets**:
+```bash
+# Core deployment secrets
+GCP_SA_KEY                  # Google Cloud Service Account JSON
+FIREBASE_SA_KEY            # Firebase Service Account JSON  
+GOOGLE_CHAT_WEBHOOK_URL    # Google Chat webhook for notifications
+```
+
+### Deployment Environments
+- **Production**: `main` branch → `https://your-project.web.app`
+- **Staging**: `develop` branch → `https://staging--your-project.web.app`
+- **Preview**: Pull requests → temporary preview URLs
+
 ## Development Notes
 
 - **Korean Language Focus**: All user-facing text and logging in Korean
@@ -162,3 +246,5 @@ The system implements comprehensive error handling:
 - **Background Processing**: Authentication initialization runs in background thread
 - **Session Management**: HTTP session reuse and connection pooling for Discovery Engine API
 - **Caching Strategy**: Authentication headers cached for 5 minutes to reduce latency
+- **Sensitive Query Handling**: Real-time detection with human handoff capability
+- **Automated Deployments**: GitHub Actions with Google Chat notifications

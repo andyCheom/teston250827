@@ -162,35 +162,199 @@ jobs:
           echo "❌ 배포 검증 실패"
           exit 1
       
-      # 10. Slack 알림 (성공)
-      - name: Notify success to Slack
+      # 10. Google Chat 알림 (성공)
+      - name: Notify success to Google Chat
         if: success()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: success
-          text: |
-            🎉 GraphRAG API 배포 성공!
-            • 환경: ${{ env.ENVIRONMENT }}
-            • 브랜치: ${{ github.ref_name }}
-            • 커밋: ${{ env.SHORT_SHA }}
-            • 서비스: ${{ steps.verify-deployment.outputs.SERVICE_URL }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          WEBHOOK_URL="${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}"
+          
+          if [ -n "$WEBHOOK_URL" ]; then
+            echo "📢 Google Chat으로 배포 성공 알림 전송 중..."
+            
+            # 서비스 URL 가져오기
+            SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
+              --region=${{ env.REGION }} \
+              --format="value(status.url)" 2>/dev/null || echo "URL 조회 실패")
+            
+            # Google Chat 메시지 페이로드 생성
+            PAYLOAD=$(cat <<EOF
+            {
+              "text": "🎉 *GraphRAG API 배포 성공!*",
+              "cards": [{
+                "header": {
+                  "title": "GraphRAG 백엔드 배포 알림",
+                  "subtitle": "Cloud Run 배포 완료"
+                },
+                "sections": [{
+                  "widgets": [
+                    {
+                      "keyValue": {
+                        "topLabel": "배포 상태",
+                        "content": "✅ 성공",
+                        "contentMultiline": false,
+                        "icon": "CHECK_CIRCLE"
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "환경",
+                        "content": "${{ env.ENVIRONMENT }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "브랜치",
+                        "content": "${{ github.ref_name }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "커밋",
+                        "content": "${{ env.SHORT_SHA }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "서비스 URL",
+                        "content": "${SERVICE_URL}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "서비스명",
+                        "content": "${{ env.SERVICE_NAME }}",
+                        "contentMultiline": false
+                      }
+                    }
+                  ]
+                }],
+                "cardActions": [
+                  {
+                    "actionLabel": "API 헬스 체크",
+                    "onClick": {
+                      "openLink": {
+                        "url": "${SERVICE_URL}/api/health"
+                      }
+                    }
+                  },
+                  {
+                    "actionLabel": "워크플로우 보기",
+                    "onClick": {
+                      "openLink": {
+                        "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                      }
+                    }
+                  }
+                ]
+              }]
+            }
+          EOF
+            )
+            
+            # Google Chat으로 전송
+            curl -X POST \
+              -H "Content-Type: application/json" \
+              -d "$PAYLOAD" \
+              "$WEBHOOK_URL"
+            
+            if [ $? -eq 0 ]; then
+              echo "✅ Google Chat 성공 알림 전송 완료"
+            else
+              echo "❌ Google Chat 성공 알림 전송 실패"
+            fi
+          else
+            echo "⚠️ GOOGLE_CHAT_WEBHOOK_URL이 설정되지 않았습니다"
+          fi
       
-      # 11. Slack 알림 (실패)
-      - name: Notify failure to Slack
+      # 11. Google Chat 알림 (실패)
+      - name: Notify failure to Google Chat
         if: failure()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: failure
-          text: |
-            ❌ GraphRAG API 배포 실패
-            • 환경: ${{ env.ENVIRONMENT }}
-            • 브랜치: ${{ github.ref_name }}
-            • 커밋: ${{ env.SHORT_SHA }}
-            • 로그: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          WEBHOOK_URL="${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}"
+          
+          if [ -n "$WEBHOOK_URL" ]; then
+            echo "📢 Google Chat으로 배포 실패 알림 전송 중..."
+            
+            # Google Chat 메시지 페이로드 생성
+            PAYLOAD=$(cat <<EOF
+            {
+              "text": "❌ *GraphRAG API 배포 실패*",
+              "cards": [{
+                "header": {
+                  "title": "GraphRAG 백엔드 배포 알림",
+                  "subtitle": "Cloud Run 배포 실패"
+                },
+                "sections": [{
+                  "widgets": [
+                    {
+                      "keyValue": {
+                        "topLabel": "배포 상태",
+                        "content": "❌ 실패",
+                        "contentMultiline": false,
+                        "icon": "ERROR"
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "환경",
+                        "content": "${{ env.ENVIRONMENT }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "브랜치",
+                        "content": "${{ github.ref_name }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "커밋",
+                        "content": "${{ env.SHORT_SHA }}",
+                        "contentMultiline": false
+                      }
+                    },
+                    {
+                      "keyValue": {
+                        "topLabel": "서비스명",
+                        "content": "${{ env.SERVICE_NAME }}",
+                        "contentMultiline": false
+                      }
+                    }
+                  ]
+                }],
+                "cardActions": [{
+                  "actionLabel": "로그 보기",
+                  "onClick": {
+                    "openLink": {
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
+                  }
+                }]
+              }]
+            }
+          EOF
+            )
+            
+            # Google Chat으로 전송
+            curl -X POST \
+              -H "Content-Type: application/json" \
+              -d "$PAYLOAD" \
+              "$WEBHOOK_URL"
+            
+            if [ $? -eq 0 ]; then
+              echo "✅ Google Chat 실패 알림 전송 완료"
+            else
+              echo "❌ Google Chat 실패 알림 전송 실패"
+            fi
+          else
+            echo "⚠️ GOOGLE_CHAT_WEBHOOK_URL이 설정되지 않았습니다"
+          fi
 
   # # 보안 스캔 (별도 잡)
   # security-scan:
