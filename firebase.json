@@ -10,14 +10,14 @@
       {
         "source": "/gcs/**",
         "run": {
-          "serviceId": "__BACKEND_SERVICE_ID__",
+          "serviceId": "ver-0-0-1",
           "region": "asia-northeast3"
         }
       },
       {
         "source": "/api/**",
         "run": {
-          "serviceId": "__BACKEND_SERVICE_ID__",
+          "serviceId": "ver-0-0-1",
           "region": "asia-northeast3"
         }
       },
