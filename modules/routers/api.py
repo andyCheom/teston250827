@@ -97,6 +97,9 @@ async def detailed_health_check():
 @router.post('/api/generate')
 async def generate_content(userPrompt: str = Form(""), conversationHistory: str = Form("[]"), sessionId: str = Form("")):
     """메인 답변 생성 엔드포인트 - Discovery Engine 사용"""
+    # 디버깅: 받은 sessionId 로깅
+    logger.info(f"🔍 API 요청 받음 - sessionId: '{sessionId}', userPrompt: '{userPrompt[:50]}...', history 길이: {len(conversationHistory)}")
+    
     if not is_authenticated():
         raise HTTPException(status_code=503, detail="서버 인증 실패 - Google Cloud 인증을 확인하세요")
 
@@ -298,12 +301,16 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
             frontend_session_id = sessionId.strip() if sessionId else ""
             firestore_session_id = frontend_session_id or get_short_session_id(session_id)
             
+            logger.info(f"🔍 Firestore 저장 - 프론트엔드 sessionId: '{frontend_session_id}', Discovery sessionId: '{session_id}', 최종 사용: '{firestore_session_id}'")
+            
             await firestore_conversation.save_conversation(
                 session_id=firestore_session_id,
                 user_query=userPrompt,
                 ai_response=final_answer,
                 metadata=conversation_metadata
             )
+            
+            logger.info(f"✅ Firestore 저장 성공 - sessionId: {firestore_session_id}")
         except Exception as e:
             logger.warning(f"Firestore 대화 저장 실패 (API 응답에는 영향 없음): {e}")
 

@@ -26,7 +26,20 @@ function initializeChat() {
 
   // State
   let conversationHistory = [];
-  let currentSessionId = generateSessionId();
+  let currentSessionId = getOrCreateSessionId();
+  
+  // 세션 ID를 로컬스토리지에서 가져오거나 새로 생성
+  function getOrCreateSessionId() {
+    let sessionId = localStorage.getItem('graphrag_session_id');
+    if (!sessionId) {
+      sessionId = generateSessionId();
+      localStorage.setItem('graphrag_session_id', sessionId);
+      console.log('🆕 새 세션 ID 생성:', sessionId);
+    } else {
+      console.log('🔄 기존 세션 ID 사용:', sessionId);
+    }
+    return sessionId;
+  }
   
   // Firestore 세션 관리
   function generateSessionId() {
@@ -59,6 +72,19 @@ function initializeChat() {
   if (bodyFont) {
     promptInput.style.fontFamily = bodyFont;
   }
+
+  // 새 대화 시작 함수 (글로벌 스코프에서 호출 가능)
+  window.startNewConversation = function() {
+    // 기존 세션 ID 삭제
+    localStorage.removeItem('graphrag_session_id');
+    // 새로운 세션 ID 생성
+    currentSessionId = getOrCreateSessionId();
+    // 대화 기록 초기화
+    conversationHistory = [];
+    // 채팅 화면 초기화
+    chatContainer.innerHTML = '';
+    console.log('🔄 새 대화 시작 - 세션 ID:', currentSessionId);
+  };
 
   // --- Event Listeners ---
 
@@ -265,6 +291,9 @@ function initializeChat() {
     }
     formData.append("conversationHistory", historyString);
     formData.append("sessionId", currentSessionId);
+
+    // 디버깅: 전송하는 데이터 로깅
+    console.log("🔍 API 요청 전송 - sessionId:", currentSessionId, "userPrompt:", userPrompt.substring(0, 50) + "...");
 
     // 3. Reset input fields
     promptInput.value = "";

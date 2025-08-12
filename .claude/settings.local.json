@@ -9,7 +9,8 @@
       "Bash(git push:*)",
       "Bash(firebase deploy:*)",
       "Bash(gcloud run services update:*)",
-      "Bash(gcloud run services logs read:*)"
+      "Bash(gcloud run services logs read:*)",
+      "Bash(gcloud run services get-iam-policy:*)"
     ],
     "deny": []
   }
