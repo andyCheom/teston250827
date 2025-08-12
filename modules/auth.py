@@ -46,34 +46,56 @@ def initialize_auth() -> bool:
         project_id = Config.PROJECT_ID
         logger.info("인증 프로세스를 시작합니다...")
 
-        # 1. gcloud auth application-default login 자격증명 시도
+        # 1. Google Cloud 기본 자격증명 시도 (Cloud Run 환경 포함)
         try:
-            logger.info("1. Application Default Credentials (ADC)를 사용하여 인증을 시도합니다.")
+            logger.info("1. Google Cloud 기본 자격증명을 사용하여 인증을 시도합니다.")
             creds, detected_project_id = default(scopes=["https://www.googleapis.com/auth/cloud-platform"])
             
-            if not creds or not creds.valid:
-                logger.warning("ADC를 찾았지만 유효하지 않습니다. 서비스 계정 키 파일로 넘어갑니다.")
-                raise exceptions.DefaultCredentialsError("Invalid ADC credentials.")
-
-            logger.info("ADC 인증 정보가 유효합니다.")
+            # Cloud Run 환경에서는 자격증명이 유효하지 않다고 표시될 수 있지만 실제로는 작동함
+            logger.info(f"기본 자격증명 획득 완료. 유효성: {creds.valid if creds else 'None'}")
+            
+            # Cloud Run에서는 자격증명이 바로 유효하지 않을 수 있으므로 유효성 검사 건너뜀
+            if creds is None:
+                logger.warning("자격증명이 None입니다.")
+                raise exceptions.DefaultCredentialsError("자격증명을 획득할 수 없습니다.")
+            
             if detected_project_id:
                 if project_id and detected_project_id != project_id:
-                    logger.warning(f"ADC 프로젝트 ID '{detected_project_id}'가 .env의 프로젝트 ID '{project_id}'와 다릅니다. .env 설정을 우선합니다.")
+                    logger.warning(f"감지된 프로젝트 ID '{detected_project_id}'가 설정된 프로젝트 ID '{project_id}'와 다릅니다. 설정값을 우선합니다.")
                 elif not project_id:
                     project_id = detected_project_id
+                    logger.info(f"프로젝트 ID를 자동 감지했습니다: {project_id}")
             
-            logger.info(f"Application Default Credentials를 사용하여 인증에 성공했습니다. (프로젝트: {project_id})")
+            logger.info(f"Google Cloud 기본 자격증명 인증 성공 (프로젝트: {project_id})")
             _credentials = creds
 
         except exceptions.DefaultCredentialsError:
             logger.info("Application Default Credentials를 찾을 수 없거나 유효하지 않습니다.")
             logger.info("2. 서비스 계정 키 파일로 인증을 시도합니다.")
             
-            # 2. 서비스 계정 키 파일 시도
+            # 2. 서비스 계정 키 파일 시도 (로컬 개발 환경용)
             service_account_path = Config.get_service_account_path()
             if not service_account_path or not os.path.exists(service_account_path):
-                logger.error("서비스 계정 키 파일을 찾을 수 없습니다.")
-                raise RuntimeError("인증 실패: 유효한 ADC도 없고, 서비스 계정 키 파일도 찾을 수 없습니다.")
+                logger.warning("서비스 계정 키 파일을 찾을 수 없습니다.")
+                
+                # Cloud Run 환경에서는 키 파일이 없어도 Metadata Service를 통해 인증 가능
+                if os.getenv('K_SERVICE'):  # Cloud Run 환경 감지
+                    logger.info("Cloud Run 환경이 감지되었습니다. Metadata Service를 통한 인증을 시도합니다.")
+                    try:
+                        # Cloud Run에서는 기본 자격증명을 다시 시도
+                        creds, detected_project_id = default()
+                        if creds:
+                            logger.info("Cloud Run Metadata Service를 통한 인증 성공")
+                            _credentials = creds
+                            if not project_id and detected_project_id:
+                                project_id = detected_project_id
+                        else:
+                            raise RuntimeError("Cloud Run 환경에서 Metadata Service 인증 실패")
+                    except Exception as e:
+                        logger.error(f"Cloud Run Metadata Service 인증 실패: {e}")
+                        raise RuntimeError(f"Cloud Run 환경에서 인증 실패: {e}")
+                else:
+                    raise RuntimeError("인증 실패: 유효한 ADC도 없고, 서비스 계정 키 파일도 찾을 수 없습니다.")
 
             logger.info(f"서비스 계정 키 파일을 사용합니다: {service_account_path}")
             _credentials = service_account.Credentials.from_service_account_file(
