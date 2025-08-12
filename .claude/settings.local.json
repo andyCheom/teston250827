@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(gcloud run services describe:*)",
+      "Bash(curl:*)",
+      "Bash(gcloud run services list:*)",
+      "Bash(grep:*)",
+      "Bash(git push:*)",
+      "Bash(firebase deploy:*)"
+    ],
+    "deny": []
+  }
+}
