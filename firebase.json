@@ -10,14 +10,14 @@
       {
         "source": "/gcs/**",
         "run": {
-          "serviceId": "ver-0-0-1",
+          "serviceId": "sampleprojects-468223-graphrag-api",
           "region": "asia-northeast3"
         }
       },
       {
         "source": "/api/**",
         "run": {
-          "serviceId": "ver-0-0-1",
+          "serviceId": "sampleprojects-468223-graphrag-api",
           "region": "asia-northeast3"
         }
       },
