@@ -264,6 +264,7 @@ function initializeChat() {
       historyString = "[]"; // 순환 참조 등의 오류 발생 시, 안전하게 빈 배열을 보냅니다.
     }
     formData.append("conversationHistory", historyString);
+    formData.append("sessionId", currentSessionId);
 
     // 3. Reset input fields
     promptInput.value = "";
