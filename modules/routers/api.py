@@ -95,7 +95,7 @@ async def detailed_health_check():
 # _build_vertex_payload 함수는 더 이상 사용하지 않음 - Discovery Engine으로 대체됨
 
 @router.post('/api/generate')
-async def generate_content(userPrompt: str = Form(""), conversationHistory: str = Form("[]")):
+async def generate_content(userPrompt: str = Form(""), conversationHistory: str = Form("[]"), sessionId: str = Form("")):
     """메인 답변 생성 엔드포인트 - Discovery Engine 사용"""
     if not is_authenticated():
         raise HTTPException(status_code=503, detail="서버 인증 실패 - Google Cloud 인증을 확인하세요")
@@ -294,9 +294,12 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
         
         # Firestore에 대화 저장 (비동기, 실패해도 API 응답에 영향 없음)
         try:
-            short_session_id = get_short_session_id(session_id)
+            # 프론트엔드에서 보낸 sessionId 사용, 없으면 Discovery Engine 세션 ID 사용
+            frontend_session_id = sessionId.strip() if sessionId else ""
+            firestore_session_id = frontend_session_id or get_short_session_id(session_id)
+            
             await firestore_conversation.save_conversation(
-                session_id=short_session_id,
+                session_id=firestore_session_id,
                 user_query=userPrompt,
                 ai_response=final_answer,
                 metadata=conversation_metadata
