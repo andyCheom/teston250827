@@ -15,9 +15,29 @@ from ..services.conversation_logger import conversation_logger
 from ..services.sensitive_query_detector import sensitive_detector
 from ..services.consultant_service import consultant_service
 from ..services.demo_request_service import demo_service
+from ..services.firestore_conversation import firestore_conversation
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+def get_short_session_id(long_session_id: str) -> str:
+    """긴 Discovery Engine 세션 ID를 짧은 형태로 변환"""
+    if not long_session_id:
+        return f"session_{int(datetime.now().timestamp())}"
+    
+    # Discovery Engine 세션 ID에서 마지막 부분만 추출
+    if "/" in long_session_id:
+        session_part = long_session_id.split("/")[-1]
+    else:
+        session_part = long_session_id
+    
+    # 너무 길면 해시로 줄이기
+    if len(session_part) > 50:
+        import hashlib
+        hash_part = hashlib.md5(session_part.encode()).hexdigest()[:16]
+        return f"session_{hash_part}"
+    
+    return f"session_{session_part}"
 
 @router.get('/api/health')
 async def health_check():
@@ -271,6 +291,18 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
             )
         except Exception as e:
             logger.warning(f"대화 로깅 실패 (API 응답에는 영향 없음): {e}")
+        
+        # Firestore에 대화 저장 (비동기, 실패해도 API 응답에 영향 없음)
+        try:
+            short_session_id = get_short_session_id(session_id)
+            await firestore_conversation.save_conversation(
+                session_id=short_session_id,
+                user_query=userPrompt,
+                ai_response=final_answer,
+                metadata=conversation_metadata
+            )
+        except Exception as e:
+            logger.warning(f"Firestore 대화 저장 실패 (API 응답에는 영향 없음): {e}")
 
         return JSONResponse({
             "answer": final_answer,
@@ -484,6 +516,142 @@ async def request_demo(
         return JSONResponse({
             "success": False,
             "message": "데모 신청 처리 중 오류가 발생했습니다.",
+            "error": str(e)
+        }, status_code=500)
+
+@router.post('/api/update-message-quality')
+async def update_message_quality(
+    session_id: str = Form(...),
+    message_index: int = Form(...),
+    rating: float = Form(...),
+    feedback: str = Form("")
+):
+    """메시지 품질 평가 업데이트 엔드포인트"""
+    try:
+        success = await firestore_conversation.update_session_quality(
+            session_id=session_id,
+            message_index=message_index,
+            quality_score=rating,
+            feedback=feedback
+        )
+        
+        if success:
+            return JSONResponse({
+                "success": True,
+                "message": "품질 평가가 저장되었습니다."
+            })
+        else:
+            return JSONResponse({
+                "success": False,
+                "message": "품질 평가 저장에 실패했습니다."
+            }, status_code=400)
+            
+    except Exception as e:
+        logger.exception(f"품질 평가 업데이트 중 오류: {e}")
+        return JSONResponse({
+            "success": False,
+            "message": "품질 평가 처리 중 오류가 발생했습니다.",
+            "error": str(e)
+        }, status_code=500)
+
+@router.get('/api/conversation-history/{session_id}')
+async def get_conversation_history(session_id: str, limit: int = 10):
+    """대화 내역 조회 엔드포인트"""
+    try:
+        history = await firestore_conversation.get_conversation_history(
+            session_id=session_id,
+            limit=limit
+        )
+        
+        return JSONResponse({
+            "success": True,
+            "session_id": session_id,
+            "messages": history,
+            "count": len(history)
+        })
+        
+    except Exception as e:
+        logger.exception(f"대화 내역 조회 중 오류: {e}")
+        return JSONResponse({
+            "success": False,
+            "message": "대화 내역 조회 중 오류가 발생했습니다.",
+            "error": str(e)
+        }, status_code=500)
+
+@router.get('/api/session-summary/{session_id}')
+async def get_session_summary(session_id: str):
+    """세션 요약 정보 조회 엔드포인트"""
+    try:
+        summary = await firestore_conversation.get_session_summary(session_id)
+        
+        if summary:
+            return JSONResponse({
+                "success": True,
+                "summary": summary
+            })
+        else:
+            return JSONResponse({
+                "success": False,
+                "message": "세션을 찾을 수 없습니다."
+            }, status_code=404)
+            
+    except Exception as e:
+        logger.exception(f"세션 요약 조회 중 오류: {e}")
+        return JSONResponse({
+            "success": False,
+            "message": "세션 요약 조회 중 오류가 발생했습니다.",
+            "error": str(e)
+        }, status_code=500)
+
+@router.get('/api/analytics')
+async def get_analytics(days: int = 30):
+    """대화 분석 데이터 조회 엔드포인트"""
+    try:
+        if days < 1 or days > 365:
+            return JSONResponse({
+                "success": False,
+                "message": "날짜 범위는 1-365일 사이여야 합니다."
+            }, status_code=400)
+        
+        analytics = await firestore_conversation.get_analytics_data(days=days)
+        
+        return JSONResponse({
+            "success": True,
+            "analytics": analytics
+        })
+        
+    except Exception as e:
+        logger.exception(f"분석 데이터 조회 중 오류: {e}")
+        return JSONResponse({
+            "success": False,
+            "message": "분석 데이터 조회 중 오류가 발생했습니다.",
+            "error": str(e)
+        }, status_code=500)
+
+@router.post('/api/cleanup-old-sessions')
+async def cleanup_old_sessions(days_to_keep: int = Form(90)):
+    """오래된 세션 정리 엔드포인트 (관리자용)"""
+    try:
+        if days_to_keep < 30:
+            return JSONResponse({
+                "success": False,
+                "message": "최소 30일치 데이터는 보관해야 합니다."
+            }, status_code=400)
+        
+        deleted_count = await firestore_conversation.cleanup_old_sessions(days_to_keep)
+        
+        return JSONResponse({
+            "success": True,
+            "message": f"{deleted_count}개의 오래된 세션이 정리되었습니다.",
+            "deleted_count": deleted_count,
+            "days_kept": days_to_keep
+        })
+        
+    except Exception as e:
+        logger.exception(f"세션 정리 중 오류: {e}")
+        return JSONResponse({
+            "success": False,
+            "message": "세션 정리 중 오류가 발생했습니다.",
             "error": str(e)
         }, status_code=500)
 

@@ -106,6 +106,29 @@
 
 
     
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp } 
+                from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        // Firebase 설정 (환경별로 동적 로드)
+        const firebaseConfig = {
+            projectId: "sampleprojects-468223",
+            // 다른 설정들은 필요에 따라 추가
+        };
+        
+        // Firebase 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        // 전역으로 노출
+        window.firebaseDB = db;
+        window.firestoreFunctions = {
+            collection, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp
+        };
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/vai.js"></script>
 

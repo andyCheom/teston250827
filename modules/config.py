@@ -74,8 +74,46 @@ class Config:
     
 
     
-    # 서비스 어카운트 키 경로
-    SERVICE_ACCOUNT_PATH = "keys/cheom-kdb-test1-faf5cf87a1fd.json"
+    # 서비스 어카운트 키 경로 (동적 검색)
+    @classmethod
+    def get_service_account_path(cls) -> str:
+        """keys/ 디렉토리에서 서비스 계정 키 파일을 자동으로 찾기"""
+        import glob
+        
+        # 환경변수로 직접 지정된 경우
+        if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
+            return os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+        
+        # keys/ 디렉토리에서 JSON 파일 찾기
+        key_patterns = [
+            "keys/*service*.json",
+            "keys/*graphrag*.json", 
+            "keys/*.json"
+        ]
+        
+        for pattern in key_patterns:
+            files = glob.glob(pattern)
+            if files:
+                # 가장 최근 파일 사용
+                latest_file = max(files, key=os.path.getctime)
+                return latest_file
+        
+        # 기본 경로들 시도
+        default_paths = [
+            "keys/service-account.json",
+            "keys/graphrag-service.json"
+        ]
+        
+        for path in default_paths:
+            if os.path.exists(path):
+                return path
+        
+        return None
+    
+    # 동적 프로퍼티로 설정
+    @property
+    def SERVICE_ACCOUNT_PATH(self):
+        return self.get_service_account_path()
     
     @classmethod
     def load_system_instruction(cls) -> str:

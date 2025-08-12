@@ -26,6 +26,14 @@ function initializeChat() {
 
   // State
   let conversationHistory = [];
+  let currentSessionId = generateSessionId();
+  
+  // Firestore 세션 관리
+  function generateSessionId() {
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substr(2, 9);
+    return `session_${random}_${timestamp}`;
+  }
 
   // --- Initial validation ---
   // Ensure essential elements exist before proceeding
@@ -97,6 +105,125 @@ function initializeChat() {
     });
   }
 
+  // --- Firestore Functions ---
+  
+  async function saveConversationToFirestore(userQuery, aiResponse, metadata = {}) {
+    try {
+      // Firebase가 로드되지 않았으면 스킵
+      if (!window.firebaseDB || !window.firestoreFunctions) {
+        console.log("Firebase가 로드되지 않아 로컬 저장만 사용합니다");
+        return false;
+      }
+      
+      const { collection, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp } = window.firestoreFunctions;
+      const db = window.firebaseDB;
+      
+      // 메시지 데이터 구성
+      const messageData = {
+        user_query: userQuery,
+        ai_response: aiResponse,
+        timestamp: serverTimestamp(),
+        metadata: {
+          ...metadata,
+          user_agent: navigator.userAgent,
+          response_length: aiResponse.length,
+          query_length: userQuery.length
+        }
+      };
+      
+      // 세션 문서 참조
+      const sessionRef = doc(collection(db, 'conversations'), currentSessionId);
+      
+      // 기존 세션 확인
+      const sessionDoc = await getDoc(sessionRef);
+      
+      if (sessionDoc.exists()) {
+        // 기존 세션에 메시지 추가
+        await updateDoc(sessionRef, {
+          messages: arrayUnion(messageData),
+          message_count: sessionDoc.data().message_count + 1,
+          updated_at: serverTimestamp(),
+          last_activity: serverTimestamp()
+        });
+      } else {
+        // 새 세션 생성
+        await setDoc(sessionRef, {
+          session_id: currentSessionId,
+          created_at: serverTimestamp(),
+          updated_at: serverTimestamp(),
+          last_activity: serverTimestamp(),
+          messages: [messageData],
+          message_count: 1,
+          user_info: {
+            user_agent: navigator.userAgent,
+            language: navigator.language,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+          }
+        });
+      }
+      
+      console.log(`✅ Firestore 대화 저장 성공 - 세션: ${currentSessionId}`);
+      return true;
+      
+    } catch (error) {
+      console.error("❌ Firestore 대화 저장 실패:", error);
+      return false;
+    }
+  }
+  
+  async function loadConversationFromFirestore() {
+    try {
+      if (!window.firebaseDB || !window.firestoreFunctions) {
+        return null;
+      }
+      
+      const { collection, doc, getDoc } = window.firestoreFunctions;
+      const db = window.firebaseDB;
+      
+      const sessionRef = doc(collection(db, 'conversations'), currentSessionId);
+      const sessionDoc = await getDoc(sessionRef);
+      
+      if (sessionDoc.exists()) {
+        const sessionData = sessionDoc.data();
+        return sessionData.messages || [];
+      }
+      
+      return null;
+      
+    } catch (error) {
+      console.error("❌ Firestore 대화 로드 실패:", error);
+      return null;
+    }
+  }
+  
+  async function updateMessageQuality(messageIndex, rating, feedback = "") {
+    try {
+      if (!window.firebaseDB || !window.firestoreFunctions) {
+        return false;
+      }
+      
+      // 백엔드 API를 통해 품질 업데이트
+      const response = await fetch("/api/update-message-quality", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          session_id: currentSessionId,
+          message_index: messageIndex,
+          rating: rating,
+          feedback: feedback
+        })
+      });
+      
+      return response.ok;
+      
+    } catch (error) {
+      console.error("❌ 메시지 품질 업데이트 실패:", error);
+      return false;
+    }
+  }
+
   // --- Functions ---
 
   async function handleFormSubmit(e) {
@@ -107,6 +234,9 @@ function initializeChat() {
       return; // Do nothing if empty
     }
 
+    // 응답 시간 측정 시작
+    const startTime = Date.now();
+    
     // 1. Display user's message in the chat
     displayUserMessage(userPrompt);
 
@@ -214,6 +344,17 @@ function initializeChat() {
         console.log("Consultant needed:", result.consultant_needed);
         
         displayModelMessageWithSources(modelResponseText, result);
+        
+        // Firestore에 대화 저장 (비동기, 실패해도 UI에 영향 없음)
+        saveConversationToFirestore(userPrompt, modelResponseText, {
+          citations: result.citations,
+          search_results: result.search_results,
+          metadata: result.metadata,
+          consultant_needed: result.consultant_needed,
+          response_time_ms: Date.now() - startTime
+        }).catch(error => {
+          console.log("Firestore 저장 실패 (로컬에서는 정상):", error);
+        });
       } else {
         displayModelMessage("죄송합니다, 답변을 생성하지 못했습니다.");
       }

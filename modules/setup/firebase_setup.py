@@ -433,27 +433,277 @@ class FirebaseSetupManager:
                 except Exception as e:
                     logger.warning(f"⚠️ Firebase 역할 '{role}' 부여 실패: {e}")
             
-            # 키 파일 생성
+            # 키 파일 생성 시도
             logger.info("🔄 Firebase 서비스 계정 키 파일 생성 중...")
             
-            key = iam_service.projects().serviceAccounts().keys().create(
-                name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
-                body={'keyAlgorithm': 'KEY_ALG_RSA_2048'}
-            ).execute()
-            
-            # 키 디렉토리 생성
-            os.makedirs("keys", exist_ok=True)
-            
-            # 키 파일 저장
-            key_file_path = f"keys/{service_account_id}.json"
-            with open(key_file_path, 'w') as f:
-                import base64
-                key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
-                f.write(key_data)
-            
-            logger.info(f"✅ Firebase 서비스 계정 키 파일 저장: {key_file_path}")
-            return key_file_path
+            try:
+                key = iam_service.projects().serviceAccounts().keys().create(
+                    name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
+                    body={'keyAlgorithm': 'KEY_ALG_RSA_2048'}
+                ).execute()
+                
+                # 키 디렉토리 생성
+                os.makedirs("keys", exist_ok=True)
+                
+                # 키 파일 저장
+                key_file_path = f"keys/{service_account_id}.json"
+                with open(key_file_path, 'w') as f:
+                    import base64
+                    key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
+                    f.write(key_data)
+                
+                logger.info(f"✅ Firebase 서비스 계정 키 파일 저장: {key_file_path}")
+                return key_file_path
+                
+            except Exception as key_error:
+                error_msg = str(key_error)
+                if "Permission 'iam.serviceAccountKeys.create' denied" in error_msg:
+                    logger.warning(f"⚠️ 서비스 계정 키 생성 권한이 없습니다")
+                    logger.info("💡 해결 방법:")
+                    logger.info("   1. GCP 콘솔 → IAM & Admin → IAM")
+                    logger.info(f"   2. 현재 사용자에게 'Service Account Key Admin' 역할 추가")
+                    logger.info("   3. 또는 프로젝트 소유자가 다음 명령 실행:")
+                    logger.info(f"      gcloud projects add-iam-policy-binding {self.project_id} \\")
+                    logger.info(f"        --member=\"user:YOUR_EMAIL\" \\")
+                    logger.info(f"        --role=\"roles/iam.serviceAccountKeyAdmin\"")
+                    logger.info("")
+                    logger.info("📝 서비스 계정은 생성되었지만 키 파일 생성에 실패했습니다.")
+                    logger.info("   권한을 부여받은 후 다시 실행하거나, 수동으로 키를 생성하세요.")
+                    
+                    # 서비스 계정 정보 반환 (키 파일 없이)
+                    logger.info(f"📄 생성된 서비스 계정: {service_account_email}")
+                    return None
+                else:
+                    logger.error(f"❌ 서비스 계정 키 생성 실패: {key_error}")
+                    return None
             
         except Exception as e:
             logger.error(f"❌ Firebase 서비스 계정 생성 실패: {e}")
             return None
+    
+    def setup_firestore(self) -> bool:
+        """Firestore 데이터베이스 설정"""
+        try:
+            logger.info("🔄 Firestore 데이터베이스 설정 중...")
+            
+            # Firestore API 클라이언트 초기화
+            firestore_service = build('firestore', 'v1', credentials=self.credentials)
+            
+            # 데이터베이스 생성 (기본 데이터베이스)
+            database_name = f"projects/{self.project_id}/databases/(default)"
+            
+            # 기존 데이터베이스 확인
+            try:
+                database = firestore_service.projects().databases().get(
+                    name=database_name
+                ).execute()
+                
+                if database.get('state') == 'ACTIVE':
+                    logger.info("✅ Firestore 데이터베이스가 이미 활성화되어 있습니다")
+                    return self._create_firestore_security_rules()
+                    
+            except Exception:
+                pass  # 데이터베이스가 없으면 생성
+            
+            # Firestore 데이터베이스 생성
+            logger.info("🔄 Firestore 데이터베이스 생성 중...")
+            
+            database_config = {
+                'type': 'FIRESTORE_NATIVE',
+                'locationId': 'asia-northeast3',  # 서울과 가까운 리전
+                'name': database_name
+            }
+            
+            operation = firestore_service.projects().databases().create(
+                parent=f"projects/{self.project_id}",
+                databaseId='(default)',
+                body=database_config
+            ).execute()
+            
+            logger.info(f"🔄 Firestore 데이터베이스 생성 중... (Operation: {operation.get('name')})")
+            
+            # 생성 완료 대기
+            import time
+            for i in range(60):  # 최대 10분 대기
+                time.sleep(10)
+                try:
+                    database = firestore_service.projects().databases().get(
+                        name=database_name
+                    ).execute()
+                    
+                    if database.get('state') == 'ACTIVE':
+                        logger.info("✅ Firestore 데이터베이스 생성 완료")
+                        return self._create_firestore_security_rules()
+                        
+                except Exception:
+                    pass
+                
+                if i % 6 == 0:  # 1분마다 로그
+                    logger.info(f"🔄 Firestore 생성 대기 중... ({i//6 + 1}/10분)")
+            
+            logger.warning("⚠️ Firestore 데이터베이스 생성 시간 초과")
+            return False
+            
+        except Exception as e:
+            logger.error(f"❌ Firestore 설정 실패: {e}")
+            return False
+    
+    def _create_firestore_security_rules(self) -> bool:
+        """Firestore 보안 규칙 생성"""
+        try:
+            logger.info("🔄 Firestore 보안 규칙 설정 중...")
+            
+            # 기본 보안 규칙 (프로덕션 환경에서는 더 엄격하게 설정 필요)
+            security_rules = """rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 대화 컬렉션 - 세션 ID 기반 접근
+    match /conversations/{sessionId} {
+      allow read, write: if true;  // 임시로 모든 접근 허용 (추후 인증 로직 추가 필요)
+      
+      // 서브컬렉션 접근
+      match /{document=**} {
+        allow read, write: if true;
+      }
+    }
+    
+    // 분석 데이터 컬렉션 (읽기 전용)
+    match /analytics/{document} {
+      allow read: if true;
+      allow write: if false;  // 서버에서만 쓰기 가능
+    }
+    
+    // 기타 컬렉션은 기본적으로 거부
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}"""
+            
+            # 보안 규칙 파일 생성
+            rules_file = "firestore.rules"
+            with open(rules_file, 'w', encoding='utf-8') as f:
+                f.write(security_rules)
+            
+            logger.info(f"✅ Firestore 보안 규칙 파일 생성: {rules_file}")
+            
+            # Firebase CLI를 통한 규칙 배포 (선택사항)
+            if self.check_firebase_cli():
+                try:
+                    import subprocess
+                    result = subprocess.run(
+                        ['firebase', 'deploy', '--only', 'firestore:rules'],
+                        capture_output=True, text=True, timeout=60
+                    )
+                    if result.returncode == 0:
+                        logger.info("✅ Firestore 보안 규칙 배포 완료")
+                    else:
+                        logger.warning(f"⚠️ Firestore 보안 규칙 배포 실패: {result.stderr}")
+                        
+                except Exception as e:
+                    logger.warning(f"⚠️ Firestore 보안 규칙 배포 중 오류: {e}")
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Firestore 보안 규칙 설정 실패: {e}")
+            return False
+    
+    def create_firestore_indexes(self) -> bool:
+        """Firestore 인덱스 생성"""
+        try:
+            logger.info("🔄 Firestore 인덱스 설정 중...")
+            
+            # 필요한 인덱스 설정
+            indexes_config = {
+                "indexes": [
+                    {
+                        "collectionGroup": "conversations",
+                        "queryScope": "COLLECTION",
+                        "fields": [
+                            {
+                                "fieldPath": "created_at",
+                                "order": "DESCENDING"
+                            },
+                            {
+                                "fieldPath": "last_activity", 
+                                "order": "DESCENDING"
+                            }
+                        ]
+                    },
+                    {
+                        "collectionGroup": "conversations",
+                        "queryScope": "COLLECTION",
+                        "fields": [
+                            {
+                                "fieldPath": "created_at",
+                                "order": "ASCENDING"
+                            },
+                            {
+                                "fieldPath": "message_count",
+                                "order": "DESCENDING"
+                            }
+                        ]
+                    }
+                ],
+                "fieldOverrides": []
+            }
+            
+            # 인덱스 설정 파일 생성
+            indexes_file = "firestore.indexes.json"
+            with open(indexes_file, 'w', encoding='utf-8') as f:
+                import json
+                json.dump(indexes_config, f, indent=2, ensure_ascii=False)
+            
+            logger.info(f"✅ Firestore 인덱스 설정 파일 생성: {indexes_file}")
+            
+            # Firebase CLI를 통한 인덱스 배포 (선택사항)
+            if self.check_firebase_cli():
+                try:
+                    import subprocess
+                    result = subprocess.run(
+                        ['firebase', 'deploy', '--only', 'firestore:indexes'],
+                        capture_output=True, text=True, timeout=120
+                    )
+                    if result.returncode == 0:
+                        logger.info("✅ Firestore 인덱스 배포 완료")
+                    else:
+                        logger.warning(f"⚠️ Firestore 인덱스 배포 실패: {result.stderr}")
+                        
+                except Exception as e:
+                    logger.warning(f"⚠️ Firestore 인덱스 배포 중 오류: {e}")
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Firestore 인덱스 설정 실패: {e}")
+            return False
+    
+    def validate_firestore_setup(self) -> Dict[str, bool]:
+        """Firestore 설정 검증"""
+        results = {}
+        
+        try:
+            firestore_service = build('firestore', 'v1', credentials=self.credentials)
+            
+            # Firestore 데이터베이스 상태 확인
+            try:
+                database = firestore_service.projects().databases().get(
+                    name=f"projects/{self.project_id}/databases/(default)"
+                ).execute()
+                results['firestore_database'] = database.get('state') == 'ACTIVE'
+            except Exception:
+                results['firestore_database'] = False
+            
+            # 보안 규칙 파일 확인
+            results['firestore_rules'] = os.path.exists('firestore.rules')
+            
+            # 인덱스 설정 파일 확인
+            results['firestore_indexes'] = os.path.exists('firestore.indexes.json')
+            
+            logger.info(f"✅ Firestore 설정 검증 완료: {results}")
+            return results
+            
+        except Exception as e:
+            logger.error(f"❌ Firestore 설정 검증 실패: {e}")
+            return {}

@@ -66,6 +66,10 @@ class GCPSetupManager:
             'run.googleapis.com',
             'firebase.googleapis.com',
             'firebasehosting.googleapis.com',
+            'firestore.googleapis.com',
+            'appengine.googleapis.com',  # Firestore 기본 데이터베이스 생성에 필요
+            'cloudresourcemanager.googleapis.com',
+            'iam.googleapis.com',
             'cloudfunctions.googleapis.com'
         ]
         
@@ -334,38 +338,52 @@ class GCPSetupManager:
             
             # 필요한 역할 부여
             required_roles = [
-                # Discovery Engine 권한
+                # Discovery Engine
                 'roles/discoveryengine.editor',
                 
-                # Storage 권한
-                'roles/storage.objectViewer',
+                # Cloud Storage
+                'roles/storage.admin',
                 'roles/storage.objectCreator',
-                'roles/storage.admin',  # 버킷 관리용
+                'roles/storage.objectViewer',
                 
-                # Cloud Run 배포 권한
+                # Firestore / Datastore
+                'roles/datastore.owner',
+                'roles/datastore.viewer',
+
+                # Firebase
+                'roles/firebase.admin',
+                'roles/firebasehosting.admin',
+
+                # App Engine (for Firestore creation)
+                'roles/appengine.appAdmin',
+                'roles/appengine.appCreator',
+                
+                # Project & Service Management
+                'roles/resourcemanager.projectIamAdmin',
+                'roles/serviceusage.serviceUsageAdmin',
+                
+                # Cloud Run
                 'roles/run.admin',
                 'roles/run.invoker',
                 
-                # Cloud Build 권한 (CICD용)
+                # Cloud Build (CI/CD)
                 'roles/cloudbuild.builds.builder',
                 'roles/source.reader',
                 
-                # Artifact Registry 권한 (Docker 이미지용)
+                # Artifact Registry (CI/CD)
                 'roles/artifactregistry.writer',
                 'roles/artifactregistry.reader',
                 
-                # Container Registry 권한 (호환성)
-                'roles/storage.admin',  # GCR 이미지 저장용
-                
-                # IAM 권한 (서비스 계정 관리용)
+                # IAM (for service account management itself)
+                'roles/iam.serviceAccountAdmin',
                 'roles/iam.serviceAccountUser',
                 'roles/iam.serviceAccountTokenCreator',
                 
-                # 로깅 및 모니터링
+                # Logging & Monitoring
                 'roles/logging.logWriter',
                 'roles/monitoring.metricWriter',
                 
-                # 네트워킹 (VPC 관련)
+                # Networking
                 'roles/compute.networkUser'
             ]
             
@@ -404,26 +422,49 @@ class GCPSetupManager:
                 except Exception as e:
                     logger.warning(f"⚠️ 역할 '{role}' 부여 실패: {e}")
             
-            # 키 파일 생성
+            # 키 파일 생성 시도
             logger.info("🔄 서비스 계정 키 파일 생성 중...")
             
-            key = iam_service.projects().serviceAccounts().keys().create(
-                name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
-                body={'keyAlgorithm': 'KEY_ALG_RSA_2048'}
-            ).execute()
-            
-            # 키 디렉토리 생성
-            os.makedirs("keys", exist_ok=True)
-            
-            # 키 파일 저장
-            key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
-            with open(key_file_path, 'w') as f:
-                import base64
-                key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
-                f.write(key_data)
-            
-            logger.info(f"✅ 서비스 계정 키 파일 저장: {key_file_path}")
-            return key_file_path
+            try:
+                key = iam_service.projects().serviceAccounts().keys().create(
+                    name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
+                    body={'keyAlgorithm': 'KEY_ALG_RSA_2048'}
+                ).execute()
+                
+                # 키 디렉토리 생성
+                os.makedirs("keys", exist_ok=True)
+                
+                # 키 파일 저장
+                key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
+                with open(key_file_path, 'w') as f:
+                    import base64
+                    key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
+                    f.write(key_data)
+                
+                logger.info(f"✅ 서비스 계정 키 파일 저장: {key_file_path}")
+                return key_file_path
+                
+            except Exception as key_error:
+                error_msg = str(key_error)
+                if "Permission 'iam.serviceAccountKeys.create' denied" in error_msg:
+                    logger.warning(f"⚠️ 서비스 계정 키 생성 권한이 없습니다")
+                    logger.info("💡 해결 방법:")
+                    logger.info("   1. GCP 콘솔 → IAM & Admin → IAM")
+                    logger.info(f"   2. 현재 사용자에게 'Service Account Key Admin' 역할 추가")
+                    logger.info("   3. 또는 프로젝트 소유자가 다음 명령 실행:")
+                    logger.info(f"      gcloud projects add-iam-policy-binding {self.project_id} \\")
+                    logger.info(f"        --member=\"user:YOUR_EMAIL\" \\")
+                    logger.info(f"        --role=\"roles/iam.serviceAccountKeyAdmin\"")
+                    logger.info("")
+                    logger.info("📝 서비스 계정은 생성되었지만 키 파일 생성에 실패했습니다.")
+                    logger.info("   권한을 부여받은 후 다시 실행하거나, 수동으로 키를 생성하세요.")
+                    
+                    # 서비스 계정 정보 반환 (키 파일 없이)
+                    logger.info(f"📄 생성된 서비스 계정: {service_account_email}")
+                    return None
+                else:
+                    logger.error(f"❌ 서비스 계정 키 생성 실패: {key_error}")
+                    return None
             
         except Exception as e:
             logger.error(f"❌ 서비스 계정 생성 실패: {e}")
@@ -591,4 +632,126 @@ class GCPSetupManager:
             
         except Exception as e:
             logger.error(f"❌ Cloud Run 서비스 생성 실패: {e}")
+            return False
+    
+    def create_firestore_database(self, location_id: str = "asia-northeast1") -> bool:
+        """Firestore 네이티브 데이터베이스 생성"""
+        try:
+            logger.info("🔄 Firestore 데이터베이스 생성 중...")
+            
+            # Firestore Admin API 클라이언트
+            firestore_admin = build('firestore', 'v1', credentials=self.credentials)
+            
+            # 기본 데이터베이스 존재 확인
+            try:
+                database_name = f"projects/{self.project_id}/databases/(default)"
+                database = firestore_admin.projects().databases().get(name=database_name).execute()
+                
+                if database.get('type') == 'FIRESTORE_NATIVE':
+                    logger.info("✅ Firestore 네이티브 데이터베이스가 이미 존재합니다")
+                    return True
+                elif database.get('type') == 'DATASTORE_MODE':
+                    logger.warning("⚠️ 프로젝트에 Datastore 모드 데이터베이스가 존재합니다. Firestore로 마이그레이션이 필요할 수 있습니다.")
+                    return False
+                    
+            except Exception:
+                pass  # 데이터베이스가 없으면 생성
+            
+            # Firestore 네이티브 데이터베이스 생성
+            logger.info(f"🔄 새로운 Firestore 데이터베이스 생성 중... (위치: {location_id})")
+            
+            database_config = {
+                'type': 'FIRESTORE_NATIVE',
+                'locationId': location_id,
+                'concurrencyMode': 'OPTIMISTIC',
+                'appEngineIntegrationMode': 'DISABLED'
+            }
+            
+            operation = firestore_admin.projects().databases().create(
+                parent=f"projects/{self.project_id}",
+                databaseId='(default)',
+                body=database_config
+            ).execute()
+            
+            logger.info(f"🔄 Firestore 데이터베이스 생성 중... (Operation: {operation.get('name')})")
+            
+            # 생성 완료 대기 (최대 15분)
+            for i in range(180):
+                time.sleep(5)
+                try:
+                    database_name = f"projects/{self.project_id}/databases/(default)"
+                    database = firestore_admin.projects().databases().get(name=database_name).execute()
+                    
+                    if database.get('state') == 'ACTIVE':
+                        logger.info("✅ Firestore 데이터베이스 생성 완료")
+                        return True
+                        
+                except Exception:
+                    pass
+                
+                if i % 12 == 0:  # 1분마다 로그
+                    logger.info(f"🔄 Firestore 데이터베이스 생성 대기 중... ({i//12 + 1}/15분)")
+            
+            logger.warning("⚠️ Firestore 데이터베이스 생성 시간 초과")
+            return False
+            
+        except Exception as e:
+            logger.error(f"❌ Firestore 데이터베이스 생성 실패: {e}")
+            
+            # App Engine 애플리케이션이 필요한 경우 안내
+            if "Please enable the App Engine Admin API" in str(e) or "app does not exist" in str(e):
+                logger.info("💡 App Engine 애플리케이션 생성을 시도합니다...")
+                return self._create_app_engine_application(location_id)
+            
+            return False
+    
+    def _create_app_engine_application(self, location_id: str) -> bool:
+        """App Engine 애플리케이션 생성 (Firestore를 위해 필요)"""
+        try:
+            logger.info("🔄 App Engine 애플리케이션 생성 중...")
+            
+            # App Engine Admin API 클라이언트
+            appengine = build('appengine', 'v1', credentials=self.credentials)
+            
+            # 기존 애플리케이션 확인
+            try:
+                app = appengine.apps().get(appsId=self.project_id).execute()
+                if app:
+                    logger.info("✅ App Engine 애플리케이션이 이미 존재합니다")
+                    # App Engine이 있으면 다시 Firestore 생성 시도
+                    return self.create_firestore_database(location_id)
+            except Exception:
+                pass  # 애플리케이션이 없으면 생성
+            
+            # App Engine 애플리케이션 생성
+            app_config = {
+                'id': self.project_id,
+                'locationId': location_id,
+                'databaseType': 'CLOUD_FIRESTORE'
+            }
+            
+            operation = appengine.apps().create(body=app_config).execute()
+            logger.info(f"🔄 App Engine 애플리케이션 생성 중... (Operation: {operation.get('name')})")
+            
+            # 생성 완료 대기 (최대 10분)
+            for i in range(120):
+                time.sleep(5)
+                try:
+                    app = appengine.apps().get(appsId=self.project_id).execute()
+                    if app and app.get('servingStatus') == 'SERVING':
+                        logger.info("✅ App Engine 애플리케이션 생성 완료")
+                        # 이제 Firestore 데이터베이스가 자동으로 생성되었을 것임
+                        return True
+                        
+                except Exception:
+                    pass
+                
+                if i % 12 == 0:  # 1분마다 로그
+                    logger.info(f"🔄 App Engine 생성 대기 중... ({i//12 + 1}/10분)")
+            
+            logger.warning("⚠️ App Engine 애플리케이션 생성 시간 초과")
+            return False
+            
+        except Exception as e:
+            logger.error(f"❌ App Engine 애플리케이션 생성 실패: {e}")
             return False
