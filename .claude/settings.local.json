@@ -7,7 +7,9 @@
       "Bash(gcloud run services list:*)",
       "Bash(grep:*)",
       "Bash(git push:*)",
-      "Bash(firebase deploy:*)"
+      "Bash(firebase deploy:*)",
+      "Bash(gcloud run services update:*)",
+      "Bash(gcloud run services logs read:*)"
     ],
     "deny": []
   }
