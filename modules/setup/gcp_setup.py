@@ -226,7 +226,7 @@ class GCPSetupManager:
     
     def create_discovery_engine(self, 
                               engine_id: str,
-                              datastore_id: str,
+                              datastore_ids: List[str],  # 다중 데이터스토어 지원
                               display_name: str = None,
                               location: str = "global") -> bool:
         """Discovery Engine 생성"""
@@ -249,18 +249,38 @@ class GCPSetupManager:
             
             # 엔진 생성
             logger.info(f"🔄 Discovery Engine '{engine_id}' 생성 중...")
+            logger.info(f"연결할 데이터스토어: {datastore_ids}")
             
             parent = f"projects/{self.project_id}/locations/{location}/collections/default_collection"
-            datastore_path = f"{parent}/dataStores/{datastore_id}"
             
-            # 엔진 설정
+            # 데이터스토어 존재 확인
+            validated_datastore_ids = []
+            for ds_id in datastore_ids:
+                datastore_path = f"{parent}/dataStores/{ds_id}"
+                try:
+                    # 데이터스토어 존재 확인
+                    datastore = self.discovery_client.get_data_store(name=datastore_path)
+                    validated_datastore_ids.append(ds_id)
+                    logger.info(f"✅ 데이터스토어 '{ds_id}' 확인됨")
+                except Exception as e:
+                    logger.warning(f"⚠️ 데이터스토어 '{ds_id}' 확인 실패: {e}")
+                    logger.info("데이터스토어가 존재하지 않거나 접근할 수 없습니다")
+            
+            if not validated_datastore_ids:
+                logger.error("❌ 유효한 데이터스토어가 없습니다")
+                return False
+            
+            logger.info(f"최종 연결 데이터스토어: {validated_datastore_ids}")
+            
+            # 엔진 설정 (다중 데이터스토어 지원을 위한 industry_vertical 설정)
             engine = discoveryengine_v1beta.Engine(
                 display_name=display_name,
                 solution_type=discoveryengine_v1beta.SolutionType.SOLUTION_TYPE_SEARCH,
+                industry_vertical=discoveryengine_v1beta.IndustryVertical.GENERIC,  # 다중 데이터스토어 지원을 위해 필요
                 search_engine_config=discoveryengine_v1beta.Engine.SearchEngineConfig(
                     search_tier=discoveryengine_v1beta.SearchTier.SEARCH_TIER_STANDARD,
                 ),
-                data_store_ids=[datastore_id]
+                data_store_ids=validated_datastore_ids  # 다중 데이터스토어 연결
             )
             
             # 엔진 생성 요청
@@ -422,49 +442,114 @@ class GCPSetupManager:
                 except Exception as e:
                     logger.warning(f"⚠️ 역할 '{role}' 부여 실패: {e}")
             
-            # 키 파일 생성 시도
+            # 키 파일 생성 시도 (개선된 로직)
             logger.info("🔄 서비스 계정 키 파일 생성 중...")
             
-            try:
-                key = iam_service.projects().serviceAccounts().keys().create(
-                    name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
-                    body={'keyAlgorithm': 'KEY_ALG_RSA_2048'}
-                ).execute()
-                
-                # 키 디렉토리 생성
-                os.makedirs("keys", exist_ok=True)
-                
-                # 키 파일 저장
-                key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
-                with open(key_file_path, 'w') as f:
+            max_retries = 3
+            retry_count = 0
+            key_file_path = None
+            
+            while retry_count < max_retries:
+                try:
+                    # 서비스 계정 상태 확인
+                    service_account_resource = f"projects/{self.project_id}/serviceAccounts/{service_account_email}"
+                    
+                    sa_info = iam_service.projects().serviceAccounts().get(
+                        name=service_account_resource
+                    ).execute()
+                    
+                    if sa_info.get('disabled', False):
+                        logger.warning("⚠️ 서비스 계정이 비활성화 상태입니다. 활성화 중...")
+                        iam_service.projects().serviceAccounts().enable(
+                            name=service_account_resource
+                        ).execute()
+                        import time
+                        time.sleep(10)
+                        continue
+                    
+                    # 키 생성 시도
+                    key_creation_body = {
+                        'privateKeyType': 'TYPE_GOOGLE_CREDENTIALS_FILE',
+                        'keyAlgorithm': 'KEY_ALG_RSA_2048'
+                    }
+                    
+                    key = iam_service.projects().serviceAccounts().keys().create(
+                        name=service_account_resource,
+                        body=key_creation_body
+                    ).execute()
+                    
+                    # 키 디렉토리 생성
+                    os.makedirs("keys", exist_ok=True)
+                    
+                    # 키 파일 저장
+                    key_file_path = f"keys/{service_account_id}-{self.project_id}.json"
+                    
                     import base64
                     key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
-                    f.write(key_data)
-                
-                logger.info(f"✅ 서비스 계정 키 파일 저장: {key_file_path}")
-                return key_file_path
-                
-            except Exception as key_error:
-                error_msg = str(key_error)
-                if "Permission 'iam.serviceAccountKeys.create' denied" in error_msg:
-                    logger.warning(f"⚠️ 서비스 계정 키 생성 권한이 없습니다")
-                    logger.info("💡 해결 방법:")
-                    logger.info("   1. GCP 콘솔 → IAM & Admin → IAM")
-                    logger.info(f"   2. 현재 사용자에게 'Service Account Key Admin' 역할 추가")
-                    logger.info("   3. 또는 프로젝트 소유자가 다음 명령 실행:")
-                    logger.info(f"      gcloud projects add-iam-policy-binding {self.project_id} \\")
-                    logger.info(f"        --member=\"user:YOUR_EMAIL\" \\")
-                    logger.info(f"        --role=\"roles/iam.serviceAccountKeyAdmin\"")
-                    logger.info("")
-                    logger.info("📝 서비스 계정은 생성되었지만 키 파일 생성에 실패했습니다.")
-                    logger.info("   권한을 부여받은 후 다시 실행하거나, 수동으로 키를 생성하세요.")
                     
-                    # 서비스 계정 정보 반환 (키 파일 없이)
-                    logger.info(f"📄 생성된 서비스 계정: {service_account_email}")
-                    return None
-                else:
-                    logger.error(f"❌ 서비스 계정 키 생성 실패: {key_error}")
-                    return None
+                    with open(key_file_path, 'w', encoding='utf-8') as f:
+                        f.write(key_data)
+                    
+                    # 파일 권한 설정 (읽기 전용)
+                    import stat
+                    os.chmod(key_file_path, stat.S_IRUSR | stat.S_IWUSR)
+                    
+                    logger.info(f"✅ 서비스 계정 키 파일 저장: {key_file_path}")
+                    return key_file_path
+                    
+                except Exception as key_error:
+                    retry_count += 1
+                    error_msg = str(key_error)
+                    
+                    if "Precondition check failed" in error_msg:
+                        if retry_count < max_retries:
+                            wait_time = 10  # 30초에서 10초로 단축
+                            logger.warning(f"⚠️ 사전 조건 확인 실패, {wait_time}초 후 재시도... ({retry_count}/{max_retries})")
+                            logger.info("💡 Ctrl+C를 눌러 건너뛸 수 있습니다")
+                            import time
+                            time.sleep(wait_time)
+                            continue
+                        else:
+                            logger.error("❌ 사전 조건 확인 지속 실패")
+                            logger.info("💡 해결 방법:")
+                            logger.info("   1. 서비스 계정이 완전히 생성될 때까지 대기")
+                            logger.info("   2. IAM API가 활성화되어 있는지 확인")
+                            logger.info("   3. 권한 전파 완료 대기 (최대 5분)")
+                            logger.info(f"   4. 수동 키 생성: gcloud iam service-accounts keys create keys/{service_account_id}-{self.project_id}.json --iam-account={service_account_email}")
+                            break
+                    
+                    elif "Permission 'iam.serviceAccountKeys.create' denied" in error_msg:
+                        logger.warning(f"⚠️ 서비스 계정 키 생성 권한이 없습니다")
+                        logger.info("💡 해결 방법:")
+                        logger.info("   1. GCP 콘솔 → IAM & Admin → IAM")
+                        logger.info(f"   2. 현재 사용자에게 'Service Account Key Admin' 역할 추가")
+                        logger.info("   3. 또는 프로젝트 소유자가 다음 명령 실행:")
+                        logger.info(f"      gcloud projects add-iam-policy-binding {self.project_id} \\")
+                        logger.info(f"        --member=\"user:YOUR_EMAIL\" \\")
+                        logger.info(f"        --role=\"roles/iam.serviceAccountKeyAdmin\"")
+                        break
+                    
+                    elif "Service account does not exist" in error_msg:
+                        logger.error("❌ 서비스 계정이 존재하지 않습니다")
+                        break
+                    
+                    else:
+                        if retry_count < max_retries:
+                            logger.warning(f"⚠️ 키 생성 실패, 재시도 중... ({retry_count}/{max_retries}): {error_msg}")
+                            import time
+                            time.sleep(15)
+                            continue
+                        else:
+                            logger.error(f"❌ 서비스 계정 키 생성 최종 실패: {error_msg}")
+                            break
+            
+            # 키 생성 실패 시 안내
+            logger.info("📝 서비스 계정은 생성되었지만 키 파일 생성에 실패했습니다.")
+            logger.info("   다음 방법으로 수동 생성 가능:")
+            logger.info(f"   gcloud iam service-accounts keys create keys/{service_account_id}-{self.project_id}.json \\")
+            logger.info(f"     --iam-account={service_account_email}")
+            logger.info(f"📄 생성된 서비스 계정: {service_account_email}")
+            return None
             
         except Exception as e:
             logger.error(f"❌ 서비스 계정 생성 실패: {e}")

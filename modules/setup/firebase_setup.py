@@ -433,49 +433,109 @@ class FirebaseSetupManager:
                 except Exception as e:
                     logger.warning(f"⚠️ Firebase 역할 '{role}' 부여 실패: {e}")
             
-            # 키 파일 생성 시도
+            # 키 파일 생성 시도 (개선된 로직)
             logger.info("🔄 Firebase 서비스 계정 키 파일 생성 중...")
             
-            try:
-                key = iam_service.projects().serviceAccounts().keys().create(
-                    name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
-                    body={'keyAlgorithm': 'KEY_ALG_RSA_2048'}
-                ).execute()
-                
-                # 키 디렉토리 생성
-                os.makedirs("keys", exist_ok=True)
-                
-                # 키 파일 저장
-                key_file_path = f"keys/{service_account_id}.json"
-                with open(key_file_path, 'w') as f:
+            # 1단계: 서비스 계정 준비 상태 확인
+            max_retries = 3
+            retry_count = 0
+            
+            while retry_count < max_retries:
+                try:
+                    # 서비스 계정 상태 확인
+                    sa_info = iam_service.projects().serviceAccounts().get(
+                        name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}"
+                    ).execute()
+                    
+                    if sa_info.get('disabled', False):
+                        logger.warning("⚠️ 서비스 계정이 비활성화 상태입니다. 활성화 중...")
+                        # 서비스 계정 활성화
+                        iam_service.projects().serviceAccounts().enable(
+                            name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}"
+                        ).execute()
+                        import time
+                        time.sleep(10)
+                        continue
+                    
+                    # 2단계: 키 생성 시도
+                    key_creation_body = {
+                        'privateKeyType': 'TYPE_GOOGLE_CREDENTIALS_FILE',
+                        'keyAlgorithm': 'KEY_ALG_RSA_2048'
+                    }
+                    
+                    key = iam_service.projects().serviceAccounts().keys().create(
+                        name=f"projects/{self.project_id}/serviceAccounts/{service_account_email}",
+                        body=key_creation_body
+                    ).execute()
+                    
+                    # 3단계: 키 파일 저장
+                    os.makedirs("keys", exist_ok=True)
+                    key_file_path = f"keys/{service_account_id}.json"
+                    
                     import base64
                     key_data = base64.b64decode(key['privateKeyData']).decode('utf-8')
-                    f.write(key_data)
-                
-                logger.info(f"✅ Firebase 서비스 계정 키 파일 저장: {key_file_path}")
-                return key_file_path
-                
-            except Exception as key_error:
-                error_msg = str(key_error)
-                if "Permission 'iam.serviceAccountKeys.create' denied" in error_msg:
-                    logger.warning(f"⚠️ 서비스 계정 키 생성 권한이 없습니다")
-                    logger.info("💡 해결 방법:")
-                    logger.info("   1. GCP 콘솔 → IAM & Admin → IAM")
-                    logger.info(f"   2. 현재 사용자에게 'Service Account Key Admin' 역할 추가")
-                    logger.info("   3. 또는 프로젝트 소유자가 다음 명령 실행:")
-                    logger.info(f"      gcloud projects add-iam-policy-binding {self.project_id} \\")
-                    logger.info(f"        --member=\"user:YOUR_EMAIL\" \\")
-                    logger.info(f"        --role=\"roles/iam.serviceAccountKeyAdmin\"")
-                    logger.info("")
-                    logger.info("📝 서비스 계정은 생성되었지만 키 파일 생성에 실패했습니다.")
-                    logger.info("   권한을 부여받은 후 다시 실행하거나, 수동으로 키를 생성하세요.")
                     
-                    # 서비스 계정 정보 반환 (키 파일 없이)
-                    logger.info(f"📄 생성된 서비스 계정: {service_account_email}")
-                    return None
-                else:
-                    logger.error(f"❌ 서비스 계정 키 생성 실패: {key_error}")
-                    return None
+                    with open(key_file_path, 'w', encoding='utf-8') as f:
+                        f.write(key_data)
+                    
+                    # 파일 권한 설정 (읽기 전용)
+                    import stat
+                    os.chmod(key_file_path, stat.S_IRUSR | stat.S_IWUSR)
+                    
+                    logger.info(f"✅ Firebase 서비스 계정 키 파일 저장: {key_file_path}")
+                    return key_file_path
+                    
+                except Exception as key_error:
+                    retry_count += 1
+                    error_msg = str(key_error)
+                    
+                    if "Precondition check failed" in error_msg:
+                        if retry_count < max_retries:
+                            logger.warning(f"⚠️ 사전 조건 확인 실패, {30}초 후 재시도... ({retry_count}/{max_retries})")
+                            import time
+                            time.sleep(30)
+                            continue
+                        else:
+                            logger.error("❌ 사전 조건 확인 지속 실패")
+                            logger.info("💡 해결 방법:")
+                            logger.info("   1. 서비스 계정이 완전히 생성될 때까지 대기")
+                            logger.info("   2. IAM API가 활성화되어 있는지 확인")
+                            logger.info("   3. 권한 전파 완료 대기 (최대 5분)")
+                            logger.info(f"   4. 수동 키 생성: gcloud iam service-accounts keys create keys/{service_account_id}.json --iam-account={service_account_email}")
+                            break
+                    
+                    elif "Permission 'iam.serviceAccountKeys.create' denied" in error_msg:
+                        logger.warning(f"⚠️ 서비스 계정 키 생성 권한이 없습니다")
+                        logger.info("💡 해결 방법:")
+                        logger.info("   1. GCP 콘솔 → IAM & Admin → IAM")
+                        logger.info(f"   2. 현재 사용자에게 'Service Account Key Admin' 역할 추가")
+                        logger.info("   3. 또는 프로젝트 소유자가 다음 명령 실행:")
+                        logger.info(f"      gcloud projects add-iam-policy-binding {self.project_id} \\")
+                        logger.info(f"        --member=\"user:YOUR_EMAIL\" \\")
+                        logger.info(f"        --role=\"roles/iam.serviceAccountKeyAdmin\"")
+                        break
+                    
+                    elif "Service account does not exist" in error_msg:
+                        logger.error("❌ 서비스 계정이 존재하지 않습니다")
+                        break
+                    
+                    else:
+                        if retry_count < max_retries:
+                            logger.warning(f"⚠️ 키 생성 실패, 재시도 중... ({retry_count}/{max_retries}): {error_msg}")
+                            import time
+                            time.sleep(15)
+                            continue
+                        else:
+                            logger.error(f"❌ 서비스 계정 키 생성 최종 실패: {error_msg}")
+                            break
+            
+            # 키 생성 실패 시 안내
+            logger.info("📝 서비스 계정은 생성되었지만 키 파일 생성에 실패했습니다.")
+            logger.info("   다음 방법으로 수동 생성 가능:")
+            logger.info(f"   gcloud iam service-accounts keys create keys/{service_account_id}.json \\")
+            logger.info(f"     --iam-account={service_account_email}")
+            logger.info(f"📄 생성된 서비스 계정: {service_account_email}")
+            return None
             
         except Exception as e:
             logger.error(f"❌ Firebase 서비스 계정 생성 실패: {e}")

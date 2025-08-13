@@ -1,32 +1,38 @@
 """인증 관리 모듈"""
 import logging
+import threading
+from typing import Optional
 from google.cloud import storage
 from google.oauth2 import service_account
+from google.auth.credentials import Credentials
 
 from .config import Config
 
 logger = logging.getLogger(__name__)
 
-# 전역 인증 상태
-_credentials = None
-_storage_client = None
+# 전역 인증 상태 (스레드 안전)
+_auth_lock = threading.RLock()
+_credentials: Optional[Credentials] = None
+_storage_client: Optional[storage.Client] = None
 _is_initialized = False
 
-def get_credentials():
+def get_credentials() -> Optional[Credentials]:
     """인증 정보 반환"""
-    if not _is_initialized:
-        raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
-    return _credentials
+    with _auth_lock:
+        if not _is_initialized:
+            raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
+        return _credentials
 
 
 
 # Spanner 클라이언트는 더 이상 사용하지 않음 - Discovery Engine 사용
 
-def get_storage_client():
+def get_storage_client() -> Optional[storage.Client]:
     """Storage 클라이언트 반환"""
-    if not _is_initialized:
-        raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
-    return _storage_client
+    with _auth_lock:
+        if not _is_initialized:
+            raise RuntimeError("인증이 초기화되지 않았습니다. initialize_auth()를 먼저 호출하세요.")
+        return _storage_client
 
 def is_authenticated() -> bool:
     """인증 상태 확인"""
@@ -36,8 +42,9 @@ def initialize_auth() -> bool:
     """Google Cloud 인증 초기화"""
     global _credentials, _storage_client, _is_initialized
     
-    if _is_initialized:
-        return True
+    with _auth_lock:
+        if _is_initialized:
+            return True
 
     try:
         import os

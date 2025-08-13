@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import mimetypes
+import urllib.parse
 from datetime import datetime
 from typing import Optional, Dict, Any
 from fastapi import APIRouter, HTTPException, Form
@@ -363,7 +364,6 @@ async def proxy_gcs_file(bucket_name: str, file_path: str):
 
     try:
         # URL 디코딩 처리 (한글 파일명 지원)
-        import urllib.parse
         decoded_file_path = urllib.parse.unquote(file_path, encoding='utf-8')
         
         logger.info(f"GCS 파일 요청 - 원본: {file_path}, 디코딩: {decoded_file_path}")

@@ -121,3 +121,5 @@ Thumbs.db
 keys/
 venv/
 images/
+.claude
+SuperClaude/

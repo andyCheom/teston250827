@@ -10,7 +10,10 @@
       "Bash(firebase deploy:*)",
       "Bash(gcloud run services update:*)",
       "Bash(gcloud run services logs read:*)",
-      "Bash(gcloud run services get-iam-policy:*)"
+      "Bash(gcloud run services get-iam-policy:*)",
+      "mcp__magic__21st_magic_component_builder",
+      "Bash(python:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

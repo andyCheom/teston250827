@@ -7,6 +7,11 @@ function initializeChat() {
   const promptForm = document.getElementById("prompt-form");
   const promptInput = document.getElementById("prompt-input");
   
+  // Enhanced UI state
+  let isTyping = false;
+  let messageQueue = [];
+  let messageCounter = 0;
+  
   // Demo form elements
   const demoRequestBtn = document.getElementById("demo-request-btn");
   const demoFormContainer = document.getElementById("demo-form-container");
@@ -450,6 +455,9 @@ function initializeChat() {
     // marked.parse()를 사용하여 마크다운을 HTML로 변환합니다.
     messageElement.innerHTML = marked.parse(markdownText);
 
+    // 메시지 반응 버튼 추가
+    addMessageReactions(messageElement);
+
     chatContainer.appendChild(messageElement);
   }
 
@@ -537,6 +545,9 @@ function initializeChat() {
       relatedDiv.appendChild(questionsList);
       messageElement.appendChild(relatedDiv);
     }
+
+    // 메시지 반응 버튼 추가
+    addMessageReactions(messageElement);
 
     // Search Results에서 추가 링크 정보 추가 (항상 표시)
     if (result.search_results && result.search_results.length > 0) {
@@ -838,6 +849,201 @@ ${result.message}
     }
     
     scrollToBottom();
+  }
+
+  // 메시지 반응 버튼 추가 함수
+  function addMessageReactions(messageElement) {
+    messageCounter++;
+    const messageIndex = messageCounter;
+    
+    const actionsDiv = document.createElement('div');
+    actionsDiv.className = 'message-actions';
+    actionsDiv.style.cssText = `
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    `;
+    
+    // 반응 버튼들 생성
+    const buttons = [
+      { icon: '👍', text: '도움됨', action: 'helpful', rating: 5.0 },
+      { icon: '👎', text: '도움안됨', action: 'not-helpful', rating: 1.0 },
+      { icon: '📋', text: '복사', action: 'copy', rating: null }
+    ];
+    
+    buttons.forEach(btn => {
+      const button = document.createElement('button');
+      button.className = 'reaction-btn';
+      button.innerHTML = `${btn.icon} ${btn.text}`;
+      button.style.cssText = `
+        background: none;
+        border: 1px solid var(--gray-300, #d1d5db);
+        border-radius: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.8rem;
+        color: var(--gray-600, #4b5563);
+      `;
+      
+      // 호버 효과
+      button.addEventListener('mouseenter', () => {
+        button.style.background = 'var(--gray-100, #f3f4f6)';
+        button.style.borderColor = 'var(--gray-400, #9ca3af)';
+      });
+      
+      button.addEventListener('mouseleave', () => {
+        if (!button.classList.contains('active')) {
+          button.style.background = 'none';
+          button.style.borderColor = 'var(--gray-300, #d1d5db)';
+        }
+      });
+      
+      // 클릭 이벤트
+      button.addEventListener('click', () => handleReaction(btn, button, messageIndex, messageElement));
+      
+      actionsDiv.appendChild(button);
+    });
+    
+    messageElement.appendChild(actionsDiv);
+    
+    // 메시지 호버 시 버튼 표시
+    messageElement.addEventListener('mouseenter', () => {
+      actionsDiv.style.opacity = '1';
+    });
+    
+    messageElement.addEventListener('mouseleave', () => {
+      actionsDiv.style.opacity = '0';
+    });
+  }
+
+  // 반응 처리 함수
+  async function handleReaction(btnInfo, buttonElement, messageIndex, messageElement) {
+    switch (btnInfo.action) {
+      case 'helpful':
+      case 'not-helpful':
+        // 토글 기능
+        const isActive = buttonElement.classList.contains('active');
+        
+        // 다른 평가 버튼들 비활성화
+        const otherButtons = messageElement.querySelectorAll('.reaction-btn');
+        otherButtons.forEach(btn => {
+          if (btn !== buttonElement && (btn.textContent.includes('👍') || btn.textContent.includes('👎'))) {
+            btn.classList.remove('active');
+            btn.style.background = 'none';
+            btn.style.borderColor = 'var(--gray-300, #d1d5db)';
+            btn.style.color = 'var(--gray-600, #4b5563)';
+          }
+        });
+        
+        if (!isActive) {
+          // 활성화
+          buttonElement.classList.add('active');
+          buttonElement.style.background = 'var(--primary-600, #137546)';
+          buttonElement.style.borderColor = 'var(--primary-600, #137546)';
+          buttonElement.style.color = 'white';
+          
+          // 피드백 전송
+          try {
+            await sendMessageFeedback(messageIndex, btnInfo.rating, btnInfo.text);
+            showNotification(`${btnInfo.text} 피드백이 전송되었습니다`);
+          } catch (error) {
+            console.error('피드백 전송 실패:', error);
+            showNotification('피드백 전송에 실패했습니다', 'error');
+          }
+        } else {
+          // 비활성화
+          buttonElement.classList.remove('active');
+          buttonElement.style.background = 'none';
+          buttonElement.style.borderColor = 'var(--gray-300, #d1d5db)';
+          buttonElement.style.color = 'var(--gray-600, #4b5563)';
+        }
+        break;
+        
+      case 'copy':
+        try {
+          const textContent = getMessageText(messageElement);
+          await navigator.clipboard.writeText(textContent);
+          showNotification('메시지가 복사되었습니다');
+          
+          // 복사 버튼 잠깐 강조
+          buttonElement.style.background = 'var(--success, #10b981)';
+          buttonElement.style.borderColor = 'var(--success, #10b981)';
+          buttonElement.style.color = 'white';
+          
+          setTimeout(() => {
+            buttonElement.style.background = 'none';
+            buttonElement.style.borderColor = 'var(--gray-300, #d1d5db)';
+            buttonElement.style.color = 'var(--gray-600, #4b5563)';
+          }, 1000);
+          
+        } catch (error) {
+          console.error('복사 실패:', error);
+          showNotification('복사에 실패했습니다', 'error');
+        }
+        break;
+    }
+  }
+
+  // 메시지 텍스트 추출
+  function getMessageText(messageElement) {
+    // 반응 버튼 제외하고 텍스트만 추출
+    const clone = messageElement.cloneNode(true);
+    const actionsDiv = clone.querySelector('.message-actions');
+    if (actionsDiv) actionsDiv.remove();
+    return clone.textContent.trim();
+  }
+
+  // 피드백 전송
+  async function sendMessageFeedback(messageIndex, rating, feedback) {
+    const formData = new FormData();
+    formData.append('session_id', currentSessionId);
+    formData.append('message_index', messageIndex);
+    formData.append('rating', rating);
+    formData.append('feedback', feedback);
+    
+    const response = await fetch('/api/update-message-quality', {
+      method: 'POST',
+      body: formData
+    });
+    
+    if (!response.ok) {
+      throw new Error('피드백 전송 실패');
+    }
+  }
+
+  // 알림 표시
+  function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: ${type === 'error' ? 'var(--error, #ef4444)' : 'var(--primary-600, #137546)'};
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      font-size: 0.875rem;
+      font-weight: 500;
+      animation: slideDown 0.3s ease;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'slideUp 0.3s ease';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.remove();
+        }
+      }, 300);
+    }, 2000);
   }
 }
 

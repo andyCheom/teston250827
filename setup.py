@@ -67,7 +67,6 @@ class GraphRAGLocalSetup:
                 'SETUP_STORAGE_BUCKET': os.getenv('SETUP_STORAGE_BUCKET', 'true').lower() == 'true',
                 'SETUP_CONVERSATION_BUCKET': os.getenv('SETUP_CONVERSATION_BUCKET', 'true').lower() == 'true',
                 'SETUP_FIREBASE': os.getenv('SETUP_FIREBASE', 'false').lower() == 'true',
-                'SETUP_FIRESTORE': os.getenv('SETUP_FIRESTORE', 'true').lower() == 'true',
                 'SETUP_CICD': os.getenv('SETUP_CICD', 'false').lower() == 'true',
                 'ENABLE_APIS': os.getenv('ENABLE_APIS', 'true').lower() == 'true',
             }
@@ -88,9 +87,6 @@ class GraphRAGLocalSetup:
             
             if not config['STORAGE_BUCKET']:
                 config['STORAGE_BUCKET'] = f"{project_id}-graphrag-storage"
-            
-            if not config['CONVERSATION_BUCKET']:
-                config['CONVERSATION_BUCKET'] = f"{project_id}-conversations"
             
             if not config['FIREBASE_PROJECT_ID']:
                 config['FIREBASE_PROJECT_ID'] = project_id
@@ -253,7 +249,7 @@ class GraphRAGLocalSetup:
             logger.info(f"🔄 Discovery Engine '{engine_id}' 생성 중...")
             if self.gcp_setup.create_discovery_engine(
                 engine_id=engine_id,
-                datastore_id=datastore_id,
+                datastore_ids=[datastore_id],  # 리스트로 변경
                 display_name=f"{config['PROJECT_ID']} GraphRAG Engine",
                 location=config['DISCOVERY_LOCATION']
             ):
@@ -275,11 +271,7 @@ class GraphRAGLocalSetup:
             success_count += 1
             logger.info(f"✅ 서비스 계정 생성 완료: {key_file_path}")
         else:
-            # 키 파일 생성에 실패해도 서비스 계정 자체는 생성될 수 있음
-            logger.warning("⚠️ 서비스 계정 키 파일 생성 실패")
-            logger.info("💡 서비스 계정은 생성되었을 수 있습니다. 수동으로 키를 생성하거나 권한을 확인하세요.")
-            # 부분적 성공으로 처리
-            success_count += 0.5
+            logger.error(f"❌ 서비스 계정 생성 실패")
         
         # Cloud Run 서비스 생성
         total_count += 1
@@ -335,34 +327,6 @@ class GraphRAGLocalSetup:
         else:
             logger.error("❌ Firebase Hosting 설정 실패")
         
-        # Firestore 설정
-        if config.get('SETUP_FIRESTORE', True):
-            total_count += 1
-            logger.info("🔄 Firestore 데이터베이스 생성 중...")
-            if self.gcp_setup.create_firestore_database(config['LOCATION_ID']):
-                success_count += 1
-                logger.info("✅ Firestore 데이터베이스 생성 완료")
-                
-                # Firestore 보안 규칙 및 인덱스 설정
-                total_count += 1
-                logger.info("🔄 Firestore 보안 규칙 및 인덱스 설정 중...")
-                if self.firebase_setup.setup_firestore():
-                    success_count += 1
-                    logger.info("✅ Firestore 보안 규칙 설정 완료")
-                    
-                    # Firestore 인덱스 생성
-                    total_count += 1
-                    logger.info("🔄 Firestore 인덱스 설정 중...")
-                    if self.firebase_setup.create_firestore_indexes():
-                        success_count += 1
-                        logger.info("✅ Firestore 인덱스 설정 완료")
-                    else:
-                        logger.error("❌ Firestore 인덱스 설정 실패")
-                else:
-                    logger.warning("⚠️ Firestore 보안 규칙 설정 실패 (데이터베이스는 생성됨)")
-            else:
-                logger.error("❌ Firestore 데이터베이스 생성 실패")
-        
         # Firebase 서비스 계정 생성
         total_count += 1
         logger.info("🔄 Firebase 서비스 계정 생성 중...")
@@ -371,11 +335,7 @@ class GraphRAGLocalSetup:
             success_count += 1
             logger.info(f"✅ Firebase 서비스 계정 키 파일 생성 완료: {firebase_key_file}")
         else:
-            # 키 파일 생성에 실패해도 서비스 계정 자체는 생성될 수 있음
-            logger.warning("⚠️ Firebase 서비스 계정 키 파일 생성 실패")
-            logger.info("💡 서비스 계정은 생성되었을 수 있습니다. 수동으로 키를 생성하거나 권한을 확인하세요.")
-            # 부분적 성공으로 처리
-            success_count += 0.5
+            logger.error("❌ Firebase 서비스 계정 생성 실패")
         
         logger.info(f"🎯 Firebase 리소스 설정 완료: {success_count}/{total_count} 성공")
         return success_count > 0
@@ -463,7 +423,6 @@ DATASTORE_LOCATION={config['DISCOVERY_LOCATION']}
 # Cloud Storage 설정
 # ============================
 STORAGE_BUCKET={config['STORAGE_BUCKET']}
-CONVERSATION_BUCKET={config.get('CONVERSATION_BUCKET', config['PROJECT_ID'] + '-conversations')}
 
 # ============================
 # Firebase 설정
@@ -486,8 +445,6 @@ SYSTEM_PROMPT_PATH=prompt/prompt.txt
 # ============================
 SETUP_CICD={str(config.get('SETUP_CICD', 'false')).lower()}
 SETUP_FIREBASE={str(config.get('SETUP_FIREBASE', 'false')).lower()}
-SETUP_FIRESTORE={str(config.get('SETUP_FIRESTORE', 'true')).lower()}
-SETUP_CONVERSATION_BUCKET={str(config.get('SETUP_CONVERSATION_BUCKET', 'true')).lower()}
 
 # ============================
 # 정적 파일 서빙 (로컬 개발용)
@@ -522,11 +479,6 @@ SERVE_STATIC=true
         
         if config.get('SETUP_FIREBASE'):
             logger.info(f"  • Firebase 프로젝트: {config['FIREBASE_PROJECT_ID']}")
-        
-        if config.get('SETUP_FIRESTORE'):
-            logger.info(f"  • Firestore 데이터베이스: {config['PROJECT_ID']}")
-            logger.info(f"  • Firestore 보안 규칙: firestore.rules")
-            logger.info(f"  • Firestore 인덱스: firestore.indexes.json")
         
         if config.get('SETUP_CICD'):
             logger.info(f"  • Artifact Registry: {config['PROJECT_ID']}-graphrag-repo")

@@ -1,0 +1,14 @@
+# Development dependencies
+black
+flake8
+mypy
+pytest
+pytest-asyncio
+pytest-mock
+bandit
+safety
+pre-commit
+
+# Type checking
+types-requests
+types-PyYAML

@@ -67,7 +67,6 @@ def get_auth_status():
 # 라우터 등록
 app.include_router(router)
 app.include_router(discovery_router)
-app.include_router(conversation_router)
 
 # 환경변수로 정적 파일 서빙 제어
 import os
@@ -81,24 +80,18 @@ if SERVE_STATIC:
         """루트 페이지 서빙 (로컬 개발용)"""
         return FileResponse("public/index.html")
 
-    # 정적 파일 마운트 (로컬 환경에서만)
-    import os
-    if os.path.exists("public") and os.getenv("SERVE_STATIC", "false").lower() == "true":
-        app.mount("/", StaticFiles(directory="public"), name="static")
+    # 정적 파일 마운트
+    app.mount("/", StaticFiles(directory="public"), name="static")
 
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
-        """SPA 라우팅 처리 (로컬 환경에서만)"""
+        """SPA 라우팅 처리 (로컬 개발용)"""
         import os
         from fastapi import HTTPException
         
-        if os.getenv("SERVE_STATIC", "false").lower() == "true" and os.path.exists("public"):
-            if full_path.startswith("api") or os.path.exists(os.path.join("public", full_path)):
-                raise HTTPException(status_code=404, detail="Not Found")
-            return FileResponse("public/index.html")
-        else:
-            # Cloud Run 환경에서는 Firebase 호스팅이 정적 파일을 처리
-            return {"message": "API server running", "path": full_path}
+        if full_path.startswith("api") or os.path.exists(os.path.join("public", full_path)):
+            raise HTTPException(status_code=404, detail="Not Found")
+        return FileResponse("public/index.html")
 else:
     # Cloud Run 배포환경: API만 제공
     @app.get("/")
