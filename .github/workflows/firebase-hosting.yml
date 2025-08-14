@@ -433,3 +433,72 @@ jobs:
             echo "⚠️ GOOGLE_CHAT_WEBHOOK_URL이 설정되지 않았습니다"
           fi
         if: env.DEPLOYMENT_STATUS != ''
+
+  # # 배포 알림
+  #        notify:
+  #   name: Send Notifications
+  #   runs-on: ubuntu-latest
+  #   needs: [deploy-staging, deploy-production]
+  #   if: always() && (needs.deploy-staging.result != 'skipped' || needs.deploy-production.result != 'skipped')
+    
+  #   steps:
+  #     - name: Determine deployment result
+  #       run: |
+  #         if [[ "${{ needs.deploy-staging.result }}" == "success" || "${{ needs.deploy-production.result }}" == "success" ]]; then
+  #           echo "DEPLOYMENT_STATUS=success" >> $GITHUB_ENV
+  #           echo "DEPLOYMENT_EMOJI=🎉" >> $GITHUB_ENV
+  #         else
+  #           echo "DEPLOYMENT_STATUS=failure" >> $GITHUB_ENV
+  #           echo "DEPLOYMENT_EMOJI=❌" >> $GITHUB_ENV
+  #         fi
+          
+  #         # 환경 결정
+  #         if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+  #           echo "DEPLOYMENT_ENV=Production" >> $GITHUB_ENV
+  #           echo "DEPLOYMENT_URL=https://${{ env.FIREBASE_PROJECT_ID }}.web.app" >> $GITHUB_ENV
+  #         else
+  #           echo "DEPLOYMENT_ENV=Staging" >> $GITHUB_ENV
+  #           echo "DEPLOYMENT_URL=https://staging--${{ env.FIREBASE_PROJECT_ID }}.web.app" >> $GITHUB_ENV
+  #         fi
+      
+  #     - name: Send Slack notification
+  #       uses: 8398a7/action-slack@v3
+  #       with:
+  #         status: custom
+  #         custom_payload: |
+  #           {
+  #             "text": "${{ env.DEPLOYMENT_EMOJI }} Firebase Hosting 배포 ${{ env.DEPLOYMENT_STATUS == 'success' && '성공' || '실패' }}!",
+  #             "attachments": [{
+  #               "color": "${{ env.DEPLOYMENT_STATUS == 'success' && 'good' || 'danger' }}",
+  #               "fields": [
+  #                 {
+  #                   "title": "환경",
+  #                   "value": "${{ env.DEPLOYMENT_ENV }}",
+  #                   "short": true
+  #                 },
+  #                 {
+  #                   "title": "브랜치",
+  #                   "value": "${{ github.ref_name }}",
+  #                   "short": true
+  #                 },
+  #                 {
+  #                   "title": "커밋",
+  #                   "value": "${{ github.sha }}".substring(0, 7),
+  #                   "short": true
+  #                 },
+  #                 {
+  #                   "title": "URL",
+  #                   "value": "${{ env.DEPLOYMENT_URL }}",
+  #                   "short": true
+  #                 },
+  #                 {
+  #                   "title": "워크플로우",
+  #                   "value": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>",
+  #                   "short": false
+  #                 }
+  #               ]
+  #             }]
+  #           }
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #       if: env.DEPLOYMENT_STATUS != '' && env.SLACK_WEBHOOK_URL != ''
