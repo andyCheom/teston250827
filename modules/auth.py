@@ -125,3 +125,6 @@ def initialize_auth() -> bool:
         _storage_client = None
         _is_initialized = False
         return False
+    
+
+    
