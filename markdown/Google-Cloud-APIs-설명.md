@@ -143,7 +143,10 @@
 | **Cloud Storage** | 5GB 저장공간 | 초과 시 GB당 과금 |
 | **Cloud Run** | 월 200만 요청 | 초과 시 요청당 과금 |
 | **Firebase Hosting** | 10GB 전송량 | 초과 시 GB당 과금 |
+| **Firestore** | 1GB 저장, 5만 읽기/2만 쓰기 | 초과 시 작업당 과금 |
 | **Cloud Build** | 일 120분 빌드시간 | 초과 시 분당 과금 |
+| **Cloud Functions** | 월 200만 호출 | 초과 시 호출당 과금 |
+| **IAM** | 무료 | 과금 없음 |
 
 **💡 팁**: 개인 프로젝트나 소규모 테스트라면 대부분 무료 한도 내에서 사용 가능합니다!
 
@@ -158,8 +161,20 @@ gcloud services list --enabled --project=YOUR_PROJECT_ID
 # 특정 API 상태 확인
 gcloud services list --filter="name:discoveryengine.googleapis.com"
 
-# API 수동 활성화 (필요시)
-gcloud services enable discoveryengine.googleapis.com
+# 모든 필요한 API 한번에 활성화
+gcloud services enable \
+  discoveryengine.googleapis.com \
+  storage-api.googleapis.com \
+  storage-component.googleapis.com \
+  cloudbuild.googleapis.com \
+  run.googleapis.com \
+  firebase.googleapis.com \
+  firebasehosting.googleapis.com \
+  firestore.googleapis.com \
+  appengine.googleapis.com \
+  cloudresourcemanager.googleapis.com \
+  iam.googleapis.com \
+  cloudfunctions.googleapis.com
 ```
 
 ---

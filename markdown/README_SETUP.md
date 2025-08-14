@@ -64,15 +64,22 @@ python setup.py
 5. **서비스 계정**
    - 이름: `graphrag-service@{PROJECT_ID}.iam.gserviceaccount.com`
    - 필요한 권한 자동 부여:
-     - `roles/discoveryengine.editor`
-     - `roles/storage.objectViewer`
-     - `roles/storage.objectCreator`
+     - `roles/discoveryengine.editor` (검색 및 답변 생성)
+     - `roles/storage.objectViewer` (Cloud Storage 읽기)
+     - `roles/storage.objectCreator` (Cloud Storage 쓰기)
+     - `roles/datastore.user` (Firestore 접근)
    - 키 파일 자동 생성: `keys/graphrag-service-{PROJECT_ID}.json`
 
 6. **Firebase 설정** (선택사항)
    - Firebase 프로젝트 활성화
    - Firebase Hosting 설정
+   - Firestore 데이터베이스 활성화 (대화 저장용)
    - `firebase.json` 및 `.firebaserc` 자동 생성
+
+7. **다중 데이터스토어 설정** (선택사항)
+   - 환경변수 `ADDITIONAL_DATASTORES`로 추가 데이터스토어 생성
+   - 각 데이터스토어별 Discovery Engine 구성
+   - 동적 데이터스토어 관리 시스템 구성
 
 ## ⚙️ 설정 옵션
 
@@ -86,7 +93,14 @@ AUTO_SETUP=false
 SETUP_DISCOVERY_ENGINE=true    # Discovery Engine 생성
 SETUP_STORAGE_BUCKET=true      # Storage 버킷 생성
 SETUP_FIREBASE=false           # Firebase 설정 (기본값: false)
+SETUP_FIRESTORE=true           # Firestore 설정 (기본값: true)
 ENABLE_APIS=true               # 필요한 API 활성화
+
+# 상담사 연결 설정 (선택사항)
+GOOGLE_CHAT_WEBHOOK_URL=https://chat.googleapis.com/...
+
+# 다중 데이터스토어 설정 (선택사항)
+ADDITIONAL_DATASTORES='{"docs":{"type":"unstructured"},"faq":{"type":"structured"}}'
 ```
 
 ### 리소스 이름 커스터마이징
@@ -97,6 +111,9 @@ DISCOVERY_ENGINE_ID=my-custom-engine
 DATASTORE_ID=my-custom-datastore
 STORAGE_BUCKET=my-custom-bucket
 SERVICE_ACCOUNT_EMAIL=my-service@project.iam.gserviceaccount.com
+
+# 다중 데이터스토어 설정 예시
+DATASTORES_CONFIG='{"docs":{"id":"company-docs","location":"global","type":"unstructured","enabled":true},"faq":{"id":"company-faq","location":"asia-northeast3","type":"structured","enabled":true}}'
 ```
 
 ## 🛠️ 고급 사용법
@@ -178,12 +195,13 @@ print(setup.validate_setup())
 
 ```
 graphrag/
-├── .env                           # 업데이트된 환경설정
+├── .env                           # 업데이트된 환경설정 (다중 데이터스토어 설정 포함)
 ├── .env.backup                    # 기존 설정 백업
 ├── keys/
 │   └── graphrag-service-{PROJECT_ID}.json  # 서비스 계정 키
 ├── firebase.json                  # Firebase 설정 (SETUP_FIREBASE=true인 경우)
-└── .firebaserc                    # Firebase 프로젝트 설정
+├── .firebaserc                    # Firebase 프로젝트 설정
+└── cloudbuild.yaml                # Cloud Build CI/CD 설정 (선택사항)
 ```
 
 ## 🚀 설정 완료 후 다음 단계

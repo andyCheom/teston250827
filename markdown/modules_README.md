@@ -7,14 +7,20 @@
 ```
 modules/
 ├── auth.py                     # Google Cloud 인증 관리
-├── config.py                   # 환경 설정 관리
+├── config.py                   # 환경 설정 관리 (다중 데이터스토어 지원)
 ├── routers/                    # 웹 API 엔드포인트들
-│   ├── api.py                 # 메인 API (질의응답)
-│   ├── conversation_api.py    # 대화 기록 관리 API
-│   └── discovery_only_api.py  # Discovery Engine 테스트 API
+│   ├── api.py                 # 메인 API (질의응답, 민감 질문 처리)
+│   ├── conversation_api.py    # 대화 기록 관리 API (Firestore 연동)
+│   ├── discovery_only_api.py  # Discovery Engine 테스트 API
+│   └── multi_datastore_api.py # 다중 데이터스토어 API
 ├── services/                   # 핵심 비즈니스 로직
-│   ├── conversation_logger.py # 대화 내용 저장 관리
-│   └── discovery_engine_api.py# Google Discovery Engine 연동
+│   ├── conversation_logger.py # 대화 내용 저장 관리 (JSON 파일)
+│   ├── discovery_engine_api.py# Google Discovery Engine 연동
+│   ├── multi_datastore_manager.py # 다중 데이터스토어 관리
+│   ├── sensitive_query_detector.py # 민감 질문 감지
+│   ├── consultant_service.py  # 상담사 연결 서비스 (Google Chat)
+│   ├── firestore_conversation.py # Firestore 대화 저장
+│   └── demo_request_service.py # 데모 신청 처리
 └── setup/                      # 자동 설정 도구들
     ├── gcp_setup.py           # Google Cloud 리소스 자동 생성
     ├── firebase_setup.py      # Firebase 설정 자동화
@@ -111,17 +117,19 @@ def get_storage_client():
 
 #### `POST /api/generate` - AI 질의응답
 ```python
-async def generate_content(userPrompt: str, conversationHistory: str):
+async def generate_content(userPrompt: str, conversationHistory: str, sessionId: str):
     """사용자 질문에 대한 AI 답변을 생성합니다"""
 ```
 - **받는 정보**: 
   - `userPrompt`: 사용자가 입력한 질문
   - `conversationHistory`: 이전 대화 내역
+  - `sessionId`: 대화 세션 ID
 - **하는 일**: 
-  1. Discovery Engine에서 관련 정보 검색
-  2. AI가 답변 생성
-  3. 대화 내용을 GCS에 자동 저장
-- **반환하는 것**: AI 답변, 참고자료, 관련 질문들
+  1. 민감 질문 감지 (가격, 할인, 계약 등)
+  2. 민감 질문이면 상담사 연결 안내
+  3. 일반 질문이면 Discovery Engine에서 답변 생성
+  4. 대화 내용을 GCS와 Firestore에 저장
+- **반환하는 것**: AI 답변, 참고자료, 관련 질문, 상담사 연결 필요 여부
 
 #### `GET /api/health` - 서버 상태 확인
 ```python
@@ -216,7 +224,61 @@ def generate_answer(query: str, session_id: str = None) -> dict:
 - **하는 일**: 검색된 정보를 바탕으로 자연스러운 답변을 만듭니다
 - **언제 쓰나요**: 검색 결과를 사용자가 이해하기 쉬운 답변으로 바꿀 때
 
-### `conversation_logger.py` - 대화 내용 저장 관리
+### 새로 추가된 서비스들
+
+### `sensitive_query_detector.py` - 민감 질문 감지
+
+**이게 뭐하는 파일인가요?**
+- 가격, 할인, 계약 등 인간 상담사가 답변해야 할 민감한 질문들을 자동으로 감지합니다.
+
+**주요 기능:**
+- 민감 키워드 인식 (가격, 비용, 할인, 상담 등)
+- 다단계 분류 시스템
+- 신뢰도 점수 제공
+
+### `consultant_service.py` - 상담사 연결 서비스
+
+**이게 뭐하는 파일인가요?**
+- 민감한 질문이 감지되면 Google Chat을 통해 인간 상담사에게 알림을 보냅니다.
+
+**주요 기능:**
+- Google Chat Webhook 연동
+- 대화 컨텍스트와 함께 상담 요청 전송
+- 상담 요청 ID 및 타임스탬프 관리
+
+### `multi_datastore_manager.py` - 다중 데이터스토어 관리
+
+**이게 뭐하는 파일인가요?**
+- 여러 개의 Discovery Engine 데이터스토어에서 동시에 검색하고 결과를 통합합니다.
+
+**주요 기능:**
+- 다중 데이터스토어 병렬 검색
+- 결과 통합 및 중요도 순 정렬
+- 데이터스토어별 성공/실패 추적
+- 동적 설정 관리
+
+### `firestore_conversation.py` - Firestore 대화 저장
+
+**이게 뭐하는 파일인가요?**
+- 기존 GCS JSON 파일 저장에 추가로 Firestore에도 대화 내역을 저장하고 관리합니다.
+
+**주요 기능:**
+- 세션별 대화 내역 저장
+- 사용자 품질 평가 기능
+- 대화 분석 데이터 제공
+- 세션 요약 및 통계
+
+### `demo_request_service.py` - 데모 신청 처리
+
+**이게 뭐하는 파일인가요?**
+- 웹사이트에서 들어오는 데모 신청을 처리하고 관리합니다.
+
+**주요 기능:**
+- 데모 신청 양식 검증
+- Google Chat으로 신청 내역 전송
+- 신청 ID 및 타임스탬프 관리
+
+### `conversation_logger.py` - 대화 내용 저장 관리 (GCS)
 
 **이게 뭐하는 파일인가요?**
 - 사용자와 AI의 대화 내용을 Google Cloud Storage에 JSON 파일로 저장하고 관리합니다.
@@ -438,9 +500,13 @@ cicd_setup.py → 자동 배포 파이프라인 설정
     ↓
 api.py → /api/generate 엔드포인트 호출
     ↓
-discovery_engine_api.py → Google에서 답변 검색
+sensitive_query_detector.py → 민감 질문 감지
+    ↓
+[민감 질문이면] consultant_service.py → 상담사 연결
+[일반 질문이면] discovery_engine_api.py → 답변 생성
     ↓  
-conversation_logger.py → 대화 내용 GCS에 저장
+conversation_logger.py → GCS에 JSON 저장
+firestore_conversation.py → Firestore에 구조화 저장
     ↓
 사용자에게 답변 반환
 ```
@@ -451,9 +517,20 @@ conversation_logger.py → 대화 내용 GCS에 저장
     ↓
 conversation_api.py → 대화 관리 API 호출  
     ↓
-conversation_logger.py → GCS에서 대화 내용 조회
+firestore_conversation.py → Firestore에서 대화 내역 조회
     ↓
-대화 기록 반환
+대화 기록 및 분석 데이터 반환
+```
+
+### 4. 다중 데이터스토어 검색할 때
+```
+사용자가 다중 데이터스토어 검색 요청
+    ↓
+multi_datastore_api.py → 다중 데이터스토어 API 호출
+    ↓
+multi_datastore_manager.py → 병렬 검색 수행
+    ↓
+통합된 검색 결과 반환
 ```
 
 ---

@@ -19,27 +19,35 @@ Google Cloud Discovery Engine을 활용한 지능형 챗봇 API 시스템입니�
 - **Answer API**: 구조화된 답변과 관련 질문 자동 생성
 - **Search API**: 데이터스토어에서 관련 문서 검색 및 스니펫 제공
 - **Citation 지원**: 답변의 출처와 참조 문서 정보 제공
+- **다중 데이터스토어 지원**: 여러 데이터스토어 동시 검색 및 통합 답변
 - **한국어 최적화**: 한국어 검색 및 답변 생성에 특화
 
-### 🎯 간결한 텍스트 인터페이스
-- **텍스트 전용**: 이미지 처리 없이 텍스트 질의응답에 집중
+### 🎯 지능형 질의응답 인터페이스
+- **민감 질문 감지**: 가격, 할인, 계약 등 민감한 질문 자동 분류
+- **상담사 연결**: 민감 질문 시 자동으로 상담사 연결 제안
 - **실시간 채팅**: 웹 기반 채팅 인터페이스
-- **대화 히스토리**: 컨텍스트를 유지하는 대화 관리
+- **대화 히스토리**: Firestore 기반 대화 세션 관리
 - **마크다운 지원**: 서식이 적용된 답변 렌더링
+- **품질 평가**: 사용자 피드백 기반 답변 품질 개선
 
 ### 🔧 모듈화된 아키텍처
 - **인증 관리**: 중앙화된 Google Cloud 인증 시스템
+- **다중 데이터스토어**: 여러 데이터스토어 동시 검색 및 통합 답변 생성
 - **설정 관리**: 환경 변수 기반 동적 설정
 - **라우터 분리**: FastAPI 라우터를 통한 API 엔드포인트 체계화
 - **서비스 레이어**: Discovery Engine API 통신 최적화
+- **민감 질문 처리**: 자동 감지 및 상담사 연결
+- **Firestore 연동**: 대화 이력 저장 및 분석
 
 ## ⚙️ 기술 스택 (Tech Stack)
 
 - **Backend**: Python 3.11+, FastAPI, Uvicorn
 - **Search Engine**: Google Cloud Discovery Engine (Answer API, Search API)
-- **Cloud Platform**: Google Cloud Platform (Discovery Engine, Cloud Storage, Cloud Run)
+- **Database**: Google Cloud Firestore (대화 히스토리 및 분석)
+- **Cloud Platform**: Google Cloud Platform (Discovery Engine, Cloud Storage, Cloud Run, Firestore)
 - **Frontend**: HTML5, CSS3, JavaScript (Vanilla), Marked.js (마크다운 렌더링)
 - **Authentication**: Google Cloud IAM, Service Accounts
+- **Monitoring**: Google Chat 통합 알림 시스템
 
 ## 📁 프로젝트 구조 (Project Structure)
 
@@ -52,13 +60,26 @@ graphrag/
 │   ├── config.py                      # 환경 설정 관리
 │   ├── routers/
 │   │   ├── api.py                    # 메인 API 라우터
-│   │   └── discovery_only_api.py     # Discovery Engine 전용 API
-│   └── services/
-│       └── discovery_engine_api.py   # Discovery Engine API 클라이언트
+│   │   ├── discovery_only_api.py     # Discovery Engine 전용 API
+│   │   ├── conversation_api.py       # 대화 관리 API
+│   │   └── multi_datastore_api.py    # 다중 데이터스토어 API
+│   ├── services/
+│   │   ├── discovery_engine_api.py   # Discovery Engine API 클라이언트
+│   │   ├── multi_datastore_manager.py # 다중 데이터스토어 관리
+│   │   ├── sensitive_query_detector.py # 민감 질문 감지
+│   │   ├── consultant_service.py     # 상담사 연결 서비스
+│   │   ├── conversation_logger.py     # 대화 로깅
+│   │   ├── firestore_conversation.py # Firestore 대화 저장
+│   │   └── demo_request_service.py   # 데모 신청 처리
+│   └── setup/                        # 자동 설정 모듈
+│       ├── cicd_setup.py            # CI/CD 설정
+│       ├── firebase_setup.py        # Firebase 설정
+│       └── gcp_setup.py             # GCP 리소스 설정
 ├── public/                            # 웹 인터페이스 정적 파일
 │   ├── index.html                    # 채팅 웹 인터페이스
-│   ├── style.css                     # 스타일시트
-│   └── vai.js                        # 채팅 JavaScript 로직
+│   ├── enhanced-chat.css             # 스타일시트
+│   ├── enhanced-chat.js              # 향상된 채팅 JavaScript
+│   └── vai.js                        # 기본 채팅 로직
 └── prompt/
     └── prompt.txt                    # 시스템 프롬프트 템플릿
 ```
@@ -67,11 +88,14 @@ graphrag/
 
 - **Python 3.11+** 및 pip 패키지 관리자
 - **Google Cloud SDK (gcloud CLI)**
-- **Google Cloud 프로젝트** (Discovery Engine 서비스 활성화)
+- **Google Cloud 프로젝트** (Discovery Engine, Firestore 서비스 활성화)
 - **Discovery Engine 데이터스토어** (검색 데이터 저장용)
+- **Firestore 데이터베이스** (대화 히스토리 저장용)
 - **서비스 계정** (다음 권한 필요):
   - `roles/discoveryengine.editor` (Discovery Engine 사용)
   - `roles/storage.objectViewer` (Cloud Storage 접근)
+  - `roles/datastore.user` (Firestore 접근)
+- **Google Chat Webhook** (상담사 연결용, 선택사항)
 - **환경 변수 설정** (필수)
 
 ---
@@ -124,6 +148,12 @@ DISCOVERY_COLLECTION="default_collection"
 DISCOVERY_ENGINE_ID="your-discovery-engine-id"
 DISCOVERY_SERVING_CONFIG="default_config"
 
+# 다중 데이터스토어 설정 (선택사항)
+DATASTORES_CONFIG='{"docs":{"id":"docs-datastore","location":"global","type":"unstructured","enabled":true}}'
+
+# 상담사 연결 설정 (선택사항)
+GOOGLE_CHAT_WEBHOOK_URL="https://chat.googleapis.com/v1/spaces/YOUR_SPACE/messages?key=YOUR_KEY&token=YOUR_TOKEN"
+
 ```
 
 ### 5. 로컬 서버 실행 (Run Local Server)
@@ -137,13 +167,16 @@ uvicorn main:app --reload --port 8000
 
 ## 📦 API 명세 (API Specification)
 
-### `POST /api/generate`
+### 메인 챗봇 API
+
+#### `POST /api/generate`
 
 사용자의 텍스트 질문과 대화 기록을 받아 Discovery Engine 기반 답변을 반환합니다.
 
 - **Request**: `application/x-www-form-urlencoded`
     - `userPrompt` (string, required): 사용자의 텍스트 질문
-    - `conversationHistory` (string, required): 이전 대화 기록을 담은 JSON 배열 문자열. (예: `'[{"role": "user", ...}, {"role": "model", ...}]'`)
+    - `conversationHistory` (string, required): 이전 대화 기록을 담은 JSON 배열 문자열
+    - `sessionId` (string, optional): 대화 세션 ID
 - **Success Response (200 OK)**:
     
     ```json
@@ -157,42 +190,97 @@ uvicorn main:app --reload --port 8000
       "metadata": {
         "engine_type": "discovery_engine_main",
         "query_id": "...",
-        "session_id": "..."
+        "session_id": "...",
+        "sensitive_detected": false
       },
       "quality_check": {
         "has_answer": true,
         "discovery_success": true
-      }
+      },
+      "consultant_needed": false     // 민감 질문 시 true
     }
     ```
-    
-- **Error Responses**:
-    - `400 Bad Request`: 요청 형식이 잘못되었거나 필수 파라미터가 누락된 경우
-    - `503 Service Unavailable`: 서버 인증 정보가 설정되지 않은 경우
-    - 기타 `4xx`, `5xx`: Discovery Engine API 호출 중 발생한 오류
 
-### `POST /api/discovery-answer`
+### 다중 데이터스토어 API
 
-Discovery Engine Answer API를 직접 테스트하는 엔드포인트입니다.
+#### `GET /api/datastores`
+활성화된 데이터스토어 목록을 조회합니다.
+
+#### `POST /api/datastores/search`
+여러 데이터스토어에서 동시 검색을 수행합니다.
 
 - **Request**: `application/x-www-form-urlencoded`
-    - `userPrompt` (string, required): 사용자의 텍스트 질문
-- **Success Response (200 OK)**:
-    
-    ```json
-    {
-      "answer": "답변 텍스트",
-      "citations": [...],
-      "search_results": [...],
-      "related_questions": [...],
-      "metadata": {
-        "query_id": "...",
-        "session_id": "...",
-        "engine_type": "discovery_engine_answer",
-        "final_query_used": "..."
-      }
-    }
-    ```
+    - `userPrompt` (string, required): 검색 질문
+    - `datastores` (string, optional): 사용할 데이터스토어 목록 (JSON 배열)
+    - `maxResults` (int, optional): 데이터스토어별 최대 결과 수 (기본값: 5)
+    - `aggregateResults` (bool, optional): 결과 통합 여부 (기본값: true)
+
+#### `POST /api/datastores/answer`
+다중 데이터스토어에서 통합 답변을 생성합니다.
+
+### 상담사 연결 API
+
+#### `POST /api/request-consultant`
+민감한 질문에 대해 상담사 연결을 요청합니다.
+
+- **Request**: `application/x-www-form-urlencoded`
+    - `userPrompt` (string, required): 사용자 질문
+    - `conversationHistory` (string, required): 대화 기록
+    - `sessionId` (string, optional): 세션 ID
+    - `sensitiveCategories` (string, optional): 감지된 민감 카테고리 목록
+
+### 대화 관리 API
+
+#### `GET /api/conversation-history/{session_id}`
+특정 세션의 대화 내역을 조회합니다.
+
+#### `GET /api/session-summary/{session_id}`
+세션 요약 정보를 조회합니다.
+
+#### `POST /api/update-message-quality`
+메시지 품질 평가를 업데이트합니다.
+
+### 헬스 체크 API
+
+#### `GET /api/health`
+기본 헬스 체크 (빠른 응답)
+
+#### `GET /api/health/detailed`
+상세 헬스 체크 (인증 상태 포함)
+
+### 데모 신청 API
+
+#### `POST /api/request-demo`
+데모 신청을 처리합니다.
+
+- **Request**: `application/x-www-form-urlencoded`
+    - `companyName` (string, required): 회사명
+    - `customerName` (string, required): 담당자명
+    - `email` (string, required): 이메일 주소
+    - `phone` (string, required): 연락처
+    - `sendType` (string, required): 전송 방식
+    - `usagePurpose` (string, required): 사용 목적
+
+### 분석 API
+
+#### `GET /api/analytics`
+대화 분석 데이터를 조회합니다.
+
+- **Query Parameters**:
+    - `days` (int, optional): 분석 기간 (기본값: 30일, 최대: 365일)
+
+### 관리 API
+
+#### `POST /api/cleanup-old-sessions`
+오래된 세션을 정리합니다 (관리자용).
+
+- **Request**: `application/x-www-form-urlencoded`
+    - `days_to_keep` (int, required): 보관할 일수 (최소 30일)
+
+### 개발/테스트 API
+
+#### `POST /api/discovery-answer`
+Discovery Engine Answer API를 직접 테스트하는 엔드포인트입니다.
 
 ## ☁️ 배포 (Deployment)
 
@@ -228,7 +316,10 @@ gcloud run deploy discovery-chatbot \\
 
 ```
 
-**중요**: Cloud Run 서비스가 사용하는 서비스 계정에 **Discovery Engine 편집자(roles/discoveryengine.editor)** 역할 부여 여부를 확인해야 합니다.
+**중요**: Cloud Run 서비스가 사용하는 서비스 계정에 다음 역할들이 부여되어 있는지 확인해야 합니다:
+- **Discovery Engine 편집자(roles/discoveryengine.editor)**
+- **Cloud Datastore 사용자(roles/datastore.user)**
+- **Cloud Storage 객체 뷰어(roles/storage.objectViewer)**
 
 ---
 
