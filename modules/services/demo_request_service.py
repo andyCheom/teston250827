@@ -123,6 +123,8 @@ class DemoRequestService:
             "phone": "전화번호"
         }
         
+
+        
         for field, field_name in required_fields.items():
             if not demo_data.get(field) or demo_data.get(field).strip() == "":
                 errors.append(f"{field_name}은(는) 필수 입력 항목입니다.")
