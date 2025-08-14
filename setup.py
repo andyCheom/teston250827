@@ -59,7 +59,6 @@ class GraphRAGLocalSetup:
                 'DISCOVERY_SERVING_CONFIG': os.getenv('DISCOVERY_SERVING_CONFIG', 'default_config'),
                 'DATASTORE_ID': os.getenv('DATASTORE_ID', ''),
                 'STORAGE_BUCKET': os.getenv('STORAGE_BUCKET', ''),
-                'CONVERSATION_BUCKET': os.getenv('CONVERSATION_BUCKET', ''),
                 'FIREBASE_PROJECT_ID': os.getenv('FIREBASE_PROJECT_ID', ''),
                 'SERVICE_ACCOUNT_EMAIL': os.getenv('SERVICE_ACCOUNT_EMAIL', ''),
                 'AUTO_SETUP': os.getenv('AUTO_SETUP', 'true').lower() == 'true',
