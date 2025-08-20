@@ -70,7 +70,7 @@ class GCPSetupManager:
             'appengine.googleapis.com',  # Firestore 기본 데이터베이스 생성에 필요
             'cloudresourcemanager.googleapis.com',
             'iam.googleapis.com',
-            'cloudfunctions.googleapis.com'
+            'cloudfunctions.googleapis.com',
         ]
         
         logger.info("📡 필요한 API 활성화 시작...")
@@ -377,6 +377,12 @@ class GCPSetupManager:
                 # App Engine (for Firestore creation)
                 'roles/appengine.appAdmin',
                 'roles/appengine.appCreator',
+                
+                # AI Platform & Vertex AI
+                'roles/aiplatform.admin',
+                'roles/aiplatform.user',
+                'roles/ml.admin',
+                'roles/ml.developer',
                 
                 # Project & Service Management
                 'roles/resourcemanager.projectIamAdmin',

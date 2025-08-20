@@ -58,6 +58,7 @@ class GraphRAGLocalSetup:
                 'DISCOVERY_ENGINE_ID': os.getenv('DISCOVERY_ENGINE_ID', ''),
                 'DISCOVERY_SERVING_CONFIG': os.getenv('DISCOVERY_SERVING_CONFIG', 'default_config'),
                 'DATASTORE_ID': os.getenv('DATASTORE_ID', ''),
+                'DATASTORE_ID_2': os.getenv('DATASTORE_ID_2', ''),
                 'STORAGE_BUCKET': os.getenv('STORAGE_BUCKET', ''),
                 'FIREBASE_PROJECT_ID': os.getenv('FIREBASE_PROJECT_ID', ''),
                 'SERVICE_ACCOUNT_EMAIL': os.getenv('SERVICE_ACCOUNT_EMAIL', ''),
@@ -83,6 +84,10 @@ class GraphRAGLocalSetup:
             
             if not config['DATASTORE_ID']:
                 config['DATASTORE_ID'] = f"{project_id}-graphrag-datastore"
+            
+            # 두 번째 데이터스토어 ID 설정
+            if not config.get('DATASTORE_ID_2'):
+                config['DATASTORE_ID_2'] = f"{project_id}-graphrag-datastore-2"
             
             if not config['STORAGE_BUCKET']:
                 config['STORAGE_BUCKET'] = f"{project_id}-graphrag-storage"
@@ -225,35 +230,54 @@ class GraphRAGLocalSetup:
             else:
                 logger.error(f"❌ 대화 저장용 버킷 생성 실패: {conversation_bucket_name}")
         
-        # Discovery Engine 데이터스토어 생성
+        # Discovery Engine 데이터스토어들 생성
+        datastore_ids = []
         if config.get('SETUP_DISCOVERY_ENGINE', True):
+            # 첫 번째 데이터스토어 생성
             total_count += 1
-            datastore_id = config['DATASTORE_ID']
-            logger.info(f"🔄 Discovery Engine 데이터스토어 '{datastore_id}' 생성 중...")
+            datastore_id_1 = config['DATASTORE_ID']
+            logger.info(f"🔄 Discovery Engine 데이터스토어 1 '{datastore_id_1}' 생성 중...")
             if self.gcp_setup.create_discovery_datastore(
-                datastore_id=datastore_id,
-                display_name=f"{config['PROJECT_ID']} GraphRAG DataStore",
+                datastore_id=datastore_id_1,
+                display_name=f"{config['PROJECT_ID']} GraphRAG DataStore 1",
                 location=config['DISCOVERY_LOCATION']
             ):
                 success_count += 1
-                logger.info(f"✅ 데이터스토어 생성 완료: {datastore_id}")
+                datastore_ids.append(datastore_id_1)
+                logger.info(f"✅ 데이터스토어 1 생성 완료: {datastore_id_1}")
             else:
-                logger.error(f"❌ 데이터스토어 생성 실패: {datastore_id}")
+                logger.error(f"❌ 데이터스토어 1 생성 실패: {datastore_id_1}")
+            
+            # 두 번째 데이터스토어 생성
+            total_count += 1
+            datastore_id_2 = config['DATASTORE_ID_2']
+            logger.info(f"🔄 Discovery Engine 데이터스토어 2 '{datastore_id_2}' 생성 중...")
+            if self.gcp_setup.create_discovery_datastore(
+                datastore_id=datastore_id_2,
+                display_name=f"{config['PROJECT_ID']} GraphRAG DataStore 2",
+                location=config['DISCOVERY_LOCATION']
+            ):
+                success_count += 1
+                datastore_ids.append(datastore_id_2)
+                logger.info(f"✅ 데이터스토어 2 생성 완료: {datastore_id_2}")
+            else:
+                logger.error(f"❌ 데이터스토어 2 생성 실패: {datastore_id_2}")
         
-        # Discovery Engine 생성
-        if config.get('SETUP_DISCOVERY_ENGINE', True):
+        # Discovery Engine 생성 (2개 데이터스토어와 연결)
+        if config.get('SETUP_DISCOVERY_ENGINE', True) and datastore_ids:
             total_count += 1
             engine_id = config['DISCOVERY_ENGINE_ID']
-            datastore_id = config['DATASTORE_ID']
             logger.info(f"🔄 Discovery Engine '{engine_id}' 생성 중...")
+            logger.info(f"📊 연결할 데이터스토어: {datastore_ids}")
             if self.gcp_setup.create_discovery_engine(
                 engine_id=engine_id,
-                datastore_ids=[datastore_id],  # 리스트로 변경
+                datastore_ids=datastore_ids,  # 두 개의 데이터스토어 연결
                 display_name=f"{config['PROJECT_ID']} GraphRAG Engine",
                 location=config['DISCOVERY_LOCATION']
             ):
                 success_count += 1
                 logger.info(f"✅ Discovery Engine 생성 완료: {engine_id}")
+                logger.info(f"🔗 연결된 데이터스토어 수: {len(datastore_ids)}개")
             else:
                 logger.error(f"❌ Discovery Engine 생성 실패: {engine_id}")
         
@@ -416,6 +440,7 @@ DISCOVERY_SERVING_CONFIG={config['DISCOVERY_SERVING_CONFIG']}
 
 # 데이터스토어 설정
 DATASTORE_ID={config['DATASTORE_ID']}
+DATASTORE_ID_2={config['DATASTORE_ID_2']}
 DATASTORE_LOCATION={config['DISCOVERY_LOCATION']}
 
 # ============================
@@ -472,7 +497,8 @@ SERVE_STATIC=true
         logger.info("📋 생성된 리소스:")
         logger.info(f"  • GCP 프로젝트: {config['PROJECT_ID']}")
         logger.info(f"  • Discovery Engine: {config['DISCOVERY_ENGINE_ID']}")
-        logger.info(f"  • 데이터스토어: {config['DATASTORE_ID']}")
+        logger.info(f"  • 데이터스토어 1: {config['DATASTORE_ID']}")
+        logger.info(f"  • 데이터스토어 2: {config['DATASTORE_ID_2']}")
         logger.info(f"  • Storage 버킷: {config['STORAGE_BUCKET']}")
         logger.info(f"  • 서비스 계정: {config['SERVICE_ACCOUNT_EMAIL']}")
         

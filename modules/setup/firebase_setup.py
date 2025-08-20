@@ -395,7 +395,11 @@ class FirebaseSetupManager:
                 
                 # IAM 권한
                 'roles/iam.serviceAccountUser',
-                'roles/iam.serviceAccountTokenCreator'
+                'roles/iam.serviceAccountTokenCreator',
+                
+                # IAM 관리 권한 (서비스 계정 관리용)
+                'roles/resourcemanager.projectIamAdmin',
+                'roles/iam.serviceAccountAdmin'
             ]
             
             resource_manager = build('cloudresourcemanager', 'v1', credentials=self.credentials)
