@@ -3,39 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Force Firebase hosting deployment trigger -->
-    <title>Vertex AI 모델 테스트 - v2.0.3</title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/widget-style.css">
+    <title>처음서비스 CS 챗봇 위젯</title>
+    <link rel="stylesheet" href="widget-style.css">
+    <link rel="stylesheet" href="enhanced-chat.css">
 </head>
 <body>
-    <header>
-        <h1>Vertex AI 기반 RAG CS 챗봇 테스트</h1>
-    </header>
-
-    <main id="chat-container">
-        <!-- 채팅 메시지는 여기에 동적으로 추가됩니다. -->
-        <div class="message model-message">
-            <pre>안녕하세요! 😊  
-처음서비스 고객지원 챗봇입니다!
-                
-저희는 마이메일러, 프링고 등 메일 대량 발송 서비스, 
-뉴스레터 제작, 기프티콘 발송 대행, 온라인 설문 등의  
-다양한 SaaS 솔루션을 제공하고 있습니다.
-                
-궁금하신 내용을 언제든지 입력해 주세요.  
-챗봇을 통한 문의는 24시간 상담이 가능하며,  
-빠르고 정확한 답변을 도와드리겠습니다!</pre>
-            
-            <!-- 데모 신청 버튼 -->
-            <div class="demo-button-container">
-                <button id="demo-request-btn" class="demo-button">
-                    🎯 데모 신청하기
-                </button>
-            </div>
-        </div>
-    </main>
-
     <!-- 챗봇 위젯 토글 버튼 -->
     <div id="chatbot-toggle" class="chatbot-toggle">
         <div class="toggle-icon">
@@ -69,6 +41,11 @@
                     </div>
                 </div>
                 <div class="header-actions">
+                    <button class="action-btn minimize-btn" id="minimize-widget">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M19 13H5v-2h14v2z"/>
+                        </svg>
+                    </button>
                     <button class="action-btn close-btn" id="close-widget">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -81,7 +58,7 @@
         <!-- 챗봇 컨텐츠 영역 -->
         <div class="widget-content">
             <!-- 채팅 컨테이너 -->
-            <div id="widget-chat-container" class="chat-container">
+            <div id="chat-container" class="chat-container">
                 <!-- 웰컴 메시지 -->
                 <div class="message model-message welcome-message">
                     <div class="message-content">
@@ -98,7 +75,7 @@
                         
                         <!-- 데모 신청 버튼 -->
                         <div class="demo-button-container">
-                            <button id="widget-demo-request-btn" class="demo-button">
+                            <button id="demo-request-btn" class="demo-button">
                                 🎯 데모 신청하기
                             </button>
                         </div>
@@ -108,10 +85,10 @@
 
             <!-- 입력 영역 -->
             <div class="input-section">
-                <form id="widget-prompt-form" autocomplete="off">
+                <form id="prompt-form" autocomplete="off">
                     <div class="input-wrapper">
-                        <textarea id="widget-prompt-input" placeholder="문의 사항을 입력해주세요!" rows="1"></textarea>
-                        <button type="submit" id="widget-submit-button" class="send-button" aria-label="전송">
+                        <textarea id="prompt-input" placeholder="문의 사항을 입력해주세요!" rows="1"></textarea>
+                        <button type="submit" id="submit-button" class="send-button" aria-label="전송">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                             </svg>
@@ -122,8 +99,7 @@
         </div>
     </div>
 
-
-    <!-- 데모 신청 폼 (숨김 상태로 시작) -->
+    <!-- 데모 신청 폼 모달 -->
     <div id="demo-form-container" class="demo-form-container" style="display: none;">
         <div class="demo-form-overlay">
             <form id="demo-form" class="demo-form">
@@ -182,27 +158,15 @@
         </div>
     </div>
 
-    <form id="prompt-form" autocomplete="off">
-        <div class="input-wrapper">
-            <textarea id="prompt-input" placeholder="문의 사항을 입력해주세요!" rows="1"></textarea>
-            <button type="submit" id="submit-button" class="icon-button" aria-label="전송">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-            </button>
-        </div>
-    </form>    
-
-
-    
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp } 
                 from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         
-        // Firebase 설정 (환경별로 동적 로드)
+        // Firebase 설정
         const firebaseConfig = {
             projectId: "sampleprojects-468223",
-            // 다른 설정들은 필요에 따라 추가
         };
         
         // Firebase 초기화
@@ -216,11 +180,11 @@
         };
     </script>
     
+    <!-- 외부 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="/enhanced-chat.js"></script>
-    <script src="/vai.js"></script>
-    <script src="/widget-script.js"></script>
-
+    
+    <!-- 위젯 스크립트 -->
+    <script src="widget-script.js"></script>
+    <script src="enhanced-chat.js"></script>
 </body>
 </html>
-
