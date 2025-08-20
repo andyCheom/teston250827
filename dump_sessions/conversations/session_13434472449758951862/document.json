@@ -1,0 +1,253 @@
+{
+  "id": "session_13434472449758951862",
+  "path": "conversations/session_13434472449758951862",
+  "fields": {
+    "message_count": 1,
+    "session_id": "session_13434472449758951862",
+    "created_at": "2025-08-12T06:17:28.543486Z",
+    "updated_at": "2025-08-12T06:17:28.543490Z",
+    "last_activity": "2025-08-12T06:17:28.543490Z",
+    "messages": [
+      {
+        "query_length": 7,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "startIndex": "106",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "288"
+            },
+            {
+              "startIndex": "290",
+              "sources": [
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "endIndex": "528"
+            },
+            {
+              "startIndex": "530",
+              "sources": [
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "758"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/13434472449758949701",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+              "document": {
+                "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer11",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/129f32b3d7b4af52799f3ee61dd9cabc"
+              }
+            },
+            {
+              "id": "2112bfde2cfbd970118126a619279405",
+              "document": {
+                "id": "2112bfde2cfbd970118126a619279405",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom15",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom15.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2112bfde2cfbd970118126a619279405"
+              }
+            },
+            {
+              "id": "2d35420121bca943d51bb28fc2319daf",
+              "document": {
+                "id": "2d35420121bca943d51bb28fc2319daf",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom1",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2d35420121bca943d51bb28fc2319daf"
+              }
+            },
+            {
+              "id": "759b04677ef3c9bae7e06c7d08c25042",
+              "document": {
+                "id": "759b04677ef3c9bae7e06c7d08c25042",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer12",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer12.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/759b04677ef3c9bae7e06c7d08c25042"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom2",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom4",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom7",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            },
+            {
+              "id": "ae9ae7204670e75ffe03c4c34aec181c",
+              "document": {
+                "id": "ae9ae7204670e75ffe03c4c34aec181c",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer1",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ae9ae7204670e75ffe03c4c34aec181c"
+              }
+            },
+            {
+              "id": "6dff2e0073262255fb6102282e2f33a8",
+              "document": {
+                "id": "6dff2e0073262255fb6102282e2f33a8",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom13",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom13.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6dff2e0073262255fb6102282e2f33a8"
+              }
+            },
+            {
+              "id": "ba09a52c6f7977244174d68432cce90f",
+              "document": {
+                "id": "ba09a52c6f7977244174d68432cce90f",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom8",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom8.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ba09a52c6f7977244174d68432cce90f"
+              }
+            }
+          ],
+          "citations_count": 3,
+          "answer_length": 384,
+          "search_results_count": 10
+        },
+        "user_query": "안녕하십니까\\",
+        "response_length": 384,
+        "ai_response": "안녕하십니까! **\"처음서비스\"** 고객지원 담당자입니다. 무엇을 도와드릴까요?\n\n**\"처음서비스\"**는 처음소프트, 씨디엠소프트, 처음서베이로 구성된 종합 솔루션 기업으로, 고객의 성공을 위해 최선을 다하고 있습니다.\n\n저희는 다음과 같은 서비스를 제공하고 있습니다:\n- **대량메일 발송**\n- **온라인 설문**\n- **웹에이전시**\n- **IP 평판 관리 및 메일 서버 DNS 설정 컨설팅**\n- **랜딩페이지 제작 서비스**\n\n특히, 클라우드 기반의 고성능 IT 솔루션인 **MyMailer.io**와 고객관계 관리 플랫폼인 **Cheomservice.com**을 운영하며 고객에게 독창적이고 지속 가능한 가치를 제공하고 있습니다.\n\n궁금하신 점이 있다면 언제든지 문의해주세요.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-12T06:17:28.418953Z"
+      }
+    ],
+    "user_info": {
+      "user_agent": "",
+      "ip_region": ""
+    }
+  }
+}

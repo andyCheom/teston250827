@@ -1,0 +1,235 @@
+{
+  "id": "session_2132869973167664374",
+  "path": "conversations/session_2132869973167664374",
+  "fields": {
+    "message_count": 1,
+    "session_id": "session_2132869973167664374",
+    "created_at": "2025-08-12T06:23:00.836670Z",
+    "updated_at": "2025-08-12T06:23:00.836675Z",
+    "last_activity": "2025-08-12T06:23:00.836675Z",
+    "messages": [
+      {
+        "query_length": 13,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "startIndex": "97",
+              "sources": [
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "280"
+            },
+            {
+              "startIndex": "281",
+              "sources": [
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "353"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/2132869973167661951",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+              "document": {
+                "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom5",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "단순한 일회성 설문부터 360도 평가(상위직 평가)나 고객 만족도 조사, 제품 <b>테스트</b> ... <b>질문</b> 노출) 같은 ... <b>용</b> UI 또는 툴이 있을 것<b>입니다</b>. 이는 외부에 공개&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a3d0f712ba2370b0fb9cb70e586c3fbc"
+              }
+            },
+            {
+              "id": "a7a8d30501e324a98fa592ae079de3b7",
+              "document": {
+                "id": "a7a8d30501e324a98fa592ae079de3b7",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom16",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. 이를 위해 효과적인 설문 시스템이 필요하며 ... 설문 항목의 디자인, <b>질문</b> 방식, 응답 형식 등을 ... 또한, 여러 가지 조건부 <b>질문</b>(logic jump) 설정&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom16.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a7a8d30501e324a98fa592ae079de3b7"
+              }
+            },
+            {
+              "id": "97352c031fe8be5b8b6b449c38343052",
+              "document": {
+                "id": "97352c031fe8be5b8b6b449c38343052",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom14",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "설문 <b>질문</b>과 형식을 드래그 앤 드롭 방식으로 구성할 ... <b>입니다</b>. 응답 결과가 실시간으로 반영되어 설문 종료 ... <b>입니다</b>. 비즈니스에 필요한 중요한 데이터를&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom14.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/97352c031fe8be5b8b6b449c38343052"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom7",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. 고객의 비즈니스가 성장할 수 있도록 업무 ... <b>테스트</b> 메일 발송 -&gt; <b>테스트</b> 메일 검수 및 대량 메일 ... 문제를 해결하는 과정에서 새로운 사업 기회를 창출하고자&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            },
+            {
+              "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+              "document": {
+                "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo1",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "레디스는 나노초 단위의 접근 속도를 제공하는 인메모리 키-값 저장소로서, 사용자 <b>세션</b> ... 프링고는 이 문제를 이그나이트를 스파크의 가속 계층으로 활용하여 해결한다."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ad83fa7b1d25a5c31a72c8c77bb976f1"
+              }
+            },
+            {
+              "id": "6aa06bc1ea6faed6744d64d98d7e7d15",
+              "document": {
+                "id": "6aa06bc1ea6faed6744d64d98d7e7d15",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo5",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. 이러한 다층적인 인증 메커니즘은 이메일의 ... 문제를 최소화합니다. 5. 고성능 아키텍처 및 ... Redis: 인메모리 데이터 구조 저장소로 <b>세션</b> 관리&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6aa06bc1ea6faed6744d64d98d7e7d15"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom2",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>테스트</b>(Inbox Placement <b>Test</b>)가 있다. 이를 통해 특정 이메일이 주요 메일박스 제공업체(Gmail, Outlook 등)의 받은 편지함, 스팸 폴더, 프로모션 탭 중 어디에 도달&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom4",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+              "document": {
+                "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. 원래 레몬메일이라는 브랜드로 대량메일 발송 및 설문 서비스 등을 ... <b>입니다</b>. 또한 PDF 보안메일 기능을 통해 청구서나 명세서 등의 첨부파일을 암호화&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom6.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/3f5b7ebc99161a8b2058a8cd77f5ef98"
+              }
+            },
+            {
+              "id": "973960648d897c71933fe2bf8c482f3b",
+              "document": {
+                "id": "973960648d897c71933fe2bf8c482f3b",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer21",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "동시성 문제 해결 ... Git 브랜치 전략(Git Branch Strategy)을 통해 각 개발자는 로컬에서 충분한 <b>테스트</b> ... <b>입니다</b>. 효율적이고 안정적인 개발 환경을 원한다면&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer21.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/973960648d897c71933fe2bf8c482f3b"
+              }
+            }
+          ],
+          "citations_count": 2,
+          "answer_length": 174,
+          "search_results_count": 10
+        },
+        "user_query": "세션 테스트용 질문입니다",
+        "response_length": 174,
+        "ai_response": "세션 테스트용 질문이시군요. 문의하신 내용에 대해 답변드리겠습니다.\n\n**처음서베이**는 응답 도중 이탈했다가 다시 들어와도 이어서 답할 수 있도록 세션을 유지하는 기능(쿠키 활용 등)을 구현할 수 있습니다. 이는 응답자의 편의성을 높이는 디테일한 기능입니다.\n\n다른 궁금한 점이 있으시면 언제든지 문의해주세요.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-12T06:23:00.716995Z"
+      }
+    ],
+    "user_info": {
+      "user_agent": "",
+      "ip_region": ""
+    }
+  }
+}

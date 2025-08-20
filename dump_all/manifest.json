@@ -1,0 +1,14 @@
+{
+  "project": "sampleprojects-468223",
+  "timestamp_utc": "20250820T030115Z",
+  "firestore": {
+    "collections": [
+      {
+        "collection": "conversations",
+        "path": "C:\\Users\\ysahn\\Desktop\\graphRAG\\dump_all\\firestore\\conversations.json",
+        "count": 20
+      }
+    ]
+  },
+  "rtdb": {}
+}

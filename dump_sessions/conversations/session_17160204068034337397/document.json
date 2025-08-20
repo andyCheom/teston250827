@@ -1,0 +1,243 @@
+{
+  "id": "session_17160204068034337397",
+  "path": "conversations/session_17160204068034337397",
+  "fields": {
+    "message_count": 1,
+    "session_id": "session_17160204068034337397",
+    "created_at": "2025-08-12T06:23:19.404598Z",
+    "updated_at": "2025-08-12T06:23:19.404602Z",
+    "last_activity": "2025-08-12T06:23:19.404603Z",
+    "messages": [
+      {
+        "query_length": 8,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "165"
+            },
+            {
+              "startIndex": "166",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "217"
+            },
+            {
+              "startIndex": "218",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "373"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/17160204068034335106",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "8ab53956eccd14b86ebbae6f17413432",
+              "document": {
+                "id": "8ab53956eccd14b86ebbae6f17413432",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom19",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom19.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/8ab53956eccd14b86ebbae6f17413432"
+              }
+            },
+            {
+              "id": "596f3e724b83caca1f4715a5f6fa23a0",
+              "document": {
+                "id": "596f3e724b83caca1f4715a5f6fa23a0",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom18",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom18.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/596f3e724b83caca1f4715a5f6fa23a0"
+              }
+            },
+            {
+              "id": "d6cbb6c1fd08945b9d373d8e6904ee5c",
+              "document": {
+                "id": "d6cbb6c1fd08945b9d373d8e6904ee5c",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom17",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom17.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/d6cbb6c1fd08945b9d373d8e6904ee5c"
+              }
+            },
+            {
+              "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+              "document": {
+                "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom21",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom21.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/aba08d5dcc8b01fc0f94d5bda9e0f063"
+              }
+            },
+            {
+              "id": "29c4524b3930c2cbdc9391ec5e301699",
+              "document": {
+                "id": "29c4524b3930c2cbdc9391ec5e301699",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom20",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom20.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/29c4524b3930c2cbdc9391ec5e301699"
+              }
+            },
+            {
+              "id": "f7029d44e2da52aa96d1f1f0a24afacc",
+              "document": {
+                "id": "f7029d44e2da52aa96d1f1f0a24afacc",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer2",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "그는 <b>이어</b> &quot;직원들에 대한 깊은 신뢰를 바탕으로 한 이번 근무제 개편은 처음소프트가 개발자들이 가장 일하고 싶어하는 기업 중 하나로 자리매김하는 중요한 발판이&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/f7029d44e2da52aa96d1f1f0a24afacc"
+              }
+            },
+            {
+              "id": "a7a8d30501e324a98fa592ae079de3b7",
+              "document": {
+                "id": "a7a8d30501e324a98fa592ae079de3b7",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom16",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom16.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a7a8d30501e324a98fa592ae079de3b7"
+              }
+            },
+            {
+              "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+              "document": {
+                "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom6",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom6.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/3f5b7ebc99161a8b2058a8cd77f5ef98"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom7",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            },
+            {
+              "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+              "document": {
+                "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo1",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ad83fa7b1d25a5c31a72c8c77bb976f1"
+              }
+            }
+          ],
+          "citations_count": 3,
+          "answer_length": 151,
+          "search_results_count": 10
+        },
+        "user_query": "이어서 나오나?",
+        "response_length": 151,
+        "ai_response": "처음서베이는 응답자가 설문 도중 이탈했다가 다시 접속해도 이어서 답변할 수 있도록 세션을 유지하는 기능을 제공합니다. 이는 쿠키 활용 등을 통해 구현됩니다. 반면, 구글폼이나 네이버폼은 응답 도중 임시 저장을 지원하지 않아 한 번에 설문을 완료해야 하는 제약이 있습니다.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-12T06:23:19.340684Z"
+      }
+    ],
+    "user_info": {
+      "user_agent": "",
+      "ip_region": ""
+    }
+  }
+}

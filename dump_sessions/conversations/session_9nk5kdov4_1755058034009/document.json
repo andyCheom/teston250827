@@ -1,0 +1,953 @@
+{
+  "id": "session_9nk5kdov4_1755058034009",
+  "path": "conversations/session_9nk5kdov4_1755058034009",
+  "fields": {
+    "created_at": "2025-08-13T04:09:07.291919Z",
+    "session_id": "session_9nk5kdov4_1755058034009",
+    "message_count": 4,
+    "updated_at": "2025-08-13T04:15:46.888534Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "user_query": "안녕하세요",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/13505059005849342646",
+          "citations": [
+            {
+              "title": "naver_blog_mymailer26",
+              "displayName": "naver_blog_mymailer26",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer26.txt"
+            },
+            {
+              "title": "naver_blog_mymailer11",
+              "displayName": "naver_blog_mymailer11",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+            },
+            {
+              "title": "naver_blog_cheom4",
+              "displayName": "naver_blog_cheom4",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+            },
+            {
+              "title": "naver_blog_mymailer6",
+              "displayName": "naver_blog_mymailer6",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+            },
+            {
+              "title": "naver_blog_cheom13",
+              "displayName": "naver_blog_cheom13",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom13.txt"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "7b1e948bbba81a28a57b5b5dad49ade8",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer26",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "기술적인 세부 사항은 http://www.mymailer.io/ 로 문의 하세요 MyMailer.io 분산 대량 발송 솔루션 소개 <b>안녕하세요</b>, MyMailer.io입니다! 저희는 국내 최초로 분산&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer26.txt"
+                },
+                "id": "7b1e948bbba81a28a57b5b5dad49ade8",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/7b1e948bbba81a28a57b5b5dad49ade8"
+              }
+            },
+            {
+              "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer11",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+                },
+                "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/129f32b3d7b4af52799f3ee61dd9cabc"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom4",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "4acb31e4ac4e9692bc1208784d034911",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer6",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>안녕하세요</b>, 마이메일러(MyMailer) 팀입니다. 오늘은 대량 메일 발송 시 전문가의 도움이 필요한 이유와 마이메일러가 어떻게 여러분의 최고의 파트너가 될 수 있는지&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+                },
+                "id": "4acb31e4ac4e9692bc1208784d034911",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/4acb31e4ac4e9692bc1208784d034911"
+              }
+            },
+            {
+              "id": "6dff2e0073262255fb6102282e2f33a8",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom13",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom13.txt"
+                },
+                "id": "6dff2e0073262255fb6102282e2f33a8",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6dff2e0073262255fb6102282e2f33a8"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom2",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "2d35420121bca943d51bb28fc2319daf",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom1",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom1.txt"
+                },
+                "id": "2d35420121bca943d51bb28fc2319daf",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2d35420121bca943d51bb28fc2319daf"
+              }
+            },
+            {
+              "id": "759b04677ef3c9bae7e06c7d08c25042",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer12",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer12.txt"
+                },
+                "id": "759b04677ef3c9bae7e06c7d08c25042",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/759b04677ef3c9bae7e06c7d08c25042"
+              }
+            },
+            {
+              "id": "2112bfde2cfbd970118126a619279405",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom15",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom15.txt"
+                },
+                "id": "2112bfde2cfbd970118126a619279405",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2112bfde2cfbd970118126a619279405"
+              }
+            },
+            {
+              "id": "d1eb47031fea93d0141982e8074b3f6e",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer23",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer23.txt"
+                },
+                "id": "d1eb47031fea93d0141982e8074b3f6e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/d1eb47031fea93d0141982e8074b3f6e"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 41,
+          "search_results_count": 10
+        },
+        "query_length": 5,
+        "response_length": 41,
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?",
+        "quality_metrics": {},
+        "timestamp": "2025-08-13T04:09:06.915605Z"
+      },
+      {
+        "user_query": "안녕",
+        "metadata": {
+          "answer_length": 41,
+          "query_id": "projects/975882305117/locations/global/questions/14003689252769953182",
+          "citations": [
+            {
+              "title": "naver_blog_mymailer11",
+              "displayName": "naver_blog_mymailer11",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+            },
+            {
+              "title": "naver_blog_cheom1",
+              "displayName": "naver_blog_cheom1",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom1.txt"
+            },
+            {
+              "title": "naver_blog_cheom2",
+              "displayName": "naver_blog_cheom2",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+            },
+            {
+              "title": "naver_blog_cheom4",
+              "displayName": "naver_blog_cheom4",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+            },
+            {
+              "title": "naver_blog_cheom7",
+              "displayName": "naver_blog_cheom7",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer11",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+                },
+                "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/129f32b3d7b4af52799f3ee61dd9cabc"
+              }
+            },
+            {
+              "id": "2d35420121bca943d51bb28fc2319daf",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom1",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom1.txt"
+                },
+                "id": "2d35420121bca943d51bb28fc2319daf",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2d35420121bca943d51bb28fc2319daf"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom2",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom4",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom7",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            },
+            {
+              "id": "2112bfde2cfbd970118126a619279405",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom15",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom15.txt"
+                },
+                "id": "2112bfde2cfbd970118126a619279405",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2112bfde2cfbd970118126a619279405"
+              }
+            },
+            {
+              "id": "759b04677ef3c9bae7e06c7d08c25042",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer12",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer12.txt"
+                },
+                "id": "759b04677ef3c9bae7e06c7d08c25042",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/759b04677ef3c9bae7e06c7d08c25042"
+              }
+            },
+            {
+              "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom6.txt"
+                },
+                "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/3f5b7ebc99161a8b2058a8cd77f5ef98"
+              }
+            },
+            {
+              "id": "6427a79013fc28baa9910c19be0bb988",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo13",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo13.txt"
+                },
+                "id": "6427a79013fc28baa9910c19be0bb988",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6427a79013fc28baa9910c19be0bb988"
+              }
+            },
+            {
+              "id": "815cdb477454404a269daf6a2118408a",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_pringo9",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo9.txt"
+                },
+                "id": "815cdb477454404a269daf6a2118408a",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/815cdb477454404a269daf6a2118408a"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "query_length": 2,
+        "response_length": 41,
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?",
+        "quality_metrics": {
+          "rated_at": "2025-08-13T04:13:13.842922Z",
+          "feedback": "도움안됨",
+          "user_rating": 1.0
+        },
+        "timestamp": "2025-08-13T04:10:18.784598Z"
+      },
+      {
+        "user_query": "안녕",
+        "metadata": {
+          "answer_length": 41,
+          "query_id": "projects/975882305117/locations/global/questions/12631740936533406077",
+          "citations": [
+            {
+              "title": "naver_blog_mymailer11",
+              "displayName": "naver_blog_mymailer11",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+            },
+            {
+              "title": "naver_blog_cheom1",
+              "displayName": "naver_blog_cheom1",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom1.txt"
+            },
+            {
+              "title": "naver_blog_cheom2",
+              "displayName": "naver_blog_cheom2",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+            },
+            {
+              "title": "naver_blog_cheom4",
+              "displayName": "naver_blog_cheom4",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+            },
+            {
+              "title": "naver_blog_cheom7",
+              "displayName": "naver_blog_cheom7",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer11",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+                },
+                "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/129f32b3d7b4af52799f3ee61dd9cabc"
+              }
+            },
+            {
+              "id": "2d35420121bca943d51bb28fc2319daf",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom1",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom1.txt"
+                },
+                "id": "2d35420121bca943d51bb28fc2319daf",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2d35420121bca943d51bb28fc2319daf"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom2",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom4",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom7",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            },
+            {
+              "id": "2112bfde2cfbd970118126a619279405",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom15",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom15.txt"
+                },
+                "id": "2112bfde2cfbd970118126a619279405",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2112bfde2cfbd970118126a619279405"
+              }
+            },
+            {
+              "id": "759b04677ef3c9bae7e06c7d08c25042",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer12",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer12.txt"
+                },
+                "id": "759b04677ef3c9bae7e06c7d08c25042",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/759b04677ef3c9bae7e06c7d08c25042"
+              }
+            },
+            {
+              "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom6",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom6.txt"
+                },
+                "id": "3f5b7ebc99161a8b2058a8cd77f5ef98",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/3f5b7ebc99161a8b2058a8cd77f5ef98"
+              }
+            },
+            {
+              "id": "6427a79013fc28baa9910c19be0bb988",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo13",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo13.txt"
+                },
+                "id": "6427a79013fc28baa9910c19be0bb988",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6427a79013fc28baa9910c19be0bb988"
+              }
+            },
+            {
+              "id": "815cdb477454404a269daf6a2118408a",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo9",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo9.txt"
+                },
+                "id": "815cdb477454404a269daf6a2118408a",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/815cdb477454404a269daf6a2118408a"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "query_length": 2,
+        "response_length": 41,
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?",
+        "quality_metrics": {},
+        "timestamp": "2025-08-13T04:13:06.436042Z"
+      },
+      {
+        "user_query": "주소록 DB 연동 방법을 설명해주세요",
+        "metadata": {
+          "answer_length": 644,
+          "query_id": "projects/975882305117/locations/global/questions/8607300242897132084",
+          "citations": [
+            {
+              "startIndex": "139",
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "endIndex": "294"
+            },
+            {
+              "startIndex": "295",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "458"
+            },
+            {
+              "startIndex": "460",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "679"
+            },
+            {
+              "startIndex": "680",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "854"
+            },
+            {
+              "startIndex": "855",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "1059"
+            },
+            {
+              "startIndex": "1061",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "1194"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "0af972fedeb96d3c5c220461ba766575",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer3",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "자동화 연동성과 API 지원 – 마이메일러는 다양한 환경과 <b>연동</b>이 쉽도록 다양한 발송 방식<b>을</b> 제공합니다. ... 타겟팅 및 세분화 – <b>주소록</b> ... API 호출 및 <b>DB</b> Insert 방식<b>을</b>&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer3.txt"
+                },
+                "id": "0af972fedeb96d3c5c220461ba766575",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/0af972fedeb96d3c5c220461ba766575"
+              }
+            },
+            {
+              "id": "dac9a9dbf24faa361d09cd4430a6f969",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_pringo2",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "시스템 <b>연동</b> 측면에서는 RESTful API, SMTP, 데이터베이스 <b>연동</b>, 에이전트 방식 등 다양한 <b>방법을</b> 지원하고 있어, 기존에 구축된 레거시 시스템과도 무리 없이 통합이 가능&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo2.txt"
+                },
+                "id": "dac9a9dbf24faa361d09cd4430a6f969",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/dac9a9dbf24faa361d09cd4430a6f969"
+              }
+            },
+            {
+              "id": "ae9ae7204670e75ffe03c4c34aec181c",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer1",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "여러 통합 <b>방법을</b> 제공하는 것은 다양한 IT 환경에 대응할 수 있게 한다. ... 손쉬운 <b>연동</b>과 편리한 관리: RestAPI, <b>DB</b>, Agent <b>연동</b> 방식 ... 연락처: TEL: 1566-4771&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer1.txt"
+                },
+                "id": "ae9ae7204670e75ffe03c4c34aec181c",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ae9ae7204670e75ffe03c4c34aec181c"
+              }
+            },
+            {
+              "id": "759b04677ef3c9bae7e06c7d08c25042",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer12",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "자동화된 메일 발송으로 고객과의 관계를 개선하고, 비즈니스 성장<b>을</b> 촉진할 수 있는 최적의 솔루션<b>을</b> 경험해 보세요. http://mymailer.io #자동메일 #restapi #<b>DB연동</b>."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer12.txt"
+                },
+                "id": "759b04677ef3c9bae7e06c7d08c25042",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/759b04677ef3c9bae7e06c7d08c25042"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom2",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "수신 서버는 이메일<b>을</b> 보낸 서버의 IP <b>주소</b>를 이 ... <b>방법</b>에 대한 능동적인 가이드를 포함하는 &#39;전략적 ... <b>연동</b> 기능 제공 등은 관계 중심의 높은 수준의&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "6427a79013fc28baa9910c19be0bb988",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_pringo13",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "안정적인 메일 발송 보장: 메모리 <b>DB</b>와 파일시스템 백업 프링고는 큐 시스템 외에도 이메일 발송의 안정성<b>을</b> 보장하기 위한 추가적인 기술적 대책<b>을</b> 도입했습니다. 바로&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo13.txt"
+                },
+                "id": "6427a79013fc28baa9910c19be0bb988",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6427a79013fc28baa9910c19be0bb988"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom4",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "고객 <b>DB</b> 관리, 이메일 대량 메시징, 그리고 뉴스레터 서비스의 기술력<b>을</b> 기반으로 고객사의 프로모션<b>을</b> 지원하는 다양한 형태의 랜딩페이지 제작<b>을</b> 서비스로 제공한다."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "882b4a669938e23d39b34bbdd9f09a30",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_pringo6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... 을 지원합니다. 또한, 첨부파일 용량이 수신 서버의 제한을 초과하는 경우 자동으로 파일을 분리하여 별도의 다운로드 링크를 생성합니다. 이러한 <b>방법을</b> 통해 수신&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo6.txt"
+                },
+                "id": "882b4a669938e23d39b34bbdd9f09a30",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/882b4a669938e23d39b34bbdd9f09a30"
+              }
+            },
+            {
+              "id": "6aa06bc1ea6faed6744d64d98d7e7d15",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo5",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "SMTP 인터페이스 <b>연동</b> 프링고는 표준 SMTP(Simple ... <b>을</b> 보낼 수 있는 IP <b>주소</b>를 명시합니다. 수신자는 이 ... <b>을</b> 통해 빠른 데이터 접근<b>을</b> 지원합니다. MinIO&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo5.txt"
+                },
+                "id": "6aa06bc1ea6faed6744d64d98d7e7d15",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6aa06bc1ea6faed6744d64d98d7e7d15"
+              }
+            },
+            {
+              "id": "2ad8836b74800483d1bb287dda9b9d47",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_pringo10",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>주소</b>만 프링고의 것으로 교체하면 바로 대용량 메일 발송이 가능합니다. 이는 개발 리소스를 최소화하면서도 높은 효율성<b>을</b> 제공하는 <b>방법</b>입니다. 기존 레거시 시스템&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo10.txt"
+                },
+                "id": "2ad8836b74800483d1bb287dda9b9d47",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2ad8836b74800483d1bb287dda9b9d47"
+              }
+            }
+          ],
+          "citations_count": 6,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "query_length": 20,
+        "response_length": 644,
+        "ai_response": "**\"처음서비스\"**의 고객지원 담당자입니다. 문의하신 주소록 DB 연동 방법에 대해 안내해 드리겠습니다.\n\n마이메일러는 다양한 환경과 연동이 쉽도록 여러 발송 방식을 제공하며, 그 중 **DB 연동 발송(DB to DB)**을 지원합니다. 이는 고객사의 기존 시스템(예: 고객 관리 시스템, ERP, 세무 프로그램)과 가장 편리한 방식으로 연동할 수 있도록 돕습니다.\n\n**DB 연동 발송**은 다음과 같은 특징을 가집니다:\n- **자동화 연동성:** 기존 비즈니스 시스템과의 원활한 통합을 통해 자동화 및 데이터 일관성을 확보할 수 있습니다.\n- **유연성:** 여러 통합 방법을 제공하여 다양한 IT 환경에 대응할 수 있으며, 구현에 필요한 기술적 어려움과 시간을 최소화합니다.\n- **데이터 흐름 보장:** 시스템 간 데이터가 원활하게 흐르도록 보장하여, 개인화된 문서 생성 및 전달을 자동화하고 워크플로우를 간소화할 수 있습니다.\n\n또한, 마이메일러는 **REST API** 및 **Agent 연동 방식**도 지원하여 고객 시스템과 유연하게 통합됩니다.\n\n더 자세한 기술적인 연동 방법이나 구체적인 설정에 대해서는 마이메일러 웹사이트(http://mymailer.io)를 참고하시거나, 고객지원팀으로 문의해 주시면 상세히 안내해 드리겠습니다.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-13T04:15:46.773266Z"
+      }
+    ],
+    "last_activity": "2025-08-13T04:15:46.888534Z"
+  }
+}

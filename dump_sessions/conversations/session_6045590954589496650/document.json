@@ -1,0 +1,400 @@
+{
+  "id": "session_6045590954589496650",
+  "path": "conversations/session_6045590954589496650",
+  "fields": {
+    "created_at": "2025-08-12T06:07:27.977921Z",
+    "session_id": "session_6045590954589496650",
+    "message_count": 1,
+    "updated_at": "2025-08-12T06:07:27.977925Z",
+    "last_activity": "2025-08-12T06:07:27.977926Z",
+    "messages": [
+      {
+        "query_length": 9,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "startIndex": "267",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "3"
+                }
+              ],
+              "endIndex": "426"
+            },
+            {
+              "startIndex": "427",
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "endIndex": "516"
+            },
+            {
+              "startIndex": "517",
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "endIndex": "609"
+            },
+            {
+              "startIndex": "610",
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "endIndex": "700"
+            },
+            {
+              "startIndex": "701",
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "endIndex": "858"
+            },
+            {
+              "startIndex": "859",
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "endIndex": "1028"
+            },
+            {
+              "startIndex": "1035",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1181"
+            },
+            {
+              "startIndex": "1182",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1227"
+            },
+            {
+              "startIndex": "1228",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1275"
+            },
+            {
+              "startIndex": "1276",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1341"
+            },
+            {
+              "startIndex": "1342",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1484"
+            },
+            {
+              "startIndex": "1485",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1577"
+            },
+            {
+              "startIndex": "1578",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1676"
+            },
+            {
+              "startIndex": "1677",
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "1814"
+            },
+            {
+              "startIndex": "1821",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "1966"
+            },
+            {
+              "startIndex": "1967",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "2161"
+            },
+            {
+              "startIndex": "2162",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "2299"
+            },
+            {
+              "startIndex": "2300",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "2350"
+            },
+            {
+              "startIndex": "2351",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "2485"
+            },
+            {
+              "startIndex": "2486",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "2580"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/6045590954589495481",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "dac9a9dbf24faa361d09cd4430a6f969",
+              "document": {
+                "id": "dac9a9dbf24faa361d09cd4430a6f969",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo2",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "주소록 관리 기능과 수신 거부 처리 기능도 포함되어 있어, 그룹별로 수신자 목록을 분류 ... 요금이 발생한다. ... 요금제 및 서비스 방식 프링고의 요금제는 월 구독형 <b>플랜</b>&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/dac9a9dbf24faa361d09cd4430a6f969"
+              }
+            },
+            {
+              "id": "0af972fedeb96d3c5c220461ba766575",
+              "document": {
+                "id": "0af972fedeb96d3c5c220461ba766575",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer3",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... 분류하고 타겟팅할 수 있습니다. 대량의 수신자 목록 ... 무료 요금제로 ... 요금제 등급에 따라 서버 스펙과 허용 발송량이 책정되는데, 예를 들어 Business <b>플랜</b>&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer3.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/0af972fedeb96d3c5c220461ba766575"
+              }
+            },
+            {
+              "id": "157f2e9cbf822459f174813bb6180c94",
+              "document": {
+                "id": "157f2e9cbf822459f174813bb6180c94",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo7",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "프링고는 이를 기반으로 특정 클라우드 요금이 증가할 경우 저렴한 클라우드로 전환하여 예산을 효과적으로 관리할 수 있습니다. 예를 들어, AWS의 요금이 상승할 때&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo7.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/157f2e9cbf822459f174813bb6180c94"
+              }
+            },
+            {
+              "id": "ae9ae7204670e75ffe03c4c34aec181c",
+              "document": {
+                "id": "ae9ae7204670e75ffe03c4c34aec181c",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_mymailer1",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... 요금제를 선택하여 모든 기능을 무제한으로 이용할 수 있도록 설계되었다. ... 분류될 위험을 크게 줄인다. 이러한 사전 예방적 IP ... 분류되는 것을 방지한다."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ae9ae7204670e75ffe03c4c34aec181c"
+              }
+            },
+            {
+              "id": "3064c990f0b01126107c1bae0210a8b7",
+              "document": {
+                "id": "3064c990f0b01126107c1bae0210a8b7",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo4",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "문제는 이렇게 반송이나 스팸행으로 분류된 메일이 중요한 고객이나 협력사 담당자에게 전달되지 못해, 대외 신뢰도에도 부정적인 영향을 미친다는 점이다. 이에 대한&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo4.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/3064c990f0b01126107c1bae0210a8b7"
+              }
+            },
+            {
+              "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+              "document": {
+                "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo1",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ad83fa7b1d25a5c31a72c8c77bb976f1"
+              }
+            },
+            {
+              "id": "815cdb477454404a269daf6a2118408a",
+              "document": {
+                "id": "815cdb477454404a269daf6a2118408a",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo9",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo9.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/815cdb477454404a269daf6a2118408a"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom2",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "6aa06bc1ea6faed6744d64d98d7e7d15",
+              "document": {
+                "id": "6aa06bc1ea6faed6744d64d98d7e7d15",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo5",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6aa06bc1ea6faed6744d64d98d7e7d15"
+              }
+            },
+            {
+              "id": "2ad8836b74800483d1bb287dda9b9d47",
+              "document": {
+                "id": "2ad8836b74800483d1bb287dda9b9d47",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo10",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo10.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/2ad8836b74800483d1bb287dda9b9d47"
+              }
+            }
+          ],
+          "citations_count": 20,
+          "answer_length": 1283,
+          "search_results_count": 10
+        },
+        "user_query": "플랜 종류 알려줘",
+        "response_length": 1283,
+        "timestamp": "2025-08-12T06:07:27.945789Z",
+        "quality_metrics": {},
+        "ai_response": "처음서비스는 여러 솔루션을 제공하고 있어, 문의하신 '플랜 종류'는 어떤 솔루션에 대한 것인지 명확히 알려주시면 자세한 안내를 드릴 수 있습니다.\n\n현재 확인 가능한 플랜 정보는 다음과 같습니다:\n\n**1. 프링고 (이메일 발송 솔루션)**\n프링고의 요금제는 월 구독형 플랜으로, 월간 이메일 발송량을 기준으로 구분됩니다.\n- **SMTP Small**: 월 20만 건 발송에 20만원, 초과 발송 시 건당 1원 과금.\n- **SMTP Medium**: 월 50만 건 발송에 35만원, 초과 발송 시 건당 0.7원 과금.\n- **SMTP Big**: 월 110만 건 발송에 55만원, 초과 발송 시 건당 0.5원 과금.\n모든 플랜에는 발송 서버 인프라, 통계 대시보드, 인증 설정(SPF, DKIM, DMARC 등), 기술 지원 등의 주요 기능이 포함됩니다. 상위 플랜으로 갈수록 로그 보관 기간이 길어지고, 기술 지원 방식이 확대되며, 발송 속도가 향상되는 부가 혜택이 추가됩니다.\n\n**2. 마이메일러 (이메일 발송 솔루션)**\n마이메일러는 요금제 등급에 따라 서버 스펙과 허용 발송량이 책정됩니다.\n- **Business 플랜**: 월 550,000원 수준.\n- **Enterprise 플랜**: 월 850,000원 수준.\n- **Agency Custom**: 월 150만원대 맞춤형 대용량 플랜.\nAPI 전용 서버 요금제는 다음과 같습니다:\n- **프로페셔널**: 월 33만원 (발송량 무제한, 시간당 510만 통 처리).\n- **비즈니스**: 월 55만원 (발송량 무제한, 시간당 1020만 통 이상 처리).\n- **엔터프라이즈**: 월 88만원 (발송량 무제한, 시간당 1020만 통 이상 처리).\n모든 임대형 요금제에는 고정 IP 1개 제공, 화이트도메인 등록, 500GB 트래픽, 기술 지원 등이 포함됩니다.\n\n**3. 처음서베이 (온라인 설문조사 솔루션)**\n처음서베이는 건당 프로젝트 비용을 받는 서비스 이용료 모델입니다.\n- **베이직 플랜**: 고객이 자체 확보한 대상자에게 설문을 실시하는 것으로, 응답자 수나 문항 수 제한 없이 기본 1개월간 조사 운영을 지원합니다. 컨설턴트 지원, 설문 구축 및 디자인, 이메일 1만 통 x 2회 발송, 실시간 결과 모니터링 등이 포함됩니다. 금액은 견적 문의를 통해 산정됩니다.\n- **프로 플랜**: 패널 모집 비용까지 포함되며, \"문항 수 x 목표 응답자 수\"에 따라 비용이 책정됩니다. 구체적인 가격은 공개되어 있지 않으며, 견적 문의를 통해 산정됩니다.\n\n다른 솔루션의 플랜 정보가 필요하시면 다시 문의해 주시기 바랍니다."
+      }
+    ],
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    }
+  }
+}

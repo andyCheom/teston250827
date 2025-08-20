@@ -1,0 +1,750 @@
+{
+  "id": "session_z6i4xd5q8_1755043695313",
+  "path": "conversations/session_z6i4xd5q8_1755043695313",
+  "fields": {
+    "created_at": "2025-08-14T04:39:48.572191Z",
+    "session_id": "session_z6i4xd5q8_1755043695313",
+    "message_count": 3,
+    "updated_at": "2025-08-14T04:42:29.541871Z",
+    "user_info": {
+      "user_agent": "",
+      "ip_region": ""
+    },
+    "messages": [
+      {
+        "query_length": 5,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "title": "naver_blog_mymailer6",
+              "displayName": "naver_blog_mymailer6",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+            },
+            {
+              "title": "naver_blog_mymailer6",
+              "displayName": "naver_blog_mymailer6",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+            },
+            {
+              "title": "마이메일러 I SaaS형 대량메일 솔루션",
+              "displayName": "마이메일러 I SaaS형 대량메일 솔루션",
+              "uri": "https://www.mymailer.kr/kor/board/notice?viewMode=view&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1&idx=56"
+            },
+            {
+              "title": "마이메일러 I SaaS형 대량메일 솔루션",
+              "displayName": "마이메일러 I SaaS형 대량메일 솔루션",
+              "uri": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1"
+            },
+            {
+              "title": "마이메일러 I SaaS형 대량메일 솔루션",
+              "displayName": "마이메일러 I SaaS형 대량메일 솔루션",
+              "uri": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=56&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/13827633896061217950",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "4acb31e4ac4e9692bc1208784d034911",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>안녕하세요</b>, 마이메일러(MyMailer) 팀입니다. 오늘은 대량 메일 발송 시 전문가의 도움이 필요한 이유와 마이메일러가 어떻게 여러분의 최고의 파트너가 될 수 있는지&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+                },
+                "id": "4acb31e4ac4e9692bc1208784d034911",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/4acb31e4ac4e9692bc1208784d034911"
+              }
+            },
+            {
+              "id": "4acb31e4ac4e9692bc1208784d034911",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>안녕하세요</b>, 마이메일러(MyMailer) 팀입니다. 오늘은 대량 메일 발송 시 전문가의 도움이 필요한 이유와 마이메일러가 어떻게 여러분의 최고의 파트너가 될 수 있는지&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+                },
+                "id": "4acb31e4ac4e9692bc1208784d034911",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/4acb31e4ac4e9692bc1208784d034911"
+              }
+            },
+            {
+              "id": "83d5ea55b4c5ffabb1345423a77fcf80",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>,. 마이메일러 고객센터 입니다. 2024년 7월 부터 네이버 메일의 이메일 수신 정책이 강화됩니다. 네이버등 SPF설정이 안된 메일을 발신자 주소로 사용하거나&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1720249200000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/kor/board/notice?viewMode=view&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1&idx=56",
+                  "can_fetch_raw_content": "true",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "83d5ea55b4c5ffabb1345423a77fcf80",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/83d5ea55b4c5ffabb1345423a77fcf80"
+              }
+            },
+            {
+              "id": "e779d3bb9602bebb89e59ec01aa55acb",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 마이메일러 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761960000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "e779d3bb9602bebb89e59ec01aa55acb",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/e779d3bb9602bebb89e59ec01aa55acb"
+              }
+            },
+            {
+              "id": "a26e5a6ada690f7687afbfc269d2c112",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>,. 마이메일러 고객센터 입니다. 2024년 7월 부터 네이버 메일의 이메일 수신 정책이 강화됩니다. 네이버등 SPF설정이 안된 메일을 발신자 주소로 사용하거나&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1720249200000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=56&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "a26e5a6ada690f7687afbfc269d2c112",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/a26e5a6ada690f7687afbfc269d2c112"
+              }
+            },
+            {
+              "id": "24c516fdadb5432904c6ed66861ce90d",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "24c516fdadb5432904c6ed66861ce90d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/24c516fdadb5432904c6ed66861ce90d"
+              }
+            },
+            {
+              "id": "5c1b55b17613f9856923471f6b1c8068",
+              "document": {
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1",
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "5c1b55b17613f9856923471f6b1c8068",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5c1b55b17613f9856923471f6b1c8068"
+              }
+            },
+            {
+              "id": "a645ed48638081a48c0b2200cadc5abe",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "a645ed48638081a48c0b2200cadc5abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/a645ed48638081a48c0b2200cadc5abe"
+              }
+            },
+            {
+              "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "http://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=2",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/deddfb5cb8e6e7ec7d1c2727674b836e"
+              }
+            },
+            {
+              "id": "ee173e407c83dbe3a27fe3381190533f",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>. 처음소프트 입니다. TLS1.1 중단에 따른 브라우저 업데이트로 인해, 네이버, 다음 등 이메일 수신시 이미지 표시가 제한 이슈가 발생하여 공지 드립니다&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1602045540000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=51",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "ee173e407c83dbe3a27fe3381190533f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/ee173e407c83dbe3a27fe3381190533f"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 390,
+          "search_results_count": 10
+        },
+        "user_query": "안녕하세용",
+        "response_length": 390,
+        "timestamp": "2025-08-14T04:39:48.450036Z",
+        "quality_metrics": {},
+        "ai_response": "Discovery Engine 검색 결과를 바탕으로 한 답변입니다:\n\n1. ... <b>안녕하세요</b>, 마이메일러(MyMailer) 팀입니다. 오늘은 대량 메일 발송 시 전문가의 도움이 필요한 이유와 마이메일러가 어떻게 여러분의 최고의 파트너가 될 수 있는지&nbsp;...\n\n2. ... <b>안녕하세요</b>, 마이메일러(MyMailer) 팀입니다. 오늘은 대량 메일 발송 시 전문가의 도움이 필요한 이유와 마이메일러가 어떻게 여러분의 최고의 파트너가 될 수 있는지&nbsp;...\n\n3. <b>안녕하세요</b>,. 마이메일러 고객센터 입니다. 2024년 7월 부터 네이버 메일의 이메일 수신 정책이 강화됩니다. 네이버등 SPF설정이 안된 메일을 발신자 주소로 사용하거나&nbsp;...\n\n"
+      },
+      {
+        "user_query": "안녕",
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+            },
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서.pdf"
+            },
+            {
+              "title": "PowerPoint Presentation",
+              "displayName": "PowerPoint Presentation",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(토요타파이낸셜코리아) ME6.0 - 제품소개서.pdf"
+            },
+            {
+              "title": "PowerPoint Presentation",
+              "displayName": "PowerPoint Presentation",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/구 제품소개서/ME6.0_제품소개서.pdf"
+            },
+            {
+              "title": "PowerPoint Presentation",
+              "displayName": "PowerPoint Presentation",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(베스핀글로벌) ME6.0 - 제안서_망분리버전.pdf"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/12466526938381146783",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "736608a64882059097781021f0e670f4",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서.pdf"
+                },
+                "id": "736608a64882059097781021f0e670f4",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/736608a64882059097781021f0e670f4"
+              }
+            },
+            {
+              "id": "517fee573149dc1d4d46d7022353201f",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(토요타파이낸셜코리아) ME6.0 - 제품소개서.pdf"
+                },
+                "id": "517fee573149dc1d4d46d7022353201f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/517fee573149dc1d4d46d7022353201f"
+              }
+            },
+            {
+              "id": "62b52a5480480a6c9b6d387b0c9ac69e",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/구 제품소개서/ME6.0_제품소개서.pdf"
+                },
+                "id": "62b52a5480480a6c9b6d387b0c9ac69e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/62b52a5480480a6c9b6d387b0c9ac69e"
+              }
+            },
+            {
+              "id": "baa2aff27a3058c47ca3668b9be7f5ba",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(베스핀글로벌) ME6.0 - 제안서_망분리버전.pdf"
+                },
+                "id": "baa2aff27a3058c47ca3668b9be7f5ba",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/baa2aff27a3058c47ca3668b9be7f5ba"
+              }
+            },
+            {
+              "id": "3f80cc83308016a8f2bcd5151c6be3f4",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/구 제품소개서/ME6.0 - 제품소개서.pdf"
+                },
+                "id": "3f80cc83308016a8f2bcd5151c6be3f4",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/3f80cc83308016a8f2bcd5151c6be3f4"
+              }
+            },
+            {
+              "id": "6d2385fe799b9e124333af8942d4814a",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/구 제품소개서/(주)티몬제안서_ME6.0_191028.pdf"
+                },
+                "id": "6d2385fe799b9e124333af8942d4814a",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/6d2385fe799b9e124333af8942d4814a"
+              }
+            },
+            {
+              "id": "4eff6197c21e12ebb971ebb797ad197b",
+              "document": {
+                "derivedStructData": {
+                  "title": "ME6.0 - 커리어넷_제안서",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/ME6.0 - 커리어넷_제안서.pptx"
+                },
+                "id": "4eff6197c21e12ebb971ebb797ad197b",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/4eff6197c21e12ebb971ebb797ad197b"
+              }
+            },
+            {
+              "id": "5856a7bd97ac232529f73a854bbb43e1",
+              "document": {
+                "derivedStructData": {
+                  "title": "마이메일러 5.0 - 제품소개서(요약본)_(19-0213)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/Cosse5.0 제품소개서/마이메일러 5.0 - 제품소개서(요약본)_(19-0213).pptx"
+                },
+                "id": "5856a7bd97ac232529f73a854bbb43e1",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/5856a7bd97ac232529f73a854bbb43e1"
+              }
+            },
+            {
+              "id": "e15b1b63b45b0622d92e9173479f9e83",
+              "document": {
+                "derivedStructData": {
+                  "title": "ME6.0 - 제품소개서_업그레이드_제안서",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/ME6.0 - 제품소개서_업그레이드_제안서.pptx"
+                },
+                "id": "e15b1b63b45b0622d92e9173479f9e83",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e15b1b63b45b0622d92e9173479f9e83"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 68,
+          "search_results_count": 10
+        },
+        "query_length": 2,
+        "response_length": 68,
+        "timestamp": "2025-08-14T04:41:36.123247Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! **\"처음서비스\"** 고객지원 담당자입니다. 무엇을 도와드릴까요? 궁금한 점이 있으시면 언제든지 질문해주세요."
+      },
+      {
+        "user_query": "안녕하세용",
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "startIndex": "70",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                },
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                },
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "endIndex": "99"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/9827512149578404794",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "4acb31e4ac4e9692bc1208784d034911",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>안녕하세요</b>, 마이메일러(MyMailer) 팀입니다. 오늘은 대량 메일 발송 시 전문가의 도움이 필요한 이유와 마이메일러가 어떻게 여러분의 최고의 파트너가 될 수 있는지&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+                },
+                "id": "4acb31e4ac4e9692bc1208784d034911",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/4acb31e4ac4e9692bc1208784d034911"
+              }
+            },
+            {
+              "id": "4acb31e4ac4e9692bc1208784d034911",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>안녕하세요</b>, 마이메일러(MyMailer) 팀입니다. 오늘은 대량 메일 발송 시 전문가의 도움이 필요한 이유와 마이메일러가 어떻게 여러분의 최고의 파트너가 될 수 있는지&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer6.txt"
+                },
+                "id": "4acb31e4ac4e9692bc1208784d034911",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/4acb31e4ac4e9692bc1208784d034911"
+              }
+            },
+            {
+              "id": "83d5ea55b4c5ffabb1345423a77fcf80",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>,. 마이메일러 고객센터 입니다. 2024년 7월 부터 네이버 메일의 이메일 수신 정책이 강화됩니다. 네이버등 SPF설정이 안된 메일을 발신자 주소로 사용하거나&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1720249200000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/kor/board/notice?viewMode=view&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1&idx=56",
+                  "can_fetch_raw_content": "true",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "83d5ea55b4c5ffabb1345423a77fcf80",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/83d5ea55b4c5ffabb1345423a77fcf80"
+              }
+            },
+            {
+              "id": "e779d3bb9602bebb89e59ec01aa55acb",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 마이메일러 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761960000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "e779d3bb9602bebb89e59ec01aa55acb",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/e779d3bb9602bebb89e59ec01aa55acb"
+              }
+            },
+            {
+              "id": "a26e5a6ada690f7687afbfc269d2c112",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>,. 마이메일러 고객센터 입니다. 2024년 7월 부터 네이버 메일의 이메일 수신 정책이 강화됩니다. 네이버등 SPF설정이 안된 메일을 발신자 주소로 사용하거나&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1720249200000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=56&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "a26e5a6ada690f7687afbfc269d2c112",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/a26e5a6ada690f7687afbfc269d2c112"
+              }
+            },
+            {
+              "id": "24c516fdadb5432904c6ed66861ce90d",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "24c516fdadb5432904c6ed66861ce90d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/24c516fdadb5432904c6ed66861ce90d"
+              }
+            },
+            {
+              "id": "5c1b55b17613f9856923471f6b1c8068",
+              "document": {
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1",
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "5c1b55b17613f9856923471f6b1c8068",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5c1b55b17613f9856923471f6b1c8068"
+              }
+            },
+            {
+              "id": "a645ed48638081a48c0b2200cadc5abe",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58",
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "a645ed48638081a48c0b2200cadc5abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/a645ed48638081a48c0b2200cadc5abe"
+              }
+            },
+            {
+              "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "http://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=2",
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/deddfb5cb8e6e7ec7d1c2727674b836e"
+              }
+            },
+            {
+              "id": "ee173e407c83dbe3a27fe3381190533f",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>. 처음소프트 입니다. TLS1.1 중단에 따른 브라우저 업데이트로 인해, 네이버, 다음 등 이메일 수신시 이미지 표시가 제한 이슈가 발생하여 공지 드립니다&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1602045540000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=51",
+                  "can_fetch_raw_content": "true",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "ee173e407c83dbe3a27fe3381190533f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/ee173e407c83dbe3a27fe3381190533f"
+              }
+            }
+          ],
+          "citations_count": 1,
+          "answer_length": 41,
+          "search_results_count": 10
+        },
+        "query_length": 5,
+        "response_length": 41,
+        "timestamp": "2025-08-14T04:42:29.420233Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?"
+      }
+    ],
+    "last_activity": "2025-08-14T04:42:29.541874Z"
+  }
+}

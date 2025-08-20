@@ -1,0 +1,152 @@
+{
+  "id": "session_11402319905107579492",
+  "path": "conversations/session_11402319905107579492",
+  "fields": {
+    "created_at": "2025-08-12T06:11:16.640420Z",
+    "session_id": "session_11402319905107579492",
+    "message_count": 1,
+    "updated_at": "2025-08-12T06:11:16.640424Z",
+    "last_activity": "2025-08-12T06:11:16.640424Z",
+    "messages": [
+      {
+        "query_length": 6,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "title": "naver_blog_cheom19",
+              "displayName": "naver_blog_cheom19",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom19.txt"
+            },
+            {
+              "title": "naver_blog_cheom18",
+              "displayName": "naver_blog_cheom18",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom18.txt"
+            },
+            {
+              "title": "naver_blog_cheom17",
+              "displayName": "naver_blog_cheom17",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom17.txt"
+            },
+            {
+              "title": "naver_blog_cheom21",
+              "displayName": "naver_blog_cheom21",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom21.txt"
+            },
+            {
+              "title": "naver_blog_cheom20",
+              "displayName": "naver_blog_cheom20",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom20.txt"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/11402319905107581113",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "8ab53956eccd14b86ebbae6f17413432",
+              "document": {
+                "id": "8ab53956eccd14b86ebbae6f17413432",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom19",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom19.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/8ab53956eccd14b86ebbae6f17413432"
+              }
+            },
+            {
+              "id": "596f3e724b83caca1f4715a5f6fa23a0",
+              "document": {
+                "id": "596f3e724b83caca1f4715a5f6fa23a0",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom18",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom18.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/596f3e724b83caca1f4715a5f6fa23a0"
+              }
+            },
+            {
+              "id": "d6cbb6c1fd08945b9d373d8e6904ee5c",
+              "document": {
+                "id": "d6cbb6c1fd08945b9d373d8e6904ee5c",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom17",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom17.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/d6cbb6c1fd08945b9d373d8e6904ee5c"
+              }
+            },
+            {
+              "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+              "document": {
+                "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom21",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom21.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/aba08d5dcc8b01fc0f94d5bda9e0f063"
+              }
+            },
+            {
+              "id": "29c4524b3930c2cbdc9391ec5e301699",
+              "document": {
+                "id": "29c4524b3930c2cbdc9391ec5e301699",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom20",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom20.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/29c4524b3930c2cbdc9391ec5e301699"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 74,
+          "search_results_count": 5
+        },
+        "user_query": "넌 누구야?",
+        "response_length": 74,
+        "timestamp": "2025-08-12T06:11:16.563375Z",
+        "quality_metrics": {},
+        "ai_response": "저는 SaaS 솔루션 기업 **\"처음서비스\"**의 고객지원 담당자입니다. 고객님의 문의에 대해 친절하고 자세하게 답변해 드리겠습니다."
+      }
+    ],
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    }
+  }
+}

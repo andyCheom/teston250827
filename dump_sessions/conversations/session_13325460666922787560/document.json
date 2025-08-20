@@ -1,0 +1,242 @@
+{
+  "id": "session_13325460666922787560",
+  "path": "conversations/session_13325460666922787560",
+  "fields": {
+    "message_count": 1,
+    "session_id": "session_13325460666922787560",
+    "created_at": "2025-08-12T06:31:40.939975Z",
+    "updated_at": "2025-08-12T06:31:40.939978Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "query_length": 10,
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/13325460666922788843",
+          "citations": [
+            {
+              "title": "naver_blog_cheom5",
+              "displayName": "naver_blog_cheom5",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+            },
+            {
+              "title": "naver_blog_cheom12",
+              "displayName": "naver_blog_cheom12",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom12.txt"
+            },
+            {
+              "title": "naver_blog_mymailer23",
+              "displayName": "naver_blog_mymailer23",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer23.txt"
+            },
+            {
+              "title": "naver_blog_mymailer21",
+              "displayName": "naver_blog_mymailer21",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer21.txt"
+            },
+            {
+              "title": "naver_blog_pringo11",
+              "displayName": "naver_blog_pringo11",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo11.txt"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+              "document": {
+                "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom5",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "단순한 일회성 설문부터 360도 평가(상위직 평가)나 고객 만족도 조사, 제품 <b>테스트</b> ... <b>질문</b> 노출) 같은 ... <b>용</b> UI 또는 툴이 있을 것<b>입니다</b>. 이는 외부에 공개&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a3d0f712ba2370b0fb9cb70e586c3fbc"
+              }
+            },
+            {
+              "id": "ac0da27d3e40723406f48c11c55ac65c",
+              "document": {
+                "id": "ac0da27d3e40723406f48c11c55ac65c",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom12",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "국내 맞춤형 기능과 인터페이스가 강점<b>입니다</b>. 단점 ... 템플릿과 다양한 <b>질문</b> 유형이 제공되어 초보자도 쉽게 사용할 수 있습니다. ... <b>입니다</b>. #설문조사 #온라인&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom12.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ac0da27d3e40723406f48c11c55ac65c"
+              }
+            },
+            {
+              "id": "d1eb47031fea93d0141982e8074b3f6e",
+              "document": {
+                "id": "d1eb47031fea93d0141982e8074b3f6e",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer23",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "강력한 스팸 필터 우회 기술: 대량 메일 발송 시 가장 큰 문제 중 하나는 스팸 필터에 걸리지 않고 수신자에게 도달하는 것<b>입니다</b>. 마이메일러는 최신 스팸 방지 기술&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer23.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/d1eb47031fea93d0141982e8074b3f6e"
+              }
+            },
+            {
+              "id": "973960648d897c71933fe2bf8c482f3b",
+              "document": {
+                "id": "973960648d897c71933fe2bf8c482f3b",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer21",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "동시성 문제 해결 ... Git 브랜치 전략(Git Branch Strategy)을 통해 각 개발자는 로컬에서 충분한 <b>테스트</b> ... <b>입니다</b>. 효율적이고 안정적인 개발 환경을 원한다면&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer21.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/973960648d897c71933fe2bf8c482f3b"
+              }
+            },
+            {
+              "id": "09c98e80c442ce6afb08a16c73496219",
+              "document": {
+                "id": "09c98e80c442ce6afb08a16c73496219",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo11",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "프링고는 개발 과정을 간소화할 뿐만 아니라 성능, 유연성, 보안 면에서 뛰어난 우위를 제공하는 혁신적인 솔루션<b>입니다</b>. ... 공식 문서, 튜토리얼, 포럼 등을 통해 발생하는&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo11.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/09c98e80c442ce6afb08a16c73496219"
+              }
+            },
+            {
+              "id": "882b4a669938e23d39b34bbdd9f09a30",
+              "document": {
+                "id": "882b4a669938e23d39b34bbdd9f09a30",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo6",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. SMTP 프로토콜 기반으로 설계된 이 서비스는 다양한 클라이언트 및 타사 ... <b>입니다</b>. Apache Hadoop과 Spark: 분산 데이터 저장과 처리에 적합한 프레임&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo6.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/882b4a669938e23d39b34bbdd9f09a30"
+              }
+            },
+            {
+              "id": "b2847c085d8df0567a173f4f6a9ecb89",
+              "document": {
+                "id": "b2847c085d8df0567a173f4f6a9ecb89",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo8",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. Pringo는 이러한 과제를 해결하기 위해 강력한 API 기반의 이메일 방송 서비스를 제공합니다. 1. 강력한 확장성 Pringo의 API는 이메일 발송량이 늘어나더라도&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo8.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/b2847c085d8df0567a173f4f6a9ecb89"
+              }
+            },
+            {
+              "id": "b69723da1912e1b157cc00cde72ca7b0",
+              "document": {
+                "id": "b69723da1912e1b157cc00cde72ca7b0",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom3",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "처음서비스가 게임회사의 출퇴근 관리 시스템을 맞춤 개발했다는 것은, 그들이 단순히 범용 솔루션을 제공하는 것을 넘어, 고객사의 매우 구체적이고 복잡한 비즈니스 로직&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom3.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/b69723da1912e1b157cc00cde72ca7b0"
+              }
+            },
+            {
+              "id": "759b04677ef3c9bae7e06c7d08c25042",
+              "document": {
+                "id": "759b04677ef3c9bae7e06c7d08c25042",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer12",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. 이를 통해 사용자는 복잡한 코드나 설정 없이 자동으로 발송되는 맞춤형 ... <b>입니다</b>. 특히 DMARC와 SPF, DKIM을 준수하여 이메일이 올바르게 인증되며&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer12.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/759b04677ef3c9bae7e06c7d08c25042"
+              }
+            },
+            {
+              "id": "e22d9be2f747911ed73e9725f9aa34dc",
+              "document": {
+                "id": "e22d9be2f747911ed73e9725f9aa34dc",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom11",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>입니다</b>. 복잡한 기술 지식 없이도 간단한 드래그 앤 ... 평가, 직원 피드백, 시장 조사 등 다양한 용도로 활용 가능합니다. ... 보안과 신뢰성 데이터 보안은 비즈니스에서&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom11.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/e22d9be2f747911ed73e9725f9aa34dc"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 115,
+          "search_results_count": 10
+        },
+        "user_query": "테스트용 질문입니다",
+        "response_length": 115,
+        "ai_response": "문의하신 내용은 테스트용 질문으로, 특정 서비스나 기능에 대한 질문이 아니므로 답변을 드릴 수 없습니다. 처음서비스의 서비스에 대해 궁금한 점이 있으시면 구체적으로 질문해주시면 친절하게 답변해 드리겠습니다.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-12T06:31:40.815639Z"
+      }
+    ],
+    "last_activity": "2025-08-12T06:31:40.939979Z"
+  }
+}

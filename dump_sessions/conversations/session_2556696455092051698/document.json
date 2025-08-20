@@ -1,0 +1,35 @@
+{
+  "id": "session_2556696455092051698",
+  "path": "conversations/session_2556696455092051698",
+  "fields": {
+    "created_at": "2025-08-12T05:47:01.035646Z",
+    "session_id": "session_2556696455092051698",
+    "message_count": 1,
+    "updated_at": "2025-08-12T05:47:01.035650Z",
+    "last_activity": "2025-08-12T05:47:01.035650Z",
+    "messages": [
+      {
+        "query_length": 3,
+        "metadata": {
+          "related_questions": [],
+          "citations": [],
+          "query_id": "projects/975882305117/locations/global/questions/2556696455092049441",
+          "engine_type": "discovery_engine_main",
+          "search_results": [],
+          "citations_count": 0,
+          "answer_length": 59,
+          "search_results_count": 0
+        },
+        "user_query": "sdf",
+        "response_length": 59,
+        "timestamp": "2025-08-12T05:47:00.945661Z",
+        "quality_metrics": {},
+        "ai_response": "No results could be found. Try rephrasing the search query."
+      }
+    ],
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    }
+  }
+}
