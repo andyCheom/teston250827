@@ -369,10 +369,12 @@ class GCPSetupManager:
                 # Firestore / Datastore
                 'roles/datastore.owner',
                 'roles/datastore.viewer',
+                'roles/datastore.user',
 
-                # Firebase
+                # Firebase & Firestore
                 'roles/firebase.admin',
                 'roles/firebasehosting.admin',
+                'roles/firebaseauth.admin',
 
                 # App Engine (for Firestore creation)
                 'roles/appengine.appAdmin',

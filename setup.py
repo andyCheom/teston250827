@@ -350,6 +350,15 @@ class GraphRAGLocalSetup:
         else:
             logger.error("❌ Firebase Hosting 설정 실패")
         
+        # Firestore 데이터베이스 생성
+        total_count += 1
+        logger.info("🔄 Firestore 데이터베이스 생성 중...")
+        if self.gcp_setup.create_firestore_database(config.get('LOCATION_ID', 'asia-northeast3')):
+            success_count += 1
+            logger.info("✅ Firestore 데이터베이스 생성 완료")
+        else:
+            logger.error("❌ Firestore 데이터베이스 생성 실패")
+        
         # Firebase 서비스 계정 생성
         total_count += 1
         logger.info("🔄 Firebase 서비스 계정 생성 중...")
