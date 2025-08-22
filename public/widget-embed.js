@@ -23,6 +23,7 @@
         return 'https://widgettest-469800-graphrag-api-1056095201787.asia-northeast3.run.app';
     }
     
+    
     // 설정
     const WIDGET_CONFIG = {
         baseUrl: getBaseUrl(),
@@ -187,13 +188,21 @@
     function addNamespaceStyles() {
         const namespaceStyles = `
             #${config.containerId} {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                position: relative;
-                z-index: 2147483647;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                position: relative !important;
+                z-index: 2147483647 !important;
+                all: initial !important;
             }
             
             #${config.containerId} * {
-                box-sizing: border-box;
+                box-sizing: border-box !important;
+            }
+            
+            /* 외부 사이트 CSS 리셋 */
+            #${config.containerId} .chatbot-toggle,
+            #${config.containerId} .chatbot-widget {
+                all: unset !important;
+                display: block !important;
             }
         `;
         
