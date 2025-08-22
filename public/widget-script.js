@@ -6,10 +6,10 @@ class ChatbotWidget {
         this.conversationHistory = [];
         this.currentSessionId = this.getOrCreateSessionId();
         
-        // API 기본 URL 설정 (자동 감지)
+        // API 기본 URL 설정 (외부 사이트에서 사용시 명시적 Cloud Run URL 사용)
         this.apiBaseUrl = config.apiBaseUrl || 
                          window.GraphRAGWidgetConfig?.baseUrl || 
-                         this.getCurrentDomainUrl();
+                         'https://sampleprojects-468223-graphrag-api-975882305117.asia-northeast3.run.app';
         
         this.init();
     }
@@ -61,14 +61,30 @@ class ChatbotWidget {
     }
 
     setupEventListeners() {
-        // 토글 버튼
+        // 토글 버튼 - 더 안전한 이벤트 바인딩
         if (this.toggle) {
-            this.toggle.addEventListener('click', () => this.toggleWidget());
+            this.toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleWidget();
+            });
+            
+            // 외부 사이트에서 안전성을 위한 추가 이벤트
+            this.toggle.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleWidget();
+            };
         }
         
         // 위젯 컨트롤
         if (this.closeBtn) {
             this.closeBtn.addEventListener('click', () => this.closeWidget());
+        }
+        
+        // 새 대화 버튼 (minimize 버튼을 새 대화 버튼으로 활용)
+        if (this.minimizeBtn) {
+            this.minimizeBtn.addEventListener('click', () => this.startNewConversation());
         }
         
         // 채팅 폼
@@ -145,21 +161,64 @@ class ChatbotWidget {
 
     // 세션 관리
     getOrCreateSessionId() {
-        let sessionId = localStorage.getItem('widget_session_id');
-        if (!sessionId) {
+        // 세션 스토리지 사용으로 브라우저 탭별 독립적 세션 관리
+        let sessionId = sessionStorage.getItem('widget_session_id');
+        
+        // 세션이 없거나 페이지 새로고침인 경우 새 세션 생성
+        if (!sessionId || this.shouldCreateNewSession()) {
             sessionId = this.generateSessionId();
-            localStorage.setItem('widget_session_id', sessionId);
+            sessionStorage.setItem('widget_session_id', sessionId);
+            sessionStorage.setItem('widget_session_created', Date.now().toString());
             console.log('새 위젯 세션 ID 생성:', sessionId);
         } else {
             console.log('기존 위젯 세션 ID 사용:', sessionId);
         }
         return sessionId;
     }
+    
+    shouldCreateNewSession() {
+        // 대화 기록이 없으면 새 세션으로 간주
+        const hasMessages = this.conversationHistory && this.conversationHistory.length > 0;
+        
+        // 또는 세션이 24시간 이상 오래된 경우
+        const sessionCreated = sessionStorage.getItem('widget_session_created');
+        const isOldSession = sessionCreated && (Date.now() - parseInt(sessionCreated) > 24 * 60 * 60 * 1000);
+        
+        return !hasMessages || isOldSession;
+    }
 
     generateSessionId() {
         const timestamp = Date.now();
         const random = Math.random().toString(36).substr(2, 9);
         return `widget_${random}_${timestamp}`;
+    }
+    
+    // 새 대화 시작
+    startNewConversation() {
+        // 기존 세션 정리
+        sessionStorage.removeItem('widget_session_id');
+        sessionStorage.removeItem('widget_session_created');
+        
+        // 새 세션 ID 생성
+        this.currentSessionId = this.generateSessionId();
+        sessionStorage.setItem('widget_session_id', this.currentSessionId);
+        sessionStorage.setItem('widget_session_created', Date.now().toString());
+        
+        // 대화 기록 초기화
+        this.conversationHistory = [];
+        
+        // 채팅 컨테이너 초기화
+        if (this.chatContainer) {
+            // 웰컴 메시지만 남기고 나머지 제거
+            const welcomeMessage = this.chatContainer.querySelector('.welcome-message');
+            this.chatContainer.innerHTML = '';
+            if (welcomeMessage) {
+                this.chatContainer.appendChild(welcomeMessage);
+            }
+        }
+        
+        console.log('새 대화 시작:', this.currentSessionId);
+        this.showNotification('새 대화가 시작되었습니다', 'info');
     }
 
     // 위젯 제어
