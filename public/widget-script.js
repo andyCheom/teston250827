@@ -52,6 +52,16 @@ class ChatbotWidget {
         this.closeBtn = document.getElementById('close-widget');
         this.notificationBadge = document.getElementById('notification-badge');
         
+        // 디버깅용 로그
+        console.log('요소 설정 완료:', {
+            toggle: !!this.toggle,
+            widget: !!this.widget,
+            chatContainer: !!this.chatContainer,
+            promptForm: !!this.promptForm,
+            promptInput: !!this.promptInput,
+            submitButton: !!this.submitButton
+        });
+        
         // 데모 폼 요소들
         this.demoRequestBtn = document.getElementById('demo-request-btn');
         this.demoFormContainer = document.getElementById('demo-form-container');
@@ -61,20 +71,25 @@ class ChatbotWidget {
     }
 
     setupEventListeners() {
-        // 토글 버튼 - 더 안전한 이벤트 바인딩
+        // 토글 버튼 - 안전한 이벤트 바인딩
         if (this.toggle) {
+            // 기본 클릭 이벤트
             this.toggle.addEventListener('click', (e) => {
-                e.preventDefault();
                 e.stopPropagation();
+                console.log('토글 버튼 클릭됨');
                 this.toggleWidget();
             });
             
-            // 외부 사이트에서 안전성을 위한 추가 이벤트
+            // 외부 사이트 호환성을 위한 백업 이벤트
             this.toggle.onclick = (e) => {
-                e.preventDefault();
                 e.stopPropagation();
+                console.log('토글 버튼 onclick 이벤트');
                 this.toggleWidget();
             };
+            
+            console.log('토글 버튼 이벤트 리스너 설정 완료');
+        } else {
+            console.error('토글 버튼을 찾을 수 없습니다');
         }
         
         // 위젯 컨트롤
@@ -223,21 +238,40 @@ class ChatbotWidget {
 
     // 위젯 제어
     toggleWidget() {
+        console.log('toggleWidget 호출됨, 현재 상태:', this.isOpen);
+        console.log('위젯 요소:', this.widget);
+        
         if (this.isOpen) {
+            console.log('위젯 닫기 시도');
             this.closeWidget();
         } else {
+            console.log('위젯 열기 시도');
             this.openWidget();
         }
     }
 
     openWidget() {
+        console.log('openWidget 시작');
         this.isOpen = true;
-        this.widget.classList.add('visible');
-        this.toggle.classList.add('active');
+        
+        if (this.widget) {
+            this.widget.style.display = 'flex';
+            this.widget.classList.add('visible');
+            console.log('위젯 표시됨');
+        } else {
+            console.error('위젯 요소를 찾을 수 없습니다');
+        }
+        
+        if (this.toggle) {
+            this.toggle.classList.add('active');
+        }
+        
         this.hideNotificationBadge();
+        
         if (this.promptInput) {
             this.promptInput.focus();
         }
+        
         this.scrollToBottom();
         
         // 위젯이 처음 열릴 때 한 번만 환영 메시지 로드
