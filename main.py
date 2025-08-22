@@ -118,6 +118,9 @@ async def serve_widget_style_css():
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
+
+
+
 @app.get("/widget-example")
 async def serve_widget_example():
     """위젯 임베드 예제 페이지"""

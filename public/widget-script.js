@@ -313,6 +313,20 @@ class ChatbotWidget {
         this.isOpen = false;
         this.widget.classList.remove('visible');
         this.toggle.classList.remove('active');
+        
+        // 강제로 위젯 숨기기 - 외부 CSS 간섭 방지
+        this.widget.style.cssText = `
+            position: fixed !important;
+            bottom: 200px !important;
+            right: 24px !important;
+            z-index: 2147483647 !important;
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            transform: translateY(20px) scale(0.95) !important;
+        `;
+        
+        console.log('위젯 닫기 완료');
     }
 
     // 알림 배지
