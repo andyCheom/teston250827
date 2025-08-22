@@ -86,9 +86,30 @@ class ChatbotWidget {
             console.error('토글 버튼을 찾을 수 없습니다');
         }
         
-        // 위젯 컨트롤
+        // 위젯 컨트롤 - 강화된 이벤트 리스너
         if (this.closeBtn) {
-            this.closeBtn.addEventListener('click', () => this.closeWidget());
+            this.closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.closeWidget();
+                console.log('닫기 버튼 클릭됨');
+            });
+            
+            // 추가 안전장치: 동적으로 버튼 재연결
+            const retryCloseBtn = () => {
+                const closeBtn = document.querySelector('#close-widget, .close-btn');
+                if (closeBtn && !closeBtn.hasAttribute('data-listener-attached')) {
+                    closeBtn.setAttribute('data-listener-attached', 'true');
+                    closeBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.closeWidget();
+                        console.log('동적 닫기 버튼 클릭됨');
+                    });
+                }
+            };
+            
+            setTimeout(retryCloseBtn, 1000);
         }
         
         // 새 대화 버튼 (minimize 버튼을 새 대화 버튼으로 활용)

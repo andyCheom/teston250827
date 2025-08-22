@@ -219,6 +219,7 @@
      */
     function addNamespaceStyles() {
         const namespaceStyles = `
+            /* 컨테이너 기본 설정 */
             #${config.containerId} {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
                 position: relative !important;
@@ -230,7 +231,7 @@
                 box-sizing: border-box !important;
             }
             
-            /* 외부 사이트 CSS 리셋 */
+            /* 토글 버튼 스타일 */
             #${config.containerId} .chatbot-toggle {
                 all: unset !important;
                 position: fixed !important;
@@ -249,6 +250,7 @@
                 box-shadow: 0 8px 25px rgba(19, 117, 70, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15) !important;
             }
             
+            /* 위젯 컨테이너 */
             #${config.containerId} .chatbot-widget {
                 all: unset !important;
                 position: fixed !important;
@@ -269,6 +271,7 @@
                 overflow: hidden !important;
                 border: 1px solid rgba(0, 0, 0, 0.05) !important;
                 pointer-events: auto !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             }
             
             #${config.containerId} .chatbot-widget.visible {
@@ -278,6 +281,137 @@
                 transform: translateY(0) scale(1) !important;
                 z-index: 2147483647 !important;
                 pointer-events: auto !important;
+            }
+            
+            /* 위젯 헤더 스타일 강화 */
+            #${config.containerId} .widget-header {
+                background: linear-gradient(135deg, #137546 0%, #115f3a 100%) !important;
+                color: white !important;
+                padding: 16px !important;
+                border-radius: 16px 16px 0 0 !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            }
+            
+            #${config.containerId} .brand-name {
+                font-size: 16px !important;
+                font-weight: 600 !important;
+                color: white !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            }
+            
+            #${config.containerId} .brand-status {
+                font-size: 12px !important;
+                color: rgba(255, 255, 255, 0.8) !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            }
+            
+            /* 헤더 버튼들 */
+            #${config.containerId} .action-btn {
+                width: 32px !important;
+                height: 32px !important;
+                border: none !important;
+                background: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 8px !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+                transition: background-color 0.2s ease !important;
+            }
+            
+            #${config.containerId} .action-btn:hover {
+                background: rgba(255, 255, 255, 0.2) !important;
+            }
+            
+            #${config.containerId} .action-btn svg {
+                width: 16px !important;
+                height: 16px !important;
+                fill: currentColor !important;
+            }
+            
+            /* 웰컴 메시지 스타일 */
+            #${config.containerId} .welcome-message {
+                background: #f8f9fa !important;
+                border-radius: 12px !important;
+                padding: 16px !important;
+                margin: 16px !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            }
+            
+            #${config.containerId} .welcome-message pre {
+                white-space: pre-wrap !important;
+                word-wrap: break-word !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 14px !important;
+                line-height: 1.5 !important;
+                color: #333 !important;
+                margin: 0 !important;
+            }
+            
+            /* 데모 버튼 */
+            #${config.containerId} .demo-button {
+                background: #137546 !important;
+                color: white !important;
+                border: none !important;
+                padding: 12px 24px !important;
+                border-radius: 8px !important;
+                cursor: pointer !important;
+                font-size: 14px !important;
+                font-weight: 500 !important;
+                margin-top: 16px !important;
+                width: 100% !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            }
+            
+            #${config.containerId} .demo-button:hover {
+                background: #115f3a !important;
+            }
+            
+            /* 입력 영역 */
+            #${config.containerId} .input-section {
+                padding: 16px !important;
+                border-top: 1px solid #e9ecef !important;
+                background: white !important;
+            }
+            
+            #${config.containerId} .input-wrapper {
+                display: flex !important;
+                align-items: flex-end !important;
+                gap: 8px !important;
+            }
+            
+            #${config.containerId} #prompt-input {
+                flex: 1 !important;
+                border: 1px solid #e9ecef !important;
+                border-radius: 12px !important;
+                padding: 12px 16px !important;
+                font-size: 14px !important;
+                line-height: 1.4 !important;
+                resize: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                background: white !important;
+                color: #333 !important;
+            }
+            
+            #${config.containerId} .send-button {
+                width: 40px !important;
+                height: 40px !important;
+                background: #137546 !important;
+                border: none !important;
+                border-radius: 50% !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+            }
+            
+            #${config.containerId} .send-button svg {
+                width: 18px !important;
+                height: 18px !important;
+                fill: currentColor !important;
             }
         `;
         
