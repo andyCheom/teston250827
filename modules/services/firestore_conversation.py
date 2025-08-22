@@ -167,20 +167,44 @@ class FirestoreConversationService:
     async def update_session_quality(self, session_id: str, message_index: int, quality_score: float, feedback: str = "") -> bool:
         """특정 메시지의 품질 점수 업데이트"""
         if not self.db:
+            logger.error("Firestore 데이터베이스가 초기화되지 않음")
             return False
         
         try:
+            logger.info(f"품질 업데이트 시작 - 세션: {session_id}, 인덱스: {message_index}")
+            
             session_ref = self.db.collection('conversations').document(session_id)
             session_doc = session_ref.get()
             
             if not session_doc.exists:
                 logger.warning(f"⚠️ 세션을 찾을 수 없음 - 세션: {session_id}")
-                return False
                 
-            session_data = session_doc.to_dict()
+                # 대체 검색: conversations 컬렉션에서 세션 찾기
+                conversations = self.db.collection('conversations').where('session_id', '==', session_id).limit(1).stream()
+                found_doc = None
+                for doc in conversations:
+                    found_doc = doc
+                    break
+                
+                if found_doc:
+                    logger.info(f"대체 검색으로 세션 발견: {found_doc.id}")
+                    session_ref = found_doc.reference
+                    session_data = found_doc.to_dict()
+                else:
+                    logger.error(f"❌ 세션 완전히 찾을 수 없음 - 세션: {session_id}")
+                    return False
+            else:
+                session_data = session_doc.to_dict()
+                logger.info(f"세션 데이터 조회 성공 - 메시지 개수: {len(session_data.get('messages', []))}")
+                
             messages = session_data.get('messages', [])
+            logger.info(f"메시지 배열 크기: {len(messages)}, 요청 인덱스: {message_index}")
             
             if 0 <= message_index < len(messages):
+                # 현재 메시지 확인
+                current_message = messages[message_index]
+                logger.info(f"업데이트할 메시지: {current_message.get('role', 'unknown')}")
+                
                 # 메시지 품질 정보 업데이트
                 messages[message_index]['quality_metrics'] = {
                     'user_rating': quality_score,
@@ -197,11 +221,13 @@ class FirestoreConversationService:
                 logger.info(f"✅ 품질 점수 업데이트 성공 - 세션: {session_id}, 메시지: {message_index}, 점수: {quality_score}")
                 return True
             else:
-                logger.warning(f"⚠️ 품질 점수 업데이트 실패 - 유효하지 않은 메시지 인덱스: {message_index}")
+                logger.warning(f"⚠️ 품질 점수 업데이트 실패 - 유효하지 않은 메시지 인덱스: {message_index}, 총 메시지 수: {len(messages)}")
                 return False
             
         except Exception as e:
             logger.error(f"❌ 품질 점수 업데이트 실패 - 세션: {session_id}, 오류: {e}")
+            import traceback
+            logger.error(f"상세 오류: {traceback.format_exc()}")
             return False
     
     async def get_analytics_data(self, days: int = 30) -> Dict[str, Any]:

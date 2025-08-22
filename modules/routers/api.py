@@ -538,6 +538,31 @@ async def update_message_quality(
 ):
     """메시지 품질 평가 업데이트 엔드포인트"""
     try:
+        # 입력 데이터 로깅
+        logger.info(f"품질 평가 요청 - 세션: {session_id}, 인덱스: {message_index}, 평점: {rating}, 피드백: {feedback}")
+        
+        # 데이터 유효성 검사
+        if not session_id or not session_id.strip():
+            logger.warning("세션 ID가 비어있음")
+            return JSONResponse({
+                "success": False,
+                "message": "세션 ID가 유효하지 않습니다."
+            }, status_code=400)
+        
+        if message_index < 0:
+            logger.warning(f"메시지 인덱스가 유효하지 않음: {message_index}")
+            return JSONResponse({
+                "success": False,
+                "message": "메시지 인덱스가 유효하지 않습니다."
+            }, status_code=400)
+        
+        if not (0.0 <= rating <= 5.0):
+            logger.warning(f"평점이 유효하지 않음: {rating}")
+            return JSONResponse({
+                "success": False,
+                "message": "평점은 0.0에서 5.0 사이여야 합니다."
+            }, status_code=400)
+        
         success = await firestore_conversation.update_session_quality(
             session_id=session_id,
             message_index=message_index,
@@ -546,18 +571,20 @@ async def update_message_quality(
         )
         
         if success:
+            logger.info(f"품질 평가 저장 성공 - 세션: {session_id}")
             return JSONResponse({
                 "success": True,
                 "message": "품질 평가가 저장되었습니다."
             })
         else:
+            logger.warning(f"품질 평가 저장 실패 - 세션: {session_id}, 인덱스: {message_index}")
             return JSONResponse({
                 "success": False,
-                "message": "품질 평가 저장에 실패했습니다."
+                "message": "품질 평가 저장에 실패했습니다. 세션이나 메시지를 찾을 수 없습니다."
             }, status_code=400)
             
     except Exception as e:
-        logger.exception(f"품질 평가 업데이트 중 오류: {e}")
+        logger.exception(f"품질 평가 업데이트 중 예외 - 세션: {session_id}, 오류: {e}")
         return JSONResponse({
             "success": False,
             "message": "품질 평가 처리 중 오류가 발생했습니다.",

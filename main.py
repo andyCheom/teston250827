@@ -125,6 +125,8 @@ async def serve_widget_style_css():
 
 
 
+
+
 @app.get("/widget-example")
 async def serve_widget_example():
     """위젯 임베드 예제 페이지"""
