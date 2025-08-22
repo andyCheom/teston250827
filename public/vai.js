@@ -12,6 +12,8 @@ function initializeChat() {
   let messageQueue = [];
   let messageCounter = 0;
   
+
+  
   // Demo form elements
   const demoRequestBtn = document.getElementById("demo-request-btn");
   const demoFormContainer = document.getElementById("demo-form-container");
