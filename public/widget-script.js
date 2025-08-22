@@ -6,10 +6,17 @@ class ChatbotWidget {
         this.conversationHistory = [];
         this.currentSessionId = this.getOrCreateSessionId();
         
-        // API 기본 URL 설정 (외부 사이트에서 사용할 때 필요)
-        this.apiBaseUrl = config.apiBaseUrl || window.GraphRAGWidgetConfig?.baseUrl || '';
+        // API 기본 URL 설정 (자동 감지)
+        this.apiBaseUrl = config.apiBaseUrl || 
+                         window.GraphRAGWidgetConfig?.baseUrl || 
+                         this.getCurrentDomainUrl();
         
         this.init();
+    }
+
+    getCurrentDomainUrl() {
+        // 현재 페이지의 도메인 URL 반환 (Cloud Run에서 직접 실행할 때 사용)
+        return `${window.location.protocol}//${window.location.host}`;
     }
 
     init() {
@@ -25,20 +32,28 @@ class ChatbotWidget {
         this.showNotificationBadge();
         
         console.log('챗봇 위젯 초기화 완료');
+        console.log('API Base URL:', this.apiBaseUrl);
+        console.log('주요 엘리먼트 확인:', {
+            toggle: !!this.toggle,
+            widget: !!this.widget,
+            promptForm: !!this.promptForm,
+            promptInput: !!this.promptInput,
+            submitButton: !!this.submitButton
+        });
     }
 
     setupElements() {
         this.toggle = document.getElementById('chatbot-toggle');
         this.widget = document.getElementById('chatbot-widget');
-        this.chatContainer = document.getElementById('widget-chat-container');
-        this.promptForm = document.getElementById('widget-prompt-form');
-        this.promptInput = document.getElementById('widget-prompt-input');
-        this.submitButton = document.getElementById('widget-submit-button');
+        this.chatContainer = document.getElementById('chat-container');
+        this.promptForm = document.getElementById('prompt-form');
+        this.promptInput = document.getElementById('prompt-input');
+        this.submitButton = document.getElementById('submit-button');
         this.closeBtn = document.getElementById('close-widget');
         this.notificationBadge = document.getElementById('notification-badge');
         
         // 데모 폼 요소들
-        this.demoRequestBtn = document.getElementById('widget-demo-request-btn');
+        this.demoRequestBtn = document.getElementById('demo-request-btn');
         this.demoFormContainer = document.getElementById('demo-form-container');
         this.demoForm = document.getElementById('demo-form');
         this.demoFormClose = document.getElementById('demo-form-close');
