@@ -1,10 +1,13 @@
 // 위젯 초기화 및 이벤트 핸들러
 class ChatbotWidget {
-    constructor() {
+    constructor(config = {}) {
         this.isOpen = false;
         this.messageCounter = 0;
         this.conversationHistory = [];
         this.currentSessionId = this.getOrCreateSessionId();
+        
+        // API 기본 URL 설정 (외부 사이트에서 사용할 때 필요)
+        this.apiBaseUrl = config.apiBaseUrl || window.GraphRAGWidgetConfig?.baseUrl || '';
         
         this.init();
     }
@@ -212,7 +215,7 @@ class ChatbotWidget {
 
         try {
             // API 호출
-            const response = await fetch('/api/generate', {
+            const response = await fetch(`${this.apiBaseUrl}/api/generate`, {
                 method: 'POST',
                 body: formData,
             });
@@ -642,7 +645,7 @@ class ChatbotWidget {
         formData.append('rating', rating);
         formData.append('feedback', feedback);
         
-        const response = await fetch('/api/update-message-quality', {
+        const response = await fetch(`${this.apiBaseUrl}/api/update-message-quality`, {
             method: 'POST',
             body: formData
         });
@@ -723,7 +726,7 @@ class ChatbotWidget {
         try {
             console.log('데모 신청 전송 중...');
             
-            const response = await fetch('/api/request-demo', {
+            const response = await fetch(`${this.apiBaseUrl}/api/request-demo`, {
                 method: 'POST',
                 body: formData,
             });
@@ -804,7 +807,7 @@ ${result.message}
             
             this.displayModelMessage('상담사 연결 요청을 처리하고 있습니다... 🔄');
             
-            const response = await fetch('/api/request-consultant', {
+            const response = await fetch(`${this.apiBaseUrl}/api/request-consultant`, {
                 method: 'POST',
                 body: formData,
             });
@@ -889,22 +892,38 @@ ${result.message}
 }
 
 // DOM 로드 후 위젯 초기화
-document.addEventListener('DOMContentLoaded', () => {
+// 위젯 초기화 함수
+function initChatbotWidget(config = {}) {
     // 위젯 요소가 존재할 때만 초기화
     if (document.getElementById('chatbot-toggle') && document.getElementById('chatbot-widget')) {
-        window.chatbotWidget = new ChatbotWidget();
+        window.chatbotWidget = new ChatbotWidget(config);
+        return window.chatbotWidget;
     }
+    return null;
+}
+
+// 외부에서 사용할 수 있는 전역 함수
+window.initGraphRAGChatWidget = initChatbotWidget;
+
+// 자동 초기화 (기존 동작 유지)
+document.addEventListener('DOMContentLoaded', () => {
+    initChatbotWidget();
 });
 
 // 추가 안전장치
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        if (!window.chatbotWidget && document.getElementById('chatbot-toggle') && document.getElementById('chatbot-widget')) {
-            window.chatbotWidget = new ChatbotWidget();
+        if (!window.chatbotWidget) {
+            initChatbotWidget();
         }
     });
 } else {
-    if (!window.chatbotWidget && document.getElementById('chatbot-toggle') && document.getElementById('chatbot-widget')) {
-        window.chatbotWidget = new ChatbotWidget();
+    if (!window.chatbotWidget) {
+        // 지연 실행으로 외부 로더가 설정할 시간 제공
+        setTimeout(() => {
+            if (!window.chatbotWidget) {
+                initChatbotWidget();
+            }
+        }, 100);
     }
 }

@@ -27,12 +27,15 @@ app = FastAPI(
 )
 
 # CORS 설정 추가
+import os
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 개발 환경에서는 모든 origin 허용
+    allow_origins=allowed_origins,  # 환경변수로 제어 가능
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
 )
 
 # 인증 초기화 (백그라운드에서 진행 - 헬스 체크 블로킹 방지)
@@ -71,6 +74,52 @@ app.include_router(discovery_router)
 # 환경변수로 정적 파일 서빙 제어
 import os
 SERVE_STATIC = os.getenv("SERVE_STATIC", "true").lower() == "true"
+
+# 위젯 전용 엔드포인트 (항상 활성화)
+@app.get("/widget.js")
+async def serve_widget_script():
+    """임베드 가능한 위젯 스크립트 제공"""
+    response = FileResponse("public/widget-embed.js", media_type="application/javascript")
+    response.headers["Cache-Control"] = "public, max-age=3600"  # 1시간 캐시
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@app.get("/widget.html")
+async def serve_widget_html():
+    """위젯 HTML 파일 제공"""
+    response = FileResponse("public/widget.html", media_type="text/html")
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@app.get("/widget-script.js")
+async def serve_widget_script_js():
+    """위젯 JavaScript 파일 제공"""
+    response = FileResponse("public/widget-script.js", media_type="application/javascript")
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@app.get("/enhanced-chat.js")
+async def serve_enhanced_chat_js():
+    """Enhanced Chat JavaScript 파일 제공"""
+    response = FileResponse("public/enhanced-chat.js", media_type="application/javascript")
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@app.get("/widget-style.css")
+async def serve_widget_style_css():
+    """위젯 CSS 파일 제공"""
+    response = FileResponse("public/widget-style.css", media_type="text/css")
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@app.get("/widget-example")
+async def serve_widget_example():
+    """위젯 임베드 예제 페이지"""
+    return FileResponse("public/embed-example.html")
 
 if SERVE_STATIC:
     # 로컬 개발환경: 정적 파일 서빙

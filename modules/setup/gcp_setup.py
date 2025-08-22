@@ -766,26 +766,62 @@ class GCPSetupManager:
                 body=database_config
             ).execute()
             
-            logger.info(f"🔄 Firestore 데이터베이스 생성 중... (Operation: {operation.get('name')})")
+            operation_name = operation.get('name')
+            logger.info(f"🔄 Firestore 데이터베이스 생성 중... (Operation: {operation_name})")
             
-            # 생성 완료 대기 (최대 15분)
-            for i in range(180):
+            # ✅ Operation 상태 확인 (올바른 방식)
+            for i in range(60):  # 최대 5분
                 time.sleep(5)
                 try:
-                    database_name = f"projects/{self.project_id}/databases/(default)"
-                    database = firestore_admin.projects().databases().get(name=database_name).execute()
+                    # Operation 상태 확인
+                    op_result = firestore_admin.projects().databases().operations().get(
+                        name=operation_name
+                    ).execute()
                     
-                    if database.get('state') == 'ACTIVE':
-                        logger.info("✅ Firestore 데이터베이스 생성 완료")
-                        return True
+                    # Operation 완료 확인
+                    if op_result.get('done'):
+                        if 'error' in op_result:
+                            error = op_result['error']
+                            error_msg = error.get('message', '알 수 없는 오류')
+                            logger.error(f"❌ Firestore 데이터베이스 생성 실패: {error_msg}")
+                            logger.error(f"   에러 코드: {error.get('code')}")
+                            
+                            # App Engine 관련 에러인지 확인
+                            if "app does not exist" in error_msg.lower() or "enable the app engine admin api" in error_msg.lower():
+                                logger.info("💡 App Engine 애플리케이션 생성을 시도합니다...")
+                                return self._create_app_engine_application(location_id)
+                            
+                            return False
+                        else:
+                            # 성공 시 최종 데이터베이스 상태 확인
+                            database_name = f"projects/{self.project_id}/databases/(default)"
+                            database = firestore_admin.projects().databases().get(name=database_name).execute()
+                            
+                            if database.get('state') == 'ACTIVE':
+                                logger.info("✅ Firestore 데이터베이스 생성 완료")
+                                return True
+                            else:
+                                logger.warning(f"⚠️ Operation 완료되었지만 데이터베이스 상태가 예상과 다름: {database.get('state')}")
+                                return False
+                    
+                    # Operation 진행 중인 경우 로그
+                    if i % 12 == 0:  # 1분마다
+                        logger.info(f"🔄 Firestore 데이터베이스 생성 대기 중... ({i//12 + 1}/5분)")
                         
-                except Exception:
-                    pass
-                
-                if i % 12 == 0:  # 1분마다 로그
-                    logger.info(f"🔄 Firestore 데이터베이스 생성 대기 중... ({i//12 + 1}/15분)")
+                except Exception as e:
+                    logger.error(f"❌ Operation 상태 확인 실패: {e}")
+                    # Operation 상태 확인 실패 시 fallback으로 데이터베이스 직접 확인
+                    try:
+                        database_name = f"projects/{self.project_id}/databases/(default)"
+                        database = firestore_admin.projects().databases().get(name=database_name).execute()
+                        if database.get('state') == 'ACTIVE':
+                            logger.info("✅ Firestore 데이터베이스 생성 완료 (직접 확인)")
+                            return True
+                    except:
+                        pass
             
-            logger.warning("⚠️ Firestore 데이터베이스 생성 시간 초과")
+            logger.error("❌ Firestore 데이터베이스 생성 시간 초과")
+            logger.info(f"💡 GCP 콘솔에서 수동 확인: https://console.firebase.google.com/project/{self.project_id}/firestore")
             return False
             
         except Exception as e:
