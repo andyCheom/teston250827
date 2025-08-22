@@ -62,24 +62,36 @@ class ChatbotWidget {
 
     setupEventListeners() {
         // 토글 버튼
-        this.toggle.addEventListener('click', () => this.toggleWidget());
+        if (this.toggle) {
+            this.toggle.addEventListener('click', () => this.toggleWidget());
+        }
         
         // 위젯 컨트롤
-        this.closeBtn.addEventListener('click', () => this.closeWidget());
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => this.closeWidget());
+        }
         
         // 채팅 폼
-        this.promptForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
+        if (this.promptForm) {
+            this.promptForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
+        }
         
         // 입력 필드 자동 크기 조정
-        this.promptInput.addEventListener('input', () => this.autoResizeInput());
+        if (this.promptInput) {
+            this.promptInput.addEventListener('input', () => this.autoResizeInput());
+        }
         
         // Enter 키 처리
-        this.promptInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                this.promptForm.requestSubmit();
-            }
-        });
+        if (this.promptInput) {
+            this.promptInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (this.promptForm) {
+                        this.promptForm.requestSubmit();
+                    }
+                }
+            });
+        }
 
         // 데모 폼 이벤트
         if (this.demoRequestBtn) {
@@ -164,7 +176,9 @@ class ChatbotWidget {
         this.widget.classList.add('visible');
         this.toggle.classList.add('active');
         this.hideNotificationBadge();
-        this.promptInput.focus();
+        if (this.promptInput) {
+            this.promptInput.focus();
+        }
         this.scrollToBottom();
         
         // 위젯이 처음 열릴 때 한 번만 환영 메시지 로드
@@ -299,7 +313,9 @@ class ChatbotWidget {
             // 버튼 재활성화
             this.submitButton.disabled = false;
             this.promptInput.disabled = false;
+            if (this.promptInput) {
             this.promptInput.focus();
+        }
             this.scrollToBottom();
         }
     }

@@ -100,6 +100,7 @@ async def serve_widget_script_js():
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
+
 @app.get("/enhanced-chat.js")
 async def serve_enhanced_chat_js():
     """Enhanced Chat JavaScript 파일 제공"""
@@ -107,16 +108,6 @@ async def serve_enhanced_chat_js():
     response.headers["Cache-Control"] = "public, max-age=3600"
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
-
-
-
-
-
-
-
-
-
-
 
 
 @app.get("/widget-style.css")
