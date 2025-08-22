@@ -332,32 +332,62 @@ class ChatbotWidget {
 
     closeWidget() {
         this.isOpen = false;
-        this.widget.classList.remove('visible');
-        this.toggle.classList.remove('active');
         
-        // 강제로 위젯 숨기기 - 외부 CSS 간섭 방지
+        // 1. 클래스 제거
+        if (this.widget) {
+            this.widget.classList.remove('visible');
+        }
+        if (this.toggle) {
+            this.toggle.classList.remove('active');
+        }
+        
+        // 2. 강제로 위젯 완전히 숨기기 - z-index를 -1로 설정
         if (this.widget) {
             this.widget.style.cssText = `
                 position: fixed !important;
                 bottom: 200px !important;
                 right: 24px !important;
-                z-index: 2147483647 !important;
+                z-index: -1 !important;
                 display: none !important;
                 visibility: hidden !important;
                 opacity: 0 !important;
-                transform: translateY(20px) scale(0.95) !important;
+                transform: translateY(100px) scale(0.8) !important;
                 pointer-events: none !important;
+                width: 0 !important;
+                height: 0 !important;
             `;
         }
         
-        // 추가 안전장치 - 모든 방법으로 숨기기
+        // 3. 모든 위젯 요소 완전히 제거
         const widgetElements = document.querySelectorAll('#chatbot-widget, .chatbot-widget');
         widgetElements.forEach(element => {
-            element.style.display = 'none';
-            element.style.visibility = 'hidden';
-            element.style.opacity = '0';
+            element.style.cssText = `
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                z-index: -1 !important;
+                width: 0 !important;
+                height: 0 !important;
+                pointer-events: none !important;
+                position: fixed !important;
+                top: -9999px !important;
+                left: -9999px !important;
+            `;
             element.classList.remove('visible');
+            element.setAttribute('aria-hidden', 'true');
         });
+        
+        // 4. 0.3초 후 추가 확인
+        setTimeout(() => {
+            const stillVisible = document.querySelectorAll('#chatbot-widget, .chatbot-widget');
+            stillVisible.forEach(element => {
+                if (element.style.display !== 'none') {
+                    element.style.display = 'none';
+                    element.style.visibility = 'hidden';
+                    element.style.zIndex = '-1';
+                }
+            });
+        }, 300);
         
         console.log('위젯 닫기 완료');
         

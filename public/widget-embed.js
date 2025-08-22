@@ -456,26 +456,39 @@
             }
         },
         forceClose: function() {
-            // 모든 가능한 위젯 요소를 찾아서 닫기
+            // 모든 가능한 위젯 요소를 찾아서 완전히 제거
             const widgets = document.querySelectorAll(`#${config.containerId} #chatbot-widget, #${config.containerId} .chatbot-widget, #chatbot-widget, .chatbot-widget`);
             widgets.forEach(widget => {
                 widget.style.cssText = `
-                    position: fixed !important;
-                    bottom: 200px !important;
-                    right: 24px !important;
-                    z-index: 2147483647 !important;
                     display: none !important;
                     visibility: hidden !important;
                     opacity: 0 !important;
+                    z-index: -1 !important;
+                    width: 0 !important;
+                    height: 0 !important;
                     pointer-events: none !important;
+                    position: fixed !important;
+                    top: -9999px !important;
+                    left: -9999px !important;
                 `;
                 widget.classList.remove('visible');
+                widget.setAttribute('aria-hidden', 'true');
             });
             
             // ChatbotWidget 인스턴스를 통한 닫기도 시도
             if (window.chatbotWidgetInstance && typeof window.chatbotWidgetInstance.closeWidget === 'function') {
                 window.chatbotWidgetInstance.closeWidget();
             }
+            
+            // 추가 확인 - 모든 visible 클래스 제거
+            setTimeout(() => {
+                const allVisibleWidgets = document.querySelectorAll('.chatbot-widget.visible, #chatbot-widget.visible');
+                allVisibleWidgets.forEach(widget => {
+                    widget.classList.remove('visible');
+                    widget.style.display = 'none';
+                    widget.style.zIndex = '-1';
+                });
+            }, 100);
             
             console.log('강제로 위젯 닫기 완료');
         },
