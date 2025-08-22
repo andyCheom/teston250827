@@ -455,6 +455,30 @@
                 console.log('강제로 위젯 열기 완료');
             }
         },
+        forceClose: function() {
+            // 모든 가능한 위젯 요소를 찾아서 닫기
+            const widgets = document.querySelectorAll(`#${config.containerId} #chatbot-widget, #${config.containerId} .chatbot-widget, #chatbot-widget, .chatbot-widget`);
+            widgets.forEach(widget => {
+                widget.style.cssText = `
+                    position: fixed !important;
+                    bottom: 200px !important;
+                    right: 24px !important;
+                    z-index: 2147483647 !important;
+                    display: none !important;
+                    visibility: hidden !important;
+                    opacity: 0 !important;
+                    pointer-events: none !important;
+                `;
+                widget.classList.remove('visible');
+            });
+            
+            // ChatbotWidget 인스턴스를 통한 닫기도 시도
+            if (window.chatbotWidgetInstance && typeof window.chatbotWidgetInstance.closeWidget === 'function') {
+                window.chatbotWidgetInstance.closeWidget();
+            }
+            
+            console.log('강제로 위젯 닫기 완료');
+        },
         remove: function() {
             const container = document.getElementById(config.containerId);
             if (container) {

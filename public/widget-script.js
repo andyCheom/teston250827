@@ -336,18 +336,33 @@ class ChatbotWidget {
         this.toggle.classList.remove('active');
         
         // 강제로 위젯 숨기기 - 외부 CSS 간섭 방지
-        this.widget.style.cssText = `
-            position: fixed !important;
-            bottom: 200px !important;
-            right: 24px !important;
-            z-index: 2147483647 !important;
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            transform: translateY(20px) scale(0.95) !important;
-        `;
+        if (this.widget) {
+            this.widget.style.cssText = `
+                position: fixed !important;
+                bottom: 200px !important;
+                right: 24px !important;
+                z-index: 2147483647 !important;
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                transform: translateY(20px) scale(0.95) !important;
+                pointer-events: none !important;
+            `;
+        }
+        
+        // 추가 안전장치 - 모든 방법으로 숨기기
+        const widgetElements = document.querySelectorAll('#chatbot-widget, .chatbot-widget');
+        widgetElements.forEach(element => {
+            element.style.display = 'none';
+            element.style.visibility = 'hidden';
+            element.style.opacity = '0';
+            element.classList.remove('visible');
+        });
         
         console.log('위젯 닫기 완료');
+        
+        // 알림 배지 표시
+        this.showNotificationBadge();
     }
 
     // 알림 배지
@@ -1108,7 +1123,9 @@ ${result.message}
 function initChatbotWidget(config = {}) {
     // 위젯 요소가 존재할 때만 초기화
     if (document.getElementById('chatbot-toggle') && document.getElementById('chatbot-widget')) {
-        window.chatbotWidget = new ChatbotWidget(config);
+        const widgetInstance = new ChatbotWidget(config);
+        window.chatbotWidget = widgetInstance;
+        window.chatbotWidgetInstance = widgetInstance; // 외부 접근용
         return window.chatbotWidget;
     }
     return null;

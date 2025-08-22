@@ -185,13 +185,13 @@ class FirestoreConversationService:
                 messages[message_index]['quality_metrics'] = {
                     'user_rating': quality_score,
                     'feedback': feedback,
-                    'rated_at': datetime.now(timezone.utc)
+                    'rated_at': firestore.SERVER_TIMESTAMP
                 }
                 
                 # 문서 업데이트
                 session_ref.update({
                     'messages': messages,
-                    'updated_at': datetime.now(timezone.utc)
+                    'updated_at': firestore.SERVER_TIMESTAMP
                 })
                 
                 logger.info(f"✅ 품질 점수 업데이트 성공 - 세션: {session_id}, 메시지: {message_index}, 점수: {quality_score}")
