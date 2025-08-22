@@ -5,6 +5,7 @@ class ChatbotWidget {
         this.messageCounter = 0;
         this.conversationHistory = [];
         this.currentSessionId = this.getOrCreateSessionId();
+        this.isToggling = false; // 디바운싱을 위한 플래그
         
         // API 기본 URL 설정 (외부 사이트에서 사용시 명시적 Cloud Run URL 사용)
         this.apiBaseUrl = config.apiBaseUrl || 
@@ -71,21 +72,17 @@ class ChatbotWidget {
     }
 
     setupEventListeners() {
-        // 토글 버튼 - 안전한 이벤트 바인딩
+        // 토글 버튼 - 단일 이벤트만 사용
         if (this.toggle) {
-            // 기본 클릭 이벤트
+            // 기존 이벤트 핸들러 제거 (중복 방지)
+            this.toggle.onclick = null;
+            
+            // addEventListener만 사용
             this.toggle.addEventListener('click', (e) => {
                 e.stopPropagation();
                 console.log('토글 버튼 클릭됨');
                 this.toggleWidget();
             });
-            
-            // 외부 사이트 호환성을 위한 백업 이벤트
-            this.toggle.onclick = (e) => {
-                e.stopPropagation();
-                console.log('토글 버튼 onclick 이벤트');
-                this.toggleWidget();
-            };
             
             console.log('토글 버튼 이벤트 리스너 설정 완료');
         } else {
@@ -236,8 +233,15 @@ class ChatbotWidget {
         this.showNotification('새 대화가 시작되었습니다', 'info');
     }
 
-    // 위젯 제어
+    // 위젯 제어 (디바운싱 적용)
     toggleWidget() {
+        // 이미 토글 중이면 무시
+        if (this.isToggling) {
+            console.log('토글 중이므로 무시됨');
+            return;
+        }
+        
+        this.isToggling = true;
         console.log('toggleWidget 호출됨, 현재 상태:', this.isOpen);
         console.log('위젯 요소:', this.widget);
         
@@ -248,6 +252,11 @@ class ChatbotWidget {
             console.log('위젯 열기 시도');
             this.openWidget();
         }
+        
+        // 300ms 후 토글 가능하도록 설정
+        setTimeout(() => {
+            this.isToggling = false;
+        }, 300);
     }
 
     openWidget() {
