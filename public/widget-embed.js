@@ -5,9 +5,27 @@
 (function() {
     'use strict';
     
+    // 동적 baseUrl 감지 함수
+    function getBaseUrl() {
+        // 1. 현재 스크립트의 src에서 도메인 추출
+        const currentScript = document.currentScript;
+        if (currentScript && currentScript.src) {
+            const url = new URL(currentScript.src);
+            return `${url.protocol}//${url.host}`;
+        }
+        
+        // 2. 사용자 설정 확인
+        if (window.GraphRAGWidgetConfig && window.GraphRAGWidgetConfig.baseUrl) {
+            return window.GraphRAGWidgetConfig.baseUrl;
+        }
+        
+        // 3. fallback URL (현재 배포된 URL)
+        return 'https://widgettest-469800-graphrag-api-1056095201787.asia-northeast3.run.app';
+    }
+    
     // 설정
     const WIDGET_CONFIG = {
-        baseUrl: 'https://sampleprojects-468223-graphrag-api-4n6zl3mafq-du.a.run.app',
+        baseUrl: getBaseUrl(),
         containerId: 'graphrag-widget-container',
         version: '1.0.0'
     };

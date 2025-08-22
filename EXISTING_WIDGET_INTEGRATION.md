@@ -18,7 +18,7 @@
 
 ```html
 <!-- 이 한 줄만 추가하면 끝! -->
-<script src="https://sampleprojects-468223-graphrag-api-4n6zl3mafq-du.a.run.app/widget.js"></script>
+<script src="https://widgettest-469800-graphrag-api-1056095201787.asia-northeast3.run.app/widget.js"></script>
 ```
 
 ### 방법 2: 사용자 정의 설정과 함께
@@ -27,11 +27,11 @@
 <script>
 // 위젯 설정 (스크립트 로드 전에 정의)
 window.GraphRAGWidgetConfig = {
-    baseUrl: 'https://sampleprojects-468223-graphrag-api-4n6zl3mafq-du.a.run.app',
+    baseUrl: 'https://widgettest-469800-graphrag-api-1056095201787.asia-northeast3.run.app',
     // 기타 사용자 정의 설정...
 };
 </script>
-<script src="https://sampleprojects-468223-graphrag-api-4n6zl3mafq-du.a.run.app/widget.js"></script>
+<script src="https://widgettest-469800-graphrag-api-1056095201787.asia-northeast3.run.app/widget.js"></script>
 ```
 
 ### 방법 3: 프로그래밍 방식 제어
