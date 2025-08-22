@@ -1,0 +1,24 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 대화 컬렉션 - 세션 ID 기반 접근
+    match /conversations/{sessionId} {
+      allow read, write: if true; // 임시로 모든 접근 허용 (개발용)
+      
+      match /messages/{messageId} {
+        allow read, write: if true; // 임시로 모든 접근 허용 (개발용)
+      }
+    }
+    
+    // 데모 신청 컬렉션
+    match /demo_requests/{documentId} {
+      allow create: if true; // 누구나 데모 신청 가능
+      allow read, update, delete: if false; // 관리자만 가능
+    }
+    
+    // 기타 모든 문서는 접근 거부
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

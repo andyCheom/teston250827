@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>위젯 테스트 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .content {
+            line-height: 1.6;
+            color: #666;
+            margin: 20px 0;
+        }
+        .test-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 GraphRAG 위젯 테스트 페이지</h1>
+        
+        <div class="content">
+            <p>이 페이지는 GraphRAG 위젯을 외부 웹사이트에서 테스트하기 위한 페이지입니다.</p>
+            <p>위젯이 정상적으로 로드되면 우측 하단에 채팅 버튼이 나타납니다.</p>
+        </div>
+
+        <div class="test-section">
+            <h3>테스트 기능</h3>
+            <button class="button" onclick="testWidget()">위젯 상태 확인</button>
+            <button class="button" onclick="reloadWidget()">위젯 다시 로드</button>
+            <button class="button" onclick="removeWidget()">위젯 제거</button>
+        </div>
+
+        <div class="content">
+            <h3>로딩 상태</h3>
+            <div id="status">위젯 로딩 중...</div>
+        </div>
+
+        <!-- 테스트용 더미 콘텐츠 -->
+        <div class="content">
+            <h3>더미 콘텐츠</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </div>
+    </div>
+
+    <!-- 위젯 설정 -->
+    <script>
+        // 위젯 설정
+        window.GraphRAGWidgetConfig = {
+            baseUrl: 'https://sampleprojects-468223-graphrag-api-975882305117.asia-northeast3.run.app'
+        };
+
+        // 위젯 로드 완료 콜백
+        window.onGraphRAGWidgetLoaded = function() {
+            document.getElementById('status').innerHTML = '✅ 위젯 로드 완료!';
+            console.log('위젯이 성공적으로 로드되었습니다.');
+        };
+
+        // 위젯 오류 처리
+        window.addEventListener('graphrag:widget:error', function(event) {
+            document.getElementById('status').innerHTML = '❌ 위젯 로드 실패: ' + event.detail.error;
+            console.error('위젯 로드 실패:', event.detail.error);
+        });
+
+        // 테스트 함수들
+        function testWidget() {
+            if (window.GraphRAGWidget) {
+                alert('위젯이 정상적으로 로드되어 있습니다!\n버전: ' + window.GraphRAGWidget.version);
+            } else {
+                alert('위젯이 로드되지 않았습니다.');
+            }
+        }
+
+        function reloadWidget() {
+            if (window.GraphRAGWidget) {
+                window.GraphRAGWidget.reload();
+                document.getElementById('status').innerHTML = '🔄 위젯 다시 로딩 중...';
+            } else {
+                location.reload();
+            }
+        }
+
+        function removeWidget() {
+            if (window.GraphRAGWidget) {
+                window.GraphRAGWidget.remove();
+                document.getElementById('status').innerHTML = '🗑️ 위젯 제거됨';
+            }
+        }
+    </script>
+
+    <!-- GraphRAG 위젯 로드 -->
+    <script src="https://sampleprojects-468223-graphrag-api-975882305117.asia-northeast3.run.app/widget.js"></script>
+</body>
+</html>

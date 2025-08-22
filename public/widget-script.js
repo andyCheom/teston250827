@@ -670,11 +670,29 @@ class ChatbotWidget {
     }
 
     async sendMessageFeedback(messageIndex, rating, feedback) {
+        // 데이터 타입 검증 및 변환
+        const sessionId = String(this.currentSessionId || '');
+        const msgIndex = parseInt(messageIndex, 10);
+        const userRating = parseFloat(rating);
+        const feedbackText = String(feedback || '');
+        
+        console.log('피드백 전송 데이터:', {
+            session_id: sessionId,
+            message_index: msgIndex,
+            rating: userRating,
+            feedback: feedbackText
+        });
+        
+        // 필수 데이터 검증
+        if (!sessionId || isNaN(msgIndex) || isNaN(userRating)) {
+            throw new Error('피드백 데이터가 유효하지 않습니다');
+        }
+        
         const formData = new FormData();
-        formData.append('session_id', this.currentSessionId);
-        formData.append('message_index', messageIndex);
-        formData.append('rating', rating);
-        formData.append('feedback', feedback);
+        formData.append('session_id', sessionId);
+        formData.append('message_index', msgIndex.toString());
+        formData.append('rating', userRating.toString());
+        formData.append('feedback', feedbackText);
         
         const response = await fetch(`${this.apiBaseUrl}/api/update-message-quality`, {
             method: 'POST',
@@ -682,8 +700,14 @@ class ChatbotWidget {
         });
         
         if (!response.ok) {
-            throw new Error('피드백 전송 실패');
+            const errorText = await response.text();
+            console.error('피드백 API 응답:', response.status, errorText);
+            throw new Error(`피드백 전송 실패: ${response.status} - ${errorText}`);
         }
+        
+        const result = await response.json();
+        console.log('피드백 전송 성공:', result);
+        return result;
     }
 
     // 알림 표시

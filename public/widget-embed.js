@@ -199,10 +199,37 @@
             }
             
             /* 외부 사이트 CSS 리셋 */
-            #${config.containerId} .chatbot-toggle,
+            #${config.containerId} .chatbot-toggle {
+                all: unset !important;
+                position: fixed !important;
+                bottom: 120px !important;
+                right: 24px !important;
+                width: 60px !important;
+                height: 60px !important;
+                background: linear-gradient(135deg, #137546 0%, #115f3a 100%) !important;
+                border-radius: 50% !important;
+                cursor: pointer !important;
+                z-index: 2147483647 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                visibility: visible !important;
+                box-shadow: 0 8px 25px rgba(19, 117, 70, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            }
+            
             #${config.containerId} .chatbot-widget {
                 all: unset !important;
-                display: block !important;
+                position: fixed !important;
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 400px !important;
+                height: 600px !important;
+                background: #ffffff !important;
+                border-radius: 16px !important;
+                z-index: 2147483646 !important;
+                display: none !important;
+                flex-direction: column !important;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1) !important;
             }
         `;
         
