@@ -252,16 +252,32 @@
             #${config.containerId} .chatbot-widget {
                 all: unset !important;
                 position: fixed !important;
-                bottom: 20px !important;
-                right: 20px !important;
-                width: 400px !important;
+                bottom: 200px !important;
+                right: 24px !important;
+                width: 380px !important;
                 height: 600px !important;
                 background: #ffffff !important;
                 border-radius: 16px !important;
-                z-index: 2147483646 !important;
+                z-index: 2147483647 !important;
                 display: none !important;
                 flex-direction: column !important;
                 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                transform: translateY(20px) scale(0.95) !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                overflow: hidden !important;
+                border: 1px solid rgba(0, 0, 0, 0.05) !important;
+                pointer-events: auto !important;
+            }
+            
+            #${config.containerId} .chatbot-widget.visible {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                transform: translateY(0) scale(1) !important;
+                z-index: 2147483647 !important;
+                pointer-events: auto !important;
             }
         `;
         

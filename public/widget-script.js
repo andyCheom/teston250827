@@ -261,9 +261,30 @@ class ChatbotWidget {
         this.isOpen = true;
         
         if (this.widget) {
-            this.widget.style.display = 'flex';
+            // 강제 스타일 적용 - 무조건 최상위 표시
+            this.widget.style.cssText = `
+                position: fixed !important;
+                bottom: 200px !important;
+                right: 24px !important;
+                width: 380px !important;
+                height: 600px !important;
+                background: #ffffff !important;
+                border-radius: 16px !important;
+                z-index: 2147483647 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                transform: translateY(0) scale(1) !important;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+                overflow: hidden !important;
+                border: 1px solid rgba(0, 0, 0, 0.05) !important;
+                pointer-events: auto !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            `;
+            
             this.widget.classList.add('visible');
-            console.log('위젯 표시됨');
+            console.log('위젯 강제 표시됨');
         } else {
             console.error('위젯 요소를 찾을 수 없습니다');
         }
@@ -275,7 +296,9 @@ class ChatbotWidget {
         this.hideNotificationBadge();
         
         if (this.promptInput) {
-            this.promptInput.focus();
+            setTimeout(() => {
+                this.promptInput.focus();
+            }, 100);
         }
         
         this.scrollToBottom();

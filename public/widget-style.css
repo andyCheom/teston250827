@@ -116,29 +116,34 @@ body {
 
 /* 챗봇 위젯 컨테이너 */
 .chatbot-widget {
-    position: fixed;
-    bottom: 200px;
-    right: 24px;
-    left: auto;
-    width: 380px;
-    height: 600px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1);
-    z-index: 2147483646 !important;
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: fixed !important;
+    bottom: 200px !important;
+    right: 24px !important;
+    left: auto !important;
+    width: 380px !important;
+    height: 600px !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    z-index: 2147483647 !important;
+    display: none !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    transform: translateY(20px) scale(0.95) !important;
+    opacity: 0 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    visibility: hidden !important;
+    pointer-events: auto !important;
 }
 
 .chatbot-widget.visible {
-    display: flex;
-    transform: translateY(0) scale(1);
-    opacity: 1;
+    display: flex !important;
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
 }
 
 
