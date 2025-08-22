@@ -15,10 +15,7 @@ class ChatbotWidget {
         this.init();
     }
 
-    getCurrentDomainUrl() {
-        // 현재 페이지의 도메인 URL 반환 (Cloud Run에서 직접 실행할 때 사용)
-        return `${window.location.protocol}//${window.location.host}`;
-    }
+    // getCurrentDomainUrl 함수 제거됨 - 항상 Cloud Run URL 사용
 
     init() {
         // 위젯 요소들이 존재하는지 확인

@@ -150,15 +150,47 @@
             ]);
             console.log('✅ JavaScript 파일 로드 완료');
             
-            // 5. 위젯 초기화
-            // 잠시 대기 후 위젯 초기화 (스크립트 로드 완료 보장)
-            setTimeout(() => {
+            // 5. 위젯 초기화 - 더 안전한 방식
+            // 위젯 초기화 재시도 로직
+            let initAttempts = 0;
+            const maxAttempts = 10;
+            
+            const tryInitWidget = () => {
+                initAttempts++;
+                console.log(`위젯 초기화 시도 ${initAttempts}/${maxAttempts}`);
+                
                 if (window.initGraphRAGChatWidget) {
-                    window.initGraphRAGChatWidget({
-                        apiBaseUrl: config.baseUrl
-                    });
+                    try {
+                        window.initGraphRAGChatWidget({
+                            apiBaseUrl: config.baseUrl
+                        });
+                        console.log('✅ 위젯 초기화 성공');
+                        return true;
+                    } catch (error) {
+                        console.error('위젯 초기화 실패:', error);
+                    }
+                } else if (window.ChatbotWidget) {
+                    try {
+                        // 직접 위젯 클래스 인스턴스화
+                        new window.ChatbotWidget({
+                            apiBaseUrl: config.baseUrl
+                        });
+                        console.log('✅ 위젯 직접 초기화 성공');
+                        return true;
+                    } catch (error) {
+                        console.error('위젯 직접 초기화 실패:', error);
+                    }
                 }
-            }, 500);
+                
+                // 재시도
+                if (initAttempts < maxAttempts) {
+                    setTimeout(tryInitWidget, 200);
+                } else {
+                    console.error('❌ 위젯 초기화 최대 재시도 초과');
+                }
+            };
+            
+            setTimeout(tryInitWidget, 100);
             
             console.log('🎉 GraphRAG 위젯 로드 완료!');
             
@@ -255,6 +287,24 @@
         version: config.version,
         config: config,
         reload: loadWidget,
+        debug: function() {
+            console.log('🔍 GraphRAG 위젯 디버깅 정보');
+            console.log('컨테이너:', document.getElementById(config.containerId));
+            console.log('토글 버튼:', document.querySelector(`#${config.containerId} #chatbot-toggle`));
+            console.log('채팅창:', document.querySelector(`#${config.containerId} #chatbot-widget`));
+            console.log('초기화 함수:', window.initGraphRAGChatWidget);
+            console.log('위젯 클래스:', window.ChatbotWidget);
+            console.log('설정:', config);
+        },
+        forceOpen: function() {
+            const widget = document.querySelector(`#${config.containerId} #chatbot-widget`);
+            if (widget) {
+                widget.style.display = 'flex';
+                widget.style.visibility = 'visible';
+                widget.style.opacity = '1';
+                console.log('강제로 위젯 열기 완료');
+            }
+        },
         remove: function() {
             const container = document.getElementById(config.containerId);
             if (container) {
