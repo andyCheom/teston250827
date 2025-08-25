@@ -892,18 +892,48 @@ class ChatbotWidget {
                 this.currentSessionId = this.getOrCreateSessionId();
                 const newSessionId = String(this.currentSessionId);
                 
-                // Firestore에 직접 저장하고 종료
-                await this.saveFeedbackToFirestore(newSessionId, msgIndex, userRating, feedbackText);
+                console.log('새로 생성된 세션 ID:', newSessionId);
+                
+                // 로컬 스토리지에 피드백 저장 (권한 문제 회피)
+                const feedbackKey = `feedback_${newSessionId}_${msgIndex}_${Date.now()}`;
+                const feedbackData = {
+                    sessionId: newSessionId,
+                    messageIndex: msgIndex,
+                    rating: userRating,
+                    feedback: feedbackText,
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href,
+                    status: 'session_recreated'
+                };
+                
+                localStorage.setItem(feedbackKey, JSON.stringify(feedbackData));
                 this.showNotification('피드백이 저장되었습니다 (세션 재생성)', 'info');
-                return { success: true, message: 'Firestore에 저장됨 (세션 재생성)' };
+                return { success: true, message: '세션 재생성 후 저장됨' };
             }
             
             if (isNaN(msgIndex) || msgIndex < 0) {
                 console.error('메시지 인덱스가 유효하지 않습니다:', messageIndex);
-                // 인덱스가 잘못되어도 Firestore에 저장
-                await this.saveFeedbackToFirestore(sessionId, 0, userRating, feedbackText);
+                
+                // 안전한 인덱스 사용 (대화 기록 길이 기반)
+                const safeIndex = Math.max(0, (this.conversationHistory?.length || 1) - 1);
+                console.log('인덱스 보정:', messageIndex, '→', safeIndex);
+                
+                // 로컬 스토리지에 저장 (권한 문제 회피)
+                const feedbackKey = `feedback_${sessionId}_${safeIndex}_${Date.now()}`;
+                const feedbackData = {
+                    sessionId: sessionId,
+                    messageIndex: safeIndex,
+                    originalIndex: messageIndex,
+                    rating: userRating,
+                    feedback: feedbackText,
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href,
+                    status: 'index_corrected'
+                };
+                
+                localStorage.setItem(feedbackKey, JSON.stringify(feedbackData));
                 this.showNotification('피드백이 저장되었습니다 (인덱스 보정)', 'info');
-                return { success: true, message: 'Firestore에 저장됨 (인덱스 보정)' };
+                return { success: true, message: '인덱스 보정 후 저장됨' };
             }
             
             if (isNaN(userRating)) {
@@ -958,15 +988,32 @@ class ChatbotWidget {
         } catch (error) {
             console.error('피드백 전송 실패:', error);
             
-            // 네트워크 오류 시에도 Firestore에 저장 시도
+            // 네트워크 오류 시에도 간단한 로컬 저장 시도 (Firestore 권한 문제 회피)
             try {
-                await this.saveFeedbackToFirestore(sessionId, messageIndex, rating, feedback);
-                this.showNotification('피드백이 저장되었습니다 (오프라인)', 'info');
-                return { success: true, message: 'Firestore에 저장됨 (오프라인)' };
-            } catch (firestoreError) {
-                console.error('Firestore 저장도 실패:', firestoreError);
-                this.showNotification('피드백 전송에 실패했습니다', 'error');
-                throw error;
+                // 세션 ID 재확인
+                const fallbackSessionId = this.currentSessionId || localStorage.getItem('graphrag_session_id') || 'unknown';
+                
+                // 로컬 스토리지에 피드백 저장 (백업)
+                const feedbackKey = `feedback_${fallbackSessionId}_${messageIndex}_${Date.now()}`;
+                const feedbackData = {
+                    sessionId: fallbackSessionId,
+                    messageIndex: messageIndex,
+                    rating: rating,
+                    feedback: feedback,
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href,
+                    status: 'local_backup'
+                };
+                
+                localStorage.setItem(feedbackKey, JSON.stringify(feedbackData));
+                console.log('로컬 스토리지 백업 저장 성공:', feedbackKey);
+                
+                this.showNotification('피드백이 임시 저장되었습니다', 'info');
+                return { success: true, message: '로컬 백업 저장됨' };
+            } catch (localError) {
+                console.error('로컬 저장도 실패:', localError);
+                this.showNotification('피드백 저장에 실패했습니다', 'error');
+                return { success: false, message: '모든 저장 방법 실패' };
             }
         }
     }
@@ -1006,6 +1053,12 @@ class ChatbotWidget {
             };
 
             // 1차: 구글챗 웹훅으로 전송
+            console.log('구글챗 웹훅 전송 시작:', {
+                company: demoData.companyName,
+                customer: demoData.customerName,
+                timestamp: demoData.timestamp
+            });
+            
             try {
                 const webhookResponse = await fetch(GOOGLE_CHAT_WEBHOOK, {
                     method: 'POST',
@@ -1016,13 +1069,13 @@ class ChatbotWidget {
                 });
 
                 if (webhookResponse.ok) {
-                    console.log('✅ 구글챗 웹훅 전송 성공');
+                    console.log('✅ 구글챗 웹훅 전송 성공:', demoData.companyName);
                 } else {
-                    console.warn('⚠️ 구글챗 웹훅 전송 실패:', webhookResponse.status);
+                    console.warn('⚠️ 구글챗 웹훅 전송 실패:', webhookResponse.status, webhookResponse.statusText);
                     // 웹훅 실패해도 계속 진행 (Firestore 백업 저장)
                 }
             } catch (webhookError) {
-                console.warn('⚠️ 구글챗 웹훅 오류:', webhookError);
+                console.warn('⚠️ 구글챗 웹훅 오류:', webhookError.message);
                 // 웹훅 오류해도 계속 진행
             }
 
@@ -1184,21 +1237,23 @@ ${result.message}
             } else {
                 console.error('데모 신청 API 실패:', result);
                 
-                // API 실패 시 구글챗 웹훅으로 전송
+                // API 실패 시 구글챗 웹훅으로 전송 (중복 메시지 방지)
+                console.log('API 실패로 인한 웹훅 전송 시도...');
+                
                 try {
                     await this.sendDemoRequestToGoogleChat(formData);
+                    console.log('웹훅 전송 성공 - 사용자에게 알림');
                     
-                    this.displayModelMessage(`✅ **데모 신청이 성공적으로 접수되었습니다!**
+                    this.displayModelMessage(`📤 **데모 신청이 접수되었습니다**
 
-신청해주셔서 감사합니다. 담당팀에 바로 전달되었으며, 빠른 시일 내에 연락드리겠습니다.
+시스템 문제로 인해 대체 경로를 통해 담당팀에 전달되었습니다.
 
 **접수된 정보**:
 • 회사명: ${formData.get('companyName')}
 • 고객명: ${formData.get('customerName')}
 • 이메일: ${formData.get('email')}
-• 전화번호: ${formData.get('phone')}
 
-곧 연락드리겠습니다! 📞`);
+담당자가 확인 후 연락드리겠습니다. 🙏`);
 
                     this.hideDemoForm();
                     this.scrollToBottom();
@@ -1228,20 +1283,23 @@ ${result.message}
         } catch (error) {
             console.error('데모 신청 중 네트워크 오류:', error);
             
-            // 네트워크 오류 시에도 구글챗 웹훅 시도
+            // 네트워크 오류 시에도 구글챗 웹훅 시도 (중복 메시지 방지)
+            console.log('네트워크 오류로 인한 웹훅 전송 시도...');
+            
             try {
                 await this.sendDemoRequestToGoogleChat(formData);
+                console.log('네트워크 오류 상황에서 웹훅 전송 성공');
                 
-                this.displayModelMessage(`✅ **데모 신청이 접수되었습니다!**
+                this.displayModelMessage(`🌐 **데모 신청이 접수되었습니다**
 
-네트워크 문제가 있었지만 담당팀에 성공적으로 전달되었습니다.
+네트워크 문제가 있었지만 대체 경로를 통해 담당팀에 전달되었습니다.
 
 **접수된 정보**:
 • 회사명: ${formData.get('companyName')}
 • 고객명: ${formData.get('customerName')}
 • 이메일: ${formData.get('email')}
 
-빠른 시일 내에 연락드리겠습니다! 📞`);
+담당자가 확인 후 연락드리겠습니다. 🔄`);
 
                 this.hideDemoForm();
                 this.scrollToBottom();

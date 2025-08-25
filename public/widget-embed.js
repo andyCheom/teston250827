@@ -115,9 +115,15 @@
                 import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp } 
                         from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
                 
-                // Firebase 설정
+                // Firebase 설정 (권한 문제 최소화)
                 const firebaseConfig = {
                     projectId: "sampleprojects-468223",
+                };
+                
+                // Firestore 설정 옵션
+                const firestoreSettings = {
+                    ignoreUndefinedProperties: true,
+                    merge: true
                 };
                 
                 // Firebase 초기화

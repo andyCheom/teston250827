@@ -455,12 +455,103 @@ function initializeChat() {
     messageElement.className = "message model-message";
 
     // marked.parse()를 사용하여 마크다운을 HTML로 변환합니다.
-    messageElement.innerHTML = marked.parse(markdownText);
+    let htmlContent = marked.parse(markdownText);
+    
+    // 문서 출처 링크 수정
+    htmlContent = fixDocumentLinks(htmlContent);
+    
+    messageElement.innerHTML = htmlContent;
+    
+    // 모든 링크를 새 탭에서 열리도록 설정
+    const links = messageElement.querySelectorAll('a');
+    links.forEach(link => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      
+      // 링크 클릭 시 접근성 개선
+      link.addEventListener('click', function(e) {
+        console.log('링크 클릭됨:', link.href);
+        
+        // 만약 여전히 잘못된 형태의 링크라면 사용자에게 알림
+        if (link.href.includes('/gcs/') && link.href.includes('sampleprojects-468223-graphrag-storage')) {
+          e.preventDefault();
+          console.warn('접근 불가능한 링크 감지:', link.href);
+          
+          // 사용자에게 알림 표시
+          const notification = document.createElement('div');
+          notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            z-index: 10000;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          `;
+          notification.textContent = '⚠️ 해당 문서에 직접 접근할 수 없습니다. 관리자에게 문의해주세요.';
+          document.body.appendChild(notification);
+          
+          setTimeout(() => {
+            notification.remove();
+          }, 5000);
+        }
+      });
+    });
 
     // 메시지 반응 버튼 추가
     addMessageReactions(messageElement);
 
     chatContainer.appendChild(messageElement);
+  }
+
+  // 문서 출처 링크 수정 함수
+  function fixDocumentLinks(htmlContent) {
+    console.log('링크 수정 전 확인:', htmlContent.substring(0, 500));
+    
+    // 다양한 패턴의 잘못된 링크를 수정
+    let fixedContent = htmlContent;
+    
+    // 주요 패턴: https://cheomservice.com/gcs/sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/dispertion.html
+    // 변경: https://cheomservice.com/web_html/crawled_pages_Mymailer/solution/dispertion.html
+    
+    fixedContent = fixedContent.replace(
+      /https:\/\/cheomservice\.com\/gcs\/sampleprojects-468223-graphrag-storage\/[^\/]+\/([^"'\s\)>]+)/g,
+      function(match, path) {
+        console.log('링크 매칭됨:', match);
+        console.log('추출된 경로:', path);
+        return 'https://cheomservice.com/' + path;
+      }
+    );
+    
+    // URL 인코딩된 경로 처리 (한글 파일명 등)
+    fixedContent = fixedContent.replace(
+      /https:\/\/cheomservice\.com\/gcs\/[^\/]+\/[^"'\s\)>]*%[0-9A-Fa-f]{2}[^"'\s\)>]*\/([^"'\s\)>]+)/g,
+      function(match, path) {
+        console.log('인코딩된 링크 매칭됨:', match);
+        return 'https://cheomservice.com/' + path;
+      }
+    );
+    
+    // 일반적인 GCS 경로 처리 (백업용)
+    fixedContent = fixedContent.replace(
+      /https:\/\/cheomservice\.com\/gcs\/[^\/]+\/[^\/]+\/[^\/]+\/([^"'\s\)>]+)/g,
+      function(match, path) {
+        console.log('일반 GCS 링크 매칭됨:', match);
+        return 'https://cheomservice.com/' + path;
+      }
+    );
+    
+    if (fixedContent !== htmlContent) {
+      console.log('✅ 링크 수정 완료');
+      console.log('수정 후 미리보기:', fixedContent.substring(0, 500));
+    } else {
+      console.log('🔍 수정할 링크를 찾지 못했습니다');
+    }
+    
+    return fixedContent;
   }
 
   function displayModelMessageWithSources(markdownText, result) {
@@ -472,7 +563,12 @@ function initializeChat() {
     messageElement.className = "message model-message";
 
     // 메인 답변을 마크다운으로 파싱하여 HTML로 변환
-    messageElement.innerHTML = marked.parse(markdownText);
+    let htmlContent = marked.parse(markdownText);
+    
+    // 문서 출처 링크 수정
+    htmlContent = fixDocumentLinks(htmlContent);
+    
+    messageElement.innerHTML = htmlContent;
 
     // Citations 섹션 제거 - 참조 문서 목록 출력하지 않음
 
