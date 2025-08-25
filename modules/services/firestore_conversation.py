@@ -173,29 +173,22 @@ class FirestoreConversationService:
         try:
             logger.info(f"품질 업데이트 시작 - 세션: {session_id}, 인덱스: {message_index}")
             
+            # 1. 'conversations' 컬렉션에서 먼저 시도
             session_ref = self.db.collection('conversations').document(session_id)
             session_doc = session_ref.get()
             
+            # 2. 'conversations'에 없으면 'widget_conversations'에서 시도
             if not session_doc.exists:
-                logger.warning(f"⚠️ 세션을 찾을 수 없음 - 세션: {session_id}")
-                
-                # 대체 검색: conversations 컬렉션에서 세션 찾기
-                conversations = self.db.collection('conversations').where('session_id', '==', session_id).limit(1).stream()
-                found_doc = None
-                for doc in conversations:
-                    found_doc = doc
-                    break
-                
-                if found_doc:
-                    logger.info(f"대체 검색으로 세션 발견: {found_doc.id}")
-                    session_ref = found_doc.reference
-                    session_data = found_doc.to_dict()
-                else:
-                    logger.error(f"❌ 세션 완전히 찾을 수 없음 - 세션: {session_id}")
-                    return False
-            else:
-                session_data = session_doc.to_dict()
-                logger.info(f"세션 데이터 조회 성공 - 메시지 개수: {len(session_data.get('messages', []))}")
+                logger.warning(f"'{'conversations'}' 컬렉션에서 세션({session_id})을 찾을 수 없음. '{'widget_conversations'}'에서 재시도합니다.")
+                session_ref = self.db.collection('widget_conversations').document(session_id)
+                session_doc = session_ref.get()
+
+            if not session_doc.exists:
+                logger.error(f"❌ 모든 컬렉션에서 세션을 찾을 수 없음 - 세션: {session_id}")
+                return False
+
+            session_data = session_doc.to_dict()
+            logger.info(f"세션 데이터 조회 성공 - 메시지 개수: {len(session_data.get('messages', []))}")
                 
             messages = session_data.get('messages', [])
             logger.info(f"메시지 배열 크기: {len(messages)}, 요청 인덱스: {message_index}")

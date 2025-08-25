@@ -9,6 +9,16 @@ service cloud.firestore {
         allow read, write: if true; // 임시로 모든 접근 허용 (개발용)
       }
     }
+
+    // 위젯 대화 컬렉션
+    match /widget_conversations/{sessionId} {
+      allow read, write: if true; // 위젯 대화 저장/읽기 허용
+    }
+
+    // 피드백 컬렉션
+    match /feedback/{feedbackId} {
+      allow create: if true; // 누구나 피드백 생성 가능
+    }
     
     // 데모 신청 컬렉션
     match /demo_requests/{documentId} {
@@ -16,7 +26,7 @@ service cloud.firestore {
       allow read, update, delete: if false; // 관리자만 가능
     }
     
-    // 기타 모든 문서는 접근 거부
+    // 기타 모든 문서는 접근 거부 (이 규칙은 가장 마지막에 두는 것이 좋습니다)
     match /{document=**} {
       allow read, write: if false;
     }
