@@ -869,44 +869,100 @@ class ChatbotWidget {
     }
 
     async sendMessageFeedback(messageIndex, rating, feedback) {
-        // 데이터 타입 검증 및 변환
-        const sessionId = String(this.currentSessionId || '');
-        const msgIndex = parseInt(messageIndex, 10);
-        const userRating = parseFloat(rating);
-        const feedbackText = String(feedback || '');
-        
-        console.log('피드백 전송 데이터:', {
-            session_id: sessionId,
-            message_index: msgIndex,
-            rating: userRating,
-            feedback: feedbackText
-        });
-        
-        // 필수 데이터 검증
-        if (!sessionId || isNaN(msgIndex) || isNaN(userRating)) {
-            throw new Error('피드백 데이터가 유효하지 않습니다');
+        try {
+            // 데이터 타입 검증 및 변환
+            const sessionId = String(this.currentSessionId || '');
+            const msgIndex = parseInt(messageIndex, 10);
+            const userRating = parseFloat(rating);
+            const feedbackText = String(feedback || '');
+            
+            console.log('피드백 전송 데이터:', {
+                session_id: sessionId,
+                message_index: msgIndex,
+                rating: userRating,
+                feedback: feedbackText
+            });
+            
+            // 필수 데이터 검증
+            if (!sessionId || isNaN(msgIndex) || isNaN(userRating)) {
+                throw new Error('피드백 데이터가 유효하지 않습니다');
+            }
+            
+            const formData = new FormData();
+            formData.append('session_id', sessionId);
+            formData.append('message_index', msgIndex.toString());
+            formData.append('rating', userRating.toString());
+            formData.append('feedback', feedbackText);
+            
+            const response = await fetch(`${this.apiBaseUrl}/api/update-message-quality`, {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (response.ok) {
+                console.log('피드백 API 전송 성공');
+                
+                // Firestore에 직접 피드백 저장
+                await this.saveFeedbackToFirestore(sessionId, msgIndex, userRating, feedbackText);
+                
+                this.showNotification('피드백이 전송되었습니다', 'success');
+                return await response.json();
+            } else {
+                console.error('피드백 API 전송 실패 - 응답 오류:', response.status);
+                
+                // API 실패 시 Firestore에만 저장
+                await this.saveFeedbackToFirestore(sessionId, msgIndex, userRating, feedbackText);
+                
+                this.showNotification('피드백이 저장되었습니다', 'warning');
+                return { success: true, message: 'Firestore에 저장됨' };
+            }
+        } catch (error) {
+            console.error('피드백 전송 실패:', error);
+            
+            // 네트워크 오류 시에도 Firestore에 저장 시도
+            try {
+                await this.saveFeedbackToFirestore(sessionId, messageIndex, rating, feedback);
+                this.showNotification('피드백이 저장되었습니다 (오프라인)', 'info');
+                return { success: true, message: 'Firestore에 저장됨 (오프라인)' };
+            } catch (firestoreError) {
+                console.error('Firestore 저장도 실패:', firestoreError);
+                this.showNotification('피드백 전송에 실패했습니다', 'error');
+                throw error;
+            }
         }
-        
-        const formData = new FormData();
-        formData.append('session_id', sessionId);
-        formData.append('message_index', msgIndex.toString());
-        formData.append('rating', userRating.toString());
-        formData.append('feedback', feedbackText);
-        
-        const response = await fetch(`${this.apiBaseUrl}/api/update-message-quality`, {
-            method: 'POST',
-            body: formData
-        });
-        
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('피드백 API 응답:', response.status, errorText);
-            throw new Error(`피드백 전송 실패: ${response.status} - ${errorText}`);
+    }
+
+    // Firestore에 피드백 직접 저장
+    async saveFeedbackToFirestore(sessionId, messageIndex, rating, feedback) {
+        try {
+            if (!window.firebaseDB || !window.firestoreFunctions) {
+                console.warn('Firebase가 초기화되지 않았습니다');
+                return;
+            }
+
+            const { collection, doc, setDoc, serverTimestamp } = window.firestoreFunctions;
+            
+            // 피드백 데이터 구성
+            const feedbackData = {
+                sessionId: sessionId,
+                messageIndex: messageIndex,
+                rating: rating,
+                feedback: feedback,
+                timestamp: serverTimestamp(),
+                userAgent: navigator.userAgent,
+                url: window.location.href
+            };
+
+            // Firestore에 피드백 저장
+            const feedbackRef = doc(collection(window.firebaseDB, 'feedback'), `${sessionId}_${messageIndex}_${Date.now()}`);
+            await setDoc(feedbackRef, feedbackData);
+            
+            console.log('Firestore 피드백 저장 성공:', feedbackData);
+            
+        } catch (error) {
+            console.error('Firestore 피드백 저장 실패:', error);
+            throw error;
         }
-        
-        const result = await response.json();
-        console.log('피드백 전송 성공:', result);
-        return result;
     }
 
     // 알림 표시

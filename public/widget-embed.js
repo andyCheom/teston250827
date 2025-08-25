@@ -1,4 +1,9 @@
 /**
+// ---- PATCH NOTE ----
+// Changed `all: initial` -> `all: revert` in container namespace style to preserve CSS variable inheritance.
+// This fixes color/spacing breakage when embedded in host pages while still limiting global leakage.
+// ---------------------
+
  * GraphRAG 위젯 임베드 스크립트
  * 기존 위젯 파일들을 다른 웹사이트에서 사용할 수 있게 해주는 로더
  */
@@ -268,7 +273,7 @@
                 font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
                 position: relative !important;
                 z-index: 2147483647 !important;
-                all: initial !important;
+                all: revert !important;
             }
             
             #${config.containerId} * {
