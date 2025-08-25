@@ -5,7 +5,7 @@ class ChatbotWidget {
         this.messageCounter = 0;
         this.conversationHistory = [];
         this.currentSessionId = this.getOrCreateSessionId();
-        this.isToggling = false; // 디바운싱을 위한 플래그
+        this.isToggling = false; // 디바운싱을 위한 플래그\n        this.isDemoSubmitting = false; // 데모 신청 중복 방지 플래그
         
         // API 기본 URL 설정 (외부 사이트에서 사용시 명시적 Cloud Run URL 사용)
         this.apiBaseUrl = config.apiBaseUrl || 
@@ -1264,6 +1264,13 @@ class ChatbotWidget {
     async handleDemoFormSubmit(e) {
         e.preventDefault();
         
+        // 중복 제출 방지
+        if (this.isDemoSubmitting) {
+            console.log('데모 신청 이미 진행 중 - 중복 방지');
+            return;
+        }
+        this.isDemoSubmitting = true;
+        
         const formData = new FormData(this.demoForm);
         const submitBtn = document.getElementById('demo-form-submit');
         
@@ -1389,6 +1396,9 @@ ${result.message}
                 }
             }
         } finally {
+            // 중복 제출 방지 플래그 리셋
+            this.isDemoSubmitting = false;
+            
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.textContent = "신청하기";
