@@ -117,6 +117,11 @@ function copyMessageText(messageElement) {
 // 피드백 전송
 async function sendFeedback(messageIndex, rating, feedback) {
     try {
+        // 위젯 인스턴스에서 apiBaseUrl 가져오기
+        const apiBaseUrl = window.chatbotWidgetInstance?.apiBaseUrl || 
+                          window.GraphRAGWidgetConfig?.baseUrl || 
+                          'https://sampleprojects-468223-graphrag-api-975882305117.asia-northeast3.run.app';
+        
         const sessionId = localStorage.getItem('graphrag_session_id');
         const formData = new FormData();
         formData.append('session_id', sessionId);
@@ -124,16 +129,70 @@ async function sendFeedback(messageIndex, rating, feedback) {
         formData.append('rating', rating);
         formData.append('feedback', feedback);
         
-        const response = await fetch('/api/update-message-quality', {
+        const response = await fetch(`${apiBaseUrl}/api/update-message-quality`, {
             method: 'POST',
             body: formData
         });
         
         if (response.ok) {
-            console.log('피드백 전송 성공');
+            console.log('피드백 전송 성공:', { messageIndex, rating, feedback });
+            
+            // Firestore에 직접 피드백 저장
+            await saveFeedbackToFirestore(sessionId, messageIndex, rating, feedback);
+            
+            showNotification('피드백이 전송되었습니다', 'success');
+        } else {
+            console.error('피드백 전송 실패 - 응답 오류:', response.status);
+            
+            // API 실패 시 Firestore에만 저장
+            await saveFeedbackToFirestore(sessionId, messageIndex, rating, feedback);
+            
+            showNotification('피드백이 저장되었습니다', 'warning');
         }
     } catch (error) {
         console.error('피드백 전송 실패:', error);
+        
+        // 네트워크 오류 시에도 Firestore에 저장 시도
+        try {
+            await saveFeedbackToFirestore(sessionId, messageIndex, rating, feedback);
+            showNotification('피드백이 저장되었습니다 (오프라인)', 'info');
+        } catch (firestoreError) {
+            console.error('Firestore 저장도 실패:', firestoreError);
+            showNotification('피드백 전송에 실패했습니다', 'error');
+        }
+    }
+}
+
+// Firestore에 피드백 직접 저장
+async function saveFeedbackToFirestore(sessionId, messageIndex, rating, feedback) {
+    try {
+        if (!window.firebaseDB || !window.firestoreFunctions) {
+            console.warn('Firebase가 초기화되지 않았습니다');
+            return;
+        }
+
+        const { collection, doc, setDoc, serverTimestamp } = window.firestoreFunctions;
+        
+        // 피드백 데이터 구성
+        const feedbackData = {
+            sessionId: sessionId,
+            messageIndex: messageIndex,
+            rating: rating,
+            feedback: feedback,
+            timestamp: serverTimestamp(),
+            userAgent: navigator.userAgent,
+            url: window.location.href
+        };
+
+        // Firestore에 피드백 저장
+        const feedbackRef = doc(collection(window.firebaseDB, 'feedback'), `${sessionId}_${messageIndex}_${Date.now()}`);
+        await setDoc(feedbackRef, feedbackData);
+        
+        console.log('Firestore 피드백 저장 성공:', feedbackData);
+        
+    } catch (error) {
+        console.error('Firestore 피드백 저장 실패:', error);
+        throw error;
     }
 }
 

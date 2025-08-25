@@ -112,10 +112,7 @@ class ChatbotWidget {
             setTimeout(retryCloseBtn, 1000);
         }
         
-        // 새 대화 버튼 (minimize 버튼을 새 대화 버튼으로 활용)
-        if (this.minimizeBtn) {
-            this.minimizeBtn.addEventListener('click', () => this.startNewConversation());
-        }
+        // 새 대화 버튼 제거됨 (최소화 버튼 삭제)
         
         // 채팅 폼
         if (this.promptForm) {

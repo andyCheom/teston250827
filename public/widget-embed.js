@@ -127,6 +127,9 @@
         try {
             console.log('🚀 GraphRAG 위젯 로드 시작...');
             
+            // 0. Pretendard 폰트 로드
+            loadPretendardFont();
+            
             // 1. CSS 파일들 로드
             await Promise.all([
                 loadCSS(`${config.baseUrl}/widget-style.css`, 'graphrag-widget-style'),
@@ -216,13 +219,53 @@
     }
     
     /**
+     * Pretendard 폰트 동적 로드
+     */
+    function loadPretendardFont() {
+        // 이미 로드되었는지 확인
+        if (document.getElementById('pretendard-font')) {
+            return;
+        }
+
+        // @font-face로 Pretendard 웹폰트 정의
+        const fontCSS = `
+            @font-face {
+                font-family: 'Pretendard-Regular';
+                src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: 'Pretendard-Medium';
+                src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+                font-weight: 500;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: 'Pretendard-SemiBold';
+                src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+                font-weight: 600;
+                font-style: normal;
+                font-display: swap;
+            }
+        `;
+        
+        const styleSheet = document.createElement('style');
+        styleSheet.id = 'pretendard-font';
+        styleSheet.textContent = fontCSS;
+        document.head.appendChild(styleSheet);
+    }
+
+    /**
      * 스타일 충돌 방지를 위한 CSS 네임스페이스 추가
      */
     function addNamespaceStyles() {
         const namespaceStyles = `
             /* 컨테이너 기본 설정 */
             #${config.containerId} {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
                 position: relative !important;
                 z-index: 2147483647 !important;
                 all: initial !important;
@@ -272,7 +315,7 @@
                 overflow: hidden !important;
                 border: 1px solid rgba(0, 0, 0, 0.05) !important;
                 pointer-events: auto !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .chatbot-widget.visible {
@@ -290,20 +333,20 @@
                 color: white !important;
                 padding: 16px !important;
                 border-radius: 16px 16px 0 0 !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .brand-name {
                 font-size: 16px !important;
                 font-weight: 600 !important;
                 color: white !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-SemiBold", "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .brand-status {
                 font-size: 12px !important;
                 color: rgba(255, 255, 255, 0.8) !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             /* 헤더 버튼들 */
@@ -337,13 +380,13 @@
                 border-radius: 12px !important;
                 padding: 16px !important;
                 margin: 16px !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .welcome-message pre {
                 white-space: pre-wrap !important;
                 word-wrap: break-word !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
                 font-size: 14px !important;
                 line-height: 1.5 !important;
                 color: #333 !important;
@@ -362,7 +405,7 @@
                 font-weight: 500 !important;
                 margin-top: 16px !important;
                 width: 100% !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Medium", "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .demo-button:hover {
@@ -391,7 +434,7 @@
                 line-height: 1.4 !important;
                 resize: none !important;
                 outline: none !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
                 background: white !important;
                 color: #333 !important;
             }
@@ -420,12 +463,12 @@
                 flex: 1 !important;
                 overflow-y: auto !important;
                 padding: 16px !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .message {
                 margin-bottom: 16px !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .user-message {
@@ -436,7 +479,7 @@
                 margin-left: auto !important;
                 margin-right: 0 !important;
                 max-width: 80% !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
                 font-size: 14px !important;
                 line-height: 1.4 !important;
             }
@@ -449,14 +492,14 @@
                 margin-left: 0 !important;
                 margin-right: auto !important;
                 max-width: 90% !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
                 font-size: 14px !important;
                 line-height: 1.5 !important;
             }
             
             #${config.containerId} .model-message p {
                 margin: 0 0 12px 0 !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
                 color: #333 !important;
             }
             
@@ -467,18 +510,18 @@
             #${config.containerId} .model-message ul, #${config.containerId} .model-message ol {
                 margin: 8px 0 !important;
                 padding-left: 20px !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .model-message li {
                 margin-bottom: 4px !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
                 color: #333 !important;
             }
             
             #${config.containerId} .model-message strong {
                 font-weight: 600 !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
             }
             
             #${config.containerId} .model-message code {
@@ -514,7 +557,7 @@
                 font-size: 12px !important;
                 cursor: pointer !important;
                 transition: all 0.2s ease !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-family: "Pretendard-Regular", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
                 color: #6c757d !important;
             }
             
