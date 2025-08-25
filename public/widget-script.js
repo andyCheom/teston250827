@@ -1447,7 +1447,8 @@ ${result.message}
                 });
                 
             } else {
-                this.displayModelMessage(`❌ ${result.message || "상담 요청 처리 중 오류가 발생했습니다."}`);
+                const errorMessage = result.error ? `${result.message}: ${result.error}` : result.message || "상담 요청 처리 중 오류가 발생했습니다.";
+                this.displayModelMessage(`❌ ${errorMessage}`);
                 console.error('상담사 연결 요청 실패:', result);
                 
                 // 실패 시에도 구글챗으로 알림 (실패 상태로)

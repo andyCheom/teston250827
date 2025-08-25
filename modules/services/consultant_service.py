@@ -24,14 +24,14 @@ class ConsultantService:
             )
         return self.session
     
-    async def send_to_google_chat(self, conversation_data: Dict[str, Any]) -> bool:
+    async def send_to_google_chat(self, conversation_data: Dict[str, Any]) -> Dict[str, Any]:
         """Google Chat으로 상담 요청 전송"""
         try:
             # 환경변수에서 웹훅 URL 가져오기
             webhook_url = Config.get_env_var("GOOGLE_CHAT_WEBHOOK_URL")
             if not webhook_url:
                 logger.error("Google Chat 웹훅 URL이 설정되지 않았습니다")
-                return False
+                return {"success": False, "error": "Google Chat webhook URL is not configured."}
             
             session = await self.get_session()
             
@@ -70,15 +70,15 @@ class ConsultantService:
             async with session.post(webhook_url, json=chat_payload) as response:
                 if response.status == 200:
                     logger.info("Google Chat으로 상담 요청 전송 성공")
-                    return True
+                    return {"success": True}
                 else:
                     error_text = await response.text()
                     logger.error(f"Google Chat 전송 실패: {response.status} - {error_text}")
-                    return False
+                    return {"success": False, "error": f"Google Chat API returned status {response.status}: {error_text}"}
                     
         except Exception as e:
             logger.error(f"Google Chat 전송 중 오류 발생: {e}")
-            return False
+            return {"success": False, "error": str(e)}
     
     def _format_conversation_for_chat(self, conversation_data: Dict[str, Any]) -> str:
         """Google Chat용 대화 내용 포맷팅"""
@@ -123,15 +123,17 @@ class ConsultantService:
             }
             
             # Google Chat으로 전송
-            chat_success = await self.send_to_google_chat(consultation_data)
+            chat_result = await self.send_to_google_chat(consultation_data)
             
             result = {
-                "success": chat_success,
+                "success": chat_result["success"],
                 "consultation_id": consultation_data["session_id"],
-                "message": "상담 요청이 전송되었습니다" if chat_success else "상담 요청 전송에 실패했습니다",
+                "message": "상담 요청이 전송되었습니다" if chat_result["success"] else "상담 요청 전송에 실패했습니다",
                 "timestamp": consultation_data["timestamp"]
             }
-            
+            if not chat_result["success"]:
+                result["error"] = chat_result.get("error", "Unknown error from consultant_service")
+
             logger.info(f"상담 요청 처리 완료: {result}")
             return result
             
