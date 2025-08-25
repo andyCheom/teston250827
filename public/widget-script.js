@@ -1018,8 +1018,73 @@ class ChatbotWidget {
         }
     }
 
+    // 구글챗 웹훅으로 상담사 연결 요청 전송
+    async sendConsultantRequestToGoogleChat(requestData) {
+        try {
+            // 구글챗 웹훅 URL (위젯 설정에서 가져오기)
+            const GOOGLE_CHAT_WEBHOOK = window.GraphRAGWidgetConfig?.googleChatWebhook || 
+                                       this.googleChatWebhook || 
+                                       'https://chat.googleapis.com/v1/spaces/AAAA_YOUR_SPACE_ID/messages?key=YOUR_KEY&token=YOUR_TOKEN';
+            
+            const isSuccess = !requestData.error;
+            const statusIcon = isSuccess ? '✅' : '❌';
+            const statusText = isSuccess ? '상담사 연결 요청' : '상담사 연결 요청 실패';
+            
+            // 구글챗 메시지 포맷
+            let messageText = `${statusIcon} *${statusText}*\n\n`;
+            messageText += `📅 *요청시간*: ${new Date().toLocaleString('ko-KR')}\n`;
+            messageText += `💬 *고객 질문*: ${requestData.userPrompt.substring(0, 100)}${requestData.userPrompt.length > 100 ? '...' : ''}\n`;
+            messageText += `🔑 *세션 ID*: ${requestData.sessionId}\n`;
+            
+            if (requestData.sensitiveCategories && requestData.sensitiveCategories.length > 0) {
+                messageText += `⚠️ *민감 카테고리*: ${requestData.sensitiveCategories.join(', ')}\n`;
+            }
+            
+            if (isSuccess && requestData.consultation_id) {
+                messageText += `📋 *문의 번호*: ${requestData.consultation_id}\n`;
+            }
+            
+            if (requestData.error) {
+                messageText += `❌ *오류 내용*: ${requestData.error}\n`;
+            }
+            
+            messageText += `🌐 *접속 URL*: ${window.location.href}\n\n`;
+            messageText += isSuccess ? 
+                '담당 상담사는 고객에게 빠르게 연락해주세요! 📞' : 
+                '시스템 관리자가 문제를 확인해주세요! 🔧';
+            
+            const chatMessage = {
+                text: messageText
+            };
+
+            console.log('상담사 요청 구글챗 웹훅 전송 시작:', {
+                sessionId: requestData.sessionId,
+                isSuccess,
+                timestamp: requestData.timestamp
+            });
+            
+            const webhookResponse = await fetch(GOOGLE_CHAT_WEBHOOK, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(chatMessage)
+            });
+
+            if (webhookResponse.ok) {
+                console.log('✅ 상담사 요청 구글챗 웹훅 전송 성공');
+            } else {
+                console.warn('⚠️ 상담사 요청 구글챗 웹훅 전송 실패:', webhookResponse.status, webhookResponse.statusText);
+            }
+            
+        } catch (error) {
+            console.error('❌ 상담사 요청 구글챗 웹훅 전송 실패:', error);
+            throw error;
+        }
+    }
+
     // 구글챗 웹훅으로 데모 신청 전송
-    async sendDemoRequestToGoogleChat(formData) {
+    async sendDemoRequestToGoogleChat(formData, isSuccess = false) {
         try {
             // 구글챗 웹훅 URL (위젯 설정에서 가져오기)
             const GOOGLE_CHAT_WEBHOOK = window.GraphRAGWidgetConfig?.googleChatWebhook || 
@@ -1038,9 +1103,16 @@ class ChatbotWidget {
                 url: window.location.href
             };
 
+            // 성공/실패 상태에 따른 메시지 구성
+            const statusIcon = isSuccess ? '✅' : '🎯';
+            const statusText = isSuccess ? '데모 신청 API 처리 완료' : '새로운 데모 신청이 접수되었습니다';
+            const note = isSuccess ? 
+                '정상적으로 API를 통해 처리되었습니다.' : 
+                '시스템 문제로 대체 경로를 통해 접수되었습니다.';
+
             // 구글챗 메시지 포맷
             const chatMessage = {
-                text: `🎯 *새로운 데모 신청이 접수되었습니다*\n\n` +
+                text: `${statusIcon} *${statusText}*\n\n` +
                       `📅 *신청시간*: ${new Date().toLocaleString('ko-KR')}\n` +
                       `🏢 *회사명*: ${demoData.companyName}\n` +
                       `👤 *고객명*: ${demoData.customerName}\n` +
@@ -1049,6 +1121,7 @@ class ChatbotWidget {
                       `📋 *발송타입*: ${demoData.sendType || '미선택'}\n` +
                       `💭 *사용목적*: ${demoData.usagePurpose || '미작성'}\n` +
                       `🌐 *접속 URL*: ${demoData.url}\n\n` +
+                      `${note}\n\n` +
                       `담당자는 빠른 시일 내에 고객에게 연락해주세요! 📞`
             };
 
@@ -1231,6 +1304,9 @@ ${result.message}
                     this.displayModelMessage(warningMessage);
                 }
                 
+                // API 성공 시에는 웹훅 전송하지 않음 (중복 방지)
+                console.log('데모 신청 API 성공 - 웹훅 전송 생략');
+                
                 this.hideDemoForm();
                 this.scrollToBottom();
                 
@@ -1241,7 +1317,7 @@ ${result.message}
                 console.log('API 실패로 인한 웹훅 전송 시도...');
                 
                 try {
-                    await this.sendDemoRequestToGoogleChat(formData);
+                    await this.sendDemoRequestToGoogleChat(formData, false);
                     console.log('웹훅 전송 성공 - 사용자에게 알림');
                     
                     this.displayModelMessage(`📤 **데모 신청이 접수되었습니다**
@@ -1287,7 +1363,7 @@ ${result.message}
             console.log('네트워크 오류로 인한 웹훅 전송 시도...');
             
             try {
-                await this.sendDemoRequestToGoogleChat(formData);
+                await this.sendDemoRequestToGoogleChat(formData, false);
                 console.log('네트워크 오류 상황에서 웹훅 전송 성공');
                 
                 this.displayModelMessage(`🌐 **데모 신청이 접수되었습니다**
@@ -1348,14 +1424,52 @@ ${result.message}
             if (result.success) {
                 this.displayModelMessage(`✅ ${result.message}\n\n**문의 번호**: ${result.consultation_id}\n**요청 시간**: ${new Date(result.timestamp).toLocaleString('ko-KR')}`);
                 console.log('상담사 연결 요청 성공:', result);
+                
+                // 성공 시 구글챗 웹훅으로 알림 전송
+                this.sendConsultantRequestToGoogleChat({
+                    userPrompt,
+                    sessionId: apiResult.metadata?.session_id || '',
+                    sensitiveCategories: apiResult.metadata?.sensitive_categories || [],
+                    consultation_id: result.consultation_id,
+                    timestamp: result.timestamp
+                }).catch(error => {
+                    console.warn('상담사 요청 웹훅 전송 실패:', error);
+                });
+                
             } else {
                 this.displayModelMessage(`❌ ${result.message || "상담 요청 처리 중 오류가 발생했습니다."}`);
                 console.error('상담사 연결 요청 실패:', result);
+                
+                // 실패 시에도 구글챗으로 알림 (실패 상태로)
+                this.sendConsultantRequestToGoogleChat({
+                    userPrompt,
+                    sessionId: apiResult.metadata?.session_id || '',
+                    sensitiveCategories: apiResult.metadata?.sensitive_categories || [],
+                    consultation_id: null,
+                    timestamp: new Date().toISOString(),
+                    error: result.message || "상담 요청 처리 중 오류가 발생했습니다."
+                }).catch(error => {
+                    console.warn('상담사 요청 실패 웹훅 전송 실패:', error);
+                });
             }
             
         } catch (error) {
             console.error('상담사 연결 요청 중 오류:', error);
             this.displayModelMessage('❌ 상담사 연결 요청 중 네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+            
+            // 네트워크 오류 시에도 구글챗으로 알림
+            this.sendConsultantRequestToGoogleChat({
+                userPrompt: this.conversationHistory
+                    .filter(msg => msg.role === 'user')
+                    .slice(-1)[0]?.parts?.[0]?.text || '',
+                sessionId: apiResult.metadata?.session_id || '',
+                sensitiveCategories: apiResult.metadata?.sensitive_categories || [],
+                consultation_id: null,
+                timestamp: new Date().toISOString(),
+                error: '네트워크 오류로 인한 상담사 연결 요청 실패'
+            }).catch(webhookError => {
+                console.warn('상담사 요청 네트워크 오류 웹훅 전송 실패:', webhookError);
+            });
         }
         
         this.scrollToBottom();
