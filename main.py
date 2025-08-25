@@ -84,6 +84,14 @@ async def serve_widget_script():
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
+@app.get("/widget-embed.js")
+async def serve_widget_embed_js():
+    """위젯 임베드 JavaScript 파일 제공"""
+    response = FileResponse("public/widget-embed.js", media_type="application/javascript")
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
 @app.get("/widget.html")
 async def serve_widget_html():
     """위젯 HTML 파일 제공"""
