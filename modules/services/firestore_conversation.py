@@ -77,7 +77,7 @@ class FirestoreConversationService:
             }
             
             # 세션 문서 참조
-            session_ref = self.db.collection('conversations').document(session_id)
+            session_ref = self.db.collection('converstions').document(session_id)
             
             # 기존 세션 확인
             session_doc = session_ref.get()
@@ -121,7 +121,7 @@ class FirestoreConversationService:
             return []
         
         try:
-            session_ref = self.db.collection('conversations').document(session_id)
+            session_ref = self.db.collection('converstions').document(session_id)
             session_doc = session_ref.get()
             
             if not session_doc.exists:
@@ -143,7 +143,7 @@ class FirestoreConversationService:
             return None
         
         try:
-            session_ref = self.db.collection('conversations').document(session_id)
+            session_ref = self.db.collection('converstions').document(session_id)
             session_doc = session_ref.get()
             
             if not session_doc.exists:
@@ -173,13 +173,13 @@ class FirestoreConversationService:
         try:
             logger.info(f"품질 업데이트 시작 - 세션: {session_id}, 인덱스: {message_index}")
             
-            # 1. 'conversations' 컬렉션에서 먼저 시도
-            session_ref = self.db.collection('conversations').document(session_id)
+            # 1. 'converstions' 컬렉션에서 먼저 시도
+            session_ref = self.db.collection('converstions').document(session_id)
             session_doc = session_ref.get()
             
-            # 2. 'conversations'에 없으면 'widget_conversations'에서 시도
+            # 2. 'converstions'에 없으면 'widget_conversations'에서 시도
             if not session_doc.exists:
-                logger.warning(f"'{'conversations'}' 컬렉션에서 세션({session_id})을 찾을 수 없음. '{'widget_conversations'}'에서 재시도합니다.")
+                logger.warning(f"'{'converstions'}' 컬렉션에서 세션({session_id})을 찾을 수 없음. '{'widget_conversations'}'에서 재시도합니다.")
                 session_ref = self.db.collection('widget_conversations').document(session_id)
                 session_doc = session_ref.get()
 
@@ -235,7 +235,7 @@ class FirestoreConversationService:
             start_date = end_date - timedelta(days=days)
             
             # 기간 내 세션 조회
-            sessions_query = (self.db.collection('conversations')
+            sessions_query = (self.db.collection('converstions')
                             .where('created_at', '>=', start_date)
                             .where('created_at', '<=', end_date)
                             .limit(1000))  # 최대 1000개 세션
@@ -341,7 +341,7 @@ class FirestoreConversationService:
             cutoff_date = datetime.now(timezone.utc) - timedelta(days=days_to_keep)
             
             # 오래된 세션 조회
-            old_sessions = (self.db.collection('conversations')
+            old_sessions = (self.db.collection('converstions')
                           .where('created_at', '<', cutoff_date)
                           .limit(100))  # 한 번에 100개씩 처리
             
