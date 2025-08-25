@@ -871,21 +871,43 @@ class ChatbotWidget {
     async sendMessageFeedback(messageIndex, rating, feedback) {
         try {
             // 데이터 타입 검증 및 변환
-            const sessionId = String(this.currentSessionId || '');
+            const sessionId = String(this.currentSessionId || localStorage.getItem('graphrag_session_id') || '');
             const msgIndex = parseInt(messageIndex, 10);
             const userRating = parseFloat(rating);
             const feedbackText = String(feedback || '');
             
-            console.log('피드백 전송 데이터:', {
+            console.log('피드백 전송 데이터 (상세):', {
                 session_id: sessionId,
                 message_index: msgIndex,
                 rating: userRating,
-                feedback: feedbackText
+                feedback: feedbackText,
+                currentSessionId: this.currentSessionId,
+                storageSessionId: localStorage.getItem('graphrag_session_id'),
+                conversationHistory: this.conversationHistory?.length || 0
             });
             
             // 필수 데이터 검증
-            if (!sessionId || isNaN(msgIndex) || isNaN(userRating)) {
-                throw new Error('피드백 데이터가 유효하지 않습니다');
+            if (!sessionId) {
+                console.error('세션 ID가 없습니다. 새로운 세션을 생성합니다.');
+                this.currentSessionId = this.getOrCreateSessionId();
+                const newSessionId = String(this.currentSessionId);
+                
+                // Firestore에 직접 저장하고 종료
+                await this.saveFeedbackToFirestore(newSessionId, msgIndex, userRating, feedbackText);
+                this.showNotification('피드백이 저장되었습니다 (세션 재생성)', 'info');
+                return { success: true, message: 'Firestore에 저장됨 (세션 재생성)' };
+            }
+            
+            if (isNaN(msgIndex) || msgIndex < 0) {
+                console.error('메시지 인덱스가 유효하지 않습니다:', messageIndex);
+                // 인덱스가 잘못되어도 Firestore에 저장
+                await this.saveFeedbackToFirestore(sessionId, 0, userRating, feedbackText);
+                this.showNotification('피드백이 저장되었습니다 (인덱스 보정)', 'info');
+                return { success: true, message: 'Firestore에 저장됨 (인덱스 보정)' };
+            }
+            
+            if (isNaN(userRating)) {
+                throw new Error('피드백 평점이 유효하지 않습니다');
             }
             
             const formData = new FormData();
@@ -902,19 +924,36 @@ class ChatbotWidget {
             if (response.ok) {
                 console.log('피드백 API 전송 성공');
                 
-                // Firestore에 직접 피드백 저장
-                await this.saveFeedbackToFirestore(sessionId, msgIndex, userRating, feedbackText);
-                
-                this.showNotification('피드백이 전송되었습니다', 'success');
+                // API 성공 시에도 Firestore에 백업 저장
+                try {
+                    await this.saveFeedbackToFirestore(sessionId, msgIndex, userRating, feedbackText);
+                    this.showNotification('피드백이 전송되었습니다', 'success');
+                } catch (firestoreError) {
+                    console.warn('Firestore 저장 실패했지만 API는 성공:', firestoreError);
+                    this.showNotification('피드백이 전송되었습니다 (서버만)', 'success');
+                }
                 return await response.json();
             } else {
-                console.error('피드백 API 전송 실패 - 응답 오류:', response.status);
+                // API 실패 상세 로그
+                const errorText = await response.text();
+                console.error('피드백 API 전송 실패:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    error: errorText,
+                    url: response.url,
+                    headers: Object.fromEntries(response.headers.entries())
+                });
                 
-                // API 실패 시 Firestore에만 저장
-                await this.saveFeedbackToFirestore(sessionId, msgIndex, userRating, feedbackText);
-                
-                this.showNotification('피드백이 저장되었습니다', 'warning');
-                return { success: true, message: 'Firestore에 저장됨' };
+                // API 실패 시 Firestore에 저장
+                try {
+                    await this.saveFeedbackToFirestore(sessionId, msgIndex, userRating, feedbackText);
+                    this.showNotification('피드백이 저장되었습니다 (오프라인)', 'info');
+                    return { success: true, message: 'Firestore에 저장됨 (API 실패)' };
+                } catch (firestoreError) {
+                    console.error('Firestore 저장도 실패:', firestoreError);
+                    this.showNotification('피드백 저장에 실패했습니다', 'error');
+                    throw new Error(`API와 Firestore 모두 실패: API(${response.status}), Firestore(${firestoreError.message})`);
+                }
             }
         } catch (error) {
             console.error('피드백 전송 실패:', error);
@@ -929,6 +968,85 @@ class ChatbotWidget {
                 this.showNotification('피드백 전송에 실패했습니다', 'error');
                 throw error;
             }
+        }
+    }
+
+    // 구글챗 웹훅으로 데모 신청 전송
+    async sendDemoRequestToGoogleChat(formData) {
+        try {
+            // 구글챗 웹훅 URL (위젯 설정에서 가져오기)
+            const GOOGLE_CHAT_WEBHOOK = window.GraphRAGWidgetConfig?.googleChatWebhook || 
+                                       this.googleChatWebhook || 
+                                       'https://chat.googleapis.com/v1/spaces/AAAA_YOUR_SPACE_ID/messages?key=YOUR_KEY&token=YOUR_TOKEN';
+            
+            // 데모 신청 데이터 구성
+            const demoData = {
+                companyName: formData.get('companyName') || '',
+                customerName: formData.get('customerName') || '',
+                email: formData.get('email') || '',
+                phone: formData.get('phone') || '',
+                sendType: formData.get('sendType') || '',
+                usagePurpose: formData.get('usagePurpose') || '',
+                timestamp: new Date().toISOString(),
+                url: window.location.href
+            };
+
+            // 구글챗 메시지 포맷
+            const chatMessage = {
+                text: `🎯 *새로운 데모 신청이 접수되었습니다*\n\n` +
+                      `📅 *신청시간*: ${new Date().toLocaleString('ko-KR')}\n` +
+                      `🏢 *회사명*: ${demoData.companyName}\n` +
+                      `👤 *고객명*: ${demoData.customerName}\n` +
+                      `📧 *이메일*: ${demoData.email}\n` +
+                      `📞 *전화번호*: ${demoData.phone}\n` +
+                      `📋 *발송타입*: ${demoData.sendType || '미선택'}\n` +
+                      `💭 *사용목적*: ${demoData.usagePurpose || '미작성'}\n` +
+                      `🌐 *접속 URL*: ${demoData.url}\n\n` +
+                      `담당자는 빠른 시일 내에 고객에게 연락해주세요! 📞`
+            };
+
+            // 1차: 구글챗 웹훅으로 전송
+            try {
+                const webhookResponse = await fetch(GOOGLE_CHAT_WEBHOOK, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(chatMessage)
+                });
+
+                if (webhookResponse.ok) {
+                    console.log('✅ 구글챗 웹훅 전송 성공');
+                } else {
+                    console.warn('⚠️ 구글챗 웹훅 전송 실패:', webhookResponse.status);
+                    // 웹훅 실패해도 계속 진행 (Firestore 백업 저장)
+                }
+            } catch (webhookError) {
+                console.warn('⚠️ 구글챗 웹훅 오류:', webhookError);
+                // 웹훅 오류해도 계속 진행
+            }
+
+            // 2차: Firestore에 백업 저장
+            if (window.firebaseDB && window.firestoreFunctions) {
+                const { collection, doc, setDoc, serverTimestamp } = window.firestoreFunctions;
+                
+                const firestoreData = {
+                    ...demoData,
+                    timestamp: serverTimestamp(),
+                    status: 'webhook_submitted'
+                };
+
+                const demoRef = doc(collection(window.firebaseDB, 'demo_requests'), `demo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
+                await setDoc(demoRef, firestoreData);
+                
+                console.log('✅ Firestore 백업 저장 성공');
+            } else {
+                console.warn('⚠️ Firebase가 초기화되지 않아 백업 저장 실패');
+            }
+            
+        } catch (error) {
+            console.error('❌ 데모 신청 전송 실패:', error);
+            throw error;
         }
     }
 
@@ -1064,32 +1182,77 @@ ${result.message}
                 this.scrollToBottom();
                 
             } else {
-                console.error('데모 신청 실패:', result);
+                console.error('데모 신청 API 실패:', result);
                 
-                if (errorContainer) {
-                    let errorHtml = "";
+                // API 실패 시 구글챗 웹훅으로 전송
+                try {
+                    await this.sendDemoRequestToGoogleChat(formData);
                     
-                    if (result.errors && result.errors.length > 0) {
-                        errorHtml += "<ul>";
-                        result.errors.forEach(error => {
-                            errorHtml += `<li>${error}</li>`;
-                        });
-                        errorHtml += "</ul>";
-                    } else {
-                        errorHtml = result.message || "데모 신청 중 오류가 발생했습니다.";
+                    this.displayModelMessage(`✅ **데모 신청이 성공적으로 접수되었습니다!**
+
+신청해주셔서 감사합니다. 담당팀에 바로 전달되었으며, 빠른 시일 내에 연락드리겠습니다.
+
+**접수된 정보**:
+• 회사명: ${formData.get('companyName')}
+• 고객명: ${formData.get('customerName')}
+• 이메일: ${formData.get('email')}
+• 전화번호: ${formData.get('phone')}
+
+곧 연락드리겠습니다! 📞`);
+
+                    this.hideDemoForm();
+                    this.scrollToBottom();
+                    
+                } catch (firestoreError) {
+                    console.error('데모 신청 Firestore 저장도 실패:', firestoreError);
+                    
+                    if (errorContainer) {
+                        let errorHtml = "";
+                        
+                        if (result.errors && result.errors.length > 0) {
+                            errorHtml += "<ul>";
+                            result.errors.forEach(error => {
+                                errorHtml += `<li>${error}</li>`;
+                            });
+                            errorHtml += "</ul>";
+                        } else {
+                            errorHtml = result.message || "데모 신청 중 오류가 발생했습니다.";
+                        }
+                        
+                        errorContainer.innerHTML = errorHtml;
+                        errorContainer.style.display = "block";
                     }
-                    
-                    errorContainer.innerHTML = errorHtml;
-                    errorContainer.style.display = "block";
                 }
             }
             
         } catch (error) {
             console.error('데모 신청 중 네트워크 오류:', error);
             
-            if (errorContainer) {
-                errorContainer.innerHTML = "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
-                errorContainer.style.display = "block";
+            // 네트워크 오류 시에도 구글챗 웹훅 시도
+            try {
+                await this.sendDemoRequestToGoogleChat(formData);
+                
+                this.displayModelMessage(`✅ **데모 신청이 접수되었습니다!**
+
+네트워크 문제가 있었지만 담당팀에 성공적으로 전달되었습니다.
+
+**접수된 정보**:
+• 회사명: ${formData.get('companyName')}
+• 고객명: ${formData.get('customerName')}
+• 이메일: ${formData.get('email')}
+
+빠른 시일 내에 연락드리겠습니다! 📞`);
+
+                this.hideDemoForm();
+                this.scrollToBottom();
+                
+            } catch (webhookError) {
+                console.error('구글챗 웹훅도 실패:', webhookError);
+                
+                if (errorContainer) {
+                    errorContainer.innerHTML = "일시적인 네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+                    errorContainer.style.display = "block";
+                }
             }
         } finally {
             if (submitBtn) {

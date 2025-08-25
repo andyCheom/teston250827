@@ -43,6 +43,11 @@
         ...(window.GraphRAGWidgetConfig || {})
     };
     
+    // 구글챗 웹훅 URL 설정 예시:
+    // window.GraphRAGWidgetConfig = {
+    //     googleChatWebhook: 'https://chat.googleapis.com/v1/spaces/YOUR_SPACE_ID/messages?key=YOUR_KEY&token=YOUR_TOKEN'
+    // };
+    
     // 이미 로드된 경우 중복 방지
     if (window.GraphRAGWidgetLoaded) {
         console.log('GraphRAG 위젯이 이미 로드되었습니다.');
@@ -89,6 +94,64 @@
             script.onerror = reject;
             document.head.appendChild(script);
         });
+    }
+
+    /**
+     * Firebase SDK 동적 로드 및 초기화
+     */
+    async function loadFirebaseSDK() {
+        try {
+            // Firebase가 이미 로드된 경우 스킴
+            if (window.firebaseDB && window.firestoreFunctions) {
+                console.log('✅ Firebase 이미 초기화됨');
+                return;
+            }
+
+            // Firebase SDK를 동적으로 로드
+            const firebaseScript = document.createElement('script');
+            firebaseScript.type = 'module';
+            firebaseScript.innerHTML = `
+                import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+                import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp } 
+                        from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+                
+                // Firebase 설정
+                const firebaseConfig = {
+                    projectId: "sampleprojects-468223",
+                };
+                
+                // Firebase 초기화
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                
+                // 전역으로 노출
+                window.firebaseDB = db;
+                window.firestoreFunctions = {
+                    collection, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp
+                };
+
+                console.log('✅ Firebase 초기화 완료');
+                
+                // 초기화 완료 이벤트 발생
+                window.dispatchEvent(new CustomEvent('firebase:initialized'));
+            `;
+            document.head.appendChild(firebaseScript);
+            
+            // Firebase 초기화 완료까지 대기
+            return new Promise((resolve) => {
+                window.addEventListener('firebase:initialized', resolve, { once: true });
+                
+                // 타임아웃 설정 (5초)
+                setTimeout(() => {
+                    if (!window.firebaseDB) {
+                        console.warn('⚠️ Firebase 초기화 타임아웃');
+                    }
+                    resolve();
+                }, 5000);
+            });
+        } catch (error) {
+            console.error('❌ Firebase 로드 실패:', error);
+        }
     }
     
     /**
@@ -142,8 +205,11 @@
             ]);
             console.log('✅ CSS 파일 로드 완료');
             
-            // 2. 외부 의존성 로드 (marked.js)
-            await loadJS('https://cdn.jsdelivr.net/npm/marked/marked.min.js', 'marked-js');
+            // 2. 외부 의존성 로드 (marked.js, Firebase)
+            await Promise.all([
+                loadJS('https://cdn.jsdelivr.net/npm/marked/marked.min.js', 'marked-js'),
+                loadFirebaseSDK()
+            ]);
             console.log('✅ 외부 라이브러리 로드 완료');
             
             // 3. 위젯 HTML 로드 및 삽입
