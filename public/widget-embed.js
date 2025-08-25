@@ -24,6 +24,7 @@
     }
     
     
+    
     // 설정
     const WIDGET_CONFIG = {
         baseUrl: getBaseUrl(),
