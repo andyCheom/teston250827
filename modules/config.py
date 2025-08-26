@@ -14,6 +14,25 @@ logger = logging.getLogger(__name__)
 class Config:
     """애플리케이션 설정 클래스"""
     
+    # Application Constants
+    API_VERSION = "2.0.0"
+    SERVICE_NAME = "graphrag-api"
+    
+    # Discovery Engine Constants
+    DISCOVERY_SEARCH_PAGE_SIZE = 10
+    DISCOVERY_MAX_SEARCH_RESULTS = 5
+    DISCOVERY_ANSWER_TIMEOUT = 300  # seconds
+    
+    # Content Processing Constants
+    MAX_TEXT_LENGTH = 200
+    MAX_CONVERSATION_HISTORY = 10
+    
+    # Caching Constants
+    AUTH_HEADER_CACHE_TTL = 300  # 5 minutes
+    
+    # Response Constants
+    MIN_ANSWER_LENGTH = 50
+    
     @staticmethod
     def get_env(name: str) -> str:
         """환경변수를 가져오고 없으면 예외 발생"""

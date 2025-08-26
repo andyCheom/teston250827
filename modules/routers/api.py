@@ -46,8 +46,8 @@ async def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "service": "graphrag-api",
-        "version": "2.0.0"
+        "service": Config.SERVICE_NAME,
+        "version": Config.API_VERSION
     }
 
 @router.get('/api/health/detailed')
@@ -70,8 +70,8 @@ async def detailed_health_check():
             "authenticated": auth_status,
             "detailed_auth": detailed_auth_status,
             "timestamp": datetime.now().isoformat(),
-            "service": "graphrag-api",
-            "version": "2.0.0",
+            "service": Config.SERVICE_NAME,
+            "version": Config.API_VERSION,
             "components": {
                 "auth": "ok" if auth_status else "warning",
                 "api": "ok",
@@ -84,8 +84,8 @@ async def detailed_health_check():
             "status": "degraded",
             "authenticated": False,
             "timestamp": datetime.now().isoformat(),
-            "service": "graphrag-api",
-            "version": "2.0.0",
+            "service": Config.SERVICE_NAME,
+            "version": Config.API_VERSION,
             "components": {
                 "auth": "error",
                 "api": "ok"
@@ -120,7 +120,7 @@ async def generate_content(userPrompt: str = Form(""), conversationHistory: str 
                 answer_text = discovery_result.get("answer_text", "")
                 
                 # RAG 답변이 충분한지 확인
-                if answer_text and len(answer_text.strip()) > 50:
+                if answer_text and len(answer_text.strip()) > Config.MIN_ANSWER_LENGTH:
                     # RAG 답변 성공 - 일반적인 플로우로 처리
                     logger.info(f"RAG 답변 성공: {len(answer_text)}자")
                     # 아래 일반 처리 로직으로 넘어감

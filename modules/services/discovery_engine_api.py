@@ -37,7 +37,7 @@ async def get_discovery_session():
             keepalive_timeout=30,
             enable_cleanup_closed=True
         )
-        timeout = aiohttp.ClientTimeout(total=300, connect=10)
+        timeout = aiohttp.ClientTimeout(total=Config.DISCOVERY_ANSWER_TIMEOUT, connect=10)
         _discovery_session = aiohttp.ClientSession(connector=connector, timeout=timeout)
     return _discovery_session
 
@@ -45,8 +45,8 @@ async def get_discovery_headers():
     """Discovery Engine용 인증 헤더 캐싱"""
     global _discovery_headers, _discovery_headers_cache_time
     
-    # 헤더를 5분간 캐시
-    if _discovery_headers is None or time.time() - _discovery_headers_cache_time > 300:
+    # 헤더를 설정된 시간만큼 캐시
+    if _discovery_headers is None or time.time() - _discovery_headers_cache_time > Config.AUTH_HEADER_CACHE_TTL:
         try:
             credentials = get_credentials()
             if not credentials:
@@ -85,7 +85,7 @@ async def search_documents(query: str) -> Dict[str, Any]:
     
     payload = {
         "query": query,
-        "pageSize": 10,
+        "pageSize": Config.DISCOVERY_SEARCH_PAGE_SIZE,
         "session": f"projects/{project_id}/locations/{location}/collections/{collection}/engines/{engine_id}/sessions/-",
         "spellCorrectionSpec": {"mode": "AUTO"},
         "languageCode": "ko",
@@ -216,7 +216,7 @@ async def get_complete_discovery_answer(user_query: str, image_file=None) -> Dic
                 search_results = search_result.get("results", [])
                 if search_results:
                     answer_text = "Discovery Engine 검색 결과를 바탕으로 한 답변입니다:\n\n"
-                    for i, result in enumerate(search_results[:3], 1):
+                    for i, result in enumerate(search_results[:Config.DISCOVERY_MAX_SEARCH_RESULTS], 1):
                         snippet = result.get("document", {}).get("derivedStructData", {}).get("snippets", [])
                         if snippet:
                             answer_text += f"{i}. {snippet[0].get('snippet', '내용 없음')}\n\n"
@@ -226,7 +226,7 @@ async def get_complete_discovery_answer(user_query: str, image_file=None) -> Dic
             search_results = search_result.get("results", [])
             if search_results:
                 answer_text = "검색 결과를 바탕으로 한 답변입니다:\n\n"
-                for i, result in enumerate(search_results[:3], 1):
+                for i, result in enumerate(search_results[:Config.DISCOVERY_MAX_SEARCH_RESULTS], 1):
                     snippet = result.get("document", {}).get("derivedStructData", {}).get("snippets", [])
                     if snippet:
                         answer_text += f"{i}. {snippet[0].get('snippet', '내용 없음')}\n\n"
@@ -237,7 +237,7 @@ async def get_complete_discovery_answer(user_query: str, image_file=None) -> Dic
         if not citations and search_result.get("results", []):
             logger.info("Answer API citations가 없어서 Search Results에서 citations 생성")
             citations = []
-            for i, result in enumerate(search_result.get("results", [])[:5]):  # 최대 5개
+            for i, result in enumerate(search_result.get("results", [])[:Config.DISCOVERY_MAX_SEARCH_RESULTS]):
                 doc = result.get("document", {})
                 derived_data = doc.get("derivedStructData", {})
                 

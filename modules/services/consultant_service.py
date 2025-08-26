@@ -89,8 +89,8 @@ class ConsultantService:
         
         if conversation_history:
             formatted_text += "*대화 내역:*\n"
-            # 최근 5개 대화만 표시
-            recent_conversations = conversation_history[-10:] if len(conversation_history) > 10 else conversation_history
+            # 최근 대화만 표시
+            recent_conversations = conversation_history[-Config.MAX_CONVERSATION_HISTORY:] if len(conversation_history) > Config.MAX_CONVERSATION_HISTORY else conversation_history
             
             for i, msg in enumerate(recent_conversations):
                 role = "👤 사용자" if msg.get("role") == "user" else "🤖 AI"
@@ -98,9 +98,9 @@ class ConsultantService:
                 if msg.get("parts") and len(msg["parts"]) > 0:
                     content = msg["parts"][0].get("text", "")
                 
-                # 텍스트 길이 제한 (200자)
-                if len(content) > 200:
-                    content = content[:200] + "..."
+                # 텍스트 길이 제한
+                if len(content) > Config.MAX_TEXT_LENGTH:
+                    content = content[:Config.MAX_TEXT_LENGTH] + "..."
                 
                 formatted_text += f"\n{role}: {content}\n"
         
