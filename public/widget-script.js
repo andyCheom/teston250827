@@ -161,6 +161,10 @@ class ChatbotWidget {
             });
         }
 
+
+        
+
+
         // 위젯 외부 클릭 시 닫기 (옵션)
         document.addEventListener('click', (e) => {
             if (this.isOpen && !this.widget.contains(e.target) && !this.toggle.contains(e.target)) {
