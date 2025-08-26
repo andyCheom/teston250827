@@ -1,0 +1,226 @@
+{
+  "id": "widget_52dlue5l3_1756166581007",
+  "path": "conversations/widget_52dlue5l3_1756166581007",
+  "fields": {
+    "message_count": 1,
+    "session_id": "widget_52dlue5l3_1756166581007",
+    "created_at": "2025-08-26T00:03:15.522773Z",
+    "updated_at": "2025-08-26T00:03:15.522777Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "query_length": 4,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "startIndex": "230",
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "endIndex": "352"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/2657173279667518106",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "fb7343fb2782a136f89791935b6d664d",
+              "document": {
+                "derivedStructData": {
+                  "title": "(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아).pptx"
+                },
+                "id": "fb7343fb2782a136f89791935b6d664d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/fb7343fb2782a136f89791935b6d664d"
+              }
+            },
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "80b93a8afd014f9bff62de469a53ea7b",
+              "document": {
+                "derivedStructData": {
+                  "title": "Cosse5.0 - 마이메일러 API전용서버 기능비교표 (17-0922)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/Cosse5.0 제품소개서/Cosse5.0 - 마이메일러 API전용서버 기능비교표 (17-0922).pptx"
+                },
+                "id": "80b93a8afd014f9bff62de469a53ea7b",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/80b93a8afd014f9bff62de469a53ea7b"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom4",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom4",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom4.txt"
+                },
+                "id": "a689b1d31ccc24fffca936bd2fed8e8e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/a689b1d31ccc24fffca936bd2fed8e8e"
+              }
+            },
+            {
+              "id": "e5a9399a6f3ab75d9566bd3656c7dbde",
+              "document": {
+                "derivedStructData": {
+                  "title": "HTML변환 대행신청 – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/html_inquery.html"
+                },
+                "id": "e5a9399a6f3ab75d9566bd3656c7dbde",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e5a9399a6f3ab75d9566bd3656c7dbde"
+              }
+            },
+            {
+              "id": "2588cd3e8bdca9567e8b929ed2295a21",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/다인소프트_ME6.0_제품소개서및제안서 & 보안메일.pdf"
+                },
+                "id": "2588cd3e8bdca9567e8b929ed2295a21",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/2588cd3e8bdca9567e8b929ed2295a21"
+              }
+            },
+            {
+              "id": "baa2aff27a3058c47ca3668b9be7f5ba",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(베스핀글로벌) ME6.0 - 제안서_망분리버전.pdf"
+                },
+                "id": "baa2aff27a3058c47ca3668b9be7f5ba",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/baa2aff27a3058c47ca3668b9be7f5ba"
+              }
+            },
+            {
+              "id": "517fee573149dc1d4d46d7022353201f",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(토요타파이낸셜코리아) ME6.0 - 제품소개서.pdf"
+                },
+                "id": "517fee573149dc1d4d46d7022353201f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/517fee573149dc1d4d46d7022353201f"
+              }
+            },
+            {
+              "id": "3f80cc83308016a8f2bcd5151c6be3f4",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint Presentation",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/구 제품소개서/ME6.0 - 제품소개서.pdf"
+                },
+                "id": "3f80cc83308016a8f2bcd5151c6be3f4",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/3f80cc83308016a8f2bcd5151c6be3f4"
+              }
+            }
+          ],
+          "citations_count": 1,
+          "answer_length": 187,
+          "search_results_count": 10
+        },
+        "user_query": "ㅎㅇㅎㅇ",
+        "response_length": 187,
+        "timestamp": "2025-08-26T00:03:15.435786Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! 처음서비스 고객지원 담당자입니다.\n\n문의하신 내용에 대해 정확한 답변을 드리기 어렵습니다. 제공해주신 정보만으로는 질문의 의도를 파악하기 어렵습니다.\n\n**처음서비스**는 처음소프트, 씨디엠소프트, 처음서베이로 구성된 종합 솔루션 기업입니다.\n\n어떤 점이 궁금하신지 자세히 알려주시면 확인 후 친절하게 안내해 드리겠습니다."
+      }
+    ],
+    "last_activity": "2025-08-26T00:03:15.522778Z"
+  }
+}

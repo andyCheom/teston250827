@@ -1,0 +1,241 @@
+{
+  "id": "widget_ctfd6593g_1756106996351",
+  "path": "conversations/widget_ctfd6593g_1756106996351",
+  "fields": {
+    "message_count": 1,
+    "session_id": "widget_ctfd6593g_1756106996351",
+    "created_at": "2025-08-25T07:30:06.959298Z",
+    "updated_at": "2025-08-25T07:30:06.959302Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "query_length": 2,
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/11801890566218454801",
+          "citations": [
+            {
+              "startIndex": "70",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                },
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "endIndex": "99"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "fb7343fb2782a136f89791935b6d664d",
+              "document": {
+                "id": "fb7343fb2782a136f89791935b6d664d",
+                "derivedStructData": {
+                  "title": "(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아).pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/fb7343fb2782a136f89791935b6d664d"
+              }
+            },
+            {
+              "id": "ef583eb1383d6228d08433ffc2ba791d",
+              "document": {
+                "id": "ef583eb1383d6228d08433ffc2ba791d",
+                "derivedStructData": {
+                  "title": "넷마블_210420",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210420.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ef583eb1383d6228d08433ffc2ba791d"
+              }
+            },
+            {
+              "id": "cbb01c702327d19c0ce91d7c0621b146",
+              "document": {
+                "id": "cbb01c702327d19c0ce91d7c0621b146",
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/cbb01c702327d19c0ce91d7c0621b146"
+              }
+            },
+            {
+              "id": "d268c48e61460db9b1e900930dac8df6",
+              "document": {
+                "id": "d268c48e61460db9b1e900930dac8df6",
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_급여명세서_메일발송시스템.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/d268c48e61460db9b1e900930dac8df6"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom2",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "44568ced186ad9615cabe6497e1adac7",
+              "document": {
+                "id": "44568ced186ad9615cabe6497e1adac7",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom2",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/44568ced186ad9615cabe6497e1adac7"
+              }
+            },
+            {
+              "id": "3bcdd6b5cba3a5eaf52eeffe4385140b",
+              "document": {
+                "id": "3bcdd6b5cba3a5eaf52eeffe4385140b",
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/아리야네트웍스_PDF암호화솔루션_ME6_제품소개서_210806.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/3bcdd6b5cba3a5eaf52eeffe4385140b"
+              }
+            },
+            {
+              "id": "e992d61b527fe845e1a1d6c9bf85835a",
+              "document": {
+                "id": "e992d61b527fe845e1a1d6c9bf85835a",
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_단일서버.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e992d61b527fe845e1a1d6c9bf85835a"
+              }
+            },
+            {
+              "id": "2d35420121bca943d51bb28fc2319daf",
+              "document": {
+                "id": "2d35420121bca943d51bb28fc2319daf",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom1",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/2d35420121bca943d51bb28fc2319daf"
+              }
+            }
+          ],
+          "citations_count": 1,
+          "answer_length": 41,
+          "search_results_count": 10
+        },
+        "user_query": "안녕",
+        "response_length": 41,
+        "timestamp": "2025-08-25T07:30:06.925893Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?"
+      }
+    ],
+    "last_activity": "2025-08-25T07:30:06.959303Z"
+  }
+}

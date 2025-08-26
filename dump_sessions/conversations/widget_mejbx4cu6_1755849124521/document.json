@@ -1,0 +1,242 @@
+{
+  "id": "widget_mejbx4cu6_1755849124521",
+  "path": "conversations/widget_mejbx4cu6_1755849124521",
+  "fields": {
+    "message_count": 1,
+    "session_id": "widget_mejbx4cu6_1755849124521",
+    "created_at": "2025-08-22T07:53:52.636862Z",
+    "updated_at": "2025-08-22T07:53:52.636866Z",
+    "last_activity": "2025-08-22T07:53:52.636866Z",
+    "messages": [
+      {
+        "query_length": 5,
+        "metadata": {
+          "answer_length": 43,
+          "citations": [
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+            },
+            {
+              "title": "ME6.0 - 제품소개서(요약본)_(19-0424)",
+              "displayName": "ME6.0 - 제품소개서(요약본)_(19-0424)",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/ME6 제품소개서 -- 문서원본 (PPT-HWP-DOC)/이전자료/ME6.0 - 제품소개서(요약본)_(19-0424).pptx"
+            },
+            {
+              "title": "ME6.0 - 제품소개서_업그레이드_제안서",
+              "displayName": "ME6.0 - 제품소개서_업그레이드_제안서",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/ME6.0 - 제품소개서_업그레이드_제안서.pptx"
+            },
+            {
+              "title": "처음소프트_연동제휴서비스_190212",
+              "displayName": "처음소프트_연동제휴서비스_190212",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/처음소프트_연동제휴서비스_190212.pptx"
+            },
+            {
+              "title": "ME6.0 - 커리어넷_제안서",
+              "displayName": "ME6.0 - 커리어넷_제안서",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/ME6.0 - 커리어넷_제안서.pptx"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/16953081340390905704",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "c5e8f8e4f51e0ae70c7161d9355e0d2a",
+              "document": {
+                "id": "c5e8f8e4f51e0ae70c7161d9355e0d2a",
+                "derivedStructData": {
+                  "title": "ME6.0 - 제품소개서(요약본)_(19-0424)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/ME6 제품소개서 -- 문서원본 (PPT-HWP-DOC)/이전자료/ME6.0 - 제품소개서(요약본)_(19-0424).pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/c5e8f8e4f51e0ae70c7161d9355e0d2a"
+              }
+            },
+            {
+              "id": "e15b1b63b45b0622d92e9173479f9e83",
+              "document": {
+                "id": "e15b1b63b45b0622d92e9173479f9e83",
+                "derivedStructData": {
+                  "title": "ME6.0 - 제품소개서_업그레이드_제안서",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/ME6.0 - 제품소개서_업그레이드_제안서.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e15b1b63b45b0622d92e9173479f9e83"
+              }
+            },
+            {
+              "id": "a0e2154b60d6ddf370e207bf381f7957",
+              "document": {
+                "id": "a0e2154b60d6ddf370e207bf381f7957",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "처음소프트_연동제휴서비스_190212",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/처음소프트_연동제휴서비스_190212.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/a0e2154b60d6ddf370e207bf381f7957"
+              }
+            },
+            {
+              "id": "4eff6197c21e12ebb971ebb797ad197b",
+              "document": {
+                "id": "4eff6197c21e12ebb971ebb797ad197b",
+                "derivedStructData": {
+                  "title": "ME6.0 - 커리어넷_제안서",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/ME6.0 - 커리어넷_제안서.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/4eff6197c21e12ebb971ebb797ad197b"
+              }
+            },
+            {
+              "id": "6556dda7d24a42014c048f53f3763d65",
+              "document": {
+                "id": "6556dda7d24a42014c048f53f3763d65",
+                "derivedStructData": {
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/doc/policy.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/6556dda7d24a42014c048f53f3763d65"
+              }
+            },
+            {
+              "id": "5856a7bd97ac232529f73a854bbb43e1",
+              "document": {
+                "id": "5856a7bd97ac232529f73a854bbb43e1",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "마이메일러 5.0 - 제품소개서(요약본)_(19-0213)",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/Cosse5.0 제품소개서/마이메일러 5.0 - 제품소개서(요약본)_(19-0213).pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/5856a7bd97ac232529f73a854bbb43e1"
+              }
+            },
+            {
+              "id": "eeb7bcdb0a825f40bc683aea2f6df2f2",
+              "document": {
+                "id": "eeb7bcdb0a825f40bc683aea2f6df2f2",
+                "derivedStructData": {
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/member/join.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/eeb7bcdb0a825f40bc683aea2f6df2f2"
+              }
+            },
+            {
+              "id": "892e693863dfb61168a49a9d857b4643",
+              "document": {
+                "id": "892e693863dfb61168a49a9d857b4643",
+                "derivedStructData": {
+                  "title": "홈_Agency Home – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/agency-home.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/892e693863dfb61168a49a9d857b4643"
+              }
+            },
+            {
+              "id": "39091664f0eb36149a28f8db4313e741",
+              "document": {
+                "id": "39091664f0eb36149a28f8db4313e741",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_pringo3",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo3.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/39091664f0eb36149a28f8db4313e741"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "user_query": "안녕하세요",
+        "response_length": 43,
+        "ai_response": "안녕하세요! **\"처음서비스\"** 고객지원 담당자입니다. 무엇을 도와드릴까요?",
+        "quality_metrics": {},
+        "timestamp": "2025-08-22T07:53:52.555209Z"
+      }
+    ],
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    }
+  }
+}

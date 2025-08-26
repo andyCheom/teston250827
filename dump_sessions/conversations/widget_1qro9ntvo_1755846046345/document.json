@@ -1,0 +1,612 @@
+{
+  "id": "widget_1qro9ntvo_1755846046345",
+  "path": "conversations/widget_1qro9ntvo_1755846046345",
+  "fields": {
+    "created_at": "2025-08-22T07:02:00.486392Z",
+    "session_id": "widget_1qro9ntvo_1755846046345",
+    "message_count": 2,
+    "updated_at": "2025-08-22T07:04:41.557412Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "user_query": "ad",
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "startIndex": "202",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "endIndex": "256"
+            },
+            {
+              "startIndex": "257",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "endIndex": "310"
+            },
+            {
+              "startIndex": "311",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "372"
+            },
+            {
+              "startIndex": "373",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "endIndex": "424"
+            },
+            {
+              "startIndex": "425",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "endIndex": "471"
+            },
+            {
+              "startIndex": "495",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "526"
+            },
+            {
+              "startIndex": "527",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "558"
+            },
+            {
+              "startIndex": "559",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "596"
+            },
+            {
+              "startIndex": "597",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "628"
+            },
+            {
+              "startIndex": "629",
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "endIndex": "659"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/13686865641206227666",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "41b3eae1d684539fe6206d8492abdfa3",
+              "document": {
+                "derivedStructData": {
+                  "title": "Search Engine Advertising – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>Advertising</b> Social Media Strategy Z Boost Your Conversion Rate Z Content Marketing Strategy Z Check Your SEO Score Header &amp; Title StylesAwesome header and&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/search-engine-advertising.html"
+                },
+                "id": "41b3eae1d684539fe6206d8492abdfa3",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/41b3eae1d684539fe6206d8492abdfa3"
+              }
+            },
+            {
+              "id": "6c4ec5e462721cb9673854af4ddee506",
+              "document": {
+                "derivedStructData": {
+                  "title": "Portfolio Standard Three Columns – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "Ut enim <b>ad</b> minim veniam, quis nostrud exercitation ullamco laboris nisi ut ali. Social Delivering Results Lorem ipsum dolor sit amet, consectetur adipiscin&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/portfolio-standard-three-columns.html"
+                },
+                "id": "6c4ec5e462721cb9673854af4ddee506",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/6c4ec5e462721cb9673854af4ddee506"
+              }
+            },
+            {
+              "id": "27c57da087154643be42a5fb7fda864e",
+              "document": {
+                "derivedStructData": {
+                  "title": "Z Case Study Showcase Home – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "Ut enim <b>ad</b> minim veniam, quis nostrud exercitation ullamco laboris nisi ut ali. Social Delivering Results Lorem ipsum dolor sit amet, consectetur adipiscin&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/case-study-showcase-home.html"
+                },
+                "id": "27c57da087154643be42a5fb7fda864e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/27c57da087154643be42a5fb7fda864e"
+              }
+            },
+            {
+              "id": "3822872bde957fdee30c316214ed87fc",
+              "document": {
+                "derivedStructData": {
+                  "title": "SEO Home – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "Ut enim <b>ad</b> minim veniam, quis nostrud exercitation ullamco laboris nisi ut ali. Social Delivering Results Lorem ipsum dolor sit amet, consectetur adipiscin&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/seo-home.html"
+                },
+                "id": "3822872bde957fdee30c316214ed87fc",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/3822872bde957fdee30c316214ed87fc"
+              }
+            },
+            {
+              "id": "e0663c3a51e0fc0ba66d33bd97264118",
+              "document": {
+                "derivedStructData": {
+                  "title": "Z Content Marketing Strategy – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "Ut enim <b>ad</b> minim veniam, quis nostrud exercitation ullamco laboris nisi ut ali. Social Delivering Results Lorem ipsum dolor sit amet, consectetur adipiscin&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/content-marketing-strategy.html"
+                },
+                "id": "e0663c3a51e0fc0ba66d33bd97264118",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e0663c3a51e0fc0ba66d33bd97264118"
+              }
+            },
+            {
+              "id": "6b279b28dd5a51d69a649290e478d00f",
+              "document": {
+                "derivedStructData": {
+                  "title": "홈_Animation Title – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>Advertising</b> Social Media Strategy Z Boost Your Conversion Rate Z ... Purus est phasellus <b>ad</b> quis magna a aliquet arcu. Enim lacus quis imperdiet&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/animation-title.html"
+                },
+                "id": "6b279b28dd5a51d69a649290e478d00f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/6b279b28dd5a51d69a649290e478d00f"
+              }
+            },
+            {
+              "id": "bd675621bb7df9f059eaaa9540122ed5",
+              "document": {
+                "derivedStructData": {
+                  "title": "Search Marketers – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>Advertising</b> Social Media Strategy Z Boost Your Conversion Rate Z Content ... Ut enim <b>ad</b> minim veniam, quis nostrud exercitation ullamco laboris nisi ut&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/archives/portfolio-item/search-marketers-2.html"
+                },
+                "id": "bd675621bb7df9f059eaaa9540122ed5",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/bd675621bb7df9f059eaaa9540122ed5"
+              }
+            },
+            {
+              "id": "140d4c901668a273f257697b492eea3c",
+              "document": {
+                "derivedStructData": {
+                  "title": "Search Marketers – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>Advertising</b> Social Media Strategy Z Boost Your Conversion Rate Z Content ... Ut enim <b>ad</b> minim veniam, quis nostrud exercitation ullamco laboris nisi ut&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/archives/portfolio-item/search-marketers.html"
+                },
+                "id": "140d4c901668a273f257697b492eea3c",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/140d4c901668a273f257697b492eea3c"
+              }
+            },
+            {
+              "id": "a44572c9bc191ab334be332bf2e66b74",
+              "document": {
+                "derivedStructData": {
+                  "title": "Light Title – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>Advertising</b> Social Media Strategy Z Boost Your Conversion Rate Z ... Purus est phasellus <b>ad</b> quis magna a aliquet arcu. Enim lacus quis imperdiet&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/light-title.html"
+                },
+                "id": "a44572c9bc191ab334be332bf2e66b74",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/a44572c9bc191ab334be332bf2e66b74"
+              }
+            },
+            {
+              "id": "efc0462c742335bafad7f2e62c394a4a",
+              "document": {
+                "derivedStructData": {
+                  "title": "Z Dark Title – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>Advertising</b> Social Media Strategy Z Boost Your Conversion Rate Z ... Purus est phasellus <b>ad</b> quis magna a aliquet arcu. Enim lacus quis imperdiet&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/dark-title.html"
+                },
+                "id": "efc0462c742335bafad7f2e62c394a4a",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/efc0462c742335bafad7f2e62c394a4a"
+              }
+            }
+          ],
+          "citations_count": 10,
+          "answer_length": 420,
+          "search_results_count": 10
+        },
+        "query_length": 2,
+        "response_length": 420,
+        "ai_response": "처음서비스는 다양한 디지털 마케팅 서비스를 제공하고 있습니다. 광고와 관련하여 다음 서비스들을 확인하실 수 있습니다:\n\n**디지털 마케팅 서비스:**\n- **Search Engine Advertising (검색 엔진 광고)**\n- **Social Media Strategy (소셜 미디어 전략)**\n- **Content Marketing Strategy (콘텐츠 마케팅 전략)**\n- **Boost Your Conversion Rate (전환율 증대)**\n- **Check Your SEO Score (SEO 점수 확인)**\n\n**대행 서비스:**\n- **메일발송 대행신청**\n- **문자발송 대행신청**\n- **기프티콘발송 대행신청**\n- **뉴스레터 제작신청**\n- **HTML 변환 대행신청**\n\n더 궁금하신 점이 있으시면 언제든지 문의해주세요.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-22T07:02:00.357768Z"
+      },
+      {
+        "user_query": "안녕",
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "startIndex": "70",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "99"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/3175220482693201179",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "fb7343fb2782a136f89791935b6d664d",
+              "document": {
+                "derivedStructData": {
+                  "title": "(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아).pptx"
+                },
+                "id": "fb7343fb2782a136f89791935b6d664d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/fb7343fb2782a136f89791935b6d664d"
+              }
+            },
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "220b74cec1a9dad358c82447d656dc75",
+              "document": {
+                "derivedStructData": {
+                  "title": "넷마블_210419",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210419.pptx"
+                },
+                "id": "220b74cec1a9dad358c82447d656dc75",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/220b74cec1a9dad358c82447d656dc75"
+              }
+            },
+            {
+              "id": "c359a0099632e4a304dec12dff3ad6d2",
+              "document": {
+                "derivedStructData": {
+                  "title": "Testimonials – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/testimonials.html"
+                },
+                "id": "c359a0099632e4a304dec12dff3ad6d2",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/c359a0099632e4a304dec12dff3ad6d2"
+              }
+            },
+            {
+              "id": "ef583eb1383d6228d08433ffc2ba791d",
+              "document": {
+                "derivedStructData": {
+                  "title": "넷마블_210420",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210420.pptx"
+                },
+                "id": "ef583eb1383d6228d08433ffc2ba791d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ef583eb1383d6228d08433ffc2ba791d"
+              }
+            },
+            {
+              "id": "cbb01c702327d19c0ce91d7c0621b146",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pdf"
+                },
+                "id": "cbb01c702327d19c0ce91d7c0621b146",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/cbb01c702327d19c0ce91d7c0621b146"
+              }
+            },
+            {
+              "id": "d268c48e61460db9b1e900930dac8df6",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_급여명세서_메일발송시스템.pdf"
+                },
+                "id": "d268c48e61460db9b1e900930dac8df6",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/d268c48e61460db9b1e900930dac8df6"
+              }
+            },
+            {
+              "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/PDF암호화솔루션_ME6_제품소개서_210806.pdf"
+                },
+                "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/623dcb2f90aa5a52d9e7643bc01f011b"
+              }
+            },
+            {
+              "id": "bf92d5145a3c363af9cda0d4fd53807e",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_넷마블_백성민님.pdf"
+                },
+                "id": "bf92d5145a3c363af9cda0d4fd53807e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/bf92d5145a3c363af9cda0d4fd53807e"
+              }
+            },
+            {
+              "id": "5a0e8625c809870489910de6dc27843c",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "5a0e8625c809870489910de6dc27843c",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/5a0e8625c809870489910de6dc27843c"
+              }
+            }
+          ],
+          "citations_count": 1,
+          "answer_length": 41,
+          "search_results_count": 10
+        },
+        "query_length": 2,
+        "response_length": 41,
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?",
+        "quality_metrics": {},
+        "timestamp": "2025-08-22T07:04:41.360505Z"
+      }
+    ],
+    "last_activity": "2025-08-22T07:04:41.557414Z"
+  }
+}

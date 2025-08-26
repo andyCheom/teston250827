@@ -4,8 +4,8 @@
   "fields": {
     "created_at": "2025-08-14T04:39:48.572191Z",
     "session_id": "session_z6i4xd5q8_1755043695313",
-    "message_count": 3,
-    "updated_at": "2025-08-14T04:42:29.541871Z",
+    "message_count": 6,
+    "updated_at": "2025-08-25T04:29:24.966415Z",
     "user_info": {
       "user_agent": "",
       "ip_region": ""
@@ -743,8 +743,1037 @@
         "timestamp": "2025-08-14T04:42:29.420233Z",
         "quality_metrics": {},
         "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?"
+      },
+      {
+        "user_query": "안녕하세요",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/13842852446167325292",
+          "citations": [
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://www.pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "http://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=58"
+            },
+            {
+              "title": "2022 설날 연휴 고객센터 휴무 안내입니다.",
+              "displayName": "2022 설날 연휴 고객센터 휴무 안내입니다.",
+              "uri": "https://pringo.kr/kor/board/notice?viewMode=view&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1&idx=38"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "a934794c0d1971b84a578538d7ecdc6f",
+              "document": {
+                "id": "a934794c0d1971b84a578538d7ecdc6f",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "www.pringo.kr",
+                  "link": "https://www.pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/a934794c0d1971b84a578538d7ecdc6f"
+              }
+            },
+            {
+              "id": "24c516fdadb5432904c6ed66861ce90d",
+              "document": {
+                "id": "24c516fdadb5432904c6ed66861ce90d",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/24c516fdadb5432904c6ed66861ce90d"
+              }
+            },
+            {
+              "id": "fd165995bf42695cc3358901c66b6d38",
+              "document": {
+                "id": "fd165995bf42695cc3358901c66b6d38",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "http://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/fd165995bf42695cc3358901c66b6d38"
+              }
+            },
+            {
+              "id": "fa925a5c65c32cd1eb6fc097dac8cca6",
+              "document": {
+                "id": "fa925a5c65c32cd1eb6fc097dac8cca6",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1&idx=38",
+                  "title": "2022 설날 연휴 고객센터 휴무 안내입니다.",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "2022 설날 연휴 고객센터 휴무 안내입니다."
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/fa925a5c65c32cd1eb6fc097dac8cca6"
+              }
+            },
+            {
+              "id": "5c1b55b17613f9856923471f6b1c8068",
+              "document": {
+                "id": "5c1b55b17613f9856923471f6b1c8068",
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5c1b55b17613f9856923471f6b1c8068"
+              }
+            },
+            {
+              "id": "0a81d136bba6bd45b4f7f621889a2dbb",
+              "document": {
+                "id": "0a81d136bba6bd45b4f7f621889a2dbb",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/board/notice?viewMode=view&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/0a81d136bba6bd45b4f7f621889a2dbb"
+              }
+            },
+            {
+              "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+              "document": {
+                "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "http://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=2",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/deddfb5cb8e6e7ec7d1c2727674b836e"
+              }
+            },
+            {
+              "id": "1ec406b92b97192d43c3961b14baad96",
+              "document": {
+                "id": "1ec406b92b97192d43c3961b14baad96",
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "www.pringo.kr",
+                  "link": "https://www.pringo.kr/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/1ec406b92b97192d43c3961b14baad96"
+              }
+            },
+            {
+              "id": "031db0bc738529b15cf2f550ace25a22",
+              "document": {
+                "id": "031db0bc738529b15cf2f550ace25a22",
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=2",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/031db0bc738529b15cf2f550ace25a22"
+              }
+            },
+            {
+              "id": "af94a78128747b28893fbdfec5ca99ce",
+              "document": {
+                "id": "af94a78128747b28893fbdfec5ca99ce",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=38",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/af94a78128747b28893fbdfec5ca99ce"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 43,
+          "search_results_count": 10
+        },
+        "query_length": 5,
+        "response_length": 43,
+        "timestamp": "2025-08-25T04:27:53.552308Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! **\"처음서비스\"** 고객지원 담당자입니다. 무엇을 도와드릴까요?"
+      },
+      {
+        "user_query": "마이메일러 제품소개",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/8485214568072678489",
+          "citations": [
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "endIndex": "220"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "222",
+              "endIndex": "412"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "417",
+              "endIndex": "510"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "startIndex": "515",
+              "endIndex": "644"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "startIndex": "649",
+              "endIndex": "754"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "3"
+                }
+              ],
+              "startIndex": "759",
+              "endIndex": "940"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "945",
+              "endIndex": "1048"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "3"
+                }
+              ],
+              "startIndex": "1053",
+              "endIndex": "1229"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "1234",
+              "endIndex": "1445"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "startIndex": "1450",
+              "endIndex": "1640"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "startIndex": "1645",
+              "endIndex": "1841"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "startIndex": "1846",
+              "endIndex": "2063"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "5"
+                }
+              ],
+              "startIndex": "2068",
+              "endIndex": "2292"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "2297",
+              "endIndex": "2460"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "2465",
+              "endIndex": "2646"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "2651",
+              "endIndex": "2774"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "2779",
+              "endIndex": "2957"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "2962",
+              "endIndex": "3072"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "3077",
+              "endIndex": "3235"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "e8145f7d34b3315ea051ed52e7bd1b44",
+              "document": {
+                "id": "e8145f7d34b3315ea051ed52e7bd1b44",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>마이메일러</b>_<b>제품</b>소개서 작성일2023/03/13 16:48 조회 1,872 첨부1 <b>마이메일러</b>_<b>제품</b>소개서_2023.pdf (용량 : 3.9M / 다운로드수 : 1,338) 목록 이전 다음 회사<b>소개</b>&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/manual/view2.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e8145f7d34b3315ea051ed52e7bd1b44"
+              }
+            },
+            {
+              "id": "5d7e421d484bfa8a933c02454211a93b",
+              "document": {
+                "id": "5d7e421d484bfa8a933c02454211a93b",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>_<b>제품</b>소개서 &middot; 작성일2023/03/13 16:48 &middot; 조회 1,903."
+                    }
+                  ],
+                  "dateModified": 1678693680000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/kor/manual/view2?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=19",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5d7e421d484bfa8a933c02454211a93b"
+              }
+            },
+            {
+              "id": "e603175fa43c5f9972c57346a210db9e",
+              "document": {
+                "id": "e603175fa43c5f9972c57346a210db9e",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b> I SaaS형 대량메일 솔루션 홈 요금제 서비스 <b>소개</b> ... <b>제품</b>입니다. 최근 국내 최초로 시간당 1000만통 발송 ... 현재 300~400개의 기업에서 <b>마이메일러</b>를 선택&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/dispertion.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e603175fa43c5f9972c57346a210db9e"
+              }
+            },
+            {
+              "id": "56a69f6e729fc82f2e64ad13de6708ed",
+              "document": {
+                "id": "56a69f6e729fc82f2e64ad13de6708ed",
+                "derivedStructData": {
+                  "title": "Cosse5.0 - 마이메일러 제품소개서(요약본)_(20-0120)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>는 안정적인 대량메일발송, 다양한 타겟팅 방법, 높은 활용성의 캠페인기능, 상세한 반응정보 분석 등의 대표적인 특징이 있습니다. 평균 시간당 20~80만통&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/Cosse5.0 제품소개서/Cosse5.0 - 마이메일러 제품소개서(요약본)_(20-0120).pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/56a69f6e729fc82f2e64ad13de6708ed"
+              }
+            },
+            {
+              "id": "5856a7bd97ac232529f73a854bbb43e1",
+              "document": {
+                "id": "5856a7bd97ac232529f73a854bbb43e1",
+                "derivedStructData": {
+                  "title": "마이메일러 5.0 - 제품소개서(요약본)_(19-0213)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>는 안정적인 대량메일발송, 다양한 타겟팅 방법, 높은 활용성의 캠페인기능, 상세한 반응정보 분석 등의 대표적인 특징이 있습니다. 평균 시간당 20~80만통&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/Cosse5.0 제품소개서/마이메일러 5.0 - 제품소개서(요약본)_(19-0213).pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/5856a7bd97ac232529f73a854bbb43e1"
+              }
+            },
+            {
+              "id": "7116fe93715861d0f35522fcc91bae56",
+              "document": {
+                "id": "7116fe93715861d0f35522fcc91bae56",
+                "derivedStructData": {
+                  "title": "ME6_제품소개서_마이메일러_단일서버",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>는 안정적인 대량메일발송, 다양한 타겟팅 방법, 높은 활용성의 캠페인기능, 상세한 반응정보 분석 등의 대표적인 특징이 있습니다. 특징 및 차별화&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_단일서버.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/7116fe93715861d0f35522fcc91bae56"
+              }
+            },
+            {
+              "id": "2a4e5f561fd39dcd9b6ce6855f7f82d3",
+              "document": {
+                "id": "2a4e5f561fd39dcd9b6ce6855f7f82d3",
+                "derivedStructData": {
+                  "title": "ME6_제품소개서_마이메일러_전용서버_2022",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "[한국무역협회] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [대한항공CND] <b>마이메일러</b> v6.0&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/2a4e5f561fd39dcd9b6ce6855f7f82d3"
+              }
+            },
+            {
+              "id": "21574c9b2447f5b1a2c31655a5d43b5a",
+              "document": {
+                "id": "21574c9b2447f5b1a2c31655a5d43b5a",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "독립서버, 고정 IP제공, 멀티 도메인 제공, 무한확장 가능한 빠르고 안정적인 분산형 시스템."
+                    }
+                  ],
+                  "displayLink": "www.mymailer.kr",
+                  "link": "http://www.mymailer.kr/"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/21574c9b2447f5b1a2c31655a5d43b5a"
+              }
+            },
+            {
+              "id": "d9913e2c4389fa14b1af5115d87b673f",
+              "document": {
+                "id": "d9913e2c4389fa14b1af5115d87b673f",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>_<b>제품</b>소개서, 관리자, 작성일23.03.13, 조회1,898. 9, [대량메일](필수)Gmail보안 강화 - DNS 설정 가이드, 관리자, 작성일24.01.29, 조회2,883. 8, [IP block]&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1706515200000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/manual/view2?ca=%EB%8C%80%EB%9F%89%EB%A9%94%EC%9D%BC",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/d9913e2c4389fa14b1af5115d87b673f"
+              }
+            },
+            {
+              "id": "ed4c28ae98adaf32a39a46d1fc23e7f0",
+              "document": {
+                "id": "ed4c28ae98adaf32a39a46d1fc23e7f0",
+                "derivedStructData": {
+                  "title": "ME6_제품소개서_마이메일러_단일서버_2022",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "[한국무역협회] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [대한항공CND] <b>마이메일러</b> v6.0&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_단일서버_2022.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ed4c28ae98adaf32a39a46d1fc23e7f0"
+              }
+            }
+          ],
+          "citations_count": 19,
+          "answer_length": 1533,
+          "search_results_count": 10
+        },
+        "query_length": 10,
+        "response_length": 1533,
+        "timestamp": "2025-08-25T04:28:22.418909Z",
+        "quality_metrics": {},
+        "ai_response": "**마이메일러**는 안정적인 대량 메일 발송, 다양한 타겟팅 방법, 높은 활용성의 캠페인 기능, 상세한 반응 정보 분석 등의 특징을 가진 SaaS형 대량 메일 솔루션입니다.\n\n**주요 특징:**\n1.  **초대량 분산 메일 시스템**: 국내 유일의 초대량 분산 메일 시스템으로, 단시간에 대량의 메일을 고객에게 보낼 수 있습니다.\n    *   시간당 1,000만 통 발송이 가능한 분산 발송 시스템을 개발했습니다.\n    *   평균 시간당 20~80만 통, 최대 시간당 50만 통, 월 5천만 통 이상의 대량 메일 발송이 가능합니다.\n    *   100대의 분산 엔진을 활용할 경우 1시간 이내에 1,000만 통 발송이 가능합니다.\n2.  **유연한 확장성**: 고객사의 용도 및 상황에 따라 다양한 방식으로 구성이 가능하며, 발송 엔진을 유연하게 확장 및 축소할 수 있습니다.\n    *   발송 엔진 추가 시 복잡한 절차 없이 빠르고 간단하게 확장할 수 있습니다.\n    *   타임세일 이벤트와 같이 단시간 내에 많은 양의 메일을 발송해야 하는 경우, 필요한 만큼의 서버를 구성하여 발송할 수 있습니다.\n    *   사이트별 분산 발송을 통해 각 사이트별로 동시에 메일을 발송하거나, 발송 대상자 수 및 메일 종류가 다른 경우에도 지연 없이 메일을 발송할 수 있습니다.\n3.  **다양한 기능**:\n    *   **타겟팅**: 파일 업로드, SQL 쿼리 직접 입력, 대상자 공유/비공유 설정, 회원 정보를 기반으로 한 타겟팅 UI를 제공합니다.\n    *   **캠페인**: 템플릿 등록, URL, 직접 입력 기능 제공, 기존 작성 내용 불러오기, 첨부 파일 기능, 즉시 발송/예약 발송/반복 발송 기능을 지원합니다.\n    *   **분석**: 캠페인 관리 및 효과 분석, 성공/실패, 오픈, 인지, 링크 클릭 분석, 발송 추세, 실패 원인, 실패 도메인 분석 등 상세한 반응 정보를 분석할 수 있습니다.\n    *   **PDF 암호화 메일**: HTML로 제작된 명세서를 PDF 파일로 암호화하여 첨부 발송하는 시스템으로, 분산 서버를 통해 첨부 파일 용량 및 트래픽 문제를 해결할 수 있습니다.\n    *   **All-in-One 서비스**: 일반 웹 발송부터 API, DB, SMTP 연동, 대용량 파일 첨부 기능까지 메일 발송의 모든 기능을 제공합니다.\n4.  **유지보수 및 관리**:\n    *   메일 서버 IP 실시간 모니터링을 통해 국내/해외 대량 메일 발송에 따른 스팸 이력을 실시간으로 관리합니다.\n    *   IP 차단 해제/관리를 통해 성공률을 관리하며, 1:1 전담 기술 지원 인력이 상시 대기합니다.\n    *   24시간 실시간 서버 모니터링, 해외 블랙 IP 모니터링, 해외 RBL 블랙 IP 관리 및 해제, 포트별 서버 이상 유무 모니터링이 가능합니다.\n    *   문제 발생 시 1시간 내 통보하며, 연 6회 이상 유무에 따른 리포트를 제공합니다.\n    *   발송 목적에 따라 메일 발송 서버를 구분하여 구성할 수 있으며, 메일 발송 지연 문제 및 IP 차단 문제를 해소합니다."
+      },
+      {
+        "user_query": "마이메일러 제품에 대한 소개를 공식 홈페이지 기준으로",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/16072103019992837531",
+          "citations": [
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "3"
+                }
+              ],
+              "endIndex": "103"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "3"
+                }
+              ],
+              "startIndex": "105",
+              "endIndex": "304"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "309",
+              "endIndex": "495"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "500",
+              "endIndex": "632"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "637",
+              "endIndex": "732"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "startIndex": "737",
+              "endIndex": "891"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "896",
+              "endIndex": "961"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "966",
+              "endIndex": "1180"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "startIndex": "1185",
+              "endIndex": "1399"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "5"
+                }
+              ],
+              "startIndex": "1401",
+              "endIndex": "1641"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1642",
+              "endIndex": "1981"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "1982",
+              "endIndex": "2246"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                }
+              ],
+              "startIndex": "2247",
+              "endIndex": "2498"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "2499",
+              "endIndex": "2775"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "2776",
+              "endIndex": "3107"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                }
+              ],
+              "startIndex": "3109",
+              "endIndex": "3235"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "e8145f7d34b3315ea051ed52e7bd1b44",
+              "document": {
+                "id": "e8145f7d34b3315ea051ed52e7bd1b44",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b> I SaaS형 대량메일 솔루션 <b>홈</b> 요금제 서비스 <b>소개</b> ... <b>마이메일러</b>_<b>제품</b>소개서_2023.pdf (용량 : 3.9M ... <b>마이메일러</b> I SaaS형 대량메일 솔루션. CO.LTD&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/manual/view2.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e8145f7d34b3315ea051ed52e7bd1b44"
+              }
+            },
+            {
+              "id": "e603175fa43c5f9972c57346a210db9e",
+              "document": {
+                "id": "e603175fa43c5f9972c57346a210db9e",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b> I SaaS형 대량메일 솔루션 <b>홈</b> 요금제 서비스 <b>소개</b> ... <b>제품</b>입니다. 최근 국내 최초로 시간당 1000만통 발송 ... <b>홈페이지</b>등 이벤트가 발생할 때 자동&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/dispertion.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e603175fa43c5f9972c57346a210db9e"
+              }
+            },
+            {
+              "id": "5d7e421d484bfa8a933c02454211a93b",
+              "document": {
+                "id": "5d7e421d484bfa8a933c02454211a93b",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>홈</b> &middot; 요금제 &middot; 서비스 <b>소개</b> &middot; 기능 안내 &middot; API 연동메일 &middot; 유지 ... <b>마이메일러</b>_<b>제품</b>소개서. 작성일2023/03/13 16:48; 조회 ... 주소 : 서울특별시 강남구 강남대로 374, B208&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1678693680000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/kor/manual/view2?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=19",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5d7e421d484bfa8a933c02454211a93b"
+              }
+            },
+            {
+              "id": "091690d4d09f1316b6e29a52325ef7f2",
+              "document": {
+                "id": "091690d4d09f1316b6e29a52325ef7f2",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b> I SaaS형 대량메일 솔루션 <b>홈</b> 요금제 서비스 <b>소개</b> 기능 안내 API 연동메일 유지보수 시스템 솔루션 메일 솔루션 분산형 발송 시스템 급여명세서 메일 개인&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/solution.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/091690d4d09f1316b6e29a52325ef7f2"
+              }
+            },
+            {
+              "id": "4595effe68d117204f23a3ed3f6c63e9",
+              "document": {
+                "id": "4595effe68d117204f23a3ed3f6c63e9",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer22",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... 시장에서 <b>마이메일러</b>가 특별한 위치를 차지하게 합니다. <b>마이메일러</b>에 대해 더 알고 싶으시면 <b>마이메일러 공식</b> 사이트를 방문해보세요. http://mymailer.io."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer22.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/4595effe68d117204f23a3ed3f6c63e9"
+              }
+            },
+            {
+              "id": "4595effe68d117204f23a3ed3f6c63e9",
+              "document": {
+                "id": "4595effe68d117204f23a3ed3f6c63e9",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer22",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... 시장에서 <b>마이메일러</b>가 특별한 위치를 차지하게 합니다. <b>마이메일러</b>에 대해 더 알고 싶으시면 <b>마이메일러 공식</b> 사이트를 방문해보세요. http://mymailer.io."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer22.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/4595effe68d117204f23a3ed3f6c63e9"
+              }
+            },
+            {
+              "id": "21574c9b2447f5b1a2c31655a5d43b5a",
+              "document": {
+                "id": "21574c9b2447f5b1a2c31655a5d43b5a",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "독립서버, 고정 IP제공, 멀티 도메인 제공, 무한확장 가능한 빠르고 안정적인 분산형 시스템."
+                    }
+                  ],
+                  "displayLink": "www.mymailer.kr",
+                  "link": "http://www.mymailer.kr/"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/21574c9b2447f5b1a2c31655a5d43b5a"
+              }
+            },
+            {
+              "id": "8a39e90a3e3dce355e57a99b04826a46",
+              "document": {
+                "id": "8a39e90a3e3dce355e57a99b04826a46",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b> I SaaS형 대량메일 솔루션 <b>홈</b> 요금제 서비스 <b>소개</b> 기능 안내 API 연동메일 유지보수 시스템 솔루션 메일 솔루션 분산형 발송 시스템 급여명세서 메일 개인&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/index.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/8a39e90a3e3dce355e57a99b04826a46"
+              }
+            },
+            {
+              "id": "7df4a67365872f71c1f231bd92141aa0",
+              "document": {
+                "id": "7df4a67365872f71c1f231bd92141aa0",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b> I SaaS형 대량메일 솔루션 <b>홈</b> 요금제 서비스 <b>소개</b> 기능 안내 API 연동메일 유지보수 시스템 솔루션 메일 솔루션 분산형 발송 시스템 급여명세서 메일 개인&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/shopEvent.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/7df4a67365872f71c1f231bd92141aa0"
+              }
+            },
+            {
+              "id": "5856a7bd97ac232529f73a854bbb43e1",
+              "document": {
+                "id": "5856a7bd97ac232529f73a854bbb43e1",
+                "derivedStructData": {
+                  "title": "마이메일러 5.0 - 제품소개서(요약본)_(19-0213)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>는 안정적인 대량메일발송, 다양한 타겟팅 방법, 높은 활용성의 캠페인기능, 상세한 반응정보 분석 등의 대표적인 특징이 있습니다. 평균 시간당 20~80만통&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/Cosse5.0 제품소개서/마이메일러 5.0 - 제품소개서(요약본)_(19-0213).pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/5856a7bd97ac232529f73a854bbb43e1"
+              }
+            }
+          ],
+          "citations_count": 16,
+          "answer_length": 1503,
+          "search_results_count": 10
+        },
+        "query_length": 29,
+        "response_length": 1503,
+        "timestamp": "2025-08-25T04:29:24.935560Z",
+        "quality_metrics": {},
+        "ai_response": "**마이메일러**는 처음소프트에서 제공하는 **SaaS형 대량 메일 솔루션**입니다.\n\n**주요 특징:**\n1.  **All-in-One 메일 서비스:** 일반 웹 발송부터 API, DB, SMTP 연동, 대용량 파일 첨부 기능까지 메일 발송에 필요한 모든 기능을 제공합니다.\n2.  **높은 도달률과 신뢰성:** IP 최적화 관리 노하우와 도메인 차단 해제 서비스를 통해 대량 메일 발송 시 최상의 이메일 도달률을 보장합니다.\n3.  **다양한 통합 기능 및 확장성:**\n    *   웹 발송, DB 연동, API 연동 등 다양한 발송 방법을 지원합니다.\n    *   PDF 암호화와 같은 부가 기능을 통해 민감한 정보 보호가 가능합니다.\n    *   CRM, ERP, 홈페이지, 각종 업무 시스템과 연동하여 실시간으로 알림 메시지와 마케팅 메시지를 발송할 수 있습니다.\n    *   고객 맞춤형 개발 및 기능 추가가 용이합니다.\n4.  **경쟁력 있는 비용 구조:** 국내외 대형 솔루션 대비 저렴한 비용으로 높은 품질의 서비스를 제공하며, 특히 대량 메일 발송량이 많은 기업에 비용 효율적입니다.\n5.  **국내 유일 초대량 분산 메일 시스템:** 단시간에 대량의 메일을 고객에게 보낼 수 있는 분산 발송 시스템을 갖추고 있으며, 시간당 1,000만 통 발송이 가능합니다.\n\n**주요 기능:**\n*   **대량메일 web발송:** 간편한 대량메일 작성, 메일 치환, 수신거부 자동 링크 삽입, 파일 첨부, 예약 발송, 테스트 메일 발송, 주소록 대량 업로드 기능을 제공합니다.\n*   **API 연동발송**\n*   **SMTP 연동발송**\n*   **PDF 첨부 보안메일**\n*   **개인정보 이용내역 안내 메일 시스템:** 마케팅 수신 재동의, 개인정보 이용 내역 안내, 장기 미사용 고객, 휴면 회원 전환 안내 메일 등을 고객 데이터와 연동하여 자동 발송할 수 있습니다.\n*   **쇼핑몰 자동 메일 & 이벤트 메일:** 회원 가입 완료, 결제 완료, 배송 출발 안내 등 쇼핑몰 회원에게 발송되는 안내 메일을 자동화하고, 타임 세일, 상품 추천, 이벤트 안내 메일 발송이 가능합니다.\n*   **기부 영수증/후원 증서 메일:** 기부자(후원자)에게 후원 증서 및 영수증 개별 파일을 대량으로 발송할 수 있으며, ERP 시스템, 홈페이지 고객 데이터와 연동하여 자동 발송이 가능합니다.\n*   **다양한 분석 리포트 제공:** 성공/실패, 오픈 인지, 링크 클릭, 디바이스별 반응 정보 분석, 캠페인 비교 분석, 월간 현황 보고서, 수신 거부자 관리, 계정별 발송 현황, 도메인별 발송 추세 등을 제공합니다.\n*   **철저한 유지관리:** 실시간 모니터링 시스템을 통한 실패 원인 분석 및 IP 블록 관리, 1:1 전담 엔지니어의 트러블 슈팅 및 월 1회 정기 점검을 통한 메일 서버 관리, 시스템 운영 관리 및 장애 대처 교육, 발송 시스템 사용자 기능 교육을 제공합니다.\n\n마이메일러는 20년간 축적된 노하우와 기술로 안정적인 솔루션 유지관리 서비스를 제공합니다."
       }
     ],
-    "last_activity": "2025-08-14T04:42:29.541874Z"
+    "last_activity": "2025-08-25T04:29:24.966418Z"
   }
 }

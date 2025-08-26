@@ -1,0 +1,242 @@
+{
+  "id": "widget_kbmzykoe3_1756085600502",
+  "path": "conversations/widget_kbmzykoe3_1756085600502",
+  "fields": {
+    "created_at": "2025-08-25T01:33:31.156151Z",
+    "session_id": "widget_kbmzykoe3_1756085600502",
+    "message_count": 1,
+    "updated_at": "2025-08-25T01:33:31.156156Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "user_query": "ㅁㄴ",
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+            },
+            {
+              "title": "seoul_2304.jpg",
+              "displayName": "seoul_2304.jpg",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/seoul_2304.jpg.html"
+            },
+            {
+              "title": "kcl_2312.jpg",
+              "displayName": "kcl_2312.jpg",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/kcl_2312.jpg.html"
+            },
+            {
+              "title": "3-portfolio-image-6.jpg",
+              "displayName": "3-portfolio-image-6.jpg",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2015/12/3-portfolio-image-6.jpg.html"
+            },
+            {
+              "title": "compareChart.png",
+              "displayName": "compareChart.png",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/images/compareChart.png.html"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/15026272079286781964",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "b8922a3f54338ff4eac47113e2fd3806",
+              "document": {
+                "derivedStructData": {
+                  "title": "seoul_2304.jpg",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/seoul_2304.jpg.html"
+                },
+                "id": "b8922a3f54338ff4eac47113e2fd3806",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/b8922a3f54338ff4eac47113e2fd3806"
+              }
+            },
+            {
+              "id": "118ecf9b9876e817b81cc155d2e2b63d",
+              "document": {
+                "derivedStructData": {
+                  "title": "kcl_2312.jpg",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/kcl_2312.jpg.html"
+                },
+                "id": "118ecf9b9876e817b81cc155d2e2b63d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/118ecf9b9876e817b81cc155d2e2b63d"
+              }
+            },
+            {
+              "id": "d255c60384db76ed23ca31d10601929c",
+              "document": {
+                "derivedStructData": {
+                  "title": "3-portfolio-image-6.jpg",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2015/12/3-portfolio-image-6.jpg.html"
+                },
+                "id": "d255c60384db76ed23ca31d10601929c",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/d255c60384db76ed23ca31d10601929c"
+              }
+            },
+            {
+              "id": "10482eb821ed0137c1d84cd63eaec418",
+              "document": {
+                "derivedStructData": {
+                  "title": "compareChart.png",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/images/compareChart.png.html"
+                },
+                "id": "10482eb821ed0137c1d84cd63eaec418",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/10482eb821ed0137c1d84cd63eaec418"
+              }
+            },
+            {
+              "id": "025cdf0864080ffec7c8e2374539b257",
+              "document": {
+                "derivedStructData": {
+                  "title": "myslide_new04.png",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/04/myslide_new04.png.html"
+                },
+                "id": "025cdf0864080ffec7c8e2374539b257",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/025cdf0864080ffec7c8e2374539b257"
+              }
+            },
+            {
+              "id": "422ee91cb7ae73c419974d6eef722658",
+              "document": {
+                "derivedStructData": {
+                  "title": "gang_06.jpg",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/gang_06.jpg.html"
+                },
+                "id": "422ee91cb7ae73c419974d6eef722658",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/422ee91cb7ae73c419974d6eef722658"
+              }
+            },
+            {
+              "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom21",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom21.txt"
+                },
+                "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/aba08d5dcc8b01fc0f94d5bda9e0f063"
+              }
+            },
+            {
+              "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom21",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom21.txt"
+                },
+                "id": "aba08d5dcc8b01fc0f94d5bda9e0f063",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/aba08d5dcc8b01fc0f94d5bda9e0f063"
+              }
+            },
+            {
+              "id": "29c4524b3930c2cbdc9391ec5e301699",
+              "document": {
+                "derivedStructData": {
+                  "title": "naver_blog_cheom20",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom20.txt"
+                },
+                "id": "29c4524b3930c2cbdc9391ec5e301699",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/29c4524b3930c2cbdc9391ec5e301699"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 99,
+          "search_results_count": 10
+        },
+        "query_length": 2,
+        "response_length": 99,
+        "ai_response": "죄송하지만, 고객님의 질문 내용을 명확히 파악하기 어렵습니다. 현재 제공해주신 정보만으로는 답변을 드릴 수 없습니다.\n\n질문 내용을 다시 한번 자세히 설명해주시면 감사하겠습니다.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-25T01:33:31.070806Z"
+      }
+    ],
+    "last_activity": "2025-08-25T01:33:31.156156Z"
+  }
+}

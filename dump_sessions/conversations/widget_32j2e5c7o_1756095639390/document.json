@@ -1,0 +1,1146 @@
+{
+  "id": "widget_32j2e5c7o_1756095639390",
+  "path": "conversations/widget_32j2e5c7o_1756095639390",
+  "fields": {
+    "created_at": "2025-08-25T04:20:59.704325Z",
+    "session_id": "widget_32j2e5c7o_1756095639390",
+    "message_count": 3,
+    "updated_at": "2025-08-25T04:30:07.131099Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "user_query": "가격 저렴하게 해주세요",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/16390448364964697037",
+          "citations": [
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "200",
+              "endIndex": "408"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "409",
+              "endIndex": "560"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "561",
+              "endIndex": "717"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "718",
+              "endIndex": "816"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "startIndex": "817",
+              "endIndex": "950"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "952",
+              "endIndex": "1178"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1179",
+              "endIndex": "1323"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "1540",
+              "endIndex": "1675"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "1676",
+              "endIndex": "1813"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                }
+              ],
+              "startIndex": "1815",
+              "endIndex": "2032"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                }
+              ],
+              "startIndex": "2033",
+              "endIndex": "2210"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "2211",
+              "endIndex": "2435"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "2436",
+              "endIndex": "2606"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "3"
+                }
+              ],
+              "startIndex": "2608",
+              "endIndex": "2746"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "startIndex": "2747",
+              "endIndex": "2912"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+              "document": {
+                "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom5",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "이를 통해 설문 기획부터 응답자 보상까지 원스톱 솔루션을 지향합니다. 이러한 기능들을 통해 처음서베이는 “고객 맞춤형 설문조사 사이트”를 합리적인 <b>가격</b>에 제공하는&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a3d0f712ba2370b0fb9cb70e586c3fbc"
+              }
+            },
+            {
+              "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+              "document": {
+                "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom5",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "이를 통해 설문 기획부터 응답자 보상까지 원스톱 솔루션을 지향합니다. 이러한 기능들을 통해 처음서베이는 “고객 맞춤형 설문조사 사이트”를 합리적인 <b>가격</b>에 제공하는&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/a3d0f712ba2370b0fb9cb70e586c3fbc"
+              }
+            },
+            {
+              "id": "6b867bc8428c4fb5a876f0ee938e362e",
+              "document": {
+                "id": "6b867bc8428c4fb5a876f0ee938e362e",
+                "derivedStructData": {
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>가격</b>으로 빠르게 메일 시스템을 구축하고 성공적인 비지니스를 시작하세요. 높은 발송 성공률을 보장하는 프링고를 통해 고객에게 메일을 보내세요. 프링고는 매월 1&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/index.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/6b867bc8428c4fb5a876f0ee938e362e"
+              }
+            },
+            {
+              "id": "0af972fedeb96d3c5c220461ba766575",
+              "document": {
+                "id": "0af972fedeb96d3c5c220461ba766575",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer3",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>가격</b> 정책은 구독자 수 기준으로 과금되며, 최대 ... 비즈메일러 등의 일부 국산 솔루션은 비교적 <b>저렴</b> ... <b>가격</b> 정책 및 요금제 마이메일러의 <b>가격</b> 정책은 이용&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer3.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/0af972fedeb96d3c5c220461ba766575"
+              }
+            },
+            {
+              "id": "0af972fedeb96d3c5c220461ba766575",
+              "document": {
+                "id": "0af972fedeb96d3c5c220461ba766575",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer3",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>가격</b> 정책은 구독자 수 기준으로 과금되며, 최대 ... 비즈메일러 등의 일부 국산 솔루션은 비교적 <b>저렴</b> ... <b>가격</b> 정책 및 요금제 마이메일러의 <b>가격</b> 정책은 이용&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer3.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/0af972fedeb96d3c5c220461ba766575"
+              }
+            },
+            {
+              "id": "dac9a9dbf24faa361d09cd4430a6f969",
+              "document": {
+                "id": "dac9a9dbf24faa361d09cd4430a6f969",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo2",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>가격</b> 측면에서는 구독자 수 기반의 과금 모델을 채택 ... 요금 구조는 선불 충전식으로, 이메일 한 건당 약 0.1원의 <b>저렴한</b> ... 결국 사용자는 자신의 발송 목적과 환경, 필요&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/dac9a9dbf24faa361d09cd4430a6f969"
+              }
+            },
+            {
+              "id": "dac9a9dbf24faa361d09cd4430a6f969",
+              "document": {
+                "id": "dac9a9dbf24faa361d09cd4430a6f969",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo2",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>가격</b> 측면에서는 구독자 수 기반의 과금 모델을 채택 ... 요금 구조는 선불 충전식으로, 이메일 한 건당 약 0.1원의 <b>저렴한</b> ... 결국 사용자는 자신의 발송 목적과 환경, 필요&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo2.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/dac9a9dbf24faa361d09cd4430a6f969"
+              }
+            },
+            {
+              "id": "f8bf03a07b40a33eb4507e0b8c52b820",
+              "document": {
+                "id": "f8bf03a07b40a33eb4507e0b8c52b820",
+                "derivedStructData": {
+                  "title": "Z Digital Marketing Home – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>저렴한 가격</b>에 무제한 발송이 가능하여 10년이상 이용해오고 있습니다.&quot; Sharon Tran Developer Lorem ipsum dolor sit amet, duis metus ligula amet in purus, vitae&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/digital-marketing-home.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/f8bf03a07b40a33eb4507e0b8c52b820"
+              }
+            },
+            {
+              "id": "6dff2e0073262255fb6102282e2f33a8",
+              "document": {
+                "id": "6dff2e0073262255fb6102282e2f33a8",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom13",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom13.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/6dff2e0073262255fb6102282e2f33a8"
+              }
+            },
+            {
+              "id": "6dff2e0073262255fb6102282e2f33a8",
+              "document": {
+                "id": "6dff2e0073262255fb6102282e2f33a8",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom13",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom13.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/6dff2e0073262255fb6102282e2f33a8"
+              }
+            }
+          ],
+          "citations_count": 15,
+          "answer_length": 1310,
+          "search_results_count": 10
+        },
+        "query_length": 12,
+        "response_length": 1310,
+        "timestamp": "2025-08-25T04:20:59.572368Z",
+        "quality_metrics": {},
+        "ai_response": "고객님, **처음서비스**의 가격 정책에 대해 문의 주셨군요. 저희는 고객님의 비즈니스 규모와 필요에 따라 합리적인 가격 정책을 제공하고 있습니다.\n\n**프링고 (클라우드 기반 대량 메일 SaaS):**\n*   **구독자 수 기반 과금:** 구독자 1천 명 기준 월 약 1.6만원, 1만 명 기준 월 약 3.9만원 수준의 요금이 발생합니다.\n*   **무료 플랜:** 소규모 사용자(구독자 500명 이하)에게는 무료 플랜도 제공되어 초기 진입 장벽이 낮은 편입니다.\n*   **선불 충전식:** 이메일 한 건당 약 0.1원의 저렴한 단가를 제공하며, 문자 메시지(SMS)는 건당 9.5원부터 시작됩니다.\n*   **무료 크레딧:** 초기 테스트를 위한 3,000건 무료 크레딧이 제공됩니다.\n*   **번거로운 충전, 초기 설치비 없음:** 클라우드 기반 서비스로 합리적인 가격 정책을 지향합니다.\n\n**처음서베이 (설문조사 솔루션):**\n*   **프로젝트당 견적:** 설문 문항 수와 목표 표본 수에 따라 비용이 책정되며, 불성실 응답을 제외한 유효응답에 대해서만 과금됩니다.\n*   **합리적인 가격 목표:** \"고객 맞춤형 설문조사 사이트\"를 합리적인 가격에 제공하는 것을 목표로 합니다.\n*   **베이직 플랜:** 고객이 자체 확보한 대상자에게 설문을 실시하는 것으로, 응답자 수나 문항 수에 제한이 없고 기본 1개월간 조사 운영을 해주는 패키지입니다. 컨설턴트 지원, 설문 구축 및 디자인, 이메일 1만통×2회 발송, 실시간 결과 모니터링 등이 포함됩니다.\n*   **프로 플랜:** 패널 모집 비용까지 포함되며, \"문항 수 × 목표 응답자 수\"에 따라 비용이 책정됩니다.\n\n**마이메일러 (기업용 이메일 솔루션):**\n*   **이용 형태 및 발송량 규모에 따른 요금제:** 모든 기능을 All-in-One으로 제공하며, 발송량 기준으로 요금제를 선택합니다.\n*   **SaaS 임대형 (전용서버형):** 처음소프트가 클라우드 상에 고객 전용 메일서버를 구축해주고 월 단위로 임대료를 받는 형태입니다.\n*   **구축형 영구 라이선스:** 초기에 일회성 라이선스 비용을 지불하면 소프트웨어를 무기한 사용할 수 있으며, 유지보수 계약을 통해 업데이트와 기술지원을 받습니다. 대규모 금융사나 공공기관처럼 데이터를 내부에 저장해야 하는 경우에 선택되며, 천만 원대 이상의 견적이 산정될 수 있습니다.\n\n저희는 고객님의 비즈니스 전략에 맞는 솔루션을 합리적인 가격으로 제공하기 위해 노력하고 있습니다. 더 자세한 가격 정보나 맞춤 견적은 **프링고 웹사이트의 '요금제 보기'** 또는 **영업팀 문의**를 통해 확인하실 수 있습니다."
+      },
+      {
+        "user_query": "너 뭐야?",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/8990623122349811671",
+          "citations": [
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "276",
+              "endIndex": "425"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "426",
+              "endIndex": "564"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "startIndex": "566",
+              "endIndex": "751"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "752",
+              "endIndex": "870"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "4"
+                }
+              ],
+              "startIndex": "871",
+              "endIndex": "1118"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "1119",
+              "endIndex": "1265"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "1266",
+              "endIndex": "1319"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "3"
+                }
+              ],
+              "startIndex": "1321",
+              "endIndex": "1585"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "ac0da27d3e40723406f48c11c55ac65c",
+              "document": {
+                "id": "ac0da27d3e40723406f48c11c55ac65c",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom12",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom12.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ac0da27d3e40723406f48c11c55ac65c"
+              }
+            },
+            {
+              "id": "ac0da27d3e40723406f48c11c55ac65c",
+              "document": {
+                "id": "ac0da27d3e40723406f48c11c55ac65c",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom12",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom12.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ac0da27d3e40723406f48c11c55ac65c"
+              }
+            },
+            {
+              "id": "85fa821b7e2c1c6c44990dd2c786e32f",
+              "document": {
+                "id": "85fa821b7e2c1c6c44990dd2c786e32f",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom10",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom10.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/85fa821b7e2c1c6c44990dd2c786e32f"
+              }
+            },
+            {
+              "id": "85fa821b7e2c1c6c44990dd2c786e32f",
+              "document": {
+                "id": "85fa821b7e2c1c6c44990dd2c786e32f",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom10",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom10.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/85fa821b7e2c1c6c44990dd2c786e32f"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom7",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom7",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            },
+            {
+              "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+              "document": {
+                "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer11",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/129f32b3d7b4af52799f3ee61dd9cabc"
+              }
+            },
+            {
+              "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+              "document": {
+                "id": "129f32b3d7b4af52799f3ee61dd9cabc",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer11",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer11.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/129f32b3d7b4af52799f3ee61dd9cabc"
+              }
+            },
+            {
+              "id": "b69723da1912e1b157cc00cde72ca7b0",
+              "document": {
+                "id": "b69723da1912e1b157cc00cde72ca7b0",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom3",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom3.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/b69723da1912e1b157cc00cde72ca7b0"
+              }
+            }
+          ],
+          "citations_count": 8,
+          "answer_length": 731,
+          "search_results_count": 10
+        },
+        "query_length": 5,
+        "response_length": 731,
+        "timestamp": "2025-08-25T04:21:48.340665Z",
+        "quality_metrics": {},
+        "ai_response": "저는 SaaS 솔루션 기업 **\"처음서비스\"**의 고객지원 담당자입니다. 고객님의 질문에 답변해 드리겠습니다.\n\n**\"처음서비스\"**는 처음소프트, 씨디엠소프트, 처음서베이로 구성된 종합 솔루션 기업입니다. [본문]\n\n**처음소프트**는 고객 비즈니스의 시작과 성장을 돕는 기술 파트너로, 혁신적이고 편리한 서비스를 제공합니다. 특히 웹 서비스 형태로 소프트웨어를 제공하는 **SaaS(Software as a Service)** 사업을 핵심으로 삼고 있습니다.\n\n**주요 사업:**\n- **처음서비스**: 고객 중심의 기술 기반 아웃소싱 서비스로, 기업의 다양한 IT 업무를 대행하고 맞춤형 솔루션을 제공합니다. 대량 메일 발송 대행 서비스 등을 제공하여 고객의 업무 효율성을 높이는 데 기여합니다.\n- **마이메일러 (MyMailer.io)**: 클라우드 기반 이메일 솔루션으로, 대량 이메일 발송, DMARC 구현, REST API 지원 등 다양한 기능을 통해 고객의 비즈니스 커뮤니케이션을 효율적으로 지원합니다.\n- **처음서베이 (survey.cheomsoft.co.kr)**: 온라인 설문조사 제작 및 기업 문화 진단 등을 위한 솔루션을 제공합니다.\n- **처음북스**: 경제 경영 출판사입니다.\n\n**처음소프트의 비전**은 \"고객이 진정으로 필요로 하는 기술적 솔루션을 경쟁력 있는 방식으로 제공하는 것\"이며, 고객 만족을 넘어 고객이 기쁨을 느낄 수 있는 경험을 제공하는 것을 목표로 합니다."
+      },
+      {
+        "user_query": "마이메일러 제품에 대해서",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/13444486224684144800",
+          "citations": [
+            {
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "83"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                }
+              ],
+              "startIndex": "84",
+              "endIndex": "236"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "startIndex": "237",
+              "endIndex": "316"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "startIndex": "318",
+              "endIndex": "492"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "startIndex": "493",
+              "endIndex": "542"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "547",
+              "endIndex": "696"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "701",
+              "endIndex": "771"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                }
+              ],
+              "startIndex": "776",
+              "endIndex": "889"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "7"
+                }
+              ],
+              "startIndex": "894",
+              "endIndex": "1084"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "1089",
+              "endIndex": "1227"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1232",
+              "endIndex": "1342"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1347",
+              "endIndex": "1418"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1423",
+              "endIndex": "1493"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1498",
+              "endIndex": "1611"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1616",
+              "endIndex": "1713"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1718",
+              "endIndex": "1785"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1790",
+              "endIndex": "1943"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                }
+              ],
+              "startIndex": "1948",
+              "endIndex": "2075"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "9"
+                },
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                }
+              ],
+              "startIndex": "2077",
+              "endIndex": "2489"
+            },
+            {
+              "sources": [
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "startIndex": "2491",
+              "endIndex": "3123"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "e603175fa43c5f9972c57346a210db9e",
+              "document": {
+                "id": "e603175fa43c5f9972c57346a210db9e",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b> I SaaS형 대량메일 솔루션 홈 요금제 ... <b>제품</b>입니다. 최근 국내 최초로 시간당 1000만통 발송 ... 현재 300~400개의 기업에서 <b>마이메일러</b>를 선택하셔서 이용하고&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/dispertion.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e603175fa43c5f9972c57346a210db9e"
+              }
+            },
+            {
+              "id": "e8145f7d34b3315ea051ed52e7bd1b44",
+              "document": {
+                "id": "e8145f7d34b3315ea051ed52e7bd1b44",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... 마이페이지 전체로그 고객센터 <b>마이메일러</b>_<b>제품</b>소개서 작성일2023/03/13 16:48 조회 1,872 첨부1 <b>마이메일러</b>_<b>제품</b>소개서_2023.pdf (용량 : 3.9M / 다운로드수 : 1,338)&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/manual/view2.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e8145f7d34b3315ea051ed52e7bd1b44"
+              }
+            },
+            {
+              "id": "5d7e421d484bfa8a933c02454211a93b",
+              "document": {
+                "id": "5d7e421d484bfa8a933c02454211a93b",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>_<b>제품</b>소개서 &middot; 작성일2023/03/13 16:48 &middot; 조회 1,903."
+                    }
+                  ],
+                  "dateModified": 1678693680000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/kor/manual/view2?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=19",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5d7e421d484bfa8a933c02454211a93b"
+              }
+            },
+            {
+              "id": "21574c9b2447f5b1a2c31655a5d43b5a",
+              "document": {
+                "id": "21574c9b2447f5b1a2c31655a5d43b5a",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "독립서버, 고정 IP제공, 멀티 도메인 제공, 무한확장 가능한 빠르고 안정적인 분산형 시스템."
+                    }
+                  ],
+                  "displayLink": "www.mymailer.kr",
+                  "link": "http://www.mymailer.kr/"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/21574c9b2447f5b1a2c31655a5d43b5a"
+              }
+            },
+            {
+              "id": "7116fe93715861d0f35522fcc91bae56",
+              "document": {
+                "id": "7116fe93715861d0f35522fcc91bae56",
+                "derivedStructData": {
+                  "title": "ME6_제품소개서_마이메일러_단일서버",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "[한국무역협회] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [대한항공CND] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [미리디] <b>마이메일러</b> v6.0 분산발송&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_단일서버.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/7116fe93715861d0f35522fcc91bae56"
+              }
+            },
+            {
+              "id": "2a4e5f561fd39dcd9b6ce6855f7f82d3",
+              "document": {
+                "id": "2a4e5f561fd39dcd9b6ce6855f7f82d3",
+                "derivedStructData": {
+                  "title": "ME6_제품소개서_마이메일러_전용서버_2022",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "[한국무역협회] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [대한항공CND] <b>마이메일러</b> v6.0&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/2a4e5f561fd39dcd9b6ce6855f7f82d3"
+              }
+            },
+            {
+              "id": "ed4c28ae98adaf32a39a46d1fc23e7f0",
+              "document": {
+                "id": "ed4c28ae98adaf32a39a46d1fc23e7f0",
+                "derivedStructData": {
+                  "title": "ME6_제품소개서_마이메일러_단일서버_2022",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "[한국무역협회] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [대한항공CND] <b>마이메일러</b> v6.0&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_단일서버_2022.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ed4c28ae98adaf32a39a46d1fc23e7f0"
+              }
+            },
+            {
+              "id": "eab2e9d7507cf20897a639762253b9ea",
+              "document": {
+                "id": "eab2e9d7507cf20897a639762253b9ea",
+                "derivedStructData": {
+                  "title": "ME6_유니셰프_제품소개서_마이메일러_연간pro",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "[한국무역협회] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [대한항공CND] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [미리디] <b>마이메일러</b> v6.0 분산발송&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/ME6_유니셰프_제품소개서_마이메일러_연간pro.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/eab2e9d7507cf20897a639762253b9ea"
+              }
+            },
+            {
+              "id": "d9913e2c4389fa14b1af5115d87b673f",
+              "document": {
+                "id": "d9913e2c4389fa14b1af5115d87b673f",
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>마이메일러</b>_<b>제품</b>소개서, 관리자, 작성일23.03.13, 조회1,898. 9, [대량메일](필수)Gmail보안 강화 - DNS 설정 가이드, 관리자, 작성일24.01.29, 조회2,883. 8, [IP block]&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1706515200000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/manual/view2?ca=%EB%8C%80%EB%9F%89%EB%A9%94%EC%9D%BC",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/d9913e2c4389fa14b1af5115d87b673f"
+              }
+            },
+            {
+              "id": "1f49eb2c84f85ade9f19c6fa48d026e5",
+              "document": {
+                "id": "1f49eb2c84f85ade9f19c6fa48d026e5",
+                "derivedStructData": {
+                  "title": "ME6_분산발송시스템_제품소개서_마이메일러_2022",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "[한국무역협회] <b>마이메일러</b> v6.0 대량메일 &amp; 자동메일 시스템공급 [대한항공CND] <b>마이메일러</b> v6.0&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_분산발송시스템_제품소개서_마이메일러_2022.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/1f49eb2c84f85ade9f19c6fa48d026e5"
+              }
+            }
+          ],
+          "citations_count": 20,
+          "answer_length": 1493,
+          "search_results_count": 10
+        },
+        "query_length": 13,
+        "response_length": 1493,
+        "timestamp": "2025-08-25T04:30:07.055572Z",
+        "quality_metrics": {},
+        "ai_response": "**마이메일러**는 처음서비스의 SaaS형 대량 메일 솔루션입니다. 20년간 꾸준한 메일 시스템 개발을 통해 고객 만족도와 제품 효율성, 연동 유연성, 발송 속도 향상에 힘써왔습니다. 현재 300~400개의 기업에서 마이메일러를 이용하고 있습니다.\n\n**주요 특징:**\n1.  **안정적인 대량 메일 발송:**\n    *   국내 최초로 시간당 1,000만 통 발송이 가능한 분산발송시스템을 개발했습니다. 이는 국내외에서 유일한 제품입니다.\n    *   100대의 분산 엔진으로 분산할 경우 1시간 이내 1,000만 통 발송이 가능합니다 (1대당 평균 시간당 10만 통 발송).\n    *   월 5천만 통 이상의 대량 메일 발송이 가능합니다.\n    *   발송 엔진 추가 시 복잡한 절차 없이 빠르고 간단하게 엔진을 확장할 수 있습니다.\n    *   타임세일 이벤트와 같이 단시간 내에 대량의 메일을 발송해야 하는 경우, 발송 서버를 100대로 구성하여 시간당 1천만 통 발송이 가능합니다.\n    *   PDF 암호화 메일 발송 시 발생하는 트래픽 및 파일 용량 문제를 분산 서버를 통해 해결할 수 있습니다.\n2.  **다양한 타겟팅 방법:**\n    *   파일 업로드, SQL 쿼리, 개별 입력 방식을 지원합니다.\n    *   발송 대상자 전체 공유/비공유 설정이 가능합니다.\n    *   회원 정보를 기반으로 한 타겟팅 UI를 제공합니다.\n3.  **높은 활용성의 캠페인 기능:**\n    *   템플릿 등록, URL, 직접 입력 기능을 제공합니다.\n    *   기존 작성한 내용을 불러오거나 첨부파일 기능을 사용할 수 있습니다.\n    *   즉시 발송, 예약 발송, 반복 발송이 가능합니다.\n4.  **상세한 반응 정보 분석:**\n    *   캠페인 관리 및 효과 분석을 통해 성공/실패, 오픈, 인지, 링크 클릭을 분석합니다.\n    *   발송 추세, 실패 원인, 실패 도메인 분석을 제공하여 효율적인 마케팅 전략 수립을 돕습니다.\n\n**분산발송 활용 사례:**\n*   대량 메일/자동 메일 분리 운영\n*   하이브리드형 사설 외부망 사용\n*   사이트별 분산 발송\n*   발송 목적에 따른 분산 발송\n*   발송 IP 트래픽 분산\n*   단일 IP 블록 우회 발송 기능\n*   메일 발송량 증가에 따른 간편한 SMTP 서버 확장 가능\n*   내부망/외부망 엔진 분리 운영 시스템 프로세스\n\n**분산 서버 장점:**\n*   폭발적인 성능의 대량 발송 엔진 보유\n*   고객 요구 조건에 맞는 발송 엔진 세팅 및 속도 조절 가능\n*   최신 이메일 수신 환경에 맞춘 메일 엔진 제공\n*   메일 발송 이후 다양한 통계 분석을 통한 리마케팅 가능\n*   분산 서버 추가 시 합리적이고 저렴한 가격\n*   유연한 서버 증가 및 축소\n*   발송 증가에 따른 맞춤 서버 스펙 변경\n*   클라우드 서버 사용 시 국가 및 지역 데이터센터 선택 가능 (Amazon AWS, MS Azure, Oracle 등)\n*   국내외 클라우드 서버망 구성 가능"
+      }
+    ],
+    "last_activity": "2025-08-25T04:30:07.131102Z"
+  }
+}

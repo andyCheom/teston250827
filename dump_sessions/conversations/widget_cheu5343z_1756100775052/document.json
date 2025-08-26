@@ -1,0 +1,242 @@
+{
+  "id": "widget_cheu5343z_1756100775052",
+  "path": "conversations/widget_cheu5343z_1756100775052",
+  "fields": {
+    "created_at": "2025-08-25T05:46:25.773271Z",
+    "session_id": "widget_cheu5343z_1756100775052",
+    "message_count": 1,
+    "updated_at": "2025-08-25T05:46:25.773275Z",
+    "user_info": {
+      "user_agent": "",
+      "ip_region": ""
+    },
+    "messages": [
+      {
+        "query_length": 2,
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "title": "원본_VestMail_제품소개서_1809",
+              "displayName": "원본_VestMail_제품소개서_1809",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/보안메일 - 예티소프트/원본_VestMail_제품소개서_1809.pptx"
+            },
+            {
+              "title": "Microsoft PowerPoint - VestMail_제품소개서_1809.pptx",
+              "displayName": "Microsoft PowerPoint - VestMail_제품소개서_1809.pptx",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/보안메일 - 예티소프트/VestMail_제품소개서_1809.pdf"
+            },
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+            },
+            {
+              "title": "(한국선급) ME6 대량메일 메일 솔루션 Admin 시스템가이드",
+              "displayName": "(한국선급) ME6 대량메일 메일 솔루션 Admin 시스템가이드",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 사용매뉴얼(버전별)/MyMailer 6.xx (ME6)/(마이메일러) 대량메일 메일 솔루션 Admin매뉴얼.pdf"
+            },
+            {
+              "title": "마이메일러 I SaaS형 대량메일 솔루션",
+              "displayName": "마이메일러 I SaaS형 대량메일 솔루션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/solution.html"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/11480256507483281677",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "52a67d837888b88e36b98ef84d5bfb28",
+              "document": {
+                "id": "52a67d837888b88e36b98ef84d5bfb28",
+                "derivedStructData": {
+                  "title": "원본_VestMail_제품소개서_1809",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>하이</b>투자증권 유안타증권 HMC투자증권 키움증권 KTB증권 유진저축은행 13년 12월 16년 05월 16년 05월 16년 11월 18년 06월 18년 06월 18년 06월 38 39 40 캐피탈/저축&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/보안메일 - 예티소프트/원본_VestMail_제품소개서_1809.pptx"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/52a67d837888b88e36b98ef84d5bfb28"
+              }
+            },
+            {
+              "id": "1f545d73c67f000592f32e27f2512379",
+              "document": {
+                "id": "1f545d73c67f000592f32e27f2512379",
+                "derivedStructData": {
+                  "title": "Microsoft PowerPoint - VestMail_제품소개서_1809.pptx",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>하이</b>투자증권 유안타증권 HMC투자증권 키움증권 KTB증권 유진저축은행 13년 12월 16년 05월 16년 05월 16년 11월 18년 06월 18년 06월 18년 06월 38 39 40 캐피탈/저축&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/보안메일 - 예티소프트/VestMail_제품소개서_1809.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/1f545d73c67f000592f32e27f2512379"
+              }
+            },
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "85fb50adb1236dbd99408f333a6730cc",
+              "document": {
+                "id": "85fb50adb1236dbd99408f333a6730cc",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "(한국선급) ME6 대량메일 메일 솔루션 Admin 시스템가이드",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... denotes a problem with your outgoing server connection. This can often occur as a result of too many connections or a <b>high</b> volume of messages 1 2 3 4."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 사용매뉴얼(버전별)/MyMailer 6.xx (ME6)/(마이메일러) 대량메일 메일 솔루션 Admin매뉴얼.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/85fb50adb1236dbd99408f333a6730cc"
+              }
+            },
+            {
+              "id": "091690d4d09f1316b6e29a52325ef7f2",
+              "document": {
+                "id": "091690d4d09f1316b6e29a52325ef7f2",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "HI-PERFORMANCE 메세지 큐 프로세스 GUI, HTTP 프로토콜을 사용할 수 있는 환경에서 WEB UI직접 발송 또는 API연동을 통해 전송 가능합니다. 고성능 큐프로세스는 빅&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/solution/solution.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/091690d4d09f1316b6e29a52325ef7f2"
+              }
+            },
+            {
+              "id": "7b1e948bbba81a28a57b5b5dad49ade8",
+              "document": {
+                "id": "7b1e948bbba81a28a57b5b5dad49ade8",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer26",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "고가용성 (<b>High</b> Availability) 다중 서버 아키텍처 서버 분산: 여러 서버에 트래픽을 분산시켜 단일 장애 지점을 제거합니다. 이를 통해 하나의 서버가 문제가 생기&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer26.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/7b1e948bbba81a28a57b5b5dad49ade8"
+              }
+            },
+            {
+              "id": "7b1e948bbba81a28a57b5b5dad49ade8",
+              "document": {
+                "id": "7b1e948bbba81a28a57b5b5dad49ade8",
+                "derivedStructData": {
+                  "title": "naver_blog_mymailer26",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "고가용성 (<b>High</b> Availability) 다중 서버 아키텍처 서버 분산: 여러 서버에 트래픽을 분산시켜 단일 장애 지점을 제거합니다. 이를 통해 하나의 서버가 문제가 생기&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_mymailer26.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/7b1e948bbba81a28a57b5b5dad49ade8"
+              }
+            },
+            {
+              "id": "1900508e7ef7fbb14d5ab84c479e95a2",
+              "document": {
+                "id": "1900508e7ef7fbb14d5ab84c479e95a2",
+                "derivedStructData": {
+                  "title": "MyMailer_Home1 – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "Low Cost <b>High</b> Efficiency 전용서버 상품으로 횟수제한없는 무제한 발송 (통당 0.03원 미만) Real time monitoring 성공,실패,오픈,클릭,링크 및 시간별 반응 분석 및&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/solution.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/1900508e7ef7fbb14d5ab84c479e95a2"
+              }
+            },
+            {
+              "id": "d0a6055c4b0f05ae4552c35c33dc212c",
+              "document": {
+                "id": "d0a6055c4b0f05ae4552c35c33dc212c",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "2021portfolio_img71.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... hI �J��O�z�}� �~��� ���2�� o��-h ��� ߢ��.n׻���� �2���bۜ֟s���9���� �{*�� � �v6 ����g�Ai%��� ���������1���?�� ��� �{��� n�F� ... hI �J��O�z�}� �~��� ���2�� o��-h ��&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/2021portfolio_img71.jpg.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/d0a6055c4b0f05ae4552c35c33dc212c"
+              }
+            },
+            {
+              "id": "578aedba7d9922836cd118bba9de3b95",
+              "document": {
+                "id": "578aedba7d9922836cd118bba9de3b95",
+                "derivedStructData": {
+                  "title": "myslide_new02.png",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... !�6�w]�?�П���� Ս� vy �Ϳ�bX�� � � � �R�!��1� �u�@� $��K��C0�~ G /��3:����^]�oS u� ���|��~J�v Z��P�� �ګw� ������� �k� mℂ�� � \\F�c ωE��7�l+ �ϱZ����V –��4��&amp;w�gl�|&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/04/myslide_new02.png.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/578aedba7d9922836cd118bba9de3b95"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 41,
+          "search_results_count": 10
+        },
+        "user_query": "ㅎㅇ",
+        "response_length": 41,
+        "timestamp": "2025-08-25T05:46:25.680626Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?"
+      }
+    ],
+    "last_activity": "2025-08-25T05:46:25.773276Z"
+  }
+}

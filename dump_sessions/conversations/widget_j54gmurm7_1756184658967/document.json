@@ -1,0 +1,273 @@
+{
+  "id": "widget_j54gmurm7_1756184658967",
+  "path": "conversations/widget_j54gmurm7_1756184658967",
+  "fields": {
+    "message_count": 1,
+    "session_id": "widget_j54gmurm7_1756184658967",
+    "created_at": "2025-08-26T05:04:35.482663Z",
+    "updated_at": "2025-08-26T05:04:35.482667Z",
+    "last_activity": "2025-08-26T05:04:35.482668Z",
+    "messages": [
+      {
+        "user_query": "안녕하세요",
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://www.pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "http://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=58"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://pringo.kr/board/notice?viewMode=view&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1&idx=58"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/7101641206989275449",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "a934794c0d1971b84a578538d7ecdc6f",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "www.pringo.kr",
+                  "link": "https://www.pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "a934794c0d1971b84a578538d7ecdc6f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/a934794c0d1971b84a578538d7ecdc6f"
+              }
+            },
+            {
+              "id": "24c516fdadb5432904c6ed66861ce90d",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "24c516fdadb5432904c6ed66861ce90d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/24c516fdadb5432904c6ed66861ce90d"
+              }
+            },
+            {
+              "id": "fd165995bf42695cc3358901c66b6d38",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "http://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "fd165995bf42695cc3358901c66b6d38",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/fd165995bf42695cc3358901c66b6d38"
+              }
+            },
+            {
+              "id": "5c1b55b17613f9856923471f6b1c8068",
+              "document": {
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "5c1b55b17613f9856923471f6b1c8068",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5c1b55b17613f9856923471f6b1c8068"
+              }
+            },
+            {
+              "id": "0a81d136bba6bd45b4f7f621889a2dbb",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/board/notice?viewMode=view&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "0a81d136bba6bd45b4f7f621889a2dbb",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/0a81d136bba6bd45b4f7f621889a2dbb"
+              }
+            },
+            {
+              "id": "af94a78128747b28893fbdfec5ca99ce",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=38",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "af94a78128747b28893fbdfec5ca99ce",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/af94a78128747b28893fbdfec5ca99ce"
+              }
+            },
+            {
+              "id": "bbd2a6780f134cbbf8f6a33d5c849e49",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, mymailer 서비스를 이용해주시는 고객님께 감사드립니다. 아래와 같이 특정 버전의 서비스가 중단될 예정이오니, 고객님께서는 참고하시어 불편이 없도록&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1729474980000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=57&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "bbd2a6780f134cbbf8f6a33d5c849e49",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/bbd2a6780f134cbbf8f6a33d5c849e49"
+              }
+            },
+            {
+              "id": "07b28ad08e14e5ae54213e166e7b1f08",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, mymailer 서비스를 이용해주시는 고객님께 감사드립니다. 아래와 같이 특정 버전의 서비스가 중단될 예정이오니, 고객님께서는 참고하시어 불편이 없도록&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1729474980000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=57&ca=&sel_search=&txt_search=&page=1",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "07b28ad08e14e5ae54213e166e7b1f08",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/07b28ad08e14e5ae54213e166e7b1f08"
+              }
+            },
+            {
+              "id": "74bd241b1372dea34830d3c7d9b8a132",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=38",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "74bd241b1372dea34830d3c7d9b8a132",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/74bd241b1372dea34830d3c7d9b8a132"
+              }
+            },
+            {
+              "id": "e779d3bb9602bebb89e59ec01aa55acb",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 마이메일러 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761960000000.0,
+                  "displayLink": "www.mymailer.kr",
+                  "link": "https://www.mymailer.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "마이메일러 I SaaS형 대량메일 솔루션"
+                },
+                "id": "e779d3bb9602bebb89e59ec01aa55acb",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/e779d3bb9602bebb89e59ec01aa55acb"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 43,
+          "search_results_count": 10
+        },
+        "query_length": 5,
+        "response_length": 43,
+        "timestamp": "2025-08-26T05:04:35.368548Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! **\"처음서비스\"** 고객지원 담당자입니다. 무엇을 도와드릴까요?"
+      }
+    ],
+    "user_info": {
+      "user_agent": "",
+      "ip_region": ""
+    }
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "id": "widget_bq8hz2ykd_1756094549796",
+  "path": "conversations/widget_bq8hz2ykd_1756094549796",
+  "fields": {
+    "message_count": 1,
+    "session_id": "widget_bq8hz2ykd_1756094549796",
+    "created_at": "2025-08-25T04:02:56.168685Z",
+    "updated_at": "2025-08-25T04:02:56.168690Z",
+    "user_info": {
+      "user_agent": "",
+      "ip_region": ""
+    },
+    "messages": [
+      {
+        "query_length": 4,
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/1069769916989628268",
+          "citations": [
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+            },
+            {
+              "title": "마이메일러 I SaaS형 대량메일 솔루션",
+              "displayName": "마이메일러 I SaaS형 대량메일 솔루션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/member/join.html"
+            },
+            {
+              "title": "naver_blog_cheom5",
+              "displayName": "naver_blog_cheom5",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+            },
+            {
+              "title": "naver_blog_cheom5",
+              "displayName": "naver_blog_cheom5",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+            },
+            {
+              "title": "마이메일러 I SaaS형 대량메일 솔루션",
+              "displayName": "마이메일러 I SaaS형 대량메일 솔루션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/doc/private.html"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "e6b7f76b69ff4a5a192b58ce74434186",
+              "document": {
+                "id": "e6b7f76b69ff4a5a192b58ce74434186",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/member/join.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/e6b7f76b69ff4a5a192b58ce74434186"
+              }
+            },
+            {
+              "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+              "document": {
+                "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom5",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/a3d0f712ba2370b0fb9cb70e586c3fbc"
+              }
+            },
+            {
+              "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+              "document": {
+                "id": "a3d0f712ba2370b0fb9cb70e586c3fbc",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "naver_blog_cheom5",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom5.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/a3d0f712ba2370b0fb9cb70e586c3fbc"
+              }
+            },
+            {
+              "id": "0a4c3ace3c812dd728ca898ed108598a",
+              "document": {
+                "id": "0a4c3ace3c812dd728ca898ed108598a",
+                "derivedStructData": {
+                  "title": "마이메일러 I SaaS형 대량메일 솔루션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/doc/private.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/0a4c3ace3c812dd728ca898ed108598a"
+              }
+            },
+            {
+              "id": "eeb7bcdb0a825f40bc683aea2f6df2f2",
+              "document": {
+                "id": "eeb7bcdb0a825f40bc683aea2f6df2f2",
+                "derivedStructData": {
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/member/join.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/eeb7bcdb0a825f40bc683aea2f6df2f2"
+              }
+            },
+            {
+              "id": "c359a0099632e4a304dec12dff3ad6d2",
+              "document": {
+                "id": "c359a0099632e4a304dec12dff3ad6d2",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "Testimonials – 처음서비스",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/testimonials.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/c359a0099632e4a304dec12dff3ad6d2"
+              }
+            },
+            {
+              "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+              "document": {
+                "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo1",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/ad83fa7b1d25a5c31a72c8c77bb976f1"
+              }
+            },
+            {
+              "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+              "document": {
+                "id": "ad83fa7b1d25a5c31a72c8c77bb976f1",
+                "derivedStructData": {
+                  "title": "naver_blog_pringo1",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_pringo1.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ad83fa7b1d25a5c31a72c8c77bb976f1"
+              }
+            },
+            {
+              "id": "25bc8fad830b6a4756b185f145c2f462",
+              "document": {
+                "id": "25bc8fad830b6a4756b185f145c2f462",
+                "derivedStructData": {
+                  "title": "naver_blog_cheom7",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/naver_blog_cheom7.txt"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/sampleprojects-468223-graphrag-datastore/branches/0/documents/25bc8fad830b6a4756b185f145c2f462"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 139,
+          "search_results_count": 10
+        },
+        "user_query": "qwer",
+        "response_length": 139,
+        "timestamp": "2025-08-25T04:02:56.030548Z",
+        "quality_metrics": {},
+        "ai_response": "죄송하지만, 고객님의 질문이 너무 짧아 어떤 내용에 대해 문의하시는지 정확히 파악하기 어렵습니다. [i]\n\n**\"처음서비스\"**에 대해 궁금하신 점이나 도움이 필요하신 부분이 있다면, 좀 더 자세히 질문해주시면 확인 후 친절하게 답변해 드리겠습니다."
+      }
+    ],
+    "last_activity": "2025-08-25T04:02:56.168690Z"
+  }
+}

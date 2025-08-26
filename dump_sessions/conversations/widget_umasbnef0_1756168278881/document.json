@@ -1,0 +1,242 @@
+{
+  "id": "widget_umasbnef0_1756168278881",
+  "path": "conversations/widget_umasbnef0_1756168278881",
+  "fields": {
+    "created_at": "2025-08-26T00:31:38.996911Z",
+    "session_id": "widget_umasbnef0_1756168278881",
+    "message_count": 1,
+    "updated_at": "2025-08-26T00:31:38.996914Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "user_query": "지금은 9:31",
+        "metadata": {
+          "related_questions": [],
+          "citations": [
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+            },
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/마이메일러 솔루션 제품소개서 (2023).pdf"
+            },
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/PDF암호화솔루션_ME6_제품소개서_210806.pdf"
+            },
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pdf"
+            },
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_급여명세서_메일발송시스템.pdf"
+            }
+          ],
+          "query_id": "projects/975882305117/locations/global/questions/17239339583122292800",
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "200fd2b890c803294a9cd7e2a253c27b",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/마이메일러 솔루션 제품소개서 (2023).pdf"
+                },
+                "id": "200fd2b890c803294a9cd7e2a253c27b",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/200fd2b890c803294a9cd7e2a253c27b"
+              }
+            },
+            {
+              "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/PDF암호화솔루션_ME6_제품소개서_210806.pdf"
+                },
+                "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/623dcb2f90aa5a52d9e7643bc01f011b"
+              }
+            },
+            {
+              "id": "cbb01c702327d19c0ce91d7c0621b146",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pdf"
+                },
+                "id": "cbb01c702327d19c0ce91d7c0621b146",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/cbb01c702327d19c0ce91d7c0621b146"
+              }
+            },
+            {
+              "id": "d268c48e61460db9b1e900930dac8df6",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_급여명세서_메일발송시스템.pdf"
+                },
+                "id": "d268c48e61460db9b1e900930dac8df6",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/d268c48e61460db9b1e900930dac8df6"
+              }
+            },
+            {
+              "id": "ed49e65644c2a43b7d883b802b51b110",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "gang_09.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/gang_09.jpg.html"
+                },
+                "id": "ed49e65644c2a43b7d883b802b51b110",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ed49e65644c2a43b7d883b802b51b110"
+              }
+            },
+            {
+              "id": "31339c95fa80e5c1c602f95cc520c18a",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "24-0517 카페24발송서버 - smtp릴레이 교체 프로젝트",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/24-0517 카페24발송서버 - smtp릴레이 교체 프로젝트.pptx"
+                },
+                "id": "31339c95fa80e5c1c602f95cc520c18a",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/31339c95fa80e5c1c602f95cc520c18a"
+              }
+            },
+            {
+              "id": "10482eb821ed0137c1d84cd63eaec418",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "compareChart.png",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/images/compareChart.png.html"
+                },
+                "id": "10482eb821ed0137c1d84cd63eaec418",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/10482eb821ed0137c1d84cd63eaec418"
+              }
+            },
+            {
+              "id": "422ee91cb7ae73c419974d6eef722658",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "gang_06.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/gang_06.jpg.html"
+                },
+                "id": "422ee91cb7ae73c419974d6eef722658",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/422ee91cb7ae73c419974d6eef722658"
+              }
+            },
+            {
+              "id": "56a69f6e729fc82f2e64ad13de6708ed",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "Cosse5.0 - 마이메일러 제품소개서(요약본)_(20-0120)",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/Cosse5.0 제품소개서/Cosse5.0 - 마이메일러 제품소개서(요약본)_(20-0120).pptx"
+                },
+                "id": "56a69f6e729fc82f2e64ad13de6708ed",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/56a69f6e729fc82f2e64ad13de6708ed"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "answer_length": 99,
+          "search_results_count": 10
+        },
+        "query_length": 8,
+        "response_length": 99,
+        "timestamp": "2025-08-26T00:31:38.931245Z",
+        "quality_metrics": {},
+        "ai_response": "죄송하지만, 현재 시간 정보는 처음서비스와 무관한 일반적인 질문이므로 답변드릴 수 없습니다. 처음서비스의 서비스나 기능에 대해 궁금한 점이 있으시면 다시 질문해 주시기 바랍니다."
+      }
+    ],
+    "last_activity": "2025-08-26T00:31:38.996915Z"
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "id": "widget_xl4srcb6t_1755847110912",
+  "path": "conversations/widget_xl4srcb6t_1755847110912",
+  "fields": {
+    "message_count": 1,
+    "session_id": "widget_xl4srcb6t_1755847110912",
+    "created_at": "2025-08-22T07:18:45.907306Z",
+    "updated_at": "2025-08-22T07:18:45.907334Z",
+    "last_activity": "2025-08-22T07:18:45.907335Z",
+    "messages": [
+      {
+        "query_length": 5,
+        "metadata": {
+          "answer_length": 66,
+          "query_id": "projects/975882305117/locations/global/questions/10873771416455245652",
+          "citations": [
+            {
+              "title": "공지사항 – 처음서비스",
+              "displayName": "공지사항 – 처음서비스",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/notice.html"
+            },
+            {
+              "title": "처음서비스 – 메일 발송대행, 뉴스레터 제작 처음서비스!",
+              "displayName": "처음서비스 – 메일 발송대행, 뉴스레터 제작 처음서비스!",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/index.html"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/doc/policy.html"
+            },
+            {
+              "title": "FAQ – 처음서비스",
+              "displayName": "FAQ – 처음서비스",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/faq.html"
+            },
+            {
+              "title": "Search Engine Advertising – 처음서비스",
+              "displayName": "Search Engine Advertising – 처음서비스",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/search-engine-advertising.html"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "f8073b96e5a9aaa53f65ee90507a73ce",
+              "document": {
+                "id": "f8073b96e5a9aaa53f65ee90507a73ce",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "공지사항 – 처음서비스",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "18 0 308666 공지<b>사항</b> [공지<b>사항</b>]설날 연휴 고객센터 서비스 안내 입니다. Cheom Service | 2022.01.27 Cheom Service 2022.01.27 0 333208 공지<b>사항</b> [공지] 2022년&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/notice.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/f8073b96e5a9aaa53f65ee90507a73ce"
+              }
+            },
+            {
+              "id": "a5e3db020dd3046ec7a4bab8fc03c562",
+              "document": {
+                "id": "a5e3db020dd3046ec7a4bab8fc03c562",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "처음서비스 – 메일 발송대행, 뉴스레터 제작 처음서비스!",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> FAQ 1:1 문의하기(샘플) wpcheom v6 Digital Marketing Launch Home SEO Home 홈_Agency Home Z Company Home Case Study Showcase 홈_Analytics Home Portfolio&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/index.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/a5e3db020dd3046ec7a4bab8fc03c562"
+              }
+            },
+            {
+              "id": "6556dda7d24a42014c048f53f3763d65",
+              "document": {
+                "id": "6556dda7d24a42014c048f53f3763d65",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> 사용자 매뉴얼 FAQ 구매 가이드 CS문의 문의등록 영업문의 데모신청 약관 및 정책 개인정보처리방침 이메일무단수집거부 user 대시보드 서버리스트 청구/결제관리&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/doc/policy.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/6556dda7d24a42014c048f53f3763d65"
+              }
+            },
+            {
+              "id": "ed6f8eddc42e0a439aac80c3d8fd29da",
+              "document": {
+                "id": "ed6f8eddc42e0a439aac80c3d8fd29da",
+                "derivedStructData": {
+                  "title": "FAQ – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> FAQ 1:1 문의하기(샘플) wpcheom v6 Digital Marketing Launch Home SEO Home 홈_Agency Home Z Company Home Case Study Showcase 홈_Analytics Home Portfolio&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/faq.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ed6f8eddc42e0a439aac80c3d8fd29da"
+              }
+            },
+            {
+              "id": "41b3eae1d684539fe6206d8492abdfa3",
+              "document": {
+                "id": "41b3eae1d684539fe6206d8492abdfa3",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "Search Engine Advertising – 처음서비스",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> FAQ 1:1 문의하기(샘플) wpcheom v6 Digital Marketing Launch Home SEO Home 홈_Agency Home Z Company Home Case Study Showcase 홈_Analytics Home Portfolio&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/search-engine-advertising.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/41b3eae1d684539fe6206d8492abdfa3"
+              }
+            },
+            {
+              "id": "971944bebb58b50aba5a41f196536792",
+              "document": {
+                "id": "971944bebb58b50aba5a41f196536792",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "Skills & Pricing – 처음서비스",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> FAQ 1:1 문의하기(샘플) wpcheom v6 Digital Marketing Launch Home SEO Home 홈_Agency Home Z Company Home Case Study Showcase 홈_Analytics Home Portfolio&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/skills-pricing.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/971944bebb58b50aba5a41f196536792"
+              }
+            },
+            {
+              "id": "93041140ed577cdc95b174c3fd6eb2d6",
+              "document": {
+                "id": "93041140ed577cdc95b174c3fd6eb2d6",
+                "derivedStructData": {
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> 사용자 매뉴얼 FAQ 구매 가이드 CS문의 문의등록 영업문의 데모신청 약관 및 정책 개인정보처리방침 이메일무단수집거부 user 대시보드 서버리스트 청구/결제관리&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/board/notice.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/93041140ed577cdc95b174c3fd6eb2d6"
+              }
+            },
+            {
+              "id": "a26d757f1830da79644ccd7981b45732",
+              "document": {
+                "id": "a26d757f1830da79644ccd7981b45732",
+                "derivedStructData": {
+                  "title": "Social Media Strategy – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> FAQ 1:1 문의하기(샘플) wpcheom v6 Digital Marketing Launch Home SEO Home 홈_Agency Home Z Company Home Case Study Showcase 홈_Analytics Home Portfolio&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/social-media-strategy.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/a26d757f1830da79644ccd7981b45732"
+              }
+            },
+            {
+              "id": "65bf6358789faa3bdab00be76923bb10",
+              "document": {
+                "id": "65bf6358789faa3bdab00be76923bb10",
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> 사용자 매뉴얼 FAQ 구매 가이드 CS문의 문의등록 영업문의 데모신청 약관 ... <b>사항</b>의 시행 7일 전부터 공지<b>사항</b>을 통하여 고지할 것입니다. 회사소개 서비스&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/doc/private.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/65bf6358789faa3bdab00be76923bb10"
+              }
+            },
+            {
+              "id": "245618835e32572e976329eb6fc4e3b8",
+              "document": {
+                "id": "245618835e32572e976329eb6fc4e3b8",
+                "derivedStructData": {
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "... <b>사항</b> 사용자 매뉴얼 FAQ 구매 가이드 CS문의 문의등록 영업문의 데모신청 약관 및 정책 개인정보처리방침 이메일무단수집거부 user 대시보드 서버리스트 청구/결제관리&nbsp;..."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_pringo/kor/board/faq.html"
+                },
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/245618835e32572e976329eb6fc4e3b8"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "user_query": "안녕하세요",
+        "response_length": 66,
+        "timestamp": "2025-08-22T07:18:45.881935Z",
+        "quality_metrics": {},
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요? 궁금한 점이 있으시면 언제든지 질문해주세요."
+      }
+    ],
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    }
+  }
+}

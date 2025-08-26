@@ -1,0 +1,944 @@
+{
+  "id": "widget_8gq2qpmr6_1755668319968",
+  "path": "conversations/widget_8gq2qpmr6_1755668319968",
+  "fields": {
+    "created_at": "2025-08-20T05:39:04.322167Z",
+    "session_id": "widget_8gq2qpmr6_1755668319968",
+    "message_count": 4,
+    "updated_at": "2025-08-20T05:50:57.426850Z",
+    "user_info": {
+      "ip_region": "",
+      "user_agent": ""
+    },
+    "messages": [
+      {
+        "user_query": "ㅊㅌㅋ",
+        "metadata": {
+          "related_questions": [],
+          "query_id": "projects/975882305117/locations/global/questions/7246484240317952931",
+          "citations": [
+            {
+              "sources": [
+                {
+                  "referenceId": "0"
+                },
+                {
+                  "referenceId": "1"
+                },
+                {
+                  "referenceId": "2"
+                },
+                {
+                  "referenceId": "3"
+                },
+                {
+                  "referenceId": "4"
+                },
+                {
+                  "referenceId": "5"
+                },
+                {
+                  "referenceId": "6"
+                },
+                {
+                  "referenceId": "7"
+                },
+                {
+                  "referenceId": "8"
+                },
+                {
+                  "referenceId": "9"
+                }
+              ],
+              "endIndex": "139"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "906ee2816b09326eaf86fbf5143e9c9f",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "hodu.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/hodu.jpg.html"
+                },
+                "id": "906ee2816b09326eaf86fbf5143e9c9f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/906ee2816b09326eaf86fbf5143e9c9f"
+              }
+            },
+            {
+              "id": "10482eb821ed0137c1d84cd63eaec418",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "compareChart.png",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages_Mymailer/images/compareChart.png.html"
+                },
+                "id": "10482eb821ed0137c1d84cd63eaec418",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/10482eb821ed0137c1d84cd63eaec418"
+              }
+            },
+            {
+              "id": "fa15fcf0c5e54be4c0964f09d946e4a3",
+              "document": {
+                "derivedStructData": {
+                  "title": "myslide_new03.png",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/04/myslide_new03.png.html"
+                },
+                "id": "fa15fcf0c5e54be4c0964f09d946e4a3",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/fa15fcf0c5e54be4c0964f09d946e4a3"
+              }
+            },
+            {
+              "id": "977e492110b50d1873dd099706102e84",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "nice_40.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/nice_40.jpg.html"
+                },
+                "id": "977e492110b50d1873dd099706102e84",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/977e492110b50d1873dd099706102e84"
+              }
+            },
+            {
+              "id": "98620f499de7c3b13877e2eb32d03911",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "2021portfolio_img62.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/2021portfolio_img62.jpg.html"
+                },
+                "id": "98620f499de7c3b13877e2eb32d03911",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/98620f499de7c3b13877e2eb32d03911"
+              }
+            },
+            {
+              "id": "fbfc78affbfb3c5712e7e0fb3121d45f",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "gang_10.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/gang_10.jpg.html"
+                },
+                "id": "fbfc78affbfb3c5712e7e0fb3121d45f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/fbfc78affbfb3c5712e7e0fb3121d45f"
+              }
+            },
+            {
+              "id": "9a15ed8dac84baef1c5c2f56e6f6307e",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "2021portfolio_img70.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/2021portfolio_img70.jpg.html"
+                },
+                "id": "9a15ed8dac84baef1c5c2f56e6f6307e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9a15ed8dac84baef1c5c2f56e6f6307e"
+              }
+            },
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "422ee91cb7ae73c419974d6eef722658",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "gang_06.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/gang_06.jpg.html"
+                },
+                "id": "422ee91cb7ae73c419974d6eef722658",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/422ee91cb7ae73c419974d6eef722658"
+              }
+            },
+            {
+              "id": "244eb4269c97a6cccbc17c653fe834b5",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "gang_07.jpg",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/wp-content/uploads/2020/07/gang_07.jpg.html"
+                },
+                "id": "244eb4269c97a6cccbc17c653fe834b5",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/244eb4269c97a6cccbc17c653fe834b5"
+              }
+            }
+          ],
+          "citations_count": 1,
+          "answer_length": 97,
+          "search_results_count": 10
+        },
+        "query_length": 3,
+        "response_length": 97,
+        "ai_response": "죄송하지만, 고객님께서 입력하신 'ㅊㅌㅋ'만으로는 어떤 문의를 하시는지 정확히 파악하기 어렵습니다.\n\n문의 내용을 좀 더 자세히 알려주시면 확인 후 친절하게 답변드리겠습니다.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-20T05:39:04.170868Z"
+      },
+      {
+        "user_query": "안녕",
+        "metadata": {
+          "answer_length": 41,
+          "query_id": "projects/975882305117/locations/global/questions/14793334110323206931",
+          "citations": [
+            {
+              "title": "(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아)",
+              "displayName": "(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아)",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아).pptx"
+            },
+            {
+              "title": "PowerPoint 프레젠테이션",
+              "displayName": "PowerPoint 프레젠테이션",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+            },
+            {
+              "title": "넷마블_210419",
+              "displayName": "넷마블_210419",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210419.pptx"
+            },
+            {
+              "title": "Testimonials – 처음서비스",
+              "displayName": "Testimonials – 처음서비스",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/testimonials.html"
+            },
+            {
+              "title": "넷마블_210420",
+              "displayName": "넷마블_210420",
+              "uri": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210420.pptx"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "fb7343fb2782a136f89791935b6d664d",
+              "document": {
+                "derivedStructData": {
+                  "title": "(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아)",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아).pptx"
+                },
+                "id": "fb7343fb2782a136f89791935b6d664d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/fb7343fb2782a136f89791935b6d664d"
+              }
+            },
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "220b74cec1a9dad358c82447d656dc75",
+              "document": {
+                "derivedStructData": {
+                  "title": "넷마블_210419",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210419.pptx"
+                },
+                "id": "220b74cec1a9dad358c82447d656dc75",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/220b74cec1a9dad358c82447d656dc75"
+              }
+            },
+            {
+              "id": "c359a0099632e4a304dec12dff3ad6d2",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "Testimonials – 처음서비스",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/testimonials.html"
+                },
+                "id": "c359a0099632e4a304dec12dff3ad6d2",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/c359a0099632e4a304dec12dff3ad6d2"
+              }
+            },
+            {
+              "id": "ef583eb1383d6228d08433ffc2ba791d",
+              "document": {
+                "derivedStructData": {
+                  "title": "넷마블_210420",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210420.pptx"
+                },
+                "id": "ef583eb1383d6228d08433ffc2ba791d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ef583eb1383d6228d08433ffc2ba791d"
+              }
+            },
+            {
+              "id": "cbb01c702327d19c0ce91d7c0621b146",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pdf"
+                },
+                "id": "cbb01c702327d19c0ce91d7c0621b146",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/cbb01c702327d19c0ce91d7c0621b146"
+              }
+            },
+            {
+              "id": "d268c48e61460db9b1e900930dac8df6",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_급여명세서_메일발송시스템.pdf"
+                },
+                "id": "d268c48e61460db9b1e900930dac8df6",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/d268c48e61460db9b1e900930dac8df6"
+              }
+            },
+            {
+              "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/PDF암호화솔루션_ME6_제품소개서_210806.pdf"
+                },
+                "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/623dcb2f90aa5a52d9e7643bc01f011b"
+              }
+            },
+            {
+              "id": "bf92d5145a3c363af9cda0d4fd53807e",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_넷마블_백성민님.pdf"
+                },
+                "id": "bf92d5145a3c363af9cda0d4fd53807e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/bf92d5145a3c363af9cda0d4fd53807e"
+              }
+            },
+            {
+              "id": "5a0e8625c809870489910de6dc27843c",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "5a0e8625c809870489910de6dc27843c",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/5a0e8625c809870489910de6dc27843c"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "query_length": 2,
+        "response_length": 41,
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?",
+        "quality_metrics": {},
+        "timestamp": "2025-08-20T05:45:27.511963Z"
+      },
+      {
+        "user_query": "안녕하세요",
+        "metadata": {
+          "answer_length": 41,
+          "query_id": "projects/975882305117/locations/global/questions/1325182508316274485",
+          "citations": [
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://www.pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "http://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=58"
+            },
+            {
+              "title": "2022 설날 연휴 고객센터 휴무 안내입니다.",
+              "displayName": "2022 설날 연휴 고객센터 휴무 안내입니다.",
+              "uri": "https://pringo.kr/kor/board/notice?viewMode=view&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1&idx=38"
+            },
+            {
+              "title": "프링고 I 클라우드기반 대량메일 SaaS",
+              "displayName": "프링고 I 클라우드기반 대량메일 SaaS",
+              "uri": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "a934794c0d1971b84a578538d7ecdc6f",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "www.pringo.kr",
+                  "link": "https://www.pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "a934794c0d1971b84a578538d7ecdc6f",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/a934794c0d1971b84a578538d7ecdc6f"
+              }
+            },
+            {
+              "id": "24c516fdadb5432904c6ed66861ce90d",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=1",
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "24c516fdadb5432904c6ed66861ce90d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/24c516fdadb5432904c6ed66861ce90d"
+              }
+            },
+            {
+              "id": "fd165995bf42695cc3358901c66b6d38",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "http://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "fd165995bf42695cc3358901c66b6d38",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/fd165995bf42695cc3358901c66b6d38"
+              }
+            },
+            {
+              "id": "fa925a5c65c32cd1eb6fc097dac8cca6",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=%EC%84%9C%EB%B9%84%EC%8A%A4&sel_search=&txt_search=&page=1&idx=38",
+                  "title": "2022 설날 연휴 고객센터 휴무 안내입니다.",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "2022 설날 연휴 고객센터 휴무 안내입니다."
+                },
+                "id": "fa925a5c65c32cd1eb6fc097dac8cca6",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/fa925a5c65c32cd1eb6fc097dac8cca6"
+              }
+            },
+            {
+              "id": "5c1b55b17613f9856923471f6b1c8068",
+              "document": {
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=1",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "5c1b55b17613f9856923471f6b1c8068",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/5c1b55b17613f9856923471f6b1c8068"
+              }
+            },
+            {
+              "id": "0a81d136bba6bd45b4f7f621889a2dbb",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/board/notice?viewMode=view&ca=%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8&sel_search=&txt_search=&page=1&idx=58",
+                  "can_fetch_raw_content": "true",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "0a81d136bba6bd45b4f7f621889a2dbb",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/0a81d136bba6bd45b4f7f621889a2dbb"
+              }
+            },
+            {
+              "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "http://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=38&ca=&sel_search=&txt_search=&page=2",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "deddfb5cb8e6e7ec7d1c2727674b836e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/deddfb5cb8e6e7ec7d1c2727674b836e"
+              }
+            },
+            {
+              "id": "1ec406b92b97192d43c3961b14baad96",
+              "document": {
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "www.pringo.kr",
+                  "link": "https://www.pringo.kr/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=1&idx=58",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "1ec406b92b97192d43c3961b14baad96",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/1ec406b92b97192d43c3961b14baad96"
+              }
+            },
+            {
+              "id": "031db0bc738529b15cf2f550ace25a22",
+              "document": {
+                "derivedStructData": {
+                  "datePublished": 1741762800000000.0,
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고 입니다. 고객님께 더욱 안정적인 서비스 환경을 제공해 드리고자 다음과 같이 시스템 점검 작업을 진행할 예정입니다."
+                    }
+                  ],
+                  "dateModified": 1741761900000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/_subpage/kor/board/notice.php?viewMode=view&idx=58&ca=&sel_search=&txt_search=&page=2",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "031db0bc738529b15cf2f550ace25a22",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/031db0bc738529b15cf2f550ace25a22"
+              }
+            },
+            {
+              "id": "af94a78128747b28893fbdfec5ca99ce",
+              "document": {
+                "derivedStructData": {
+                  "snippets": [
+                    {
+                      "snippet_status": "SUCCESS",
+                      "snippet": "<b>안녕하세요</b>, 프링고입니다. 2022년 임인년 첫 명절을 맞이하여 인사드립니다. 밝고 희망찬 마음으로 새해 맞으시길 바라며 새해에는 행복하고 좋은 일만 가득하시기를&nbsp;..."
+                    }
+                  ],
+                  "dateModified": 1643335620000000.0,
+                  "displayLink": "pringo.kr",
+                  "link": "https://pringo.kr/kor/board/notice?viewMode=view&ca=&sel_search=&txt_search=&page=2&idx=38",
+                  "title": "프링고 I 클라우드기반 대량메일 SaaS",
+                  "can_fetch_raw_content": "true",
+                  "htmlTitle": "프링고 I 클라우드기반 대량메일 SaaS"
+                },
+                "id": "af94a78128747b28893fbdfec5ca99ce",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/webdata_1755046321794/branches/0/documents/af94a78128747b28893fbdfec5ca99ce"
+              }
+            }
+          ],
+          "citations_count": 5,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "query_length": 5,
+        "response_length": 41,
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다. 무엇을 도와드릴까요?",
+        "quality_metrics": {},
+        "timestamp": "2025-08-20T05:49:19.146344Z"
+      },
+      {
+        "user_query": "안녕?",
+        "metadata": {
+          "answer_length": 67,
+          "query_id": "projects/975882305117/locations/global/questions/16614186125068824582",
+          "citations": [
+            {
+              "startIndex": "17",
+              "sources": [
+                {
+                  "referenceId": "1"
+                }
+              ],
+              "endIndex": "69"
+            }
+          ],
+          "engine_type": "discovery_engine_main",
+          "search_results": [
+            {
+              "id": "fb7343fb2782a136f89791935b6d664d",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아)",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/고객사 맞춤형 수정문서/(포비즈코리아) Cosse5.0 - 마이메일러 대량메일 솔루션 소개서(포비즈코리아).pptx"
+                },
+                "id": "fb7343fb2782a136f89791935b6d664d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/fb7343fb2782a136f89791935b6d664d"
+              }
+            },
+            {
+              "id": "9202dc1aee46c6ecc0cd66af11954abe",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "9202dc1aee46c6ecc0cd66af11954abe",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/9202dc1aee46c6ecc0cd66af11954abe"
+              }
+            },
+            {
+              "id": "220b74cec1a9dad358c82447d656dc75",
+              "document": {
+                "derivedStructData": {
+                  "title": "넷마블_210419",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210419.pptx"
+                },
+                "id": "220b74cec1a9dad358c82447d656dc75",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/220b74cec1a9dad358c82447d656dc75"
+              }
+            },
+            {
+              "id": "c359a0099632e4a304dec12dff3ad6d2",
+              "document": {
+                "derivedStructData": {
+                  "title": "Testimonials – 처음서비스",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/web_html/crawled_pages/testimonials.html"
+                },
+                "id": "c359a0099632e4a304dec12dff3ad6d2",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/c359a0099632e4a304dec12dff3ad6d2"
+              }
+            },
+            {
+              "id": "ef583eb1383d6228d08433ffc2ba791d",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "넷마블_210420",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/넷마블_210420.pptx"
+                },
+                "id": "ef583eb1383d6228d08433ffc2ba791d",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/ef583eb1383d6228d08433ffc2ba791d"
+              }
+            },
+            {
+              "id": "cbb01c702327d19c0ce91d7c0621b146",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_마이메일러_전용서버_2022.pdf"
+                },
+                "id": "cbb01c702327d19c0ce91d7c0621b146",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/cbb01c702327d19c0ce91d7c0621b146"
+              }
+            },
+            {
+              "id": "d268c48e61460db9b1e900930dac8df6",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_급여명세서_메일발송시스템.pdf"
+                },
+                "id": "d268c48e61460db9b1e900930dac8df6",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/d268c48e61460db9b1e900930dac8df6"
+              }
+            },
+            {
+              "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+              "document": {
+                "derivedStructData": {
+                  "title": "PowerPoint 프레젠테이션",
+                  "can_fetch_raw_content": "true",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/PDF암호화솔루션_ME6_제품소개서_210806.pdf"
+                },
+                "id": "623dcb2f90aa5a52d9e7643bc01f011b",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/623dcb2f90aa5a52d9e7643bc01f011b"
+              }
+            },
+            {
+              "id": "bf92d5145a3c363af9cda0d4fd53807e",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/제품소개서 2022/ME6_제품소개서_넷마블_백성민님.pdf"
+                },
+                "id": "bf92d5145a3c363af9cda0d4fd53807e",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/bf92d5145a3c363af9cda0d4fd53807e"
+              }
+            },
+            {
+              "id": "5a0e8625c809870489910de6dc27843c",
+              "document": {
+                "derivedStructData": {
+                  "can_fetch_raw_content": "true",
+                  "title": "PowerPoint 프레젠테이션",
+                  "snippets": [
+                    {
+                      "snippet_status": "NO_SNIPPET_AVAILABLE",
+                      "snippet": "No snippet is available for this page."
+                    }
+                  ],
+                  "link": "gs://sampleprojects-468223-graphrag-storage/IT사업부 문서 (링크외부공유)/MyMailer/마이메일러 솔루션 제품소개서/제품소개서-제안서/업체제안서/ME6_제품소개서_OK저축은행.pdf"
+                },
+                "id": "5a0e8625c809870489910de6dc27843c",
+                "name": "projects/975882305117/locations/global/collections/default_collection/dataStores/alldata_1755046181824/branches/0/documents/5a0e8625c809870489910de6dc27843c"
+              }
+            }
+          ],
+          "citations_count": 1,
+          "related_questions": [],
+          "search_results_count": 10
+        },
+        "query_length": 3,
+        "response_length": 67,
+        "ai_response": "안녕하세요! **처음서비스** 고객지원 담당자입니다.\n\n무엇을 도와드릴까요? 궁금한 점이 있으시면 언제든지 질문해주세요.",
+        "quality_metrics": {},
+        "timestamp": "2025-08-20T05:50:57.321754Z"
+      }
+    ],
+    "last_activity": "2025-08-20T05:50:57.426850Z"
+  }
+}
