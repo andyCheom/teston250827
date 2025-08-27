@@ -418,6 +418,124 @@ class GraphRAGLocalSetup:
         
         return success_count > 0
     
+    def update_firebase_config(self) -> bool:
+        """Firebase 설정 파일 업데이트"""
+        try:
+            config = self.config_from_env
+            firebase_config_path = Path('firebase.json')
+            
+            if not firebase_config_path.exists():
+                logger.warning("⚠️ firebase.json 파일이 없습니다")
+                return False
+            
+            # 현재 firebase.json 백업
+            import shutil
+            shutil.copy2('firebase.json', 'firebase.json.backup')
+            logger.info("📄 기존 firebase.json 파일을 firebase.json.backup으로 백업했습니다")
+            
+            # firebase.json 읽기
+            import json
+            with open(firebase_config_path, 'r', encoding='utf-8') as f:
+                firebase_config = json.load(f)
+            
+            # Cloud Run 서비스 ID 업데이트
+            new_service_id = f"{config['PROJECT_ID']}-graphrag-api"
+            region = config['LOCATION_ID']
+            
+            logger.info(f"🔄 Firebase 설정 업데이트 중...")
+            logger.info(f"  새로운 서비스 ID: {new_service_id}")
+            logger.info(f"  리전: {region}")
+            
+            # rewrites 섹션에서 serviceId 업데이트
+            if 'hosting' in firebase_config and 'rewrites' in firebase_config['hosting']:
+                for rewrite in firebase_config['hosting']['rewrites']:
+                    if 'run' in rewrite and 'serviceId' in rewrite['run']:
+                        old_service_id = rewrite['run']['serviceId']
+                        rewrite['run']['serviceId'] = new_service_id
+                        rewrite['run']['region'] = region
+                        logger.info(f"  ✅ {old_service_id} → {new_service_id}")
+            
+            # 업데이트된 설정 저장
+            with open(firebase_config_path, 'w', encoding='utf-8') as f:
+                json.dump(firebase_config, f, indent=2, ensure_ascii=False)
+            
+            logger.info("✅ Firebase 설정 파일 업데이트 완료")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Firebase 설정 파일 업데이트 실패: {e}")
+            return False
+    
+    def update_cloudbuild_config(self) -> bool:
+        """Cloud Build 설정 파일 업데이트"""
+        try:
+            config = self.config_from_env
+            cloudbuild_path = Path('cloudbuild.yaml')
+            
+            if not cloudbuild_path.exists():
+                logger.warning("⚠️ cloudbuild.yaml 파일이 없습니다")
+                return False
+            
+            # cloudbuild.yaml 읽기
+            with open(cloudbuild_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 현재 파일 백업
+            import shutil
+            shutil.copy2('cloudbuild.yaml', 'cloudbuild.yaml.backup')
+            logger.info("📄 기존 cloudbuild.yaml 파일을 cloudbuild.yaml.backup으로 백업했습니다")
+            
+            # 치환 변수들 업데이트
+            substitutions = {
+                '_PROJECT_ID': config['PROJECT_ID'],
+                '_SERVICE_NAME': f"{config['PROJECT_ID']}-graphrag-api",
+                '_REPO_NAME': f"{config['PROJECT_ID']}-graphrag-repo",
+                '_SERVICE_ACCOUNT': config['SERVICE_ACCOUNT_EMAIL'],
+                '_DATASTORE_ID': config['DATASTORE_ID'],
+                '_DISCOVERY_ENGINE_ID': config['DISCOVERY_ENGINE_ID'],
+                '_REGION': config['LOCATION_ID'],
+                '_LOCATION_ID': config['LOCATION_ID'],
+                '_DISCOVERY_LOCATION': config['DISCOVERY_LOCATION'],
+            }
+            
+            logger.info("🔄 Cloud Build 설정 업데이트 중...")
+            
+            # substitutions 섹션 찾기 및 업데이트
+            import re
+            pattern = r'(substitutions:.*?)((?=\n\S|\Z))'
+            
+            def update_substitutions(match):
+                lines = match.group(1).split('\n')
+                updated_lines = [lines[0]]  # 'substitutions:' 라인 유지
+                
+                for key, value in substitutions.items():
+                    found = False
+                    for i, line in enumerate(lines[1:], 1):
+                        if line.strip().startswith(f'{key}:'):
+                            lines[i] = f'  {key}: {value}'
+                            found = True
+                            logger.info(f"  ✅ {key}: {value}")
+                            break
+                    if not found and lines:
+                        # 새로운 substitution 추가
+                        lines.append(f'  {key}: {value}')
+                        logger.info(f"  ➕ {key}: {value}")
+                
+                return '\n'.join(lines)
+            
+            content = re.sub(pattern, update_substitutions, content, flags=re.DOTALL)
+            
+            # 업데이트된 내용 저장
+            with open(cloudbuild_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            
+            logger.info("✅ Cloud Build 설정 파일 업데이트 완료")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Cloud Build 설정 파일 업데이트 실패: {e}")
+            return False
+
     def generate_updated_env(self) -> bool:
         """업데이트된 .env 파일 생성"""
         try:
@@ -550,6 +668,8 @@ async def main():
                        help='CICD 리소스만 설정')
     parser.add_argument('--dry-run', action='store_true', 
                        help='실제 리소스를 생성하지 않고 설정만 확인')
+    parser.add_argument('--config-only', action='store_true',
+                       help='설정 파일만 업데이트 (리소스 생성 안함)')
     
     args = parser.parse_args()
     
@@ -579,6 +699,37 @@ async def main():
             logger.info(f"  {key}: {value}")
         return
     
+    # Config-only 모드 (설정 파일만 업데이트)
+    if args.config_only:
+        logger.info("🔧 Config-only 모드 - 설정 파일만 업데이트합니다")
+        
+        # .env 파일 업데이트
+        env_success = setup.generate_updated_env()
+        
+        # firebase.json 업데이트
+        firebase_success = setup.update_firebase_config()
+        
+        # cloudbuild.yaml 업데이트
+        cloudbuild_success = setup.update_cloudbuild_config()
+        
+        # 결과 요약
+        config_updates = []
+        if env_success:
+            config_updates.append("✅ .env")
+        if firebase_success:
+            config_updates.append("✅ firebase.json")
+        if cloudbuild_success:
+            config_updates.append("✅ cloudbuild.yaml")
+        
+        if config_updates:
+            logger.info(f"🎯 설정 파일 업데이트 완료: {', '.join(config_updates)}")
+            logger.info("🚀 이제 Firebase 배포를 다시 시도해보세요!")
+        else:
+            logger.error("❌ 설정 파일 업데이트 실패")
+            sys.exit(1)
+        
+        return
+    
     success = True
     
     # GCP 리소스 설정
@@ -601,7 +752,31 @@ async def main():
     
     # 설정 파일 업데이트
     if success:
-        setup.generate_updated_env()
+        logger.info("🔧 설정 파일 업데이트 시작...")
+        
+        # .env 파일 업데이트
+        env_success = setup.generate_updated_env()
+        
+        # firebase.json 업데이트
+        firebase_success = setup.update_firebase_config()
+        
+        # cloudbuild.yaml 업데이트
+        cloudbuild_success = setup.update_cloudbuild_config()
+        
+        # 결과 요약
+        config_updates = []
+        if env_success:
+            config_updates.append("✅ .env")
+        if firebase_success:
+            config_updates.append("✅ firebase.json")
+        if cloudbuild_success:
+            config_updates.append("✅ cloudbuild.yaml")
+        
+        if config_updates:
+            logger.info(f"🎯 설정 파일 업데이트 완료: {', '.join(config_updates)}")
+        else:
+            logger.warning("⚠️ 일부 설정 파일 업데이트 실패")
+        
         setup.print_setup_summary()
     else:
         logger.error("❌ 설정 과정에서 오류가 발생했습니다")

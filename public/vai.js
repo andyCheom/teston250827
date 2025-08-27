@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+
+
     
 
     // 자동 크기 조정
